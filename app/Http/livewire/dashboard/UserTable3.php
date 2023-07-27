@@ -12,7 +12,7 @@ class UserTable3 extends Component
  
     protected $paginationTheme = 'bootstrap';
  
-    public $name, $email, $role, $student_id;
+    public $name, $email, $role, $student_id, $status;
     public $search = '';
  
     protected function rules()
@@ -20,7 +20,7 @@ class UserTable3 extends Component
         return [
             'name' => 'required|string|min:6',
             'email' => ['required','email'],
-            'role' => 'required|string',
+            'role' => 'required',
         ];
     }
  
@@ -32,6 +32,7 @@ class UserTable3 extends Component
     public function saveStudent()
     {
         $validatedData = $this->validate();
+        $validatedData['status'] = 1; // Set the default status value here
  
         User::create($validatedData);
         session()->flash('message','Student Added Successfully');
@@ -49,7 +50,7 @@ class UserTable3 extends Component
             $this->email = $student->email;
             $this->role = $student->role;
         }else{
-            return redirect()->to('/rest/menu');
+            return redirect()->to('/rest');
         }
     }
  
@@ -65,6 +66,17 @@ class UserTable3 extends Component
         session()->flash('message','Student Updated Successfully');
         $this->resetInput();
         $this->dispatchBrowserEvent('close-modal');
+    }
+
+    public function updateStatus(int $student_id)
+    {
+        $userState = User::find($student_id);
+
+        // Toggle the status (0 to 1 and 1 to 0)
+        $userState->status = $userState->status == 0 ? 1 : 0;
+    
+        $userState->save();
+        session()->flash('message', 'User Status Updated Successfully');
     }
      
     public function deleteStudent(int $student_id)
@@ -93,8 +105,15 @@ class UserTable3 extends Component
  
     public function render()
     {
-        $students = User::where('name', 'like', '%'.$this->search.'%')->orderBy('id','DESC')->paginate(2);
+        $colspan = 6;
+        $cols = ['#','Name','email','status','role','actions'];
+        $students = User::where('name', 'like', '%'.$this->search.'%')
+        ->orWhere('email', 'like', '%' . $this->search . '%')
+        ->orWhere('role', 'like', '%' . $this->search . '%')
+        ->orderBy('id','DESC')
+        ->paginate(2);
+        
         //$students = Student::select('id','name','email','course')->get();
-        return view('dashboard.livewire.user-table2', ['students' => $students]);
+        return view('dashboard.livewire.user-table2', ['students' => $students, 'cols' => $cols, 'colspan' => $colspan]);
     }
 }

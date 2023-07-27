@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
     public function index(){
-        if (Auth::check()){
-            $user_role=Auth::user()->role;
-            switch($user_role){
+        if (Auth::check()) {
+            $user = Auth::user();
+            
+            if ($user->status == 0) {
+                Auth::logout();
+                return redirect('/login')->with('error', 'Your account is inactive. Please contact the administrator.');
+            }
+    
+            switch ($user->role) {
                 case 1:
                     return redirect('/own');
                     break;
@@ -25,21 +32,23 @@ class AuthController extends Controller
                     break;
                 default:
                     Auth::logout();
-                    return redirect('/login')->with('error','oops!, Something went wrong');
+                    return redirect('/login')->with('error', 'Oops! Something went wrong');
             }
         }
         return view('auth.login');
     } // END Function (Login View)
 
     public function login(Request $request){
-        $credintials = $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
-        if(Auth::attempt($credintials)){
-            $user_role=Auth::user()->role;
+        $user = User::where('email', $credentials['email'])->first();
 
-            switch($user_role){
+        if ($user && $user->status == 1 && Auth::attempt($credentials)) {
+            $user_role = Auth::user()->role;
+    
+            switch ($user_role) {
                 case 1:
                     return redirect('/own');
                     break;
@@ -54,10 +63,10 @@ class AuthController extends Controller
                     break;
                 default:
                     Auth::logout();
-                    return redirect('/login')->with('error','oops!, Something went wrong');
+                    return redirect('/login')->with('error', 'Oops! Something went wrong');
             }
         } else {
-            return view('auth.login');
+            return redirect('/login')->with('error', 'Invalid credentials or user is inactive.');
         }
     } // END Function (Login Fucntion)
 

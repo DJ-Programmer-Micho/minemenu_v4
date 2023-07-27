@@ -5,8 +5,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="studentModalLabel">Create Student</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    wire:click="closeModal"></button>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"
+                    wire:click="closeModal">
+                    <span aria-hidden="true">&times;</span></button>
             </div>
             <form wire:submit.prevent="saveStudent">
                 <div class="modal-body">
@@ -21,14 +22,14 @@
                         @error('email') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <label>Student Course</label>
-                        <input type="text" wire:model="course" class="form-control">
-                        @error('course') <span class="text-danger">{{ $message }}</span> @enderror
+                        <label>Student role</label>
+                        <input type="text" wire:model="role" class="form-control">
+                        @error('role') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                        data-bs-dismiss="modal">Close</button>
+                        data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </form>
@@ -43,7 +44,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="updateStudentModalLabel">Edit Student</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" wire:click="closeModal"
+                <button type="button" class="btn-close" data-dismiss="modal" wire:click="closeModal"
                     aria-label="Close"></button>
             </div>
             <form wire:submit.prevent="updateStudent">
@@ -60,13 +61,13 @@
                     </div>
                     <div class="mb-3">
                         <label>Student Course</label>
-                        <input type="text" wire:model="course" class="form-control">
-                        @error('course') <span class="text-danger">{{ $message }}</span> @enderror
+                        <input type="text" wire:model="role" class="form-control">
+                        @error('role') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                        data-bs-dismiss="modal">Close</button>
+                        data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </form>
@@ -82,7 +83,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteStudentModalLabel">Delete Student</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" wire:click="closeModal"
+                <button type="button" class="btn-close" data-dismiss="modal" wire:click="closeModal"
                     aria-label="Close"></button>
             </div>
             <form wire:submit.prevent="destroyStudent">
@@ -91,7 +92,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                        data-bs-dismiss="modal">Close</button>
+                        data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Yes! Delete</button>
                 </div>
             </form>

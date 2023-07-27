@@ -28,24 +28,27 @@ Route::get('/logout', [AuthController::class,'logout'])->name('logout');
 
 
 // resources/views/dashboard/rest/layouts/layout.blade.php
-// MET ROUTE SUPER ADMIN
-Route::get('/own', function(){
-    return view('dashboard.own.layouts.layout');
-})->name('superadmin')->middleware('superadmin');
 
 
-// ADMIN ROUTE ADMIN
-Route::get('/man', function(){
-    return view('dashboard.own.layouts.layout');
-})->name('admin')->middleware('admin');
+Route::middleware('checkStatus')->group(function () {
+    
+    // MET ROUTE SUPER ADMIN
+    Route::get('/own', function(){
+        return view('dashboard.own.layouts.layout');
+    })->name('superadmin')->middleware('superadmin');
+    
+    // ADMIN ROUTE ADMIN
+    Route::get('/man', function(){
+        return view('dashboard.own.layouts.layout');
+    })->name('admin')->middleware('admin');
 
-// REST ROUTE RESTURANT OWNER
-Route::get('/rest', function(){
-    return view('dashboard.rest.pages.menu.index');
-})->name('rest')->middleware('rest');
+    // REST ROUTE RESTURANT OWNER
+    Route::get('/rest', function(){
+        return view('dashboard.rest.pages.menu.index');
+    })->name('rest')->middleware('rest');
 
-// EMP ROUTE EMPLOYEE
-Route::get('/emp', function(){
-    return view('dashboard.emp.layouts.layout');
-})->name('emp')->middleware('emp');
-
+    // EMP ROUTE EMPLOYEE
+    Route::get('/emp', function(){
+        return view('dashboard.emp.layouts.layout');
+    })->name('emp')->middleware('emp');
+});
