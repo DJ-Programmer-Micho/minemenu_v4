@@ -27,10 +27,10 @@ class Categories extends Model
         return $this->belongsTo(Mainmenu::class)->withDefault();
     }
 
-    // public function food()
-    // {
-    //     return $this->hasMany(Food::class,'cat_id');
-    // }
+    public function food()
+    {
+        return $this->hasMany(Food::class,'cat_id');
+    }
 
     public function translation()
     {
