@@ -20,7 +20,23 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('assets/dashboard/css/sb-admin-2.min.css')}}" rel="stylesheet">
     @livewireStyles
+    <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
     @yield('rest_css')
+    <style>
+        .content-bg-met{
+            background-color: #293145!important;
+            border: 1px solid #cc0022;
+        }
+        .sidebar .nav-item .nav-link {
+            padding: 0.5rem 1rem!important;
+        }
+        .nav-item lord-icon{
+            vertical-align: middle !important;
+        }
+        .nav-item span{
+            vertical-align: middle !important;
+        }    
+    </style>
 </head>
 
 <body id="page-top">
@@ -29,7 +45,7 @@
     <div id="wrapper" >
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -41,12 +57,17 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
-
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+            <li class="nav-item {{(request()->path() == 'rest') ? 'active' : ''}}">
+                <a class="nav-link" href="{{route('dashboard')}}">
+                    <lord-icon
+                    src="https://cdn.lordicon.com/gqdnbnwt.json"
+                    trigger="loop"
+                    delay="2000"
+                    colors="primary:#cc0022,secondary:#eee"
+                    style="width:48px;height:48px;">
+                </lord-icon>
+                    <span>{{__('Dashboard')}}</span></a>
             </li>
 
             <!-- Divider -->
@@ -54,40 +75,174 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Interface
+                {{__('Food Group')}}
             </div>
 
+            <!-- Nav Item - Main Menu -->
+            <li class="nav-item {{(request()->path() == 'rest/mainmenu') ? 'active' : ''}}">
+                <a class="nav-link" href="{{route('mainmenu')}}">
+                    <lord-icon
+                    src="https://cdn.lordicon.com/nocovwne.json"
+                    trigger="loop"
+                    delay="2000"
+                    colors="primary:#cc0022,secondary:#eee"
+                    style="width:48px;height:48px">
+                </lord-icon>
+                    <span>{{__('Main Menu')}}</span></a>
+            </li>
+            <!-- Nav Item - Categories -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('dashboard')}}">
+                    <lord-icon
+                    src="https://cdn.lordicon.com/dnoiydox.json"
+                    trigger="loop"
+                    delay="2000"
+                    colors="primary:#cc0022,secondary:#eee"
+                    state="hover-2"
+                    style="width:48px;height:48px">
+                </lord-icon>
+                    <span>{{__('Category')}}</span></a>
+            </li>
+            <!-- Nav Item - Food -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('dashboard')}}">
+                    <lord-icon
+                    src="https://cdn.lordicon.com/jpdtnwas.json"
+                    trigger="loop"
+                    delay="2000"
+                    colors="primary:#cc0022,secondary:#eee"
+                    state="hover-2"
+                    style="width:48px;height:48px">
+                </lord-icon> 
+                    <span>{{__('Food')}}</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                {{__('General Setting')}}
+            </div>
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
+                    <lord-icon
+                    src="https://cdn.lordicon.com/sbiheqdr.json"
+                    trigger="loop"
+                    delay="2000"
+                    colors="primary:#cc0022,secondary:#eee"
+                    style="width:48px;height:48px">
+                    </lord-icon>
+                    <span>{{__('Setting')}}</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
+                        {{-- <h6 class="collapse-header">{{__('Setting')}}</h6> --}}
+                        <a class="collapse-item" href="buttons.html">
+                            <lord-icon
+                            src="https://cdn.lordicon.com/wloilxuq.json"
+                            trigger="loop"
+                            delay="2000"
+                            colors="primary:#cc0022,secondary:#eee"
+                            state="hover-2"
+                            style="width:36px;height:36px">
+                        </lord-icon>
+                            <span>{{__('Menu Setting')}}</span>
+                            
+                            </a>
+                        <a class="collapse-item" href="buttons.html">
+                            <lord-icon
+                            src="https://cdn.lordicon.com/wloilxuq.json"
+                            trigger="loop"
+                            delay="2000"
+                            colors="primary:#cc0022,secondary:#eee"
+                            state="hover-1"
+                            style="width:36px;height:36px">
+                        </lord-icon>
+                            <span>{{__('Start Up Page')}}</span>
+                            
+                            </a>
+                        <a class="collapse-item" href="cards.html">
+                            <lord-icon
+                            src="https://cdn.lordicon.com/wloilxuq.json"
+                            trigger="loop"
+                            delay="2000"
+                            colors="primary:#cc0022,secondary:#eee"
+                            state="hover-2"
+                            style="width:36px;height:36px">
+                        </lord-icon>
+                            <span>{{__('Language')}}</span>
+                            </a>
                     </div>
                 </div>
             </li>
 
+
+                        <!-- Divider -->
+                        <hr class="sidebar-divider">
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item ">
+                <a class="nav-link" href="{{route('dashboard')}}">
+                    <lord-icon
+                    src="https://cdn.lordicon.com/huwchbks.json"
+                    trigger="loop"
+                    delay="2000"
+                    colors="primary:#cc0022,secondary:#eee"
+                    style="width:48px;height:48px">
+                </lord-icon>
+                    <span>{{__('Plan')}}</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
+                    <lord-icon
+                                src="https://cdn.lordicon.com/fgkmrslx.json"
+                                trigger="loop"
+                                delay="2000"
+                                colors="primary:#cc0022,secondary:#eee"
+                                style="width:48px;height:48px">
+                            </lord-icon> 
+                    <span>{{__('Menu Design')}}</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
+                        {{-- <h6 class="collapse-header">Custom Utilities:</h6> --}}
+                        <a class="collapse-item" href="buttons.html">
+                            <lord-icon
+                                        src="https://cdn.lordicon.com/pndvzexs.json"
+                                        trigger="loop"
+                                        delay="2000"
+                                        colors="primary:#cc0022,secondary:#eee"
+                                        style="width:36px;height:36px">
+                                    </lord-icon>
+                            <span>{{__('Select UI/UX')}}</span>
+                            
+                            </a>
+                        <a class="collapse-item" href="buttons.html">
+                            <lord-icon
+                            src="https://cdn.lordicon.com/tyounuzx.json"
+                            trigger="loop"
+                            delay="2000"
+                            colors="primary:#cc0022,secondary:#eee"
+                            style="width:36px;height:36px">
+                        </lord-icon>
+                            <span>{{__('Customize UI/UX')}}</span>
+                            
+                            </a>
+                        <a class="collapse-item" href="cards.html">
+                            <lord-icon
+                            src="https://cdn.lordicon.com/fqrjldna.json"
+                            trigger="loop"
+                            colors="primary:#cc0022,secondary:#eee"
+                            state="loop"
+                            style="width:36px;height:36px">
+                        </lord-icon>
+                            <span>{{__('QR Code')}}</span>
+                            </a>
                     </div>
                 </div>
             </li>
@@ -104,39 +259,90 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
+                    <lord-icon
+                    src="https://cdn.lordicon.com/mdksbrtj.json"
+                    trigger="loop"
+                    delay="2000"
+                    colors="primary:#cc0022,secondary:#ccc"
+                    style="width:48px;height:48px">
+                </lord-icon>
+                    <span>{{__('Need Help?')}}</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+                        <h6 class="collapse-header">{{__('Self Support:')}}</h6>
+                        <a class="collapse-item" href="#">
+                            <lord-icon
+                            src="https://cdn.lordicon.com/tdxypxgp.json"
+                            trigger="loop"
+                            colors="primary:#cc0022,secondary:#ccc"
+                            state="loop"
+                            style="width:36px;height:36px">
+                        </lord-icon>
+                            <span>{{__('Tutorial')}}</span>
+                            </a>
+                        <a class="collapse-item" href="#">
+                            <lord-icon
+                            src="https://cdn.lordicon.com/jqeuwnmb.json"
+                            trigger="loop"
+                            delay="500"
+                            colors="primary:#cc0022,secondary:#ccc"
+                            style="width:36px;height:36px">
+                        </lord-icon> 
+                            <span>{{__('Documents')}}</span>
+                            </a>
                         <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
+                        <h6 class="collapse-header">{{__('Team Support:')}}</h6>
+                        <a class="collapse-item" href="404.html">
+                            <lord-icon
+                            src="https://cdn.lordicon.com/bwnhdkha.json"
+                            trigger="loop"
+                            delay="2000"
+                            colors="primary:#cc0022,secondary:#ccc"
+                            style="width:36px;height:36px">
+                        </lord-icon> 
+                            <span>{{__('Contact Us')}}</span>
+                            </a>
+                        <a class="collapse-item" href="blank.html">
+                            <lord-icon
+                            src="https://cdn.lordicon.com/hdiorcun.json"
+                            trigger="loop"
+                            delay="2000"
+                            colors="primary:#ccc,secondary:#cc0022"
+                            style="width:36px;height:36px">
+                        </lord-icon>
+                            <span>{{__('Menu Fix')}}</span>
+                            </a>
+                        <a class="collapse-item" href="blank.html">
+                            <lord-icon
+                            src="https://cdn.lordicon.com/tdrtiskw.json"
+                            trigger="loop"
+                            delay="2000"
+                            colors="primary:#cc0022,secondary:#ccc"
+                            style="width:36px;height:36px">
+                        </lord-icon>
+                            <span>{{__('Error!')}}</span>
+                            </a>
                     </div>
                 </div>
             </li>
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li>
-
+           
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item ">
+                <a class="nav-link" href="{{route('dashboard')}}">
+                    <div class="side-menu__icon"> <lord-icon
+                        src="https://cdn.lordicon.com/udwhdpod.json"
+                        trigger="loop"
+                        delay="2000"
+                        colors="primary:#cc0022,secondary:#ccc"
+                        style="width:48px;height:48px">
+                    </lord-icon>
+                    <span>{{__('Quick Look')}}</span></a>
+            </li>
+
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
@@ -160,7 +366,7 @@
             <div id="content"  style="background-color: #293145!important">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-dark bg-gradient-dark-l topbar static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -364,7 +570,7 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid bgg">
+                <div class="container-fluid content-bg-met">
                     @yield('rest_content')
                 </div>
                 <!-- /.container-fluid -->
@@ -373,7 +579,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
+            <footer class="sticky-footer bg-gradient-dark-r">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span>Copyright &copy; Your Website 2021</span>

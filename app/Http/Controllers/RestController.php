@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 class RestController extends Controller
 {
     public function dashboard(){
-        return "RESTURANT DASHBOARD";
+        return view('dashboard.rest.pages.dashboard.index');
+    } // END FUNCTION (DASHBOARD)
+
+    public function mainmenu(){
+        return view('dashboard.rest.pages.menu.index');
     } // END FUNCTION (DASHBOARD)
 }

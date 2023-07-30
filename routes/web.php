@@ -74,6 +74,7 @@ Route::prefix('/man')->middleware(['checkStatus', 'LocalizationMiddleware', 'adm
 */
 Route::prefix('/rest')->middleware(['checkStatus', 'LocalizationMiddleware', 'rest'])->group(function () {
     Route::get('/', [RestController::class, 'dashboard'])->name('dashboard');
+    Route::get('/mainmenu', [RestController::class, 'mainmenu'])->name('mainmenu');
 });
  /*
 |--------------------------------------------------------------------------
