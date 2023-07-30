@@ -64,10 +64,11 @@ class LocalizationMiddleware
         View::share('filteredLocales', $filteredLocales);
         View::share('selectedLocale', $selectedLanguages[0]);
         $request->session()->flash('filteredLocales', $filteredLocales);
+        $request->attributes->add(['selectedLanguages' => $selectedLanguages]);
+        $request->attributes->add(['filteredLocales' => $filteredLocales]);
     
         return $next($request);
     }
-    
     
         public function setLocale(Request $request)
         {

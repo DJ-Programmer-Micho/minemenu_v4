@@ -70,7 +70,10 @@ class AuthController extends Controller
         }
     } // END Function (Login Fucntion)
 
-
+    public function register(){
+        return view('auth.register');
+    } // END Function (Register)
+    
     public function logout(){
         auth()->logout();
         return back();

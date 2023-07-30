@@ -8,13 +8,13 @@ class HomeController extends Controller
 {
     public function home(){
         return view('main.home.index');
-    } // END FUNCTION
+    } // END FUNCTION (HOME)
 
     public function pricing(){
-        return redirect('pricing');
-    } // END FUNCTION
+        return view('main.pricing.index');
+    } // END FUNCTION (PRICING)
 
     public function contact(){
-        return redirect('contact');
-    } // END FUNCTION
+        return view('main.contact.index');
+    } // END FUNCTION (CONTACT)
 }

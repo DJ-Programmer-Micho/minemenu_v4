@@ -4,7 +4,8 @@
 <head>
     {{-- Meta Tags --}}
     <meta charset="UTF-8">
-    <meta name='language' content='AR'>
+    <meta name="default-locale" content="{{ app()->getLocale() }}">
+    {{-- <meta name='language' content='AR'> --}}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="HandheldFriendly" content="True"/>
@@ -43,8 +44,9 @@
     {{-- Style --}}
     {{-- <link rel="stylesheet" href="{{asset('/assets/main/css/bootstrap.min.css')}}"> --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/main/css/style.css">
+    <link rel="stylesheet" href="{{asset('/assets/main/css/style.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    @livewireStyles
     @yield('main_style')
 
     {{-- {!! htmlScriptTagJsApi($configuration) !!} --}}
@@ -74,27 +76,22 @@
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <ul class="navbar-nav ml-auto py-4 py-md-0">
                                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {{(request()->path() == '/') ? 'active' : ''}}">
-                                        <a class="nav-link" href="/">{{__("Home")}}</a>
+                                        <a class="nav-link" href="{{route('home')}}">{{__("Home")}}</a>
                                     </li>
                                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {{(request()->path() == 'pricing') ? 'active' : ''}}">
-                                        <a class="nav-link" href="/pricing">{{__("Pricing")}}</a>
+                                        <a class="nav-link" href="{{route('pricing')}}">{{__("Pricing")}}</a>
                                     </li>
                                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {{(request()->path() == 'contact') ? 'active' : ''}}">
-                                        <a class="nav-link" href="/contact">{{__("Contact")}}</a>
+                                        <a class="nav-link" href="{{route('contact')}}">{{__("Contact")}}</a>
                                     </li>
                                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {{(request()->path() == 'register') ? 'active' : ''}}">
-                                        <a class="nav-link" href="/register">{{__("Book Menu")}}</a>
+                                        <a class="nav-link" href="{{route('register')}}">{{__("Book Menu")}}</a>
                                     </li>
                                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                                         <a class="nav-link dropdown-toggle text-uppercase" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{app()->getLocale()}}</a>
-                                        {{-- <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="/change-language/ar">العربية</a>
-                                            <a class="dropdown-item" href="/change-language/kr">الكوردية</a>
-                                            <a class="dropdown-item" href="/change-language/en">English</a>
-                                        </div> --}}
                                         <div class="dropdown-menu">
                                             @foreach ($filteredLocales as $locale)
-                                            <a class="dropdown-item" href="#" onclick="changeLanguage('{{ $locale }}')">{{ strtoupper($locale) }}</a>
+                                                <a class="dropdown-item" href="#" onclick="changeLanguage('{{ $locale }}')">{{ strtoupper($locale) }}</a>
                                             @endforeach
                                         </div>
                                     </li>
@@ -103,18 +100,6 @@
                                     </li>
                                 </ul>
                             </div>
-                            <form id="languageForm" action="{{ route('setLocale') }}" method="post">
-                                @csrf
-                                <input type="hidden" name="locale" id="selectedLocale" value="{{ app()->getLocale() }}">
-                            </form>
-                            
-                            <script>
-                                // Function to change the language and submit the form
-                                function changeLanguage(locale) {
-                                    document.getElementById('selectedLocale').value = locale;
-                                    document.getElementById('languageForm').submit();
-                                }
-                            </script>
                         </nav>		
                     </div>
                 </div>
@@ -137,8 +122,20 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
         {{-- <script src="/assets/main/js/bootstrap.min.js"></script> --}}
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="/assets/main/js/custom.js"></script>
+        <script src="{{asset('/assets/main/js/custom.js')}}"></script>
+        @livewireScripts
         @yield('main_script')
+        <form id="languageForm" action="{{ route('setLocale') }}" method="post">
+            @csrf
+            <input type="hidden" name="locale" id="selectedLocale" value="{{ app()->getLocale() }}">
+        </form>
+        <script>
+            // Function to change the language and submit the form
+            function changeLanguage(locale) {
+                document.getElementById('selectedLocale').value = locale;
+                document.getElementById('languageForm').submit();
+            }
+        </script>
     </body>
 </body>
 </html>
