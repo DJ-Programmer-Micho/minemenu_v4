@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\View;
-use Symfony\Component\HttpFoundation\Response;
 
 class LocalizationMiddleware
 {
@@ -26,16 +25,17 @@ class LocalizationMiddleware
             $userProfile = User::where('name', $businessName)->first();
     
             // If the user does not exist, redirect to the home page
-            if (!$userProfile) {
+            if (!$businessName) {
                 return new RedirectResponse('/'); // Replace '/' with the URL of your home page
             }
     
             // Get the user settings based on the "user_id"
-            $userSettings = Setting::where('user_id', $userProfile->user_id)->first();
-    
+            $userSettings = Setting::where('user_id', $userProfile->id)->first();
+            
             // If the user has settings, retrieve the languages
             if ($userSettings) {
-                $selectedLanguages = json_decode($userSettings->languages, true);
+                $this->selectedLanguages = json_decode($userSettings->languages, true);
+                // dd($this->selectedLanguages);
             }
         }
     
@@ -47,7 +47,7 @@ class LocalizationMiddleware
     
         // Set the application locale for the current request
         App::setLocale($selectedLanguages[0]);
-    
+
         if ($request->session()->has('applocale')) {
             App::setLocale($request->session()->get('applocale'));
         } else {
@@ -58,14 +58,12 @@ class LocalizationMiddleware
         $locales = config('translatable.locales', ['en']);
     
         // Get the list of User Selected locales
-        $filteredLocales = array_intersect($locales, $selectedLanguages);
+        $filteredLocales = array_intersect($locales, $this->selectedLanguages);
     
         // Share the variables with all views
         View::share('filteredLocales', $filteredLocales);
         View::share('selectedLocale', $selectedLanguages[0]);
         $request->session()->flash('filteredLocales', $filteredLocales);
-        $request->attributes->add(['selectedLanguages' => $selectedLanguages]);
-        $request->attributes->add(['filteredLocales' => $filteredLocales]);
     
         return $next($request);
     }
@@ -82,9 +80,7 @@ class LocalizationMiddleware
                 // Set the application locale for the current request
                 App::setLocale($selectedLocale);
                 // dd($selectedLocale);
-      
             }
-    
             return back();
         } // END FUNCTION
 }

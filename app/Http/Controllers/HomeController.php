@@ -17,4 +17,8 @@ class HomeController extends Controller
     public function contact(){
         return view('main.contact.index');
     } // END FUNCTION (CONTACT)
+
+    public function test(){
+        return view('main.home.test');
+    } // END FUNCTION (CONTACT)
 }

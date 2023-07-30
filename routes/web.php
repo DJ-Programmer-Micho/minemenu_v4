@@ -12,9 +12,6 @@ use App\Http\Middleware\LocalizationMiddleware;
 */
 Route::post('/set-locale', [LocalizationMiddleware::class, 'setLocale'])->name('setLocale');
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -90,7 +87,7 @@ Route::middleware('checkStatus')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::prefix('/{business_name}')->middleware([LocalizationMiddleware::class])->group(function () {
-    Route::get('/', [UserPageController::class, 'home'])->name('user.home');
+    Route::get('/', [HomeController::class, 'test'])->name('user.home');
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::get('/posts', [PostController::class, 'show'])->name('posts.show');
     Route::get('/profile', [UserPageController::class, 'profile'])->name('user.profile');
