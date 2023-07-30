@@ -9,6 +9,7 @@ class setting_translation extends Model
 {
     use HasFactory;
 
+    protected $table = 'setting_translations';
     protected $fillable = [
         'rest_name',
         'address',

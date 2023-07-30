@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mainmenu_translators', function (Blueprint $table) {
+        Schema::create('categories_translators', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('menu_id')->references('id')->on('mainmenus')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('cat_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
             $table->string('name')->nullable();
             $table->string('lang',5);
             $table->timestamps();
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mainmenu_translators');
+        Schema::dropIfExists('categories_translators');
     }
 };

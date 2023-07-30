@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mainmenus', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('menu_id')->nullable()->references('id')->on('mainmenus')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('priority')->default(0);
             $table->integer('status')->default(1);
+            $table->string('img');
+            $table->string('cover',300)->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mainmenus');
+        Schema::dropIfExists('categories');
     }
 };
