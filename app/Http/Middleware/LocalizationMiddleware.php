@@ -34,7 +34,8 @@ class LocalizationMiddleware
             
             // If the user has settings, retrieve the languages
             if ($userSettings) {
-                $this->selectedLanguages = json_decode($userSettings->languages, true);
+                $this->selectedLanguages = $userSettings->languages;
+                // $this->selectedLanguages = json_decode($userSettings->languages, true);
                 // dd($this->selectedLanguages);
             }
         }

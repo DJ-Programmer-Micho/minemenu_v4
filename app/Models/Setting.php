@@ -29,6 +29,10 @@ class Setting extends Model
         'fees',
     ];
 
+    protected $casts = [
+        'languages' => 'array',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

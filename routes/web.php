@@ -1,8 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EmpController;
+use App\Http\Controllers\ManController;
+use App\Http\Controllers\OwnController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RestController;
 use App\Http\Middleware\LocalizationMiddleware;
 
 /*
@@ -27,7 +31,7 @@ Route::middleware([LocalizationMiddleware::class])->group(function () {
     Route::get('/login', [AuthController::class,'index'])->name('login');
     Route::post('/login', [AuthController::class,'login'])->name('logging');
     Route::get('/register',[AuthController::class,'register'])->name('register');
-    Route::post('/register',[AuthController::class,'signUp']);
+    Route::post('/register',[AuthController::class,'signup'])->name('signup');
     Route::get('/logout', [AuthController::class,'logout'])->name('logout');
 /*
 |--------------------------------------------------------------------------
@@ -42,44 +46,43 @@ Route::middleware([LocalizationMiddleware::class])->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| Security Check For All Users Types
+| checkStatus: Chek The Status, LocalizationMiddleware: Check The Custom Language
 |--------------------------------------------------------------------------
 */
-Route::middleware('checkStatus')->group(function () {
- /*
+/*
 |--------------------------------------------------------------------------
 | MET ROUTE SUPER ADMIN
 |--------------------------------------------------------------------------
 */  
-    Route::get('/own', function(){
-        return view('dashboard.own.layouts.layout');
-    })->name('superadmin')->middleware('superadmin');
- /*
+Route::prefix('/own')->middleware(['checkStatus', 'LocalizationMiddleware', 'superadmin'])->group(function () {
+    Route::get('/', [OwnController::class, 'dashboard'])->name('dashboard');
+});
+
+/*
 |--------------------------------------------------------------------------
 | ADMIN ROUTE ADMIN
 |--------------------------------------------------------------------------
 */  
-    Route::get('/man', function(){
-        return view('dashboard.own.layouts.layout');
-    })->name('admin')->middleware('admin');
- /*
+Route::prefix('/man')->middleware(['checkStatus', 'LocalizationMiddleware', 'admin'])->group(function () {
+    Route::get('/', [ManController::class, 'dashboard'])->name('dashboard');
+});
+
+/*
 |--------------------------------------------------------------------------
 | REST ROUTE RESTURANT OWNER
 |--------------------------------------------------------------------------
 */
-    Route::get('/rest', function(){
-        return view('dashboard.rest.pages.menu.index');
-    })->name('rest')->middleware('rest');
+Route::prefix('/rest')->middleware(['checkStatus', 'LocalizationMiddleware', 'rest'])->group(function () {
+    Route::get('/', [RestController::class, 'dashboard'])->name('dashboard');
+});
  /*
 |--------------------------------------------------------------------------
 | EMP ROUTE EMPLOYEE
 |--------------------------------------------------------------------------
 */
-    Route::get('/emp', function(){
-        return view('dashboard.emp.layouts.layout');
-    })->name('emp')->middleware('emp');
+Route::prefix('/emp')->middleware(['checkStatus', 'LocalizationMiddleware', 'emp'])->group(function () {
+    Route::get('/', [EmpController::class, 'dashboard'])->name('dashboard');
 });
-
 
 /*
 |--------------------------------------------------------------------------

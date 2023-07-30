@@ -79,7 +79,7 @@
   @if (session('success'))
   <p class="alert alert-success ar my-text">{{__("Thank you For Reserving Our Menu We'll Reach You Very Soon")}}</p>
   @endif
-  <form class="demo-form" method="POST" action="{{ route('register') }}" id="myForm">
+  <form class="demo-form" method="POST" action="{{ route('signup') }}" id="myForm">
     @csrf
     <div class="form-row">
       <div class="form-group col-md-6">

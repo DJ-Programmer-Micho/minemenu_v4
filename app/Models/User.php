@@ -47,11 +47,11 @@ class User extends Authenticatable
 
     public function profile()
     {
-        return $this->hasOne(UserProfile::class, 'user_id');
+        return $this->hasOne(Profile::class, 'user_id');
     }
 
     public function settings()
     {
-        return $this->hasOne(UserSetting::class, 'user_id');
+        return $this->hasOne(Setting::class, 'user_id');
     }
 }

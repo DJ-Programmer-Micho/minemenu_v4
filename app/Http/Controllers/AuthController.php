@@ -73,7 +73,46 @@ class AuthController extends Controller
     public function register(){
         return view('auth.register');
     } // END Function (Register)
-    
+
+    public function signup(){
+        $formFeilds =  request()->validate([
+            'name'=> 'required|string|unique:users',
+            'email'=> 'required|string|email|unique:users',
+            'password'=> 'required|min:6',
+            
+            // 'g-recaptcha-response' =>
+            // ['required', new Recaptcha()],
+
+            'fullname' => 'required|string',
+            'phone'=> 'required|string|unique:profiles',
+            'country' => 'required',
+            'state' => 'required',
+            'address' => 'required',
+        ],
+
+        [
+            'email.unique' => 'This Email Is Already Registered',
+            'name.unique' => 'This Name Is Taken',
+            'phone.unique' => 'This Phone Number Is Already Signed',
+            'password.min' => 'Password Must Be 6+ Charechters',
+        ]
+    );
+
+        $formFeilds['brand_type'] = (request('brand_type')) ? implode(',',request('brand_type')) : null;
+        $formFeilds['status'] = '1';
+        $formFeilds['role'] = 3;
+        $formFeilds['default_lang'] = 'en';
+        $formFeilds['languages'] = ["en", "de", "es"];
+
+        $formFeilds = collect($formFeilds);
+        
+        $user = User::create($formFeilds->only('name','email','password','role','status')->toArray());
+        $user->profile()->create($formFeilds->only('fullname','state','country','address','phone','brand_type')->toArray());
+        $user->settings()->create($formFeilds->only('default_lang','languages')->toArray());
+        auth()->login($user);
+        return redirect('/rest');
+    } // END Function (Register)
+
     public function logout(){
         auth()->logout();
         return back();
