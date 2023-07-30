@@ -1,5 +1,5 @@
 
-@extends('main.index.layouts.master')
+@extends('main.layouts.master')
 
 @section('main_style')
 <link rel="stylesheet" href="{{asset('assets/general/libs/teleSelect/intlTelInput.min.css')}}">

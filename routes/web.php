@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Middleware\LocalizationMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,11 +22,24 @@ Route::get('/', function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware([LocalizationMiddleware::class])->group(function () {
+/*
+|--------------------------------------------------------------------------
+| Auth Route
+|--------------------------------------------------------------------------
+*/
     Route::get('/login', [AuthController::class,'index'])->name('login');
     Route::post('/login', [AuthController::class,'login'])->name('logging');
     Route::get('/register',[AuthController::class,'register'])->name('register');
     Route::post('/register',[AuthController::class,'signUp']);
     Route::get('/logout', [AuthController::class,'logout'])->name('logout');
+/*
+|--------------------------------------------------------------------------
+| Main Page Route
+|--------------------------------------------------------------------------
+*/
+    Route::get('/', [HomeController::class, 'home'])->name('home');
+    Route::get('/pricing', [HomeController::class, 'pricing'])->name('pricing');
+    Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 });
 
 
