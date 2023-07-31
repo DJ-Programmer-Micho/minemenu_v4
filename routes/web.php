@@ -90,7 +90,7 @@ Route::prefix('/emp')->middleware(['checkStatus', 'LocalizationMiddleware', 'emp
 | User Pages with User ID Prefix
 |--------------------------------------------------------------------------
 */
-Route::prefix('/{business_name}')->middleware([LocalizationMiddleware::class])->group(function () {
+Route::prefix('/{business_name}')->middleware(['LocalizationMiddleware'])->group(function () {
     Route::get('/', [HomeController::class, 'test'])->name('user.home');
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::get('/posts', [PostController::class, 'show'])->name('posts.show');

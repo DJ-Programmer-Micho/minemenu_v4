@@ -5,10 +5,12 @@ namespace App\Http\Middleware;
 use Closure;
 use App\Models\User;
 use App\Models\Setting;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use Illuminate\Http\RedirectResponse;
 
 class LocalizationMiddleware
 {
@@ -39,7 +41,28 @@ class LocalizationMiddleware
                 // dd($this->selectedLanguages);
             }
         }
+
+        if (Str::startsWith($request->route()->uri(), 'rest/')) {
+  
+            $userProfile = User::where('id', Auth::id())->first();
     
+            // If the user does not exist, redirect to the home page
+            if (!$userProfile) {
+                dd('not found');
+                // return new RedirectResponse('/'); // Replace '/' with the URL of your home page
+            }
+    
+            // Get the user settings based on the "user_id"
+            $userSettings = Setting::where('user_id', $userProfile->id)->first();
+            
+            // If the user has settings, retrieve the languages
+            if ($userSettings) {
+                $this->selectedLanguages = $userSettings->languages;
+                // $this->selectedLanguages = json_decode($userSettings->languages, true);
+                // dd($this->selectedLanguages);
+            }
+        } 
+
         // If the "business_name" parameter is not present or the user has no specific language preferences
         // Check if the selected locale is supported, otherwise use the fallback language
         if (empty($selectedLanguages)) {

@@ -1,6 +1,6 @@
 <div>
 
-    @include('dashboard.livewire.user-table-modal')
+    @include('dashboard.livewire.form-main-menu')
     <div class="m-4">
         <h2 class="text-lg font-medium mr-auto">
             <b>TABLE USER</b>
@@ -33,32 +33,32 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($students as $user)
+                    @forelse ($items as $item)
                     <tr>
                         @foreach ($cols_td as $col)
                         <td>
                             @if ($col === 'status')
-                                <span class="{{ $user->status == 1 ? 'text-success' : 'text-danger' }}">
-                                    {{ $user->status == 1 ? __('Active') : 'Deactive' }}
+                                <span class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
+                                   <b>{{ $item->status == 1 ? __('Active') : __('Non-Active') }}</b>
                                 </span>
                             @else
-                                {{ data_get($user, $col) }}
+                                {{ data_get($item, $col) }}
                             @endif
                         </td>
                         @endforeach
                         <td>
                             <button type="button" data-toggle="modal" data-target="#updateStudentModal"
-                                wire:click="editStudent({{ $user->id }})" class="btn btn-primary m-1">
+                                wire:click="editStudent({{ $item->id }})" class="btn btn-primary m-1">
                                 <i class="far fa-edit"></i>
                             </button>
                             <button type="button" data-toggle="modal" data-target="#deleteStudentModal"
-                                wire:click="deleteStudent({{ $user->id }})" class="btn btn-danger m-1">
+                                wire:click="deleteStudent({{ $item->id }})" class="btn btn-danger m-1">
                                 <i class="far fa-trash-alt"></i>
                             </button>
                             <button type="button"
-                                wire:click="updateStatus({{ $user->id }})"
-                                class="btn {{ $user->status == 1 ? 'btn-danger' : 'btn-success' }} m-1">
-                                <i class="far {{ $user->status == 1 ? 'fa-times-circle' : 'fa-check-circle' }}"></i>
+                                wire:click="updateStatus({{ $item->id }})"
+                                class="btn {{ $item->status == 1 ? 'btn-danger' : 'btn-success' }} m-1">
+                                <i class="far {{ $item->status == 1 ? 'fa-times-circle' : 'fa-check-circle' }}"></i>
                             </button>
                         </td>
                     </tr>
@@ -105,7 +105,7 @@
             </table>
         </div>
         <div class="dark:bg-gray-800 dark:text-white">
-            {{ $students->links() }}
+            {{ $items->links() }}
         </div>
 
     </div>

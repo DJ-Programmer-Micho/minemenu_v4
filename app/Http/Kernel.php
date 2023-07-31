@@ -65,10 +65,10 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'checkStatus' => \App\Http\Middleware\CheckUserStatus::class,
-        'LocalizationMiddleware' => \App\Http\Middleware\LocalizationMiddleware::class,
         'superadmin' => \App\Http\Middleware\Own::class,
         'admin' => \App\Http\Middleware\Man::class,
         'rest' => \App\Http\Middleware\Rest::class,
         'emp' => \App\Http\Middleware\Emp::class,
+        'LocalizationMiddleware' => \App\Http\Middleware\LocalizationMiddleware::class,
     ];
 }

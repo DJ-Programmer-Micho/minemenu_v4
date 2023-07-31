@@ -25,7 +25,9 @@ class MainMenuLivewire extends Component
     // protected function rules()
     // {
     //     return [
-    //         'name' => 'required|string|min:6',
+    //         'name_en' => 'required|string|min:6',
+    //         'name_en' => 'required|string|min:6',
+    //         'name_en' => 'required|string|min:6',
     //         'email' => ['required','email'],
     //         'role' => 'required',
     //     ];
@@ -75,16 +77,16 @@ class MainMenuLivewire extends Component
     //     $this->dispatchBrowserEvent('close-modal');
     // }
 
-    // public function updateStatus(int $student_id)
-    // {
-    //     $userState = User::find($student_id);
+    public function updateStatus(int $menu_id)
+    {
+        $menuState = Mainmenu::find($menu_id);
 
-    //     // Toggle the status (0 to 1 and 1 to 0)
-    //     $userState->status = $userState->status == 0 ? 1 : 0;
+        // Toggle the status (0 to 1 and 1 to 0)
+        $menuState->status = $menuState->status == 0 ? 1 : 0;
     
-    //     $userState->save();
-    //     session()->flash('message', 'User Status Updated Successfully');
-    // }
+        $menuState->save();
+        session()->flash('message', 'User Status Updated Successfully');
+    }
      
     // public function deleteStudent(int $student_id)
     // {
@@ -130,6 +132,6 @@ class MainMenuLivewire extends Component
         ->orderBy('id', 'DESC')
         ->paginate(3);
         //$students = Student::select('id','name','email','course')->get();
-        return view('dashboard.livewire.user-table2', ['students' => $data, 'cols_th' => $cols_th, 'cols_td' => $cols_td,'colspan' => $colspan]);
+        return view('dashboard.livewire.user-table2', ['items' => $data, 'cols_th' => $cols_th, 'cols_td' => $cols_td,'colspan' => $colspan]);
     }
 }
