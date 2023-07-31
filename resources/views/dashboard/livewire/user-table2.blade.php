@@ -27,12 +27,49 @@
             <table class="table table-striped table-hover table-sm table-dark">
                 <thead>
                     <tr>
-                        @foreach ($cols as $col)
+                        @foreach ($cols_th as $col)
                         <th>{{ __($col) }}</th>
                         @endforeach
                     </tr>
                 </thead>
                 <tbody>
+                    @forelse ($students as $user)
+                    <tr>
+                        @foreach ($cols_td as $col)
+                        <td>
+                            @if ($col === 'status')
+                                <span class="{{ $user->status == 1 ? 'text-success' : 'text-danger' }}">
+                                    {{ $user->status == 1 ? __('Active') : 'Deactive' }}
+                                </span>
+                            @else
+                                {{ data_get($user, $col) }}
+                            @endif
+                        </td>
+                        @endforeach
+                        <td>
+                            <button type="button" data-toggle="modal" data-target="#updateStudentModal"
+                                wire:click="editStudent({{ $user->id }})" class="btn btn-primary m-1">
+                                <i class="far fa-edit"></i>
+                            </button>
+                            <button type="button" data-toggle="modal" data-target="#deleteStudentModal"
+                                wire:click="deleteStudent({{ $user->id }})" class="btn btn-danger m-1">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                            <button type="button"
+                                wire:click="updateStatus({{ $user->id }})"
+                                class="btn {{ $user->status == 1 ? 'btn-danger' : 'btn-success' }} m-1">
+                                <i class="far {{ $user->status == 1 ? 'fa-times-circle' : 'fa-check-circle' }}"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="{{ count($cols_th) + 1 }}">No Record Found</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+                
+                {{-- <tbody>
                     @forelse ($students as $user)
                     <tr>
                         <td>{{ $user->id }}</td>
@@ -64,7 +101,7 @@
                         <td colspan="{{$colspan}}">No Record Found</td>
                     </tr>
                     @endforelse
-                </tbody>
+                </tbody> --}}
             </table>
         </div>
         <div class="dark:bg-gray-800 dark:text-white">

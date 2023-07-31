@@ -3,7 +3,7 @@
 @section('rest_content')
 
 <div>
-    @livewire('dashboard.user-table3')
+    @livewire('dashboard.main-menu-livewire')
 </div>
 
 

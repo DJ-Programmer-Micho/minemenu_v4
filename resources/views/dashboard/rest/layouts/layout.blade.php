@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{(app()->getLocale() != 'kr') ? app()->getLocale() : 'ar'}}">
+
 
 <head>
 
     <meta charset="utf-8">
+    <meta name="default-locale" content="{{ app()->getLocale() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -548,16 +550,15 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
-                                </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                @foreach ($filteredLocales as $locale)
+                                    <a class="dropdown-item" href="#" onclick="changeLanguage('{{ $locale }}')">
+                                        <i class="fas fa-language fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        {{ strtoupper($locale) }}
+                                    </a>
+                                @endforeach
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{route('logout')}}" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -639,6 +640,17 @@
 
     @livewireScripts
     @yield('rest_script')
+    <form id="languageForm" action="{{ route('setLocale') }}" method="post">
+        @csrf
+        <input type="hidden" name="locale" id="selectedLocale" value="{{ app()->getLocale() }}">
+    </form>
+    <script>
+        // Function to change the language and submit the form
+        function changeLanguage(locale) {
+            document.getElementById('selectedLocale').value = locale;
+            document.getElementById('languageForm').submit();
+        }
+    </script>
 </body>
 
 </html>

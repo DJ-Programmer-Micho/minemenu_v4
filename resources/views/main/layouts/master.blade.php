@@ -40,7 +40,7 @@
     <link rel="apple-touch-icon-precomposed" href="/assets/main/img/logo/1024.png">
     <!-- end of icons -->
     {{-- Title --}}
-    <title>Mine Menu</title>
+    <title>b Menu</title>
     {{-- Style --}}
     {{-- <link rel="stylesheet" href="{{asset('/assets/main/css/bootstrap.min.css')}}"> --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
