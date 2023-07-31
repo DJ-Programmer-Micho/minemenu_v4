@@ -4,6 +4,7 @@ namespace App\Http\Livewire\dashboard;
  
 use Livewire\Component;
 use App\Models\Mainmenu;
+use App\Models\Mainmenu_Translator;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
  
@@ -16,66 +17,114 @@ class MainMenuLivewire extends Component
     // public $name, $email, $role, $student_id, $status;
     public $search = '';
     public $glang;
- 
+    public $filteredLocales;
+    public $names = [];
+    public $menu_selected_id;
+    public $menu_id;
+    public $lang;
+    public $menu_update;
+
     public function mount()
     {
         $this->glang = app('glang');
+        $this->filteredLocales = app('userlanguage');
     }
 
-    // protected function rules()
-    // {
-    //     return [
-    //         'name_en' => 'required|string|min:6',
-    //         'name_en' => 'required|string|min:6',
-    //         'name_en' => 'required|string|min:6',
-    //         'email' => ['required','email'],
-    //         'role' => 'required',
-    //     ];
-    // }
+    protected function rules()
+    {
+        $rules = [];
+
+        foreach ($this->filteredLocales as $locale) {
+            $rules['names.' . $locale] = 'required|string|min:2';
+        }
+    
+        // $rules['status'] = ['required'];
+    
+        return $rules;
+    }
  
     // public function updated($fields)
     // {
     //     $this->validateOnly($fields);
     // }
  
-    // public function saveStudent()
-    // {
-    //     $validatedData = $this->validate();
-    //     $validatedData['status'] = 1; // Set the default status value here
- 
-    //     User::create($validatedData);
-    //     session()->flash('message','Student Added Successfully');
-    //     $this->resetInput();
-    //     $this->dispatchBrowserEvent('close-modal');
-    // }
+    public function saveMenu()
+    {
+        // $validatedData = $this->validate(); // Automatically validates the form fields based on the rules
+
+        $menu = Mainmenu::create([
+            'user_id' => auth()->id(),
+            // 'status' => $validatedData['status'],
+        ]);
+    
+        foreach ($this->filteredLocales as $locale) {
+            Mainmenu_Translator::create([
+                'menu_id' => $menu->id,
+                'name' => $this->names[$locale],
+                'lang' => $locale,
+            ]);
+        }
+        session()->flash('message','Menu Added Successfully');
+        $this->resetInput();
+        $this->dispatchBrowserEvent('close-modal');
+    }
      
-    // public function editStudent(int $student_id)
-    // {
-    //     $student = User::find($student_id);
-    //     if($student){
+    public function editStudent(int $menu_selected)
+    {
+        $menu_edit = Mainmenu::find($menu_selected);
+        $this->menu_update = $menu_edit;
+
+        if ($menu_edit) {
+            foreach ($this->filteredLocales as $locale) {
+                // Find the translation for the given locale in the Mainmenu_Translator table
+                $translation = Mainmenu_Translator::where('menu_id', $menu_edit->id)
+                    ->where('lang', $locale)
+                    ->first();
+    
+                // Check if the translation exists for the given locale
+                if ($translation) {
+                    $this->names[$locale] = $translation->name;
+                } else {
+                    // If translation doesn't exist, set a default value
+                    $this->names[$locale] = 'Not Found';
+                }
+                
+                $this->lang = $locale;
+            }
+        } else {
+            return redirect()->to('/rest');
+        }
+    }
  
-    //         $this->student_id = $student->id;
-    //         $this->name = $student->name;
-    //         $this->email = $student->email;
-    //         $this->role = $student->role;
-    //     }else{
-    //         return redirect()->to('/rest');
-    //     }
-    // }
- 
-    // public function updateStudent()
-    // {
-    //     $validatedData = $this->validate();
- 
-    //     User::where('id',$this->student_id)->update([
-    //         'name' => $validatedData['name'],
-    //         'email' => $validatedData['email'],
-    //         'role' => $validatedData['role']
-    //     ]);
-    //     session()->flash('message','Student Updated Successfully');
-    //     $this->resetInput();
-    //     $this->dispatchBrowserEvent('close-modal');
-    // }
+    public function updateStudent()
+    {
+        // dd($this->menu_update->id);
+        $validatedData = $this->validate();
+
+        // Update the Mainmenu record
+        Mainmenu::where('id', $this->menu_update->id)->update([
+            // Update the relevant fields based on the form data
+            // 'status' => $validatedData['status'],
+        ]);
+    
+        // Create or update the Mainmenu_Translator records
+        $menu = Mainmenu::find($this->menu_update->id);
+        foreach ($this->filteredLocales as $locale) {
+            Mainmenu_Translator::updateOrCreate(
+                [
+                    'menu_id' => $menu->id, 
+                    'lang' => $locale
+                ],
+                [
+                    'name' => $this->names[$locale],
+                ]
+            );
+        }
+
+        session()->flash('message','Menu Updated Successfully');
+        $this->resetInput();
+        $this->dispatchBrowserEvent('close-modal');
+    }
 
     public function updateStatus(int $menu_id)
     {
@@ -88,49 +137,50 @@ class MainMenuLivewire extends Component
         session()->flash('message', 'User Status Updated Successfully');
     }
      
-    // public function deleteStudent(int $student_id)
-    // {
-    //     $this->student_id = $student_id;
-    // }
+    public function deleteStudent(int $menu_selected_id)
+    {
+        $this->menu_selected_id = $menu_selected_id;;
+    }
  
-    // public function destroyStudent()
-    // {
-    //     User::find($this->student_id)->delete();
-    //     session()->flash('message','Student Deleted Successfully');
-    //     $this->dispatchBrowserEvent('close-modal');
-    // }
+    public function destroyStudent()
+    {
+        Mainmenu::find($this->menu_selected_id)->delete();
+        session()->flash('message','Student Deleted Successfully');
+        $this->dispatchBrowserEvent('close-modal');
+    }
  
-    // public function closeModal()
-    // {
-    //     $this->resetInput();
-    // }
+    public function closeModal()
+    {
+        $this->resetInput();
+    }
  
-    // public function resetInput()
-    // {
-    //     $this->name = '';
-    //     $this->email = '';
-    //     $this->role = '';
-    // }
+    public function resetInput()
+    {
+        foreach ($this->filteredLocales as $locale) {
+            $this->names[$locale] = "";
+        }
+    }
  
     public function render()
     {
         $colspan = 6;
         $cols_th = ['#','USER ID','Name','status','actions'];
-        $cols_td = ['id','user_id','translation.name','status','actions'];
+        $cols_td = ['id','user_id','translation.name','status'];
 
         $data = Mainmenu::with(['translation' => function ($query) {
             $query->where('lang', $this->glang);
         }])
         ->where('user_id', Auth::id())
         ->whereHas('translation', function ($query) {
-            $query->where('lang', $this->glang)
-                ->where(function ($query) {
+            $query->
+            // where('lang', $this->glang)
+                where(function ($query) {
                     $query->where('name', 'like', '%' . $this->search . '%')
                         ->orWhere('user_id', 'like', '%' . $this->search . '%');
                 });
         })
         ->orderBy('id', 'DESC')
-        ->paginate(3);
+        ->paginate(10);
         //$students = Student::select('id','name','email','course')->get();
         return view('dashboard.livewire.user-table2', ['items' => $data, 'cols_th' => $cols_th, 'cols_td' => $cols_td,'colspan' => $colspan]);
     }

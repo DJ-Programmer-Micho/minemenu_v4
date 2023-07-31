@@ -13,7 +13,7 @@ class Mainmenu_Translator extends Model
     protected $fillable = [
         'menu_id',
         'name',
-        'locale',
+        'lang',
     ];
 
     // Define the inverse relationship with the Setting model

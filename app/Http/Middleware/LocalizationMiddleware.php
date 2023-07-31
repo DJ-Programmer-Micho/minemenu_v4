@@ -14,7 +14,7 @@ use Illuminate\Http\RedirectResponse;
 
 class LocalizationMiddleware
 {
-    public $selectedLanguages = ['en', 'ar', 'ku'];
+    public $selectedLanguages = ['en', 'ar', 'ku', 'it'];
 
     public function handle($request, Closure $next)
     {
@@ -48,8 +48,7 @@ class LocalizationMiddleware
     
             // If the user does not exist, redirect to the home page
             if (!$userProfile) {
-                dd('not found');
-                // return new RedirectResponse('/'); // Replace '/' with the URL of your home page
+                return new RedirectResponse('/'); // Replace '/' with the URL of your home page
             }
     
             // Get the user settings based on the "user_id"

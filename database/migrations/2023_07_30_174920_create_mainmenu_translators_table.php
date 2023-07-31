@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('mainmenu_translators', function (Blueprint $table) {
             $table->id();
             $table->foreignId('menu_id')->references('id')->on('mainmenus')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('locale',5);
+            $table->string('lang',5);
             $table->string('name')->nullable();
             $table->timestamps();
         });
