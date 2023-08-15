@@ -662,76 +662,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.5/cropper.min.js"></script> --}}
     {{-- @stack('cropper') --}}
     @livewireScripts
-    <script>
-        document.addEventListener('livewire:load', function () {
-            var modal = new bootstrap.Modal(document.getElementById('modal'));
-            var cropper;
-        
-            $('#categoryImg').change(function (event) {
-                var image = document.getElementById('sample_image');
-                var files = event.target.files;
-                var done = function (url) {
-                    image.src = url;
-                    modal.show();
-                };
-                if (files && files.length > 0) {
-                    var reader = new FileReader();
-                    reader.onload = function (event) {
-                        done(reader.result);
-                    };
-                    reader.readAsDataURL(files[0]);
-                }
-                handleCropButtonClick(image);
-            });
-        
-            function handleCropButtonClick(image) {
-                $('#modal').on('shown.bs.modal', function () {
-                    if (cropper) {
-                        cropper.destroy();
-                    }
-                    cropper = new Cropper(image, {
-                        aspectRatio: 640 / 360,
-                        viewMode: 1,
-                        preview: '.preview'
-                    });
-                });
-        
-                $('.crop-btn').off('click').on('click', function () {
-                    var canvas = cropper.getCroppedCanvas({
-                        width: 640,
-                        height: 350
-                    });
-        
-                    canvas.toBlob(function (blob) {
-                        var url = URL.createObjectURL(blob);
-        
 
-                        // Livewire.emit('updateCroppedCategoryImg', data);
-                        var reader = new FileReader();
-                        reader.onloadend = function () {
-                            var base64data = reader.result;
-                            modal.hide();
-                            $('#showCategoryImg').attr('src', base64data);
-                            Livewire.emit('updateCroppedCategoryImg', base64data); // Emit Livewire event
-
-                            if (cropper) {
-                                cropper.destroy();
-                            }
-                        };
-                        reader.readAsDataURL(blob);
-        
-                        var file = new File([blob], 'met_about.jpg', { type: 'image/jpeg' });
-                        var fileInput = document.getElementById('croppedCategoryImg');
-                        var dataTransfer = new DataTransfer();
-                        dataTransfer.items.add(file);
-                        fileInput.files = dataTransfer.files;
-        
-                        modal.hide();
-                    }, 'image/jpeg');
-                });
-            }
-        });
-        </script>
     @stack('cropper')
     @yield('rest_script')
     <form id="languageForm" action="{{ route('setLocale') }}" method="post">

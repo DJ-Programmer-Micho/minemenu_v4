@@ -37,7 +37,10 @@
                     </select>
                 </h2>
            
-
+                <div class="text-lg font-medium  col-12 col-lg-1">
+                    <label class="text-white">{{__('Reset Filter')}}</label>
+                    <button class="btn btn-dark form-control" wire:click="resetFilter()">Reset</button>
+                </div>
 
  
         </div>

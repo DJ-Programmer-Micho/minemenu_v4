@@ -71,7 +71,13 @@ class CategoryLivewire extends Component
         if ($base64data){
             $this->objectName = 'rest/menu/1' . auth()->user()->name . '_'.date('YdmHi').date('v').'.jpeg';
             $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64data));
-            Storage::disk('s3')->put($this->objectName, $croppedImage);
+            if( $this->imgReader){
+                Storage::disk('s3')->delete($this->imgReader);
+                Storage::disk('s3')->put($this->objectName, $croppedImage);
+            } else {
+                Storage::disk('s3')->put($this->objectName, $croppedImage);
+            }
+            
             $this->emit('imageUploaded', $this->objectName);
         } else {
             return 'failed to crop image code...405';
@@ -103,7 +109,8 @@ class CategoryLivewire extends Component
         $this->resetInput();
         $this->dispatchBrowserEvent('close-modal');
     }
-     
+    
+    public $imgReader;
     public function editCategory(int $menu_selected)
     {
         $menu_edit = Categories::find($menu_selected);
@@ -120,43 +127,50 @@ class CategoryLivewire extends Component
                 } else {
                     $this->names[$locale] = 'Not Found';
                 }
-                
                 $this->lang = $locale;
             }
+            $this->menu_id = $menu_edit->menu_id;
+            $this->status = $menu_edit->status;
+            $this->priority = $menu_edit->priority;
+            $this->imgReader = $menu_edit->img;
         } else {
             return redirect()->to('/rest');
         }
+           
     }
  
-    // public function updateCategory()
-    // {
-    //     // dd($this->category_update->id);
-    //     $validatedData = $this->validate();
+    public function updateCategory()
+    {
+        // dd($this->category_update->id);
+        $validatedData = $this->validate();
 
-    //     // Update the Categories record
-    //     Categories::where('id', $this->category_update->id)->update([
-    //         // Update the relevant fields based on the form data
-    //         // 'status' => $validatedData['status'],
-    //     ]);
+        // Update the Categories record
+        Categories::where('id', $this->category_update->id)->update([
+            'menu_id' => $validatedData['menu_id'],
+            'priority' => $validatedData['priority'],
+            'status' => $validatedData['status'],
+            'img' => $this->objectName,
+            'cover' => null,
+        ]);
     
-    //     // Create or update the Categories_Translator records
-    //     $menu = Categories::find($this->category_update->id);
-    //     foreach ($this->filteredLocales as $locale) {
-    //         Categories_Translator::updateOrCreate(
-    //             [
-    //                 'category_id' => $menu->id, 
-    //                 'lang' => $locale
-    //             ],
-    //             [
-    //                 'name' => $this->names[$locale],
-    //             ]
-    //         );
-    //     }
+        // Create or update the Categories_Translator records
+        $menu = Categories::find($this->category_update->id);
+        foreach ($this->filteredLocales as $locale) {
+            Categories_Translator::updateOrCreate(
+                [
+                    'cat_id' => $menu->id, 
+                    'lang' => $locale
+                ],
+                [
+                    'name' => $this->names[$locale],
+                ]
+            );
+        }
 
-    //     session()->flash('message','Menu Updated Successfully');
-    //     $this->resetInput();
-    //     $this->dispatchBrowserEvent('close-modal');
-    // }
+        session()->flash('message','Menu Updated Successfully');
+        $this->resetInput();
+        $this->dispatchBrowserEvent('close-modal');
+    }
 
     public function updateStatus(int $category_id)
     {
@@ -173,12 +187,12 @@ class CategoryLivewire extends Component
         $this->category_selected_id = $category_selected_id;;
     }
  
-    public function destroycategory()
-    {
-        Categories::find($this->category_selected_id)->delete();
-        session()->flash('message','Student Deleted Successfully');
-        $this->dispatchBrowserEvent('close-modal');
-    }
+    // public function destroycategory()
+    // {
+    //     Categories::find($this->category_selected_id)->delete();
+    //     session()->flash('message','Student Deleted Successfully');
+    //     $this->dispatchBrowserEvent('close-modal');
+    // }
  
     public function closeModal()
     {
@@ -235,7 +249,15 @@ class CategoryLivewire extends Component
             'cols_th' => $cols_th, 
             'cols_td' => $cols_td,
             'colspan' => $colspan,
-            'menu_select' => $this->menu_select
+            'menu_select' => $this->menu_select,
+            //asdsad
+            'fl' => $this->imgReader
         ]);
+    }
+
+    public function resetFilter(){
+        $this->search = '';
+        $this->mainmenuFilter = '';
+        $this->statusFilter = '';
     }
 }

@@ -89,23 +89,63 @@
 
 <div wire:ignore.self class="modal fade" id="updateCategoryModal" tabindex="-1" aria-labelledby="updateCategoryModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="updateCategoryModalLabel">Edit Menu</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" wire:click="closeModal"
-                    aria-label="Close"></button>
-            </div>
+    <div class="modal-dialog modal-xl text-white">
+        <div class="modal-content bg-dark">
             <form wire:submit.prevent="updateCategory">
                 <div class="modal-body">
-                    <h3>{{__('Menu Name')}}</h3>
-                    @foreach ($filteredLocales as $locale)
-                    <div class="mb-3">
-                        <label>{{ strtoupper($locale) }}</label>
-                        <input type="text" wire:model="names.{{$locale}}" class="form-control" style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}">
-                        @error('names.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateCategoryModalLabel">{{__('Edit Menu')}}</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" wire:click="closeModal"
+                            aria-label="Close"></button>
                     </div>
-                    @endforeach
+                    <h3>{{__('Category')}}</h3>
+                    <hr class="bg-white">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="mb-3">
+                                <label>{{ __('Select Menu') }}</label>
+                                <select wire:model="menu_id" name="menu_id" id="" class="form-control">
+                                    <option value="">Select Menu</option>
+                                    @foreach ($menu_select as $menu)
+                                        <option value="{{$menu->translation->menu_id}}">{{$menu->translation->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('menu_id') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                            @foreach ($filteredLocales as $locale)
+                            <div class="mb-3">
+                                <label>{{ strtoupper($locale) }}</label>
+                                <input type="text" wire:model="names.{{$locale}}" class="form-control" style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}">
+                                @error('names.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                            @endforeach
+                            <div class="mb-3">
+                                <label>{{__('Status')}}</label>
+                                <select wire:model="status" name="status" id="" class="form-control">
+                                    <option value="">Choose Status</option>
+                                        <option value="1">{{__('Active')}}</option>
+                                        <option value="0">{{__('Non Active')}}</option>
+                                </select>
+                                @error('status') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>           
+                            <div class="mb-3">
+                                <label>{{__('Priority')}}</label>
+                                <input type="number" wire:model="priority" class="form-control">
+                                @error('Priority') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <label for="img">Upload Image</label>
+                            <input type="file" name="editCategoryImg" id="editCategoryImg" class="form-control" style="height: auto">
+                            @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
+                            <input type="file" name="editCroppedCategoryImg" id="editCroppedCategoryImg" style="display: none;">
+                           
+                        <hr>
+                            <div class="mb-3 d-flex justify-content-center mt-1">
+                                <img id="showEditCategoryImg" class="img-thumbnail rounded" src="{{app('cloudfront').$fl}}">
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
@@ -173,5 +213,150 @@
     </div>
 </div> 
 </div>
+
+@push('cropper')
+{{-- Add --}}
+<script>
+    document.addEventListener('livewire:load', function () {
+        var modal = new bootstrap.Modal(document.getElementById('modal'));
+        var cropper;
+    
+        $('#categoryImg').change(function (event) {
+            var image = document.getElementById('sample_image');
+            var files = event.target.files;
+            var done = function (url) {
+                image.src = url;
+                modal.show();
+            };
+            if (files && files.length > 0) {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    done(reader.result);
+                };
+                reader.readAsDataURL(files[0]);
+            }
+            handleCropButtonClick(image);
+        });
+    
+        function handleCropButtonClick(image) {
+            $('#modal').on('shown.bs.modal', function () {
+                if (cropper) {
+                    cropper.destroy();
+                }
+                cropper = new Cropper(image, {
+                    aspectRatio: 640 / 360,
+                    viewMode: 1,
+                    preview: '.preview'
+                });
+            });
+    
+            $('.crop-btn').off('click').on('click', function () {
+                var canvas = cropper.getCroppedCanvas({
+                    width: 640,
+                    height: 350
+                });
+    
+                canvas.toBlob(function (blob) {
+                    var url = URL.createObjectURL(blob);
+    
+
+                    // Livewire.emit('updateCroppedCategoryImg', data);
+                    var reader = new FileReader();
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        modal.hide();
+                        $('#showCategoryImg').attr('src', base64data);
+                        Livewire.emit('updateCroppedCategoryImg', base64data); // Emit Livewire event
+
+                        if (cropper) {
+                            cropper.destroy();
+                        }
+                    };
+                    reader.readAsDataURL(blob);
+    
+                    var file = new File([blob], 'met_about.jpg', { type: 'image/jpeg' });
+                    var fileInput = document.getElementById('croppedCategoryImg');
+                    var dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    fileInput.files = dataTransfer.files;
+    
+                    modal.hide();
+                }, 'image/jpeg');
+            });
+        }
+    });
+</script>
+{{-- Edit --}}
+<script>
+    document.addEventListener('livewire:load', function () {
+        var modal = new bootstrap.Modal(document.getElementById('modal'));
+        var cropper;
+    
+        $('#editCategoryImg').change(function (event) {
+            var image = document.getElementById('sample_image');
+            var files = event.target.files;
+            var done = function (url) {
+                image.src = url;
+                modal.show();
+            };
+            if (files && files.length > 0) {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    done(reader.result);
+                };
+                reader.readAsDataURL(files[0]);
+            }
+            handleCropButtonClick(image);
+        });
+    
+        function handleCropButtonClick(image) {
+            $('#modal').on('shown.bs.modal', function () {
+                if (cropper) {
+                    cropper.destroy();
+                }
+                cropper = new Cropper(image, {
+                    aspectRatio: 640 / 360,
+                    viewMode: 1,
+                    preview: '.preview'
+                });
+            });
+    
+            $('.crop-btn').off('click').on('click', function () {
+                var canvas = cropper.getCroppedCanvas({
+                    width: 640,
+                    height: 350
+                });
+    
+                canvas.toBlob(function (blob) {
+                    var url = URL.createObjectURL(blob);
+    
+
+                    // Livewire.emit('updateCroppedCategoryImg', data);
+                    var reader = new FileReader();
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        modal.hide();
+                        $('#showEditCategoryImg').attr('src', base64data);
+                        Livewire.emit('updateCroppedCategoryImg', base64data); // Emit Livewire event
+
+                        if (cropper) {
+                            cropper.destroy();
+                        }
+                    };
+                    reader.readAsDataURL(blob);
+    
+                    var file = new File([blob], 'met_about.jpg', { type: 'image/jpeg' });
+                    var fileInput = document.getElementById('editCroppedCategoryImg');
+                    var dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    fileInput.files = dataTransfer.files;
+    
+                    modal.hide();
+                }, 'image/jpeg');
+            });
+        }
+    });
+</script>
+@endpush
 
 
