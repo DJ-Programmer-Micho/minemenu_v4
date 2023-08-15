@@ -27,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('userlanguage', function () {
             return Auth::user()->settings->languages; // Replace "abc" with your desired value or logic to fetch the data.
         });
-
+        $this->app->singleton('cloudfront', function () {
+            return 'https://d3jel9g9x3oq59.cloudfront.net/'; // Replace "abc" with your desired value or logic to fetch the data.
+        });
     }
 }

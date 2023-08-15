@@ -10,10 +10,11 @@ class Categories_Translator extends Model
 {
     use HasFactory;
 
+    protected $table = 'categories_translators';
     protected $fillable = [
         'cat_id',
         'name',
-        'locale',
+        'lang',
     ];
 
     public function category()

@@ -20,20 +20,19 @@ class Categories extends Model
         'img',
         'cover',
     ];
-    
+    // protected $with = ['mainmenu'];
+
 
     public function mainmenu()
     {
-        return $this->belongsTo(Mainmenu::class)->withDefault();
+        return $this->belongsTo(Mainmenu::class, 'menu_id')->withDefault();
     }
-
-    public function food()
-    {
-        return $this->hasMany(Food::class,'cat_id');
-    }
-
     public function translation()
     {
         return $this->hasone(Categories_Translator::class,'cat_id')->withDefault(); 
+    }
+    public function food()
+    {
+        return $this->hasMany(Food::class,'cat_id');
     }
 }
