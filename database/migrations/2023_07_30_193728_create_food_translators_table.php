@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('food_translators', function (Blueprint $table) {
             $table->id();
             $table->foreignId('food_id')->references('id')->on('food')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('locale',5);
+            $table->string('lang',5);
             $table->string('name')->nullable();
             $table->string('description',1000)->nullable();
             $table->timestamps();

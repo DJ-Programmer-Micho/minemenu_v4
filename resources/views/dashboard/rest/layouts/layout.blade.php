@@ -16,13 +16,14 @@
     <!-- Custom fonts for this template-->
     <link href="{{asset('assets/general/lib/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
     <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
+    
     <!-- Custom styles for this template-->
     <link href="{{asset('assets/dashboard/css/sb-admin-2.min.css')}}" rel="stylesheet">
     @livewireStyles
     <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+    <link href="{{asset('assets/general/css/toaster.css')}}" rel="stylesheet" type="text/css">
     @yield('rest_css')
     <style>
         .content-bg-met{
@@ -116,8 +117,8 @@
                     <span>{{__('Category')}}</span></a>
             </li>
             <!-- Nav Item - Food -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('dashboard')}}">
+            <li class="nav-item  {{(request()->path() == 'rest/food') ? 'active' : ''}}">
+                <a class="nav-link" href="{{route('food')}}">
                     <lord-icon
                     src="https://cdn.lordicon.com/jpdtnwas.json"
                     trigger="loop"
@@ -661,8 +662,17 @@
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.5/cropper.min.js"></script> --}}
     {{-- @stack('cropper') --}}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     @livewireScripts
-
+    <script>
+        window.addEventListener('alert', event => { 
+                     toastr[event.detail.type](event.detail.message, 
+                     event.detail.title ?? ''), toastr.options = {
+                            "closeButton": true,
+                            "progressBar": true,
+                        }
+                    });
+        </script>
     @stack('cropper')
     @yield('rest_script')
     <form id="languageForm" action="{{ route('setLocale') }}" method="post">
@@ -676,6 +686,8 @@
             document.getElementById('languageForm').submit();
         }
     </script>
+    
+
 </body>
 
 </html>

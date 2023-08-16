@@ -17,4 +17,7 @@ class RestController extends Controller
     public function category(){
         return view('dashboard.rest.pages.category.index');
     } // END FUNCTION (DASHBOARD)
+    public function food(){
+        return view('dashboard.rest.pages.food.index');
+    } // END FUNCTION (DASHBOARD)
 }

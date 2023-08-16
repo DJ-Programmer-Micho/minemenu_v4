@@ -31,7 +31,7 @@ class Food extends Model
 
     public function category()
     {
-        return $this->belongsTo(Categories::class,'cat_id');
+        return $this->belongsTo(Categories::class,'cat_id')->withDefault();;
     }
 
     public function translation()

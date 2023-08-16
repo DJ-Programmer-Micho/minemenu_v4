@@ -1,20 +1,20 @@
 <div>
 
-    @include('dashboard.livewire.category-form')
+    @include('dashboard.livewire.food-form')
     <div class="my-4">
         <div class="d-flex justidy-content-between mb-4">
             <h2 class="text-lg font-medium mr-auto">
-                <b class="text-uppercase text-white">{{__('category table')}}</b>
+                <b class="text-uppercase text-white">{{__('food table')}}</b>
             </h2>
             <div class="">
-                <button class="btn btn-info" data-toggle="modal" data-target="#createCategory">{{__('Add New Category')}}</button>
+                <button class="btn btn-info" data-toggle="modal" data-target="#createFood">{{__('Add New Food')}}</button>
             </div>
         </div>
         <div class="row m-0 p-0">
             
                 <h6 class="\ font-medium col-12 col-lg-3">
                     <label class="text-white">{{__('Menu Select')}}</label>
-                    <select wire:model="mainmenuFilter" class="form-control bg-white text-black w-100">
+                    <select wire:model="categorieFilter" class="form-control bg-white text-black w-100">
                         <option value="" default>All</option>
                         @foreach ($menu_select as $menu)
                         <option value="{{$menu->translation->name}}">{{$menu->translation->name}}</option>
@@ -23,7 +23,7 @@
                 </h6>
 
                 <h6 class=" font-medium col-12 col-lg-3">
-                    <label class="text-white">{{__('Category Search')}}</label>
+                    <label class="text-white">{{__('Food Search')}}</label>
                     <input type="search" wire:model="search" class="form-control bg-white text-black w-100"
                         placeholder="Search..." style="width: 250px; border: 1px solid var(--primary)" />
                 </h6>
@@ -82,13 +82,13 @@
                             <button type="button" onclick="updatePriorityValue({{ $item->id }})" class="btn btn-warning btn-icon text-dark">
                                 <i class="fas fa-sort"></i>
                             </button>
-                            <button type="button" data-toggle="modal" data-target="#updateCategoryModal" wire:click="editCategory({{ $item->id }})" class="btn btn-primary btn-icon">
+                            <button type="button" data-toggle="modal" data-target="#updateFoodModal" wire:click="editFood({{ $item->id }})" class="btn btn-primary btn-icon">
                                 <i class="far fa-edit"></i>
                             </button>
                             <button type="button" wire:click="updateStatus({{ $item->id }})" class="btn {{ $item->status == 1 ? 'btn-danger' : 'btn-success' }} btn-icon">
                             <i class="far {{ $item->status == 1 ? 'fa-times-circle' : 'fa-check-circle' }}"></i>
                             </button>
-                            <button type="button" data-toggle="modal" data-target="#deleteCategoryModal" wire:click="deleteCategory({{ $item->id }})" class="btn btn-danger btn-icon">
+                            <button type="button" data-toggle="modal" data-target="#deleteFoodModal" wire:click="deleteFood({{ $item->id }})" class="btn btn-danger btn-icon">
                             <i class="far fa-trash-alt"></i>
                             </button>
                         </td>
