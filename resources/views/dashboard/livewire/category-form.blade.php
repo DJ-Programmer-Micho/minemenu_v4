@@ -158,24 +158,27 @@
 </div>
  
  
-<!-- Delete Student Modal -->
 <div wire:ignore.self class="modal fade" id="deleteCategoryModal" tabindex="-1" aria-labelledby="deleteCategoryModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal-dialog text-white">
+        <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteCategoryModalLabel">Delete Student</h5>
+                <h5 class="modal-title" id="deleteCategoryModalLabel">Delete Category</h5>
                 <button type="button" class="btn-close" data-dismiss="modal" wire:click="closeModal"
                     aria-label="Close"></button>
             </div>
-            <form wire:submit.prevent="destroyStudent">
+            <form wire:submit.prevent="destroycategory">
                 <div class="modal-body">
-                    <h4>Are you sure you want to delete this data ?</h4>
+                    <p>{{ __('Are you sure you want to delete this category?') }}</p>
+                    <p>{{ __('Please enter the')}}<strong> "{{$showTextTemp}}" </strong>{{__('to confirm:') }}</p>
+                    <input type="text" wire:model="categoryNameToDelete" class="form-control">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                        data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Yes! Delete</button>
+                        data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger" wire:disabled="!confirmDelete || $categoryNameToDelete !== $showTextTemp">
+                            {{ __('Yes! Delete') }}
+                        </button>
                 </div>
             </form>
         </div>
