@@ -30,6 +30,8 @@ class CategoryLivewire extends Component
     public $glang;
     public $category_id;
     public $category_selected_id;
+    public $category_selected_id_delete;
+    public $category_selected_name_delete;
     public $category_update;
     //utility
     public $search = '';
@@ -141,7 +143,7 @@ class CategoryLivewire extends Component
  
     public function updateCategory()
     {
-        // dd($this->category_update->id);
+        $this->objectName = $this->imgReader;
         $validatedData = $this->validate();
 
         // Update the Categories record
@@ -149,7 +151,7 @@ class CategoryLivewire extends Component
             'menu_id' => $validatedData['menu_id'],
             'priority' => $validatedData['priority'],
             'status' => $validatedData['status'],
-            'img' => $this->objectName,
+            'img' => $this->imgReader,
             'cover' => null,
         ]);
     
@@ -182,17 +184,29 @@ class CategoryLivewire extends Component
         session()->flash('message', 'User Status Updated Successfully');
     }
      
+    public $confirmDelete = false;
+    public $categoryNameToDelete = '';
+    public $showTextTemp = '';
+
     public function deleteCategory(int $category_selected_id)
     {
-        $this->category_selected_id = $category_selected_id;;
+        $this->category_selected_id_delete = Categories::find($category_selected_id);
+        $this->category_selected_name_delete = Categories_Translator::where('cat_id', $category_selected_id)->where('lang', $this->glang)->first();
+        $this->showTextTemp = $this->category_selected_name_delete->name;
+        $this->confirmDelete = true;
     }
- 
-    // public function destroycategory()
-    // {
-    //     Categories::find($this->category_selected_id)->delete();
-    //     session()->flash('message','Student Deleted Successfully');
-    //     $this->dispatchBrowserEvent('close-modal');
-    // }
+
+    public function destroycategory()
+    {
+        if ($this->confirmDelete && $this->categoryNameToDelete === $this->category_selected_name_delete->name) {
+            Categories::find($this->category_selected_id_delete->id)->delete();
+            Storage::disk('s3')->delete($this->category_selected_id_delete->img);
+            session()->flash('message', 'Category Deleted Successfully');
+            $this->dispatchBrowserEvent('close-modal');
+        } else {
+            session()->flash('error', 'Incorrect category name');
+        }
+    }
  
     public function closeModal()
     {
@@ -204,6 +218,10 @@ class CategoryLivewire extends Component
         foreach ($this->filteredLocales as $locale) {
             $this->names[$locale] = "";
         }
+        $this->menu_id = '';
+        $this->status = '';
+        $this->priority = '';
+        $this->imgReader = '';
     }
  
     public function render()
@@ -218,8 +236,8 @@ class CategoryLivewire extends Component
         // END GET THE MENU NAMES
 
         $colspan = 5;
-        $cols_th = ['#','Menu','Name','Image','Status','Actions'];
-        $cols_td = ['id','mainmenu.translation.name', 'translation.name','img','status'];
+        $cols_th = ['#','Menu','Name','Image','Status','Priority','Actions'];
+        $cols_td = ['id','mainmenu.translation.name', 'translation.name','img','status','priority'];
 
         $data = Categories::with(['mainmenu', 'translation', 'mainmenu.translation' => function ($query) {
             $query->where('lang', $this->glang);
@@ -240,7 +258,7 @@ class CategoryLivewire extends Component
                 $query->whereHas('translation', function ($query) {
                     $query->where('status', $this->statusFilter);
                 });
-            })->orderBy('id', 'DESC')
+            })->orderBy('priority', 'ASC')
             ->paginate(10);
 
         return view('dashboard.livewire.category-table', 
@@ -259,5 +277,19 @@ class CategoryLivewire extends Component
         $this->search = '';
         $this->mainmenuFilter = '';
         $this->statusFilter = '';
+    }
+
+
+    public function updatePriority(int $p_id, $updatedPriority){
+        $varr = Categories::find($p_id);
+        if ($varr) {
+            $varr->priority = $updatedPriority;
+            $varr->save();
+            session()->flash('message', 'Priority Updated Successfully');
+        } else {
+            session()->flash('error', 'Category not found');
+        }
+        
+
     }
 }
