@@ -3,7 +3,7 @@
 @section('rest_content')
 
 <div>
-    @livewire('dashboard.menu-setting-livewire')
+    @livewire('dashboard.name-setting-livewire')
 </div>
 
 @endsection

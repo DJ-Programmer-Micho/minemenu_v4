@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('setting_translations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('setting_id')->references('id')->on('settings')->onDelete('cascade')->onUpdate('cascade');
-            $table->unique('setting_id');
             $table->string('locale');
             $table->string('rest_name');
             $table->text('address');
+            $table->timestamps();
         });
     }
 

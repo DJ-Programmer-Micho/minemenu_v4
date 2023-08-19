@@ -20,13 +20,16 @@ class RestController extends Controller
     public function food(){
         return view('dashboard.rest.pages.food.index');
     } // END FUNCTION (DASHBOARD)
+    public function languageSetting(){
+        return view('dashboard.rest.pages.setting.languageSetting');
+    } // END FUNCTION (DASHBOARD)
+    public function nameSetting(){
+        return view('dashboard.rest.pages.setting.nameSetting');
+    } // END FUNCTION (DASHBOARD)
     public function menuSetting(){
         return view('dashboard.rest.pages.setting.menuSetting');
     } // END FUNCTION (DASHBOARD)
     public function startSetting(){
         return view('dashboard.rest.pages.setting.startSetting');
-    } // END FUNCTION (DASHBOARD)
-    public function languageSetting(){
-        return view('dashboard.rest.pages.setting.languageSetting');
     } // END FUNCTION (DASHBOARD)
 }

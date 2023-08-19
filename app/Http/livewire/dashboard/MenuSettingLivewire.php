@@ -4,8 +4,6 @@ namespace App\Http\Livewire\dashboard;
  
 use Livewire\Component;
 use App\Models\Setting;
-use App\Models\Mainmenu_Translator;
-use Illuminate\Support\Facades\Auth;
  
 class MenuSettingLivewire extends Component
 {

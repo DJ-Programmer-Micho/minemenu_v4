@@ -150,41 +150,33 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         {{-- <h6 class="collapse-header">{{__('Setting')}}</h6> --}}
-                        <a class="collapse-item" href="{{route('menuSetting')}}">
-                            <lord-icon
-                            src="https://cdn.lordicon.com/wloilxuq.json"
-                            trigger="loop"
-                            delay="2000"
-                            colors="primary:#cc0022,secondary:#eee"
-                            state="hover-2"
-                            style="width:36px;height:36px">
-                        </lord-icon>
-                            <span>{{__('Menu Setting')}}</span>
-                            
-                            </a>
-                        <a class="collapse-item"  href="{{route('startSetting')}}">
-                            <lord-icon
-                            src="https://cdn.lordicon.com/wloilxuq.json"
-                            trigger="loop"
-                            delay="2000"
-                            colors="primary:#cc0022,secondary:#eee"
-                            state="hover-1"
-                            style="width:36px;height:36px">
-                        </lord-icon>
-                            <span>{{__('Start Up Page')}}</span>
-                            
-                            </a>
-                        <a class="collapse-item"  href="{{route('languageSetting')}}">
-                            <lord-icon
-                            src="https://cdn.lordicon.com/wloilxuq.json"
-                            trigger="loop"
-                            delay="2000"
-                            colors="primary:#cc0022,secondary:#eee"
-                            state="hover-2"
-                            style="width:36px;height:36px">
-                        </lord-icon>
+                        <a class="collapse-item" href="{{route('languageSetting')}}">
+                            <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
+                                colors="primary:#cc0022,secondary:#eee" state="hover-2" style="width:36px;height:36px">
+                            </lord-icon>
                             <span>{{__('Language')}}</span>
-                            </a>
+                        </a>
+                        <a class="collapse-item" href="{{route('nameSetting')}}">
+                            <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
+                                colors="primary:#cc0022,secondary:#eee" state="hover-1" style="width:36px;height:36px">
+                            </lord-icon>
+                            <span>{{__('Resturant Name')}}</span>
+
+                        </a>
+                        <a class="collapse-item" href="{{route('menuSetting')}}">
+                            <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
+                                colors="primary:#cc0022,secondary:#eee" state="hover-2" style="width:36px;height:36px">
+                            </lord-icon>
+                            <span>{{__('Menu Setting')}}</span>
+                        </a>
+                        <a class="collapse-item" href="{{route('startSetting')}}">
+                            <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
+                                colors="primary:#cc0022,secondary:#eee" state="hover-1" style="width:36px;height:36px">
+                            </lord-icon>
+                            <span>{{__('Start Up Page')}}</span>
+
+                        </a>
+
                     </div>
                 </div>
             </li>

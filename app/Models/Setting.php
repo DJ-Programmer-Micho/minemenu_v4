@@ -41,6 +41,6 @@ class Setting extends Model
 
     public function translations()
     {
-        return $this->hasMany(SettingTranslation::class);
+        return $this->hasMany(Setting_Translation::class);
     }
 }
