@@ -136,9 +136,8 @@
                 {{__('General Setting')}}
             </div>
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
+            <li class="nav-item {{(str_contains(request()->path(), 'rest/setting/')) ? 'active' : ''}}">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                     <lord-icon
                     src="https://cdn.lordicon.com/sbiheqdr.json"
                     trigger="loop"
@@ -151,7 +150,7 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         {{-- <h6 class="collapse-header">{{__('Setting')}}</h6> --}}
-                        <a class="collapse-item" href="buttons.html">
+                        <a class="collapse-item" href="{{route('menuSetting')}}">
                             <lord-icon
                             src="https://cdn.lordicon.com/wloilxuq.json"
                             trigger="loop"
@@ -163,7 +162,7 @@
                             <span>{{__('Menu Setting')}}</span>
                             
                             </a>
-                        <a class="collapse-item" href="buttons.html">
+                        <a class="collapse-item"  href="{{route('startSetting')}}">
                             <lord-icon
                             src="https://cdn.lordicon.com/wloilxuq.json"
                             trigger="loop"
@@ -175,7 +174,7 @@
                             <span>{{__('Start Up Page')}}</span>
                             
                             </a>
-                        <a class="collapse-item" href="cards.html">
+                        <a class="collapse-item"  href="{{route('languageSetting')}}">
                             <lord-icon
                             src="https://cdn.lordicon.com/wloilxuq.json"
                             trigger="loop"
