@@ -29,9 +29,9 @@
                 <div class="modal-body">
                     <div class="modal-header">
                         <h5 class="modal-title" id="createFoodLabel">{{__('Add Food')}}</h5>
-                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close"
                             wire:click="closeModal">
-                            <span aria-hidden="true">&times;</span></button>
+                            <span aria-hidden="true"><i class="fas fa-times"></i></span></button>
                     </div>
                     <div class="row mt-3">
                         <div class="d-flex justidy-content-between mb-4 col-12">
@@ -203,12 +203,17 @@
                 <div class="modal-body">
                     <div class="modal-header">
                         <h5 class="modal-title" id="updateFoodModalLabel">{{__('Edit Menu')}}</h5>
-                        <button type="button" class="btn-close" data-dismiss="modal" wire:click="closeModal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" wire:click="closeModal"
+                            aria-label="Close"><i class="fas fa-times"></i></button>
                     </div>
-                    <h3>{{__('Food')}}</h3>
-                    <hr class="bg-white">
-                    <div class="row">
+                    <div class="row mt-5">
+                        <div class="d-flex justidy-content-between mb-4 col-12">
+                            <h2 class="text-lg font-medium mr-auto">
+                                <b class="text-uppercase text-white">{{__('Utilities')}}</b>
+                            </h2>
+                            <div class="">
+                            </div>
+                        </div>
                         <div class="col-12 col-sm-4">
                             <div class="mb-3">
                                 <label>{{ __('Select Menu') }}</label>
@@ -241,7 +246,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-5">
                         <div class="d-flex justidy-content-between mb-4 col-12">
                             <h2 class="text-lg font-medium mr-auto">
                                 <b class="text-uppercase text-white">{{__('Title & Description')}}</b>
@@ -266,7 +271,7 @@
                         </div>
                         @endforeach
                     </div>
-                    <div class="row">
+                    <div class="row mt-5">
                         <div class="col-12 d-flex justify-content-center align-items-center">
                             Single Price
                             <label class="switch"> <input type="checkbox" wire:model="showTextarea"
@@ -344,9 +349,8 @@
                             <label for="img">Upload Image</label>
                             <input type="file" name="editCategoryImg" id="editCategoryImg" class="form-control" style="height: auto">
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
-                            <input type="file" name="editCroppedCategoryImg" id="editCroppedCategoryImg" style="display: none;">
-                           
-                        <hr>
+                        </div>
+                        <div class="col-12 col-sm-6">
                             <div class="mb-3 d-flex justify-content-center mt-1">
                                 <img id="showEditCategoryImg" class="img-thumbnail rounded" src="{{app('cloudfront').$fl}}">
                             </div>
@@ -370,8 +374,8 @@
         <div class="modal-content bg-dark">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteFoodModalLabel">Delete Food</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" wire:click="closeModal"
-                    aria-label="Close"></button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" wire:click="closeModal"
+                    aria-label="Close"><i class="fas fa-times"></i></button>
             </div>
             <form wire:submit.prevent="destroyfood">
                 <div class="modal-body">

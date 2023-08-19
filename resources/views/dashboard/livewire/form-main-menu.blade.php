@@ -5,9 +5,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="studentModalLabel">{{__('Add Menu')}}</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"
+                <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close"
                     wire:click="closeModal">
-                    <span aria-hidden="true">&times;</span></button>
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span></button>
             </div>
             <form wire:submit.prevent="saveMenu">
                 <div class="modal-body">
@@ -37,8 +37,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="updateStudentModalLabel">Edit Menu</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" wire:click="closeModal"
-                    aria-label="Close"></button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" wire:click="closeModal"
+                    aria-label="Close"><i class="fas fa-times"></i></button>
             </div>
             <form wire:submit.prevent="updateStudent">
                 <div class="modal-body">
@@ -69,8 +69,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteStudentModalLabel">Delete Student</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" wire:click="closeModal"
-                    aria-label="Close"></button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" wire:click="closeModal"
+                    aria-label="Close"><i class="fas fa-times"></i></button>
             </div>
             <form wire:submit.prevent="destroyStudent">
                 <div class="modal-body">

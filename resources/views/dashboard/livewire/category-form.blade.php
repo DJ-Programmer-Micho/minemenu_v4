@@ -25,8 +25,8 @@
                 <div class="modal-body">
                     <div class="modal-header">
                         <h5 class="modal-title" id="createCategoryLabel">{{__('Add Menu')}}</h5>
-                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" wire:click="closeModal">
-                        <span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close" wire:click="closeModal">
+                        <span aria-hidden="true"><i class="fas fa-times"></i></span></button>
                     </div>
                     <h3>{{__('Category')}}</h3>
                     <hr class="bg-white">
@@ -95,8 +95,8 @@
                 <div class="modal-body">
                     <div class="modal-header">
                         <h5 class="modal-title" id="updateCategoryModalLabel">{{__('Edit Menu')}}</h5>
-                        <button type="button" class="btn-close" data-dismiss="modal" wire:click="closeModal"
-                            aria-label="Close"></button>
+                        <button type="button" class="brn btn-danger" data-dismiss="modal" wire:click="closeModal"
+                            aria-label="Close"><i class="fas fa-times"></i></button>
                     </div>
                     <h3>{{__('Category')}}</h3>
                     <hr class="bg-white">
@@ -164,8 +164,8 @@
         <div class="modal-content bg-dark">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteCategoryModalLabel">Delete Category</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" wire:click="closeModal"
-                    aria-label="Close"></button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" wire:click="closeModal"
+                    aria-label="Close"><i class="fas fa-times"></i></button>
             </div>
             <form wire:submit.prevent="destroycategory">
                 <div class="modal-body">

@@ -162,10 +162,17 @@ class FoodLivewire extends Component
                 }
                 $this->lang = $locale;
             }
+
+            $options = json_decode($menu_edit->options, true);
+            if ($options === null) {
+                $this->initializeOptions();
+            } else {
+                $this->options = $options;
+            }
+
             $this->cat_id = $menu_edit->cat_id;
             $this->oldPrice = $menu_edit->old_price ? $menu_edit->old_price : null;
             $this->price = $menu_edit->price ? $menu_edit->price : null;
-            $this->options = json_decode($menu_edit->options, true);
             $this->showTextarea = $menu_edit->sorm == 0 ? false : true ;
             $this->priority = $menu_edit->priority;
             $this->status = $menu_edit->status;
