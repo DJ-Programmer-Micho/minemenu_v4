@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('website')->nullable();
             $table->string('telegram')->nullable();
             $table->string('snapchat')->nullable();
-            $table->string('note')->nullable();
+            $table->json('note')->nullable();
             $table->string('map')->nullable();
             $table->string('tiktok')->nullable();
             $table->string('background_img')->nullable();
@@ -35,6 +35,7 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+    
 
     /**
      * Reverse the migrations.

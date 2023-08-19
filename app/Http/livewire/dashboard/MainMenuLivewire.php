@@ -187,6 +187,6 @@ class MainMenuLivewire extends Component
         ->orderBy('id', 'DESC')
         ->paginate(10);
         //$students = Student::select('id','name','email','course')->get();
-        return view('dashboard.livewire.user-table2', ['items' => $data, 'cols_th' => $cols_th, 'cols_td' => $cols_td,'colspan' => $colspan]);
+        return view('dashboard.livewire.menu-form', ['items' => $data, 'cols_th' => $cols_th, 'cols_td' => $cols_td,'colspan' => $colspan]);
     }
 }
