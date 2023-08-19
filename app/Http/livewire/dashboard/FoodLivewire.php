@@ -33,7 +33,8 @@ class FoodLivewire extends Component
     public $optionFilter = '';
     public $filteredLocales;
     //Form Data
-    public $objectName;
+    public $imgFlag = false; 
+    public $objectName; 
     public $menu_select;
     public $cat_id;
     public $names = [];
@@ -89,12 +90,15 @@ class FoodLivewire extends Component
         return $rules;
     }
 
+    public $tempImg;
     public function handleCroppedImage($base64data)
     {
         if ($base64data){
             $microtime = str_replace('.', '', microtime(true));
             $this->objectName = 'rest/menu/1' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
             $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64data));
+            $this->tempImg = $base64data;
+            $this->imgFlag = true;
             if( $this->imgReader){
                 Storage::disk('s3')->delete($this->imgReader);
                 Storage::disk('s3')->put($this->objectName, $croppedImage);
@@ -184,14 +188,14 @@ class FoodLivewire extends Component
  
     public function updateFood()
     {
-        $this->objectName = $this->imgReader;
+        // $this->objectName = $this->imgReader;
         $validatedData = $this->validate();
         // Update the Food record
         Food::where('id', $this->food_update->id)->update([
             'cat_id' => $validatedData['cat_id'],
             'priority' => $validatedData['priority'],
             'status' => $validatedData['status'],
-            'img' => $this->imgReader,
+            'img' => $this->objectName,
         ]);
     
         // Create or update the Foods_Translator records
@@ -204,7 +208,7 @@ class FoodLivewire extends Component
                 ],
                 [
                     'name' => $this->names[$locale],
-                    'name' => $this->description[$locale],
+                    'description' => $this->description[$locale],
                 ]
             );
         }
@@ -271,6 +275,7 @@ class FoodLivewire extends Component
         $this->oldPrice = '';
         $this->confirmDelete = false;
         $this->initializeOptions();
+        $this->imgFlag = false;
     }
  
 
@@ -350,7 +355,7 @@ class FoodLivewire extends Component
             'colspan' => $colspan,
             'menu_select' => $this->menu_select,
             //asdsad
-            'fl' => $this->imgReader
+            'imgReader' => $this->imgReader
         ])->with('alert', ['type' => 'info', 'message' => __('Menu Table Loaded')]);
     }
 }

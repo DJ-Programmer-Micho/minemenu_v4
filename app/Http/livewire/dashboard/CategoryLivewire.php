@@ -32,6 +32,7 @@ class CategoryLivewire extends Component
     public $statusFilter = '';
     public $filteredLocales;
     //Form Data
+    public $imgFlag = false; 
     public $objectName;
     public $menu_select;
     public $menu_id;
@@ -60,12 +61,15 @@ class CategoryLivewire extends Component
         return $rules;
     }
 
+    public $tempImg;
     public function handleCroppedImage($base64data)
     {
         if ($base64data){
             $microtime = str_replace('.', '', microtime(true));
             $this->objectName = 'rest/menu/1' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
             $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64data));
+            $this->tempImg = $base64data;
+            $this->imgFlag = true;
             if( $this->imgReader){
                 Storage::disk('s3')->delete($this->imgReader);
                 Storage::disk('s3')->put($this->objectName, $croppedImage);
@@ -136,14 +140,14 @@ class CategoryLivewire extends Component
  
     public function updateCategory()
     {
-        $this->objectName = $this->imgReader;
+        // $this->objectName = $this->imgReader;
         $validatedData = $this->validate();
         // Update the Categories record
         Categories::where('id', $this->category_update->id)->update([
             'menu_id' => $validatedData['menu_id'],
             'priority' => $validatedData['priority'],
             'status' => $validatedData['status'],
-            'img' => $this->imgReader,
+            'img' => $this->objectName,
             'cover' => null,
         ]);
     
@@ -219,6 +223,7 @@ class CategoryLivewire extends Component
         $this->showTextTemp = '';
         $this->categoryNameToDelete = '';
         $this->confirmDelete = false;
+        $this->imgFlag = false;
     }
  
     public function render()

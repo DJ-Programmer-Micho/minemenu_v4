@@ -71,8 +71,8 @@
                             <input type="file" name="croppedCategoryImg" id="croppedCategoryImg" style="display: none;">
                            
                         <hr>
-                            <div class="mb-3 d-flex justify-content-center mt-1" wire:ignore>
-                                <img id="showCategoryImg" class="img-thumbnail rounded">
+                            <div class="mb-3 d-flex justify-content-center mt-1">
+                                <img id="showCategoryImg" class="img-thumbnail rounded" src="{{$imgFlag ? $tempImg : app('fixedimage_640x360')}}">
                             </div>
                         </div>
                     </div>
@@ -142,7 +142,7 @@
                            
                         <hr>
                             <div class="mb-3 d-flex justify-content-center mt-1">
-                                <img id="showEditCategoryImg" class="img-thumbnail rounded" src="{{app('cloudfront').$fl}}">
+                                <img id="showEditCategoryImg" class="img-thumbnail rounded" src="{{ $tempImg ? $tempImg : app('cloudfront').$imgReader}}">
                             </div>
                         </div>
                     </div>
@@ -256,7 +256,7 @@
             $('.crop-btn').off('click').on('click', function () {
                 var canvas = cropper.getCroppedCanvas({
                     width: 640,
-                    height: 350
+                    height: 360
                 });
     
                 canvas.toBlob(function (blob) {
@@ -268,11 +268,12 @@
                     reader.onloadend = function () {
                         var base64data = reader.result;
                         modal.hide();
-                        $('#showCategoryImg').attr('src', base64data);
+                        // $('#showCategoryImg').attr('src', base64data);
                         Livewire.emit('updateCroppedCategoryImg', base64data); // Emit Livewire event
 
                         if (cropper) {
                             cropper.destroy();
+                            document.getElementById('categoryImg').value = null;
                         }
                     };
                     reader.readAsDataURL(blob);
@@ -327,7 +328,7 @@
             $('.crop-btn').off('click').on('click', function () {
                 var canvas = cropper.getCroppedCanvas({
                     width: 640,
-                    height: 350
+                    height: 360
                 });
     
                 canvas.toBlob(function (blob) {
@@ -339,16 +340,17 @@
                     reader.onloadend = function () {
                         var base64data = reader.result;
                         modal.hide();
-                        $('#showEditCategoryImg').attr('src', base64data);
+                        // $('#showEditCategoryImg').attr('src', base64data);
                         Livewire.emit('updateCroppedCategoryImg', base64data); // Emit Livewire event
 
                         if (cropper) {
                             cropper.destroy();
+                            document.getElementById('editCategoryImg').value = null;
                         }
                     };
                     reader.readAsDataURL(blob);
     
-                    var file = new File([blob], 'met_about.jpg', { type: 'image/jpeg' });
+                    var file = new File([blob], 'met.jpg', { type: 'image/jpeg' });
                     var fileInput = document.getElementById('editCroppedCategoryImg');
                     var dataTransfer = new DataTransfer();
                     dataTransfer.items.add(file);

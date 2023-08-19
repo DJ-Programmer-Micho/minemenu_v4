@@ -50,6 +50,7 @@
                                     <option value="{{$menu->translation->cat_id}}">{{$menu->translation->name}}</option>
                                     @endforeach
                                 </select>
+                                <small class="text-info">{{__('Select The Group')}}</small>
                                 @error('cat_id') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -60,6 +61,7 @@
                                     <option value="">Choose Status</option>
                                     <option value="1">{{__('Active')}}</option>
                                     <option value="0">{{__('Non Active')}}</option>
+                                    <small class="tetx-info">{{__('Show or Hide')}}</small>
                                 </select>
                                 @error('status') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
@@ -69,6 +71,7 @@
                             <div class="mb-3">
                                 <label>{{__('Priority')}}</label>
                                 <input type="number" wire:model="priority" class="form-control">
+                                <small class="text-info">{{__('The less The Higher Priority')}}</small>
                                 @error('Priority') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -124,11 +127,13 @@
                                     <label>Option Description</label>
                                     <input type="text" wire:model="options.{{ $locale }}.{{ $index }}.key"
                                         class="form-control">
+                                        <small class="text-info">{{__('exp:(Small, Medium and Large)')}}</small>
                                 </div>
                                 <div class="form-group col-12 col-md-6 col-lg-5">
                                     <label>Price</label>
-                                    <input type="text" wire:model="options.{{ $locale }}.{{ $index }}.value"
+                                    <input type="number" wire:model="options.{{ $locale }}.{{ $index }}.value"
                                         class="form-control">
+                                        <small class="text-info">{{__('(Original Price)')}}</small>
                                 </div>
                                 <div class="col-12 col-lg-2">
                                     <label class="d-lg-block d-none">Remove</label>
@@ -154,12 +159,14 @@
                             <div class="mb-3">
                                 <label for="price">Price</label>
                                 <input type="number" wire:model="price" class="form-control" id="price">
+                                <small class="text-info">{{__('(Original Price)')}}</small>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="mb-3">
                                 <label for="oldPrice">Old Price</label>
                                 <input type="number" wire:model="oldPrice" class="form-control" id="oldPrice">
+                                <small class="text-info">{{__('(Discount Price)')}}</small>
                             </div>
                         </div>
                         @endif
@@ -175,12 +182,13 @@
                         <div class="col-12 col-sm-6">
                             <label for="img">Upload Image</label>
                             <input type="file" name="foodImg" id="foodImg" class="form-control" style="height: auto">
+                            <small class="text-info">The Image Size Should be <b>(640px X 360px)</b> or <b>(1280px X 720px)</b></small>
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                             <input type="file" name="croppedFoodImg" id="croppedFoodImg" style="display: none;">
                         </div>
                         <div class="col-12 col-sm-6">
-                            <div class="mb-3 d-flex justify-content-center mt-1" wire:ignore>
-                                <img id="showFoodImg" class="img-thumbnail rounded">
+                            <div class="mb-3 d-flex justify-content-center mt-1">
+                                <img id="showFoodImg" class="img-thumbnail rounded" src="{{$imgFlag ? $tempImg : app('fixedimage_640x360')}}">
                             </div>
                         </div>
                     </div>
@@ -223,6 +231,7 @@
                                     <option value="{{$menu->translation->cat_id}}">{{$menu->translation->name}}</option>
                                     @endforeach
                                 </select>
+                                <small class="text-info">{{__('Select The Group')}}</small>
                                 @error('cat_id') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -234,6 +243,7 @@
                                     <option value="1">{{__('Active')}}</option>
                                     <option value="0">{{__('Non Active')}}</option>
                                 </select>
+                                <small class="text-info">{{__('Show or Hide')}}</small>
                                 @error('status') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
 
@@ -242,6 +252,7 @@
                             <div class="mb-3">
                                 <label>{{__('Priority')}}</label>
                                 <input type="number" wire:model="priority" class="form-control">
+                                <small class="text-info">{{__('The less The Higher')}}</small>
                                 @error('Priority') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -297,11 +308,13 @@
                                     <label>Option Description</label>
                                     <input type="text" wire:model="options.{{ $locale }}.{{ $index }}.key"
                                         class="form-control">
+                                        <small class="text-info">{{__('exp:(Small, Medium and Large)')}}</small>
                                 </div>
                                 <div class="form-group col-12 col-md-6 col-lg-5">
                                     <label>Price</label>
                                     <input type="text" wire:model="options.{{ $locale }}.{{ $index }}.value"
                                         class="form-control">
+                                        <small class="text-info">{{__('(Original Price)')}}</small>
                                 </div>
                                 <div class="col-12 col-lg-2">
                                     <label class="d-lg-block d-none">Remove</label>
@@ -327,12 +340,14 @@
                             <div class="mb-3">
                                 <label for="price">Price</label>
                                 <input type="number" wire:model="price" class="form-control" id="price">
+                                <small class="text-info">{{__('(Original Price)')}}</small>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="mb-3">
                                 <label for="oldPrice">Old Price</label>
                                 <input type="number" wire:model="oldPrice" class="form-control" id="oldPrice">
+                                <small class="text-info">{{__('(Discount Price)')}}</small>
                             </div>
                         </div>
                         @endif
@@ -347,12 +362,12 @@
                         </div>
                         <div class="col-12 col-sm-6">
                             <label for="img">Upload Image</label>
-                            <input type="file" name="editCategoryImg" id="editCategoryImg" class="form-control" style="height: auto">
+                            <input type="file" name="editFoodImg" id="editFoodImg" class="form-control" style="height: auto">
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="mb-3 d-flex justify-content-center mt-1">
-                                <img id="showEditCategoryImg" class="img-thumbnail rounded" src="{{app('cloudfront').$fl}}">
+                                <img id="showEditFoodImg" class="img-thumbnail rounded" src="{{ $tempImg ? $tempImg : app('cloudfront').$imgReader}}">
                             </div>
                         </div>
                     </div>
@@ -466,7 +481,7 @@
             $('.crop-btn').off('click').on('click', function () {
                 var canvas = cropper.getCroppedCanvas({
                     width: 640,
-                    height: 350
+                    height: 360
                 });
     
                 canvas.toBlob(function (blob) {
@@ -478,11 +493,12 @@
                     reader.onloadend = function () {
                         var base64data = reader.result;
                         modal.hide();
-                        $('#showFoodImg').attr('src', base64data);
+                        // $('#showFoodImg').attr('src', base64data);
                         Livewire.emit('updateCroppedFoodImg', base64data); // Emit Livewire event
 
                         if (cropper) {
                             cropper.destroy();
+                            document.getElementById('foodImg').value = null;
                         }
                     };
                     reader.readAsDataURL(blob);
@@ -537,7 +553,7 @@
             $('.crop-btn').off('click').on('click', function () {
                 var canvas = cropper.getCroppedCanvas({
                     width: 640,
-                    height: 350
+                    height: 360
                 });
     
                 canvas.toBlob(function (blob) {
@@ -549,16 +565,17 @@
                     reader.onloadend = function () {
                         var base64data = reader.result;
                         modal.hide();
-                        $('#showEditFoodImg').attr('src', base64data);
+                        // $('#showEditFoodImg').attr('src', base64data);
                         Livewire.emit('updateCroppedFoodImg', base64data); // Emit Livewire event
 
                         if (cropper) {
                             cropper.destroy();
+                            document.getElementById('editFoodImg').value = null;
                         }
                     };
                     reader.readAsDataURL(blob);
     
-                    var file = new File([blob], 'met_about.jpg', { type: 'image/jpeg' });
+                    var file = new File([blob], 'met.jpg', { type: 'image/jpeg' });
                     var fileInput = document.getElementById('editCroppedFoodImg');
                     var dataTransfer = new DataTransfer();
                     dataTransfer.items.add(file);
