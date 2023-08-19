@@ -18,9 +18,10 @@ return new class extends Migration
             $table->string('img')->nullable();
             $table->integer('price')->nullable();
             $table->integer('old_price')->nullable();
-            $table->integer('status')->default(1);
+            $table->integer('sorm')->default(0);
             $table->integer('priority')->default(0);
             $table->json('options')->nullable();
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

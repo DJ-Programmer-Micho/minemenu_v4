@@ -11,64 +11,160 @@
     .overlay { position: absolute; bottom: 10px; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5); overflow: hidden; height: 0; transition: .5s ease; width: 100%;}
     .image_area:hover .overlay { height: 50%; cursor: pointer; }
     .text { color: #333; font-size: 20px; position: absolute; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%); text-align: center;}
+    .switch input { display:none; }
+    .switch { display:inline-block; width:60px; height:20px; margin:8px; position:relative; }
+    .slider { position:absolute; top:0; bottom:0; left:0; right:0; border-radius:30px; box-shadow:0 0 0 2px #cc0022, 0 0 4px #cc0022; cursor:pointer; border:4px solid transparent; overflow:hidden; transition:.4s; }
+    .slider:before { position:absolute; content:""; width:100%; height:100%; background:#cc0022; border-radius:30px; transform:translateX(-30px); transition:.4s; }
+    input:checked + .slider:before { transform:translateX(30px); background:limeGreen; }
+    input:checked + .slider { box-shadow:0 0 0 2px limeGreen,0 0 2px limeGreen; }
 </style>
-
 
 <div>
 
 <!-- Insert Modal -->
-<div wire:ignore.self class="modal fade" id="createFood" tabindex="-1" aria-labelledby="createFoodLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl  text-white">
+<div wire:ignore.self class="modal fade overflow-auto" id="createFood" tabindex="-1" aria-labelledby="createFoodLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl text-white mx-1 mx-lg-auto" style="max-width: 1140px;">
         <div class="modal-content bg-dark">
-            {{--  --}}
             <form wire:submit.prevent="saveFood">
                 <div class="modal-body">
                     <div class="modal-header">
                         <h5 class="modal-title" id="createFoodLabel">{{__('Add Menu')}}</h5>
-                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" wire:click="closeModal">
-                        <span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"
+                            wire:click="closeModal">
+                            <span aria-hidden="true">&times;</span></button>
                     </div>
                     <h3>{{__('Food')}}</h3>
                     <hr class="bg-white">
                     <div class="row">
-                        <div class="mb-3">
-                            <label>{{ __('Select Menu') }}</label>
-                            <select wire:model="cat_id" name="cat_id" id="" class="form-control">
-                                <option value="">Select Menu</option>
-                                @foreach ($menu_select as $menu)
+                        <div class="col-12 col-sm-4">
+                            <div class="mb-3">
+                                <label>{{ __('Select Menu') }}</label>
+                                <select wire:model="cat_id" name="cat_id" id="" class="form-control">
+                                    <option value="">Select Menu</option>
+                                    @foreach ($menu_select as $menu)
                                     <option value="{{$menu->translation->cat_id}}">{{$menu->translation->name}}</option>
-                                @endforeach
-                            </select>
-                            @error('cat_id') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="row col-12">
-                            @foreach ($filteredLocales as $locale)
-                        <div class="col-12 col-sm-6 border">
-                            <div class="mb-3">
-                                <label>{{ strtoupper($locale) }}</label>
-                                <input type="text" wire:model="names.{{$locale}}" class="form-control" style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}">
-                                @error('names.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label>Desctip{{ strtoupper($locale) }}</label>
-                                <textarea wire:model="description.{{$locale}}" class="form-control" style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}"></textarea>
-                                @error('description.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
+                                    @endforeach
+                                </select>
+                                @error('cat_id') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
-                            @endforeach
+                        <div class="col-12 col-sm-4">
                             <div class="mb-3">
                                 <label>{{__('Status')}}</label>
                                 <select wire:model="status" name="status" id="" class="form-control">
                                     <option value="">Choose Status</option>
-                                        <option value="1">{{__('Active')}}</option>
-                                        <option value="0">{{__('Non Active')}}</option>
+                                    <option value="1">{{__('Active')}}</option>
+                                    <option value="0">{{__('Non Active')}}</option>
                                 </select>
                                 @error('status') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>           
+                            </div>
+
+                        </div>
+                        <div class="col-12 col-sm-4">
                             <div class="mb-3">
                                 <label>{{__('Priority')}}</label>
                                 <input type="number" wire:model="priority" class="form-control">
                                 @error('Priority') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justidy-content-between mb-4 col-12">
+                            <h2 class="text-lg font-medium mr-auto">
+                                <b class="text-uppercase text-white">{{__('Title & Description')}}</b>
+                            </h2>
+                            <div class="">
+                            </div>
+                        </div>
+                        @foreach ($filteredLocales as $locale)
+                        <div class="col-12 col-sm-6 border">
+                            <div class="mb-3">
+                                <label>{{ strtoupper($locale) }}</label>
+                                <input type="text" wire:model="names.{{$locale}}" class="form-control"
+                                    style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}">
+                                @error('names.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label>Desctip{{ strtoupper($locale) }}</label>
+                                <textarea wire:model="description.{{$locale}}" class="form-control"
+                                    style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}"></textarea>
+                                @error('description.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-center align-items-center">
+                            Single Price
+                            <label class="switch"> <input type="checkbox" wire:model="showTextarea"
+                                    id="customSwitch1"><span class="slider"></span></label>
+                            Multi Price
+                        </div>
+                        @if ($showTextarea)
+                        <div class="d-flex justidy-content-between mb-4 col-12">
+                            <h2 class="text-lg font-medium mr-auto">
+                                <b class="text-uppercase text-white">{{__('Multiple Prices')}}</b>
+                            </h2>
+                            <div class="">
+                                <button type="button" class="btn btn-primary" wire:click="addOption">Add New Option</button>
+                            </div>
+                        </div>
+                        @foreach ($filteredLocales as $locale)
+                        <div class="col-12 col-sm-6 border">
+                            <h3>{{ strtoupper($locale) }}</h3>
+                            @foreach ($options[$locale] as $index => $option)
+                            <h6>{{__('Opntion No.')}} {{$index+1}}</h6>
+                            <div class="row align-items-bottom">
+                                <div class="form-group col-12 col-md-6 col-lg-5">
+                                    <label>Option Description</label>
+                                    <input type="text" wire:model="options.{{ $locale }}.{{ $index }}.key"
+                                        class="form-control">
+                                </div>
+                                <div class="form-group col-12 col-md-6 col-lg-5">
+                                    <label>Price</label>
+                                    <input type="text" wire:model="options.{{ $locale }}.{{ $index }}.value"
+                                        class="form-control">
+                                </div>
+                                <div class="col-12 col-lg-2">
+                                    <label class="d-lg-block d-none">Remove</label>
+                                    <button class="btn btn-danger "
+                                        wire:click="removeOption('{{ $locale }}', {{ $index }})"><i
+                                            class="fas fa-minus-square"></i></button>
+                                </div>
+                            </div>
+                            <hr>
+                            @endforeach
+                        </div>
+                        @endforeach
+
+                        @else
+                        <div class="d-flex justidy-content-between mb-4 col-12">
+                            <h2 class="text-lg font-medium mr-auto">
+                                <b class="text-uppercase text-white">{{__('Single Price')}}</b>
+                            </h2>
+                            <div class="">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="mb-3">
+                                <label for="price">Price</label>
+                                <input type="number" wire:model="price" class="form-control" id="price">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="mb-3">
+                                <label for="oldPrice">Old Price</label>
+                                <input type="number" wire:model="oldPrice" class="form-control" id="oldPrice">
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justidy-content-between mb-4 col-12">
+                            <h2 class="text-lg font-medium mr-auto">
+                                <b class="text-uppercase text-white">{{__('Upload Food Image')}}</b>
+                            </h2>
+                            <div class="">
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
@@ -76,8 +172,8 @@
                             <input type="file" name="foodImg" id="foodImg" class="form-control" style="height: auto">
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                             <input type="file" name="croppedFoodImg" id="croppedFoodImg" style="display: none;">
-                           
-                        <hr>
+
+                            <hr>
                             <div class="mb-3 d-flex justify-content-center mt-1" wire:ignore>
                                 <img id="showFoodImg" class="img-thumbnail rounded">
                             </div>
@@ -108,48 +204,146 @@
                     <h3>{{__('Food')}}</h3>
                     <hr class="bg-white">
                     <div class="row">
-                        <div class="col-12 col-sm-6">
+                        <div class="col-12 col-sm-4">
                             <div class="mb-3">
                                 <label>{{ __('Select Menu') }}</label>
                                 <select wire:model="cat_id" name="cat_id" id="" class="form-control">
                                     <option value="">Select Menu</option>
                                     @foreach ($menu_select as $menu)
-                                        <option value="{{$menu->translation->cat_id}}">{{$menu->translation->name}}</option>
+                                    <option value="{{$menu->translation->cat_id}}">{{$menu->translation->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('cat_id') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
-                            @foreach ($filteredLocales as $locale)
-                            <div class="mb-3">
-                                <label>{{ strtoupper($locale) }}</label>
-                                <input type="text" wire:model="names.{{$locale}}" class="form-control" style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}">
-                                @error('names.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>
-                            @endforeach
+                        </div>
+                        <div class="col-12 col-sm-4">
                             <div class="mb-3">
                                 <label>{{__('Status')}}</label>
                                 <select wire:model="status" name="status" id="" class="form-control">
                                     <option value="">Choose Status</option>
-                                        <option value="1">{{__('Active')}}</option>
-                                        <option value="0">{{__('Non Active')}}</option>
+                                    <option value="1">{{__('Active')}}</option>
+                                    <option value="0">{{__('Non Active')}}</option>
                                 </select>
                                 @error('status') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>           
+                            </div>
+
+                        </div>
+                        <div class="col-12 col-sm-4">
                             <div class="mb-3">
                                 <label>{{__('Priority')}}</label>
                                 <input type="number" wire:model="priority" class="form-control">
                                 @error('Priority') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justidy-content-between mb-4 col-12">
+                            <h2 class="text-lg font-medium mr-auto">
+                                <b class="text-uppercase text-white">{{__('Title & Description')}}</b>
+                            </h2>
+                            <div class="">
+                            </div>
+                        </div>
+                        @foreach ($filteredLocales as $locale)
+                        <div class="col-12 col-sm-6 border">
+                            <div class="mb-3">
+                                <label>{{ strtoupper($locale) }}</label>
+                                <input type="text" wire:model="names.{{$locale}}" class="form-control"
+                                    style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}">
+                                @error('names.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label>Desctip{{ strtoupper($locale) }}</label>
+                                <textarea wire:model="description.{{$locale}}" class="form-control"
+                                    style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}"></textarea>
+                                @error('description.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-center align-items-center">
+                            Single Price
+                            <label class="switch"> <input type="checkbox" wire:model="showTextarea"
+                                    id="customSwitch1"><span class="slider"></span></label>
+                            Multi Price
+                        </div>
+                        @if ($showTextarea)
+                        <div class="d-flex justidy-content-between mb-4 col-12">
+                            <h2 class="text-lg font-medium mr-auto">
+                                <b class="text-uppercase text-white">{{__('Multiple Prices')}}</b>
+                            </h2>
+                            <div class="">
+                                <button type="button" class="btn btn-primary" wire:click="addOption">Add New Option</button>
+                            </div>
+                        </div>
+                        @foreach ($filteredLocales as $locale)
+                        <div class="col-12 col-sm-6 border">
+                            <h3>{{ strtoupper($locale) }}</h3>
+                            @foreach ($options[$locale] as $index => $option)
+                            <h6>{{__('Opntion No.')}} {{$index+1}}</h6>
+                            <div class="row align-items-bottom">
+                                <div class="form-group col-12 col-md-6 col-lg-5">
+                                    <label>Option Description</label>
+                                    <input type="text" wire:model="options.{{ $locale }}.{{ $index }}.key"
+                                        class="form-control">
+                                </div>
+                                <div class="form-group col-12 col-md-6 col-lg-5">
+                                    <label>Price</label>
+                                    <input type="text" wire:model="options.{{ $locale }}.{{ $index }}.value"
+                                        class="form-control">
+                                </div>
+                                <div class="col-12 col-lg-2">
+                                    <label class="d-lg-block d-none">Remove</label>
+                                    <button class="btn btn-danger "
+                                        wire:click="removeOption('{{ $locale }}', {{ $index }})"><i
+                                            class="fas fa-minus-square"></i></button>
+                                </div>
+                            </div>
+                            <hr>
+                            @endforeach
+                        </div>
+                        @endforeach
+
+                        @else
+                        <div class="d-flex justidy-content-between mb-4 col-12">
+                            <h2 class="text-lg font-medium mr-auto">
+                                <b class="text-uppercase text-white">{{__('Single Price')}}</b>
+                            </h2>
+                            <div class="">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="mb-3">
+                                <label for="price">Price</label>
+                                <input type="number" wire:model="price" class="form-control" id="price">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="mb-3">
+                                <label for="oldPrice">Old Price</label>
+                                <input type="number" wire:model="oldPrice" class="form-control" id="oldPrice">
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justidy-content-between mb-4 col-12">
+                            <h2 class="text-lg font-medium mr-auto">
+                                <b class="text-uppercase text-white">{{__('Upload Food Image')}}</b>
+                            </h2>
+                            <div class="">
+                            </div>
+                        </div>
                         <div class="col-12 col-sm-6">
                             <label for="img">Upload Image</label>
-                            <input type="file" name="editFoodImg" id="editFoodImg" class="form-control" style="height: auto">
+                            <input type="file" name="editCategoryImg" id="editCategoryImg" class="form-control" style="height: auto">
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
-                            <input type="file" name="editCroppedFoodImg" id="editCroppedFoodImg" style="display: none;">
+                            <input type="file" name="editCroppedCategoryImg" id="editCroppedCategoryImg" style="display: none;">
                            
                         <hr>
                             <div class="mb-3 d-flex justify-content-center mt-1">
-                                <img id="showEditFoodImg" class="img-thumbnail rounded" src="{{app('cloudfront').$fl}}">
+                                <img id="showEditCategoryImg" class="img-thumbnail rounded" src="{{app('cloudfront').$fl}}">
                             </div>
                         </div>
                     </div>
@@ -193,7 +387,7 @@
 </div>
 
 {{-- IMAGE CROP MODAL --}}
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade" id="modal" tabindex="-2" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg text-white" role="document">
         <div class="modal-content bg-dark">
             <div class="modal-header">
@@ -365,6 +559,33 @@
                 }, 'image/jpeg');
             });
         }
+    });
+</script>
+{{-- Toggle --}}
+<script>
+    document.addEventListener('livewire:load', function () {
+        Livewire.on('toggleTextarea', () => {
+            // Toggle the switch and the input/textarea
+            let customSwitch1 = document.getElementById('customSwitch1');
+            let textarea = document.querySelector('[wire:model="options"]');
+            let priceInputs = document.querySelectorAll('[wire:model="price"], [wire:model="oldPrice"]');
+
+            if (customSwitch1.checked) {
+                textarea.style.display = 'block';
+                priceInputs.forEach(input => input.style.display = 'none');
+            } else {
+                textarea.style.display = 'none';
+                priceInputs.forEach(input => input.style.display = 'block');
+            }
+        });
+    });
+</script>
+{{-- Delete Puoposes --}}
+<script>
+    document.addEventListener('livewire:load', function () {
+        Livewire.on('fixx', () => {
+            window.location.reload(); 
+        });
     });
 </script>
 @endpush

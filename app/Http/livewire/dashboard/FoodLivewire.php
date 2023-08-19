@@ -30,6 +30,7 @@ class FoodLivewire extends Component
     public $search = '';
     public $categorieFilter = '';
     public $statusFilter = '';
+    public $optionFilter = '';
     public $filteredLocales;
     //Form Data
     public $objectName;
@@ -39,6 +40,9 @@ class FoodLivewire extends Component
     public $description = [];
     public $status;
     public $priority;
+    public $showTextarea = false;
+    public $price = '';
+    public $oldPrice = '';
 
     protected $listeners = ['updateCroppedFoodImg' => 'handleCroppedImage'];
 
@@ -46,8 +50,30 @@ class FoodLivewire extends Component
     {
         $this->glang = app('glang');
         $this->filteredLocales = app('userlanguage');
+        $this->initializeOptions();
+    }
+    public function initializeOptions()
+    {
+        foreach ($this->filteredLocales as $locale) {
+            $this->options[$locale] = [];
+            for ($i = 0; $i < 3; $i++) {
+                $this->options[$locale][] = ['key' => '', 'value' => ''];
+            }
+        }
+    }
+    public $options = [];
+    public function addOption()
+    {
+        foreach ($this->filteredLocales as $locale) {
+            $this->options[$locale][] = ['key' => '', 'value' => ''];
+        }
     }
 
+    public function removeOption($locale, $index)
+    {
+        unset($this->options[$locale][$index]);
+        $this->options[$locale] = array_values($this->options[$locale]);
+    }
     protected function rules()
     {
         $rules = [];
@@ -85,14 +111,21 @@ class FoodLivewire extends Component
     {
         $validatedData = $this->validate();
 
+        $sorm = $this->showTextarea ? 1 : 0;
+        $optionsData = $this->showTextarea == false ? null : json_encode($this->options);
+
         $menu = Food::create([
             'user_id' => auth()->id(),
             'cat_id' => $validatedData['cat_id'],
             'priority' => $validatedData['priority'],
+            'price' => $this->price ? $this->price : null,
+            'old_price' => $this->oldPrice ? $this->oldPrice : null,
+            'options' =>  $optionsData,
+            'sorm' => $sorm,
             'status' => $validatedData['status'],
             'img' => $this->objectName,
         ]);
-    
+
         foreach ($this->filteredLocales as $locale) {
             Food_Translator::create([
                 'food_id' => $menu->id,
@@ -125,8 +158,12 @@ class FoodLivewire extends Component
                 $this->lang = $locale;
             }
             $this->cat_id = $menu_edit->cat_id;
-            $this->status = $menu_edit->status;
+            $this->oldPrice = $menu_edit->old_price ? $menu_edit->old_price : null;
+            $this->price = $menu_edit->price ? $menu_edit->price : null;
+            $this->options = json_decode($menu_edit->options, true);
+            $this->showTextarea = $menu_edit->sorm == 0 ? false : true ;
             $this->priority = $menu_edit->priority;
+            $this->status = $menu_edit->status;
             $this->imgReader = $menu_edit->img;
         } else {
             return redirect()->to('/rest');
@@ -138,7 +175,7 @@ class FoodLivewire extends Component
     {
         $this->objectName = $this->imgReader;
         $validatedData = $this->validate();
-        // Update the Categories record
+        // Update the Food record
         Food::where('id', $this->food_update->id)->update([
             'cat_id' => $validatedData['cat_id'],
             'priority' => $validatedData['priority'],
@@ -146,7 +183,7 @@ class FoodLivewire extends Component
             'img' => $this->imgReader,
         ]);
     
-        // Create or update the Categories_Translator records
+        // Create or update the Foods_Translator records
         $menu = Food::find($this->food_update->id);
         foreach ($this->filteredLocales as $locale) {
             Food_Translator::updateOrCreate(
@@ -193,6 +230,7 @@ class FoodLivewire extends Component
             $this->dispatchBrowserEvent('close-modal');
             $this->resetInput();
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Food Deleted Successfully')]);
+            $this->dispatchBrowserEvent('fixx');
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Operaiton Faild')]);
         }
@@ -219,20 +257,49 @@ class FoodLivewire extends Component
         $this->confirmDelete = false;
     }
  
+
+
+    public function resetFilter(){
+        $this->search = '';
+        $this->categorieFilter = '';
+        $this->statusFilter = '';
+        $this->optionFilter = '';
+    }
+
+    public function updatePriority(int $p_id, $updatedPriority){
+        $varr = Food::find($p_id);
+        if ($varr) {
+            $varr->priority = $updatedPriority;
+            $varr->save();
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Priority Updated Successfully')]);
+        } else {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Priority Did Not Update')]);
+        }
+    }
+
+
+    // ... Other component logic ...
+
+    public function toggleTextarea()
+    {
+        $this->showTextarea = !$this->showTextarea;
+        $this->emit('toggleTextarea');
+    }
+
     public function render()
     {
-        // START GET THE MENU NAMES
+        // START GET THE Category NAMES
         $this->menu_select = Categories::with(['translation' => function ($query) {
             $query->where('lang', $this->glang);
         }])
         ->where('user_id', Auth::id())
         ->orderBy('id', 'DESC')
         ->get();
-        // END GET THE MENU NAMES
+        // END GET THE Category NAMES
 
         $colspan = 5;
-        $cols_th = ['#','Menu','Name','Image','Status','Priority','Actions'];
-        $cols_td = ['id','category.translation.name', 'translation.name','img','status','priority'];
+        $cols_th = ['#','Menu','Name','Price','Old Price','Multi','Image','Status','Priority','Actions'];
+        $cols_td = ['id','category.translation.name', 'translation.name','price','old_price','sorm','img','status','priority'];
 
         $data = Food::with(['category', 'translation', 'category.translation' => function ($query) {
             $query->where('lang', $this->glang);
@@ -254,6 +321,11 @@ class FoodLivewire extends Component
                     $query->where('status', $this->statusFilter);
                 });
             })->orderBy('priority', 'ASC')
+            ->when($this->optionFilter !== '', function ($query) {
+                $query->whereHas('translation', function ($query) {
+                    $query->where('sorm', $this->optionFilter);
+                });
+            })
             ->paginate(10);
 
         return view('dashboard.livewire.food-table', 
@@ -265,23 +337,6 @@ class FoodLivewire extends Component
             'menu_select' => $this->menu_select,
             //asdsad
             'fl' => $this->imgReader
-        ])->with('alert', ['type' => 'info',  'message' => __('Menu Table Loaded')]);
-    }
-
-    public function resetFilter(){
-        $this->search = '';
-        $this->categorieFilter = '';
-        $this->statusFilter = '';
-    }
-
-    public function updatePriority(int $p_id, $updatedPriority){
-        $varr = Food::find($p_id);
-        if ($varr) {
-            $varr->priority = $updatedPriority;
-            $varr->save();
-            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Priority Updated Successfully')]);
-        } else {
-            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Priority Did Not Update')]);
-        }
+        ])->with('alert', ['type' => 'info', 'message' => __('Menu Table Loaded')]);
     }
 }

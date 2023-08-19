@@ -12,7 +12,7 @@
         </div>
         <div class="row m-0 p-0">
             
-                <h6 class="\ font-medium col-12 col-lg-3">
+                <h6 class="\ font-medium col-12 col-lg-2">
                     <label class="text-white">{{__('Menu Select')}}</label>
                     <select wire:model="categorieFilter" class="form-control bg-white text-black w-100">
                         <option value="" default>All</option>
@@ -22,13 +22,22 @@
                     </select>
                 </h6>
 
-                <h6 class=" font-medium col-12 col-lg-3">
+                <h6 class=" font-medium col-12 col-lg-2">
                     <label class="text-white">{{__('Food Search')}}</label>
                     <input type="search" wire:model="search" class="form-control bg-white text-black w-100"
                         placeholder="Search..." style="width: 250px; border: 1px solid var(--primary)" />
                 </h6>
 
-                <h6 class=" font-medium col-12 col-lg-3">
+                <h6 class=" font-medium col-12 col-lg-2">
+                    <label class="text-white">{{__('Options Select')}}</label>
+                    <select wire:model="optionFilter" class="form-control bg-white text-black w-100">
+                        <option value="" default>All</option>
+                        <option value="0">Single</option>
+                        <option value="1">Multi</option>
+                    </select>
+                </h6>
+
+                <h6 class=" font-medium col-12 col-lg-2">
                     <label class="text-white">{{__('Status Select')}}</label>
                     <select wire:model="statusFilter" class="form-control bg-white text-black w-100">
                         <option value="" default>All</option>
@@ -37,7 +46,7 @@
                     </select>
                 </h6>
            
-                <h6 class=" font-medium col-12 col-lg-3">
+                <h6 class=" font-medium col-12 col-lg-2">
                     <label class="text-white">{{__('Reset Filter')}}</label>
                     <button class="btn btn-dark form-control py-0" wire:click="resetFilter()">Reset</button>
                 </h6>
@@ -68,6 +77,10 @@
                             @elseif ($col === 'status')
                                 <span class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
                                    <b>{{ $item->status == 1 ? __('Active') : __('Non-Active') }}</b>
+                                </span>
+                            @elseif ($col === 'sorm')
+                                <span class="{{ $item->sorm == 1 ? 'text-info' : 'text-warning' }}">
+                                   <b>{{ $item->sorm == 1 ? __('Multi Option') : __('Single') }}</b>
                                 </span>
                             @elseif ($col === 'img') <!-- Add this condition -->
                                 <img src="{{ app('cloudfront').$item->img }}" alt="{{ $item->translation->name }}" width="150">
