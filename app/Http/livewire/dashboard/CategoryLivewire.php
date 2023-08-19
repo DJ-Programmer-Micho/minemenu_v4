@@ -162,7 +162,7 @@ class CategoryLivewire extends Component
         }
         $this->dispatchBrowserEvent('close-modal');
         $this->resetInput();
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Menu Updated Successfully')]);
+        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Updated Successfully')]);
     }
 
     public function updateStatus(int $category_id)
@@ -171,7 +171,7 @@ class CategoryLivewire extends Component
         // Toggle the status (0 to 1 and 1 to 0)
         $menuState->status = $menuState->status == 0 ? 1 : 0;
         $menuState->save();
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Menu Status Updated Successfully')]);
+        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Status Updated Successfully')]);
     }
      
     public $confirmDelete = false;
@@ -193,9 +193,10 @@ class CategoryLivewire extends Component
             Storage::disk('s3')->delete($this->category_selected_id_delete->img);
             $this->dispatchBrowserEvent('close-modal');
             $this->resetInput();
+            $this->dispatchBrowserEvent('fixx');
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Deleted Successfully')]);
         } else {
-            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Operaiton Faild')]);
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Operaiton Faild del-303')]);
         }
     }
  
@@ -266,7 +267,7 @@ class CategoryLivewire extends Component
             'menu_select' => $this->menu_select,
             //asdsad
             'fl' => $this->imgReader
-        ])->with('alert', ['type' => 'info',  'message' => __('Menu Table Loaded')]);
+        ])->with('alert', ['type' => 'info',  'message' => __('Category Table Loaded')]);
     }
 
     public function resetFilter(){

@@ -28,14 +28,19 @@
             <form wire:submit.prevent="saveFood">
                 <div class="modal-body">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="createFoodLabel">{{__('Add Menu')}}</h5>
+                        <h5 class="modal-title" id="createFoodLabel">{{__('Add Food')}}</h5>
                         <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"
                             wire:click="closeModal">
                             <span aria-hidden="true">&times;</span></button>
                     </div>
-                    <h3>{{__('Food')}}</h3>
-                    <hr class="bg-white">
-                    <div class="row">
+                    <div class="row mt-3">
+                        <div class="d-flex justidy-content-between mb-4 col-12">
+                            <h2 class="text-lg font-medium mr-auto">
+                                <b class="text-uppercase text-white">{{__('Utilities')}}</b>
+                            </h2>
+                            <div class="">
+                            </div>
+                        </div>
                         <div class="col-12 col-sm-4">
                             <div class="mb-3">
                                 <label>{{ __('Select Menu') }}</label>
@@ -68,7 +73,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-5">
                         <div class="d-flex justidy-content-between mb-4 col-12">
                             <h2 class="text-lg font-medium mr-auto">
                                 <b class="text-uppercase text-white">{{__('Title & Description')}}</b>
@@ -93,7 +98,7 @@
                         </div>
                         @endforeach
                     </div>
-                    <div class="row">
+                    <div class="row mt-5">
                         <div class="col-12 d-flex justify-content-center align-items-center">
                             Single Price
                             <label class="switch"> <input type="checkbox" wire:model="showTextarea"
@@ -159,7 +164,7 @@
                         </div>
                         @endif
                     </div>
-                    <div class="row">
+                    <div class="row mt-5">
                         <div class="d-flex justidy-content-between mb-4 col-12">
                             <h2 class="text-lg font-medium mr-auto">
                                 <b class="text-uppercase text-white">{{__('Upload Food Image')}}</b>
@@ -172,8 +177,8 @@
                             <input type="file" name="foodImg" id="foodImg" class="form-control" style="height: auto">
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                             <input type="file" name="croppedFoodImg" id="croppedFoodImg" style="display: none;">
-
-                            <hr>
+                        </div>
+                        <div class="col-12 col-sm-6">
                             <div class="mb-3 d-flex justify-content-center mt-1" wire:ignore>
                                 <img id="showFoodImg" class="img-thumbnail rounded">
                             </div>

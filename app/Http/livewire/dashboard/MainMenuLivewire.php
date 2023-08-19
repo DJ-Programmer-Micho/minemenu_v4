@@ -64,7 +64,7 @@ class MainMenuLivewire extends Component
                 'lang' => $locale,
             ]);
         }
-        session()->flash('message','Menu Added Successfully');
+        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Menu Added Successfully')]);
         $this->resetInput();
         $this->dispatchBrowserEvent('close-modal');
     }
@@ -134,7 +134,7 @@ class MainMenuLivewire extends Component
         $menuState->status = $menuState->status == 0 ? 1 : 0;
     
         $menuState->save();
-        session()->flash('message', 'User Status Updated Successfully');
+        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Menu Status Updated Successfully')]);
     }
      
     public function deleteStudent(int $menu_selected_id)
@@ -144,9 +144,14 @@ class MainMenuLivewire extends Component
  
     public function destroyStudent()
     {
-        Mainmenu::find($this->menu_selected_id)->delete();
-        session()->flash('message','Student Deleted Successfully');
-        $this->dispatchBrowserEvent('close-modal');
+        if( Mainmenu::find($this->menu_selected_id)->delete()) {
+        // Mainmenu::find($this->menu_selected_id)->delete();
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Menu Deleted Successfully')]);
+            $this->dispatchBrowserEvent('fixx');
+            $this->dispatchBrowserEvent('close-modal');
+        } else {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Operaiton Faild del-301')]);
+        }
     }
  
     public function closeModal()

@@ -38,6 +38,7 @@ class FoodLivewire extends Component
     public $cat_id;
     public $names = [];
     public $description = [];
+    public $options = [];
     public $status;
     public $priority;
     public $showTextarea = false;
@@ -61,7 +62,7 @@ class FoodLivewire extends Component
             }
         }
     }
-    public $options = [];
+
     public function addOption()
     {
         foreach ($this->filteredLocales as $locale) {
@@ -79,6 +80,7 @@ class FoodLivewire extends Component
         $rules = [];
         foreach ($this->filteredLocales as $locale) {
             $rules['names.' . $locale] = 'required|string|min:2';
+            $rules['description.' . $locale] = 'required|string|min:2';
         }
         $rules['cat_id'] = ['required'];
         $rules['priority'] = ['required'];
@@ -130,6 +132,7 @@ class FoodLivewire extends Component
             Food_Translator::create([
                 'food_id' => $menu->id,
                 'name' => $this->names[$locale],
+                'description' => $this->description[$locale],
                 'lang' => $locale,
             ]);
         }
@@ -152,8 +155,10 @@ class FoodLivewire extends Component
 
                 if ($translation) {
                     $this->names[$locale] = $translation->name;
+                    $this->description[$locale] = $translation->description;
                 } else {
                     $this->names[$locale] = 'Not Found';
+                    $this->description[$locale] = 'Not Found';
                 }
                 $this->lang = $locale;
             }
@@ -168,7 +173,6 @@ class FoodLivewire extends Component
         } else {
             return redirect()->to('/rest');
         }
-           
     }
  
     public function updateFood()
@@ -193,6 +197,7 @@ class FoodLivewire extends Component
                 ],
                 [
                     'name' => $this->names[$locale],
+                    'name' => $this->description[$locale],
                 ]
             );
         }
@@ -245,6 +250,7 @@ class FoodLivewire extends Component
     {
         foreach ($this->filteredLocales as $locale) {
             $this->names[$locale] = "";
+            $this->description[$locale] = "";
         }
         $this->cat_id = '';
         $this->status = '';
@@ -254,7 +260,10 @@ class FoodLivewire extends Component
         $this->food_selected_name_delete = '';
         $this->showTextTemp = '';
         $this->foodNameToDelete = '';
+        $this->price = '';
+        $this->oldPrice = '';
         $this->confirmDelete = false;
+        $this->initializeOptions();
     }
  
 
@@ -277,9 +286,7 @@ class FoodLivewire extends Component
         }
     }
 
-
     // ... Other component logic ...
-
     public function toggleTextarea()
     {
         $this->showTextarea = !$this->showTextarea;
