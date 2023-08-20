@@ -22,6 +22,7 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('assets/dashboard/css/sb-admin-2.min.css')}}" rel="stylesheet">
     @livewireStyles
+    @stack('language_css')
     <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
     <link href="{{asset('assets/general/css/toaster.css')}}" rel="stylesheet" type="text/css">
     @yield('rest_css')
@@ -665,6 +666,7 @@
                     });
         </script>
     @stack('cropper')
+    @stack('drag')
     @yield('rest_script')
     <form id="languageForm" action="{{ route('setLocale') }}" method="post">
         @csrf

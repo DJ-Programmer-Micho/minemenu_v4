@@ -5,5 +5,4 @@
 <div>
     @livewire('dashboard.name-setting-livewire')
 </div>
-
 @endsection
