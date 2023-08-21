@@ -12,6 +12,7 @@
     <meta name="author" content="">
     <link href="{{asset('assets/general/logo/72.png')}}" rel="shortcut icon">
     <title>Mine Menu</title>
+    <meta name="csrf-token" content="{{csrf_token()}}">
 
     <!-- Custom fonts for this template-->
     <link href="{{asset('assets/general/lib/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -23,6 +24,8 @@
     <link href="{{asset('assets/dashboard/css/sb-admin-2.min.css')}}" rel="stylesheet">
     @livewireStyles
     @stack('language_css')
+    @stack('cropper_links')
+    @stack('style_tag')
     <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
     <link href="{{asset('assets/general/css/toaster.css')}}" rel="stylesheet" type="text/css">
     @yield('rest_css')

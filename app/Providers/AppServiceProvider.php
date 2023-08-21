@@ -33,5 +33,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('fixedimage_640x360', function () {
             return 'https://d3jel9g9x3oq59.cloudfront.net/mine-setting/defaultimg.jpg'; // Replace "abc" with your desired value or logic to fetch the data.
         });
+        $this->app->singleton('fixedvideo_1080x1920', function () {
+            return 'https://d3jel9g9x3oq59.cloudfront.net/mine-setting/defaultvideo.mp4'; // Replace "abc" with your desired value or logic to fetch the data.
+        });
     }
 }

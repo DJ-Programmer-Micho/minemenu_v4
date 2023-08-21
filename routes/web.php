@@ -81,6 +81,7 @@ Route::prefix('/rest')->middleware(['checkStatus', 'LocalizationMiddleware', 're
     Route::get('/setting/name', [RestController::class, 'nameSetting'])->name('nameSetting');
     Route::get('/setting/menu', [RestController::class, 'menuSetting'])->name('menuSetting');
     Route::get('/setting/startup', [RestController::class, 'startSetting'])->name('startSetting');
+    Route::post('/setting/startup/',  [RestController::class, 'uploadVideo']);
 });
  /*
 |--------------------------------------------------------------------------
