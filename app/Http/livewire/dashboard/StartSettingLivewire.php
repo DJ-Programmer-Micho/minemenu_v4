@@ -10,23 +10,27 @@ use Illuminate\Support\Facades\Storage;
 
 class StartSettingLivewire extends Component
 {
-
     use WithFileUploads;
     // FormLocal
     public $status;
     public $imgFlag = false; 
-    public $videoFlag = false; 
     public $objectName; 
     public $objectVideoName; 
-    // public $fileVideo; 
+    public $fileVideo; 
     public $tempImg;
     public $imgReader;
 
-    protected $listeners = ['updateCroppedStartupImg' => 'handleCroppedImage'];
-    // protected $videoUploadlisteners = ['videoUpload' => 'handleVideoUpload'];
+    protected $listeners = [
+        'updateCroppedStartupImg' => 'handleCroppedImage',
+        'simulationComplete' => 'handlesimulationComplete',
+    ];
 
-    public function mount(){}
-
+    public function mount(){
+        $getVideo = Setting::where('user_id', auth()->id())->first();
+        $this->objectVideoName =  $getVideo->background_vid ? $getVideo->background_vid  : null;
+        $this->imgReader = $getVideo->background_img ? $getVideo->background_img : null;
+        $this->status = $getVideo->intro_page ? $getVideo->intro_page : null;
+    }
     public function handleCroppedImage($base64data)
     {
         if ($base64data){
@@ -38,66 +42,67 @@ class StartSettingLivewire extends Component
             if( $this->imgReader){
                 Storage::disk('s3')->delete($this->imgReader);
                 Storage::disk('s3')->put($this->objectName, $croppedImage);
+                $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
+                $settings->background_img = $this->objectName;
+                $settings->save();
             } else {
                 Storage::disk('s3')->put($this->objectName, $croppedImage);
+                $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
+                $settings->background_img = $this->objectName;
+                $settings->save();
             }
-            // $this->emit('imageUploaded', $this->objectName);
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Image Uploaded Successfully')]);
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Image did not crop!!!')]);
             return 'failed to crop image code...405';
         }
     }
 
-    public $uploadProgress;
-    public $uploading = false;
-    // public function handleVideoUpload($fileVideo)
-    // {
-
-    //     // sleep(1);
-    //     if (!$this->uploading && $fileVideo) {
-    //         $this->uploading = true;
-    
-    //         $microtime = str_replace('.', '', microtime(true));
-    //         $customFilename = auth()->user()->name . '_' . date('Ymd') . $microtime . '.mp4';
-    
-    //         $fileContents = file_get_contents($fileVideo->getRealPath());
-    
-    //         $config = [
-    //             'onUploadProgress' => function ($totalBytes, $uploadedBytes) {
-    //                 $this->uploadProgress = round(($uploadedBytes / $totalBytes) * 100);
-                   
-    //                 info("Upload progress: {$this->uploadProgress}%");
-    //             },
-    //         ];
-    // // dd($config);
-    //         Storage::disk('s3')->put('rest/setting/' . $customFilename, $fileContents, $config);
-    
-    //         $this->uploading = false;
-    //         $this->uploadProgress = 0;
-    
-    //         $this->videoFlag = true;
-    //         $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Video uploaded successfully')]);
-    //     } else {
-    //         $this->videoFlag = false;
-    //         $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Video did not upload')]);
-    //     }
-
-
-
-    //     $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
-
-    //     $settings->background_vid = $this->fileVideo;
-    //     $settings->save();
-    //     $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Settings Updated successfully')]);
-    // }
-
-
-
-
-
-    public function saveSettings()
+    public function handlesimulationComplete(){
+        $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Video Uploaded %100 successfully')]);
+    }
+    public function uploadVideo()
     {
-        $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Settings Updated successfully')]);
+        if ( $this->fileVideo) {
+            if ($this->fileVideo->getSize() > 3000000) {
+                return $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('The Video Size is more than 3MB')]);
+            }
+            $old_video = $this->objectVideoName;
+            $microtime = str_replace('.', '', microtime(true));
+            $customFilename = auth()->user()->name . '_' . date('Ymd') . $microtime . '.mp4';
+            $fileContents = file_get_contents($this->fileVideo->getRealPath());
+
+            $this->dispatchBrowserEvent('fakeProgressBar');
+            $this->objectVideoName = 'rest/setting/' . $customFilename;
+            if($old_video){
+                Storage::disk('s3')->delete($old_video);
+                Storage::disk('s3')->put('rest/setting/' . $customFilename, $fileContents);
+                $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
+                $settings->background_vid = $this->objectVideoName;
+                $settings->save();
+            } else {
+                Storage::disk('s3')->put('rest/setting/' . $customFilename, $fileContents);
+                $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
+                $settings->background_vid = $this->objectVideoName;
+                $settings->save();
+            }
+
+            $this->dispatchBrowserEvent('alert', ['type' => 'info', 'message' => __('Video is uploading')]);
+        } else {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Video did not upload')]);
+        }
+    }
+
+    public function saveStatus()
+    {
+        if($this->status){
+            $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
+            $settings->intro_page = $this->status;
+            $settings->save();
+            $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Status Updated successfully')]);
+        } else {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Error, Status did not Update')]);
+        }
     }
  
     public function render()

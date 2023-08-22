@@ -1,15 +1,8 @@
 <div>
-
-<!-- Image Crop -->
-{{-- @push('cropper_links') --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.5/cropper.min.css" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.5/cropper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-{{-- @endpush --}}
-{{-- inline style for modal --}}
-{{-- @push('style_tag') --}}
 <style>
     .image_area { position: relative; }
     img { display: block; max-width: 100%; }
@@ -19,18 +12,18 @@
     .image_area:hover .overlay { height: 50%; cursor: pointer; }
     .text { color: #333; font-size: 20px; position: absolute; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%); text-align: center;}
 </style>    
-{{-- @endpush --}}
+
 
 
     <div class="my-4">
-        <form wire:submit.prevent="saveSettings">
-        <h3 class="text-white">{{__('Menu Setting')}}</h3>
+        <h3 class="text-white">{{__('Start Up Menu Setting')}}</h3>
+        <p class="text-warning">{{__('Each Field Works Seperatly')}}</p>
         <hr class="bg-white">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 mb-3">
             <form wire:submit.prevent="saveStatus">
                 <div class="mb-3">
-                    <label>{{__('Status')}}</label>
+                    <label class="text-white">{{__('Status')}}</label>
                     <select wire:model="status" name="status" class="form-control">
                         <option value="">Choose Start up</option>
                             <option value="0">{{__('none')}}</option>
@@ -45,47 +38,33 @@
         </div>
 
         <div class="col-12 col-sm-6">
-            <form wire:submit.prevent="saveImage">
-                <label for="img">Upload Image</label>
+                <label class="text-white" for="img">Upload Image</label>
                 <input type="file" name="startupImg" id="startupImg" class="form-control" style="height: auto">
+                <small class="text-info"><b>(Auto Upload)</b></small>
                 @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                 <input type="file" name="croppedStartupImg" id="croppedStartupImg" style="display: none;">
-            <hr>
                 <div class="mb-3 d-flex justify-content-center mt-1">
 
-                    <img id="showStartupImg" class="img-thumbnail rounded" src="{{$imgFlag ? $tempImg : app('fixedimage_640x360')}}" width="300">
+                    <img id="showStartupImg" class="img-thumbnail rounded" src="{{$imgReader ? app('cloudfront').$imgReader : app('fixedimage_640x360')}}" width="300">
                 </div>
-            </form>
         </div>
-        {{-- <div class="col-12 col-sm-6">
-                <form wire:submit.prevent="saveVideo">
-                <label for="video">Video</label>
-                <input type="file" accept=".mp4" class="form-control" wire:model="fileVideo" wire:change="uploadVideo" style="height: auto" >
-                <button type="submit" class="upload-video">Upload</button>
-                @error('objectVideoName') <span class="text-danger">{{ $message }}</span> @enderror
-                <hr>
-                <progress role="progressbar" value="{{ $uploadProgress }}" aria-valuenow="{{ $uploadProgress }}" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-striped progress-bar-animated"></progress>
-                <div class="mb-3 d-flex justify-content-center mt-1">
-                    <video controls class="img-thumbnail rounded" style="width: 300px; border-radius: 5px;">
-                        <source id="showStartupVideo"  type="video/mp4"  src="{{$videoFlag ? $fileVideo : app('fixedvideo_1080x1920')}}">
-                    </source>
-                </div>
-            </form>
-        </div> --}}
         <div class="col-12 col-sm-6">
-            <label for="video">Video</label>
-            <input type="file" accept=".mp4" class="form-control" id="fileVideoInput" style="height: auto">
-            <hr>
-            <progress value="0" max="100" class="progress-bar progress-bar-striped progress-bar-animated bg-success" id="uploadProgressBar"></progress>
-            <div class="mb-3 d-flex justify-content-center mt-1">
-                <video controls class="img-thumbnail rounded" style="width: 300px; border-radius: 5px;">
-                    {{-- <source id="showStartupVideo" type="video/mp4" src="{{$videoFlag ? $fileVideo : app('fixedvideo_1080x1920')}}"> --}}
-                </source>
-            </div>
+            <form wire:submit.prevent="uploadVideo">
+                <label class="text-white" for="video">Video (3MB MAX)</label>
+                <input type="file" accept=".mp4" class="form-control" wire:model="fileVideo" style="height: auto">
+                <div class="progress my-1">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <button type="submit" class="upload-video btn btn-primary">Upload</button>
+                @error('fileVideo') <span class="text-danger">{{ $message }}</span> @enderror
+                <div class="my-3 d-flex justify-content-center mt-1">
+                    <video controls class="img-thumbnail rounded" style="width: 300px; border-radius: 5px;">
+                        <source id="showStartupVideo" type="video/mp4" src="{{ $objectVideoName ? app('cloudfront').$objectVideoName : app('fixedvideo_1080x1920') }}">
+                    </video>
+                </div>
+            </form>
         </div>
-        </div>
-
-    </form>
+    </div>
 </div>
 
 
@@ -127,44 +106,31 @@
 
 @push('cropper')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const fileInput = document.getElementById('fileVideoInput');
-        const progressBar = document.getElementById('uploadProgressBar');
-
-        fileInput.addEventListener('change', function () {
-            const file = fileInput.files[0];
-            if (file) {
-                uploadFile(file);
-            }
-        });
-
-        function uploadFile(file) {
-            const formData = new FormData();
-            formData.append('video', file);
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            const config = {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'X-CSRF-TOKEN': csrfToken // Include the CSRF token in the request headers
-                },
-                onUploadProgress: function (progressEvent) {
-                    const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                    progressBar.value = percentCompleted;
-                },
-            };
-
-            axios.post('/rest/setting/startup/', formData, config)
-                .then(response => {
-                    console.log('Upload successful:', response.data);
-                })
-                .catch(error => {
-                    console.error('Upload error:', error);
-                });
-        }
-    });
+window.addEventListener('fakeProgressBar', (e) => {
+    let currentProgress = 0;
+            const progressBar = document.querySelector('.progress-bar');
+            // const increment = 50; // Increase this value to control the simulation speed
+            var randomIncrement = 0;
+            const interval = setInterval(function () {
+                randomIncrement = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
+                currentProgress += randomIncrement;
+                if (currentProgress <= 100) {
+                    progressBar.style.width = currentProgress + '%';
+                    progressBar.setAttribute('aria-valuenow', currentProgress);
+                } else {
+                     // Notify Livewire when the simulation is complete
+                    clearInterval(interval);
+                    progressBar.style.width = '100%';
+                    if(currentProgress >= 100){
+                        Livewire.emit('simulationComplete');
+                        currentProgress = 0;
+                        location.reload()
+                    }
+                    progressBar.setAttribute('aria-valuenow', '0');
+                }
+            }, 1000); // Adjust the interval timing as needed
+});
 </script>
-
-
 <script>
     document.addEventListener('livewire:load', function () {
         var modal = new bootstrap.Modal(document.getElementById('modal'));
@@ -233,7 +199,3 @@
     });
 </script>
 @endpush
-{{-- 
-@php
-dd($imgFlag)   ;
-@endphp --}}
