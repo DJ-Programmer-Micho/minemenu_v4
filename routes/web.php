@@ -7,6 +7,7 @@ use App\Http\Controllers\OwnController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RestController;
+use App\Http\Controllers\BusinessController;
 use App\Http\Middleware\LocalizationMiddleware;
 
 /*
@@ -97,7 +98,7 @@ Route::prefix('/emp')->middleware(['checkStatus', 'LocalizationMiddleware', 'emp
 |--------------------------------------------------------------------------
 */
 Route::prefix('/{business_name}')->middleware(['LocalizationMiddleware'])->group(function () {
-    Route::get('/', [HomeController::class, 'test'])->name('user.home');
+    Route::get('/', [BusinessController::class, 'index'])->name('user.home');
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::get('/posts', [PostController::class, 'show'])->name('posts.show');
     Route::get('/profile', [UserPageController::class, 'profile'])->name('user.profile');
