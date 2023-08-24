@@ -46,6 +46,7 @@ class CategoryLivewire extends Component
     {
         $this->glang = app('glang');
         $this->filteredLocales = app('userlanguage');
+        // dd($this->filteredLocales);
     }
 
     protected function rules()
@@ -101,7 +102,7 @@ class CategoryLivewire extends Component
             Categories_Translator::create([
                 'cat_id' => $menu->id,
                 'name' => $this->names[$locale],
-                'lang' => $locale,
+                'locale' => $locale,
             ]);
         }
         $this->resetInput();
@@ -244,7 +245,7 @@ class CategoryLivewire extends Component
         $data = Categories::with(['mainmenu', 'translation', 'mainmenu.translation' => function ($query) {
             $query->where('lang', $this->glang);
         }, 'translation' => function ($query) {
-            $query->where('lang', $this->glang);
+            $query->where('locale', $this->glang);
         }])->where('user_id', Auth::id())
             ->whereHas('translation', function ($query) {
                 $query->where(function ($query) {

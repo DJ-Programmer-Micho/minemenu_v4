@@ -9,7 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RestController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Middleware\LocalizationMiddleware;
-
+// use App\Http\Livewire\User\Components\Header01Livewire;
 /*
 |--------------------------------------------------------------------------
 | Language Switcher / Dynamic Language Switcher
@@ -98,6 +98,7 @@ Route::prefix('/emp')->middleware(['checkStatus', 'LocalizationMiddleware', 'emp
 |--------------------------------------------------------------------------
 */
 Route::prefix('/{business_name}')->middleware(['LocalizationMiddleware'])->group(function () {
+    // Route::get('/', [Header01Livewire::class, 'rendedr']);
     Route::get('/', [BusinessController::class, 'index'])->name('user.home');
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::get('/posts', [PostController::class, 'show'])->name('posts.show');

@@ -14,7 +14,7 @@ class Categories_Translator extends Model
     protected $fillable = [
         'cat_id',
         'name',
-        'lang',
+        'locale',
     ];
 
     public function category()

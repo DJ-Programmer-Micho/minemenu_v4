@@ -137,7 +137,7 @@
                                 </div>
                                 <div class="col-12 col-lg-2">
                                     <label class="d-lg-block d-none">Remove</label>
-                                    <button class="btn btn-danger "
+                                    <button type="button" class="btn btn-danger "
                                         wire:click="removeOption('{{ $locale }}', {{ $index }})"><i
                                             class="fas fa-minus-square"></i></button>
                                 </div>

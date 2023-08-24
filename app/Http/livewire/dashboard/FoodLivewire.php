@@ -309,7 +309,7 @@ class FoodLivewire extends Component
     {
         // START GET THE Category NAMES
         $this->menu_select = Categories::with(['translation' => function ($query) {
-            $query->where('lang', $this->glang);
+            $query->where('locale', $this->glang);
         }])
         ->where('user_id', Auth::id())
         ->orderBy('id', 'DESC')
@@ -321,7 +321,7 @@ class FoodLivewire extends Component
         $cols_td = ['id','category.translation.name', 'translation.name','price','old_price','sorm','img','status','priority'];
 
         $data = Food::with(['category', 'translation', 'category.translation' => function ($query) {
-            $query->where('lang', $this->glang);
+            $query->where('locale', $this->glang);
         }, 'translation' => function ($query) {
             $query->where('lang', $this->glang);
         }])->where('user_id', Auth::id())
