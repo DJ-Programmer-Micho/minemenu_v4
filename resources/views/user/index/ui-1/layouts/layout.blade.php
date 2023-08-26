@@ -45,30 +45,60 @@
     <title>TEST MENU UI</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('/assets/user/ui-01/style.css')}}">
-    @livewireStyles
+    {{-- @livewireStyles --}}
     @stack('business_style')
 </head>
 <body>
     <div class="master-container">
     <div class="place-header">
         {{-- @include('name') --}}
-        <livewire:user.components.header01-livewire :data="$data"/>
+        <x-business.header01component :user="$user" :ui="$ui"/>
+        {{-- <livewire:user.components.header01-livewire :data="$data"/> --}}
     </div>
     <div class="place-body">
+
+            <div class="d-flex justify-content-between title-lang">
+        <h4 id="rest-title">{{$setting_name}}</h4>
+        <select name="my_select" class="mySelect" onchange="selectLang(this.value);" id="list" name="list">
+
+            <option>{{__("Language")}}</option>
+            <option value="kr">كوردى</option>
+            <option value="ar">العربية</option>
+            <option value="en">asd</option>
+        </select>
+        @foreach ($filteredLocales as $locale)
+        <a class="dropdown-item" href="#" onclick="changeLanguage('{{ $locale }}')">
+            <i class="fas fa-language fa-sm fa-fw mr-2 text-gray-400"></i>
+            {{ strtoupper($locale) }}
+        </a>
+    @endforeach
+    </div>
+    <div class="facilities">
+        <div>
+            <span><i class="fa fa-location-dot"></i> {{$setting->address}}</span>
+       </div>
+       <div>
+            <span ><i class="fa fa-wifi"></i> {{$setting->wifi}}</span>
+       </div>
+        <div>
+            <span><i class="fa fa-phone"></i> {{$setting->phone}}</span>
+        </div>
+    </div>
         @yield('business-content')
         <div>
-            <livewire:user.components.body01-livewire :user="$data" :setting="$setting"/>
+            
+            {{-- <livewire:user.components.body01-livewire :user="$data" :setting="$setting"/> --}}
         </div>
     </div>
     <div class="place-footer">
-        <livewire:user.components.food01-livewire/>
+        {{-- <livewire:user.components.food01-livewire/> --}}
         {{-- @include('name') --}}
     </div>
    
 </div>
 <script src="{{asset('/assets/general/lib/jquery/jquery.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-    @livewireScripts
+    {{-- @livewireScripts --}}
     
 <form id="languageForm" action="{{ route('setLocale') }}" method="post">
     @csrf

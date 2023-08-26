@@ -28,29 +28,9 @@ class Body01Livewire extends Component
     
     public function render()
     {
-
-
-        $menuData = Mainmenu::with(['translation' => function ($query) {
-            $query->where('lang', $this->glang);
-        }])
-        ->where('user_id', $this->user_id )
-        // ->whereHas('translation', function ($query) {
-        //     $query->
-        //     // where('lang', $this->glang)
-        //         where(function ($query) {
-        //             $query->where('name', 'like', '%' . $this->search . '%')
-        //                 ->orWhere('user_id', 'like', '%' . $this->search . '%');
-        //         });
-        // })
-        ->orderBy('id', 'DESC')
-        ->paginate(10);
-
-
-
         return view('user.components.category.b1c', [
             'settings' => $this->setting,
             'name' => $this->rest_name,
-            // 'menuData' => $menuData,
             'aaa' =>  $this->aaa,
             'user_id' => $this->user_id,
             'glang' => $this->glang,

@@ -23,6 +23,17 @@
             ], key('category-'.$menu->id))
         </div>
         @endforeach
+@php
+    $sss = '01';
+@endphp
+        {{-- @include('components.testt' . $sss) --}}
+        @if ($sss == '01')
+            
+        <x-business.testt01/>
+        @else
+        <x-business.testt02/>
+            
+        @endif
     </div>
 
    

@@ -1,5 +1,6 @@
 <div class="row categories py-0 my-0">
     @forelse ($categoryData as $item)
+
     <div class="col-md-6 col-lg-6 col-12 py-0">
         <a href="{{url()->current()}}/cat/{{$item->id}}">
             <div class="cat_item" style=" background-image: url('{{app('cloudfront').$item->img}}')">
