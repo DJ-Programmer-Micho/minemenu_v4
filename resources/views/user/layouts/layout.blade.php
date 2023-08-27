@@ -42,15 +42,22 @@
     {{-- META TAGS --}}
     <meta name='keywords' content='minemenu, mine menu, ماين منيو, menu iraq, menu erbil, menu resturant, qr code, resturant qr code, finedine, finedinemenu, mine menu iraq, food, drinks, food menu, menu scan, scan menu, منيو, menu generator, food menu generator, قائمة الطعام, food'>
     <meta name="news_keywords" content="minemenu, mine menu, ماين منيو, menu iraq, menu erbil, menu resturant, qr code, resturant qr code, finedine, finedinemenu, mine menu iraq, food, drinks, food menu, menu scan, scan menu, منيو, menu generator, food menu generator, قائمة الطعام, food">
-    <title>TEST MENU UI</title>
+    <title>Mine Menu | {{$setting_name}}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{asset('/assets/user/ui-01/style.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/general/lib/fontawesome-free/css/all.min.css')}}">
+    {{-- <link rel="stylesheet" href="{{asset('/assets/user/ui-01/style.css')}}"> --}}
+    <link rel="stylesheet" href="{{asset('/assets/user/master.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/header.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/facility.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/body.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/menu.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/category.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/food.css')}}">
     {{-- @livewireStyles --}}
     @stack('business_style')
 </head>
 <body>
-    <div class="master-container">
-
+<div class="master-container">
 
     <div class="place-header">
         {{-- @include('name') --}}
@@ -58,60 +65,13 @@
         {{-- <livewire:user.components.header01-livewire :data="$data"/> --}}
     </div>
 
-
-
-
-
     <div class="place-body">
-
-            <div class="d-flex justify-content-between title-lang">
-        <h4 id="rest-title">{{$setting_name}}</h4>
-        <select name="my_select" class="mySelect" onchange="selectLang(this.value);" id="list" name="list">
-
-            <option>{{__("Language")}}</option>
-            <option value="kr">كوردى</option>
-            <option value="ar">العربية</option>
-            <option value="en">asd</option>
-        </select>
-        @foreach ($filteredLocales as $locale)
-        <a class="dropdown-item" href="#" onclick="changeLanguage('{{ $locale }}')">
-            <i class="fas fa-language fa-sm fa-fw mr-2 text-gray-400"></i>
-            {{ strtoupper($locale) }}
-        </a>
-    @endforeach
-    </div>
-    <div class="facilities">
-        <div>
-            <span><i class="fa fa-location-dot"></i> {{$setting->address}}</span>
-       </div>
-       <div>
-            <span ><i class="fa fa-wifi"></i> {{$setting->wifi}}</span>
-       </div>
-        <div>
-            <span><i class="fa fa-phone"></i> {{$setting->phone}}</span>
-        </div>
-    </div>
+        <x-business.Facilities01Component :settingname="$setting_name" :setting="$setting" :filteredlocales="$filteredLocales" :ui="$ui"/>
         @yield('business-content')
-        <div>
-            
-            {{-- <livewire:user.components.body01-livewire :user="$data" :setting="$setting"/> --}}
-        </div>
     </div>
-
-
-
-
-
-
-
-
-
 
     
-    <div class="place-footer">
-        {{-- <livewire:user.components.food01-livewire/> --}}
-        {{-- @include('name') --}}
-    </div>
+    <div class="place-footer"></div>
    
 </div>
 <script src="{{asset('/assets/general/lib/jquery/jquery.min.js')}}"></script>

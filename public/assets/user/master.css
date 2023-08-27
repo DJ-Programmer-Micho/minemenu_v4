@@ -1,0 +1,59 @@
+/************
+GENERAL
+************/
+:root {
+    --primary-color: #f2f2f2;
+    --theme-color: #c72931;
+    --title-color: #fff;
+    --info-color: #b5b5b5;
+    --text-color: #fff;
+    --background-color: #1e2326;
+    --nav-active-text: #ffffff;
+    --card-color: #354249;
+    --body-color: #283035;
+    --logo-background: #283035;
+    --language-color: #303a40;
+    --backicon-button: #fff;
+    --carticon-button: #fff;
+    --cart-button: #354249;
+    --back-button: #354249;
+    --addicon-cart: #fff;
+    --add-cart: #354249;
+}
+
+body {
+    background-color: var(--background-color);
+    padding: 0;
+    margin: 0;
+    background-position: center;
+    background-repeat: repeat;
+    background-size: 30%;
+}
+.place-body {
+    position: relative;
+    margin-top: -30px;
+    background-color: var(--body-color);
+    box-shadow: 10px 15px 50px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 25px 25px 0px 0px;
+    padding: 15px;
+    /* height: 100%; */
+    display: flex;
+    flex-flow: wrap;
+    flex-direction: column;
+    overflow: visible;
+}
+
+[lang="ar"] .place-body {
+    text-align: right;
+    direction: rtl;
+}
+
+.note {
+    color: var(--info-color);
+}
+
+.master-container {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+}

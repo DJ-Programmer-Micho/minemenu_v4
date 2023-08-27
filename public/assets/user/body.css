@@ -1,0 +1,21 @@
+/************
+GENERAL
+************/
+.place-body {
+    position: relative;
+    margin-top: -30px;
+    background-color: var(--body-color);
+    box-shadow: 10px 15px 50px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 25px 25px 0px 0px;
+    padding: 15px;
+    /* height: 100%; */
+    display: flex;
+    flex-flow: wrap;
+    flex-direction: column;
+    overflow: visible;
+}
+
+[lang="ar"] .place-body {
+    text-align: right;
+    direction: rtl;
+}

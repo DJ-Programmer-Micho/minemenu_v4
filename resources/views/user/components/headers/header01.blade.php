@@ -1,14 +1,10 @@
 <div>
-    
-    {{-- <div class="place-header-inner" id="rest-img" style="background-image: url('{{$cloudFront .'/'. ((isset($catPic) && $catPic !=null) ? $catPic : $user_ui->logo)}}')"></div> --}}
-    <div class="place-header-inner" id="rest-img" style="background-image: url('{{app('cloudfront').'rest/menu/1red_2023160816922125980618.jpeg'}}')"></div>
-    {{-- @section('back') --}}
-    <a class="back-butt" href="">zxc<i class="fa-solid fa-arrow-left"></i></a>
-    <a class="home-butt" href="">zxc<i class="fa-solid fa-house"></i></a>
-{{-- @endsection --}}
-
-    <div id="my-cart">
+    <div class="place-header-inner-01" id="rest-img" style="background-image: url('{{app('cloudfront').'rest/menu/1red_2023160816922125980618.jpeg'}}')"></div>
+    @if(request()->is('red/*'))
+    <a class="back-butt-01" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
+    <a class="home-butt-01" href="{{ route('business.home', ['business_name' => 'red'])}}"><i class="fas fa-home"></i></a>
+    @endif
+    {{-- <div id="my-cart"> --}}
         {{-- @include('main.index.layouts.cart') --}}
-    </div>
-
+    {{-- </div> --}}
 </div>

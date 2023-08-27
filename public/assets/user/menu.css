@@ -1,0 +1,37 @@
+/************
+GENERAL
+************/
+
+/************
+nav-pills UI/UX-01
+************/
+.nav-pills-scroll-container {
+    max-width: 400px; /* Set a width for the container */
+    overflow-x: auto;
+}
+
+.nav-pills-scroll-01 {
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+    /* No need to set width here */
+}
+
+.nav-pills-01 .nav-link-01 {
+    border: 1px solid var(--theme-color);
+    border-radius: 20px;
+    padding: 5px 15px; /* Adjust padding for better visual */
+    font-weight: bold;
+    color: var(--theme-color);
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+[lang="ar"] .nav-pills-01 {
+    text-align: right;
+    direction: rtl;
+    padding-inline-start: 4px !important;
+}
+
+.nav-pills-01 .nav-link-01.active {
+    background-color: var(--theme-color);
+    color: var(--nav-active-text);
+}

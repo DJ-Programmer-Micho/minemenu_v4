@@ -14,7 +14,7 @@ class BusinessController extends Controller
         $user = User::where('name', $business_name)->first();
         $setting = Setting::where('user_id', $user->id)->first();
         // $menu = Mainmenu::where('user_id', $user->id)->first();
-        $ui = ['01','02','01','01'];
+        $ui = ['01','01','01','01'];
         // $ui = [Header, Menu, Category, Food]
 
         if (!$user) {
@@ -35,7 +35,7 @@ class BusinessController extends Controller
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
         // $menu = Mainmenu::where('user_id', $user->id)->first();
-        $ui = ['01','02','01','01'];
+        $ui = ['01','01','01','01'];
         // $ui = [Header, Menu, Category, Food]
 
         if (!$user) {
@@ -58,7 +58,7 @@ class BusinessController extends Controller
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
         // $menu = Mainmenu::where('user_id', $user->id)->first();
-        $ui = ['01','02','01','01'];
+        $ui = ['01','01','01','01'];
         return view('user.layouts.food_list', [
             'user' => $user,
             'setting' => $setting,
@@ -74,7 +74,7 @@ class BusinessController extends Controller
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
         // $menu = Mainmenu::where('user_id', $user->id)->first();
-        $ui = ['01','02','01','01'];
+        $ui = ['01','01','01','01'];
         return view('user.layouts.food_detail', [
             'user' => $user,
             'setting' => $setting,
