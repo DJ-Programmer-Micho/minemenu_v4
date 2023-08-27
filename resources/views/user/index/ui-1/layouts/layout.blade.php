@@ -50,11 +50,18 @@
 </head>
 <body>
     <div class="master-container">
+
+
     <div class="place-header">
         {{-- @include('name') --}}
         <x-business.header01component :user="$user" :ui="$ui"/>
         {{-- <livewire:user.components.header01-livewire :data="$data"/> --}}
     </div>
+
+
+
+
+
     <div class="place-body">
 
             <div class="d-flex justify-content-between title-lang">
@@ -90,6 +97,17 @@
             {{-- <livewire:user.components.body01-livewire :user="$data" :setting="$setting"/> --}}
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+    
     <div class="place-footer">
         {{-- <livewire:user.components.food01-livewire/> --}}
         {{-- @include('name') --}}
