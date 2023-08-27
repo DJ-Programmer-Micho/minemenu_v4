@@ -26,11 +26,11 @@ class Header01Component extends Component
     public function render(): View|Closure|string
     {
         if ($this->ui == '01') {
-            return view('user.components.category.Header01');
+            return view('user.components.headers.Header01');
         } else if ($this->ui == '02') {
-            return view('user.components.category.Header02');
+            return view('user.components.headers.Header02');
         } else {
-            return view('user.components.category.Header03');
+            return view('user.components.headers.Header03');
         }
     }
 }

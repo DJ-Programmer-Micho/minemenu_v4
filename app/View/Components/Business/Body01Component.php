@@ -37,7 +37,7 @@ class Body01Component extends Component
     public function render(): View|Closure|string
     {
         if ($this->ui_select == '01') {
-            return view('user.components.category.body01',[
+            return view('user.components.bodies.body01',[
                 'settings' => $this->setting,
                 'name' => $this->rest_name,
                 'user_id' => $this->user_id,
@@ -45,7 +45,7 @@ class Body01Component extends Component
                 'ui' => $this->ui
             ]);
         } else if ($this->ui_select == '02') {
-            return view('user.components.category.body02',[
+            return view('user.components.bodies.body02',[
                 'settings' => $this->setting,
                 'name' => $this->rest_name,
                 'user_id' => $this->user_id,
@@ -53,7 +53,7 @@ class Body01Component extends Component
                 'ui' => $this->ui
             ]);
         } else {
-            return view('user.components.category.body03',[
+            return view('user.components.bodies.body03',[
                 'settings' => $this->setting,
                 'name' => $this->rest_name,
                 'user_id' => $this->user_id,

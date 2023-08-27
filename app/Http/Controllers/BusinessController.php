@@ -21,7 +21,7 @@ class BusinessController extends Controller
             return response('User not found', 404);
         }
        
-        return view('user.index.ui-1.layouts.layout', [
+        return view('user.layouts.layout', [
             'user' => $user,
             'setting' => $setting,
             // 'menu' => $menu,
@@ -43,7 +43,7 @@ class BusinessController extends Controller
         }
     
 
-        return view('user.index.ui-1.foods.menu_list', [
+        return view('user.layouts.menu_list', [
             'user' => $user,
             'setting' => $setting,
             'setting_name' => $setting_name,
@@ -59,7 +59,7 @@ class BusinessController extends Controller
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
         // $menu = Mainmenu::where('user_id', $user->id)->first();
         $ui = ['01','02','01','01'];
-        return view('user.index.ui-1.foods.food_list', [
+        return view('user.layouts.food_list', [
             'user' => $user,
             'setting' => $setting,
             'setting_name' => $setting_name,
@@ -75,7 +75,7 @@ class BusinessController extends Controller
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
         // $menu = Mainmenu::where('user_id', $user->id)->first();
         $ui = ['01','02','01','01'];
-        return view('user.index.ui-1.foods.food_detail', [
+        return view('user.layouts.food_detail', [
             'user' => $user,
             'setting' => $setting,
             'setting_name' => $setting_name,

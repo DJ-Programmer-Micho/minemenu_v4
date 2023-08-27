@@ -58,11 +58,11 @@ class Detail01Component extends Component
     public function render(): View|Closure|string
     {
         if ($this->ui_select == '01') {
-            return view('user.components.category.detail01',['foodData' => $this->foodData, 'settings' => $this->settings, 'setting_name' => $this->setting_name]);
+            return view('user.components.details.detail01',['foodData' => $this->foodData, 'settings' => $this->settings, 'setting_name' => $this->setting_name]);
         } else if ($this->ui_select == '02') {
-            return view('user.components.category.detail02',['foodData' => $this->foodData, 'settings' => $this->settings, 'setting_name' => $this->setting_name]);
+            return view('user.components.details.detail02',['foodData' => $this->foodData, 'settings' => $this->settings, 'setting_name' => $this->setting_name]);
         } else {
-            return view('user.components.category.detail03',['foodData' => $this->foodData, 'settings' => $this->settings, 'setting_name' => $this->setting_name]);
+            return view('user.components.details.detail03',['foodData' => $this->foodData, 'settings' => $this->settings, 'setting_name' => $this->setting_name]);
         }
     }
 }

@@ -51,11 +51,11 @@ class Category01Component extends Component
     public function render(): View|Closure|string
     {
         if ($this->ui_select == '01') {
-            return view('user.components.category.category01',['categoryData' => $this->categoryData]);
+            return view('user.components.categories.category01',['categoryData' => $this->categoryData]);
         } else if ($this->ui_select == '02') {
-            return view('user.components.category.category02',['categoryData' => $this->categoryData]);
+            return view('user.components.categories.category02',['categoryData' => $this->categoryData]);
         } else {
-            return view('user.components.category.category03',['categoryData' => $this->categoryData]);
+            return view('user.components.categories.category03',['categoryData' => $this->categoryData]);
         }
     }
 }

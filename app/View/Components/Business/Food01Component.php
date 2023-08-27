@@ -52,11 +52,11 @@ class Food01Component extends Component
     public function render(): View|Closure|string
     {
         if ($this->ui_select == '01') {
-            return view('user.components.category.food01',['foodData' => $this->foodData, 'settings' => $this->settings]);
+            return view('user.components.foods.food01',['foodData' => $this->foodData, 'settings' => $this->settings]);
         } else if ($this->ui_select == '02') {
-            return view('user.components.category.food02',['foodData' => $this->foodData, 'settings' => $this->settings]);
+            return view('user.components.foods.food02',['foodData' => $this->foodData, 'settings' => $this->settings]);
         } else {
-            return view('user.components.category.food03',['foodData' => $this->foodData, 'settings' => $this->settings]);
+            return view('user.components.foods.food03',['foodData' => $this->foodData, 'settings' => $this->settings]);
         }
     }
 }

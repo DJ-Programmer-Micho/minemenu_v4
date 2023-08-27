@@ -41,11 +41,11 @@ class Menu01Component extends Component
         // ->paginate(10);
 
         if ($this->ui_select == '01') {
-            return view('user.components.category.menu01',['menuData' => $menuData]);
+            return view('user.components.menus.menu01',['menuData' => $menuData]);
         } else if ($this->ui_select == '02') {
-            return view('user.components.category.menu02',['menuData' => $menuData]);
+            return view('user.components.menus.menu02',['menuData' => $menuData]);
         } else {
-            return view('user.components.category.menu03',['menuData' => $menuData]);
+            return view('user.components.menus.menu03',['menuData' => $menuData]);
         }
         
     }
