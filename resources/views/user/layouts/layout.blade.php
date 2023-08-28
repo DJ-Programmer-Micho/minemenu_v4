@@ -90,7 +90,7 @@
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
     {{-- @livewireScripts --}}
-    
+
 <form id="languageForm" action="{{ route('setLocale') }}" method="post">
     @csrf
     <input type="hidden" name="locale" id="selectedLocale" value="{{ app()->getLocale() }}">
@@ -101,6 +101,8 @@
         document.getElementById('selectedLocale').value = locale;
         document.getElementById('languageForm').submit();
     }
+
+
 </script>
 @stack('business_script')
 

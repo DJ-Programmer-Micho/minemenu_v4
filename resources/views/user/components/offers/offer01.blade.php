@@ -51,26 +51,53 @@
 
 @push('business_script')   
 <script>
+const lang_slide = document.documentElement.getAttribute('lang');
+if(lang_slide === 'ar' || lang_slide === 'ku' ){
     $('.offer-slider').slick({
-        dots: true,
-        centerMode: true,
-        infinite: true,
-        prevArrow: false,
-        nextArrow: false,
-        autoplay: true,
-        autoplaySpeed: 2000,
-        speed: 1000,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        responsive: [{
-            breakpoint: 600,
-            settings: {
+                dots: true,
+                rtl: true,
+                centerMode: true,
+                infinite: true,
+                prevArrow: false,
+                nextArrow: false,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                speed: 1000,
                 slidesToShow: 1,
                 slidesToScroll: 1,
+                responsive: [{
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        infinite: true,
+                        dots: true
+                    }
+                }, ]
+            });
+} else {
+    $('.offer-slider').slick({
+                dots: true,
+                centerMode: true,
                 infinite: true,
-                dots: true
-            }
-        }, ]
-    });
+                prevArrow: false,
+                nextArrow: false,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                speed: 1000,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                responsive: [{
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        infinite: true,
+                        dots: true
+                    }
+                }, ]
+            });
+}
+ 
 </script>
 @endpush
