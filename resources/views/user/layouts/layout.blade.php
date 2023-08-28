@@ -13,7 +13,6 @@
     <meta name="audience" content="Everyone">
     <meta name="robots" content="index, follow"> 
     <script src="{{asset('/assets/general/lib/jquery/jquery.min.js')}}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     {{-- PWA --}}
     {{-- <meta name="HandheldFriendly" content="True"/>
     <meta name="mobile-web-app-capable" content="yes">
@@ -46,13 +45,19 @@
     <meta name="news_keywords" content="minemenu, mine menu, ماين منيو, menu iraq, menu erbil, menu resturant, qr code, resturant qr code, finedine, finedinemenu, mine menu iraq, food, drinks, food menu, menu scan, scan menu, منيو, menu generator, food menu generator, قائمة الطعام, food">
     <title>Mine Menu | {{$setting_name}}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
     <link rel="stylesheet" href="{{asset('/assets/general/lib/fontawesome-free/css/all.min.css')}}">
     {{-- <link rel="stylesheet" href="{{asset('/assets/user/ui-01/style.css')}}"> --}}
     <link rel="stylesheet" href="{{asset('/assets/user/master.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/header.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/sidenav.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/facility.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/body.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/menu.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/offer.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/category.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/food.css')}}">
     {{-- @livewireStyles --}}
@@ -61,6 +66,8 @@
 <body>
 <div class="master-container">
 
+    <x-business.Facilities01Component :settingname="$setting_name" :setting="$setting" :filteredlocales="$filteredLocales" :ui="$ui"/>
+
     <div class="place-header">
         {{-- @include('name') --}}
         <x-business.header01component :user="$user" :ui="$ui"/>
@@ -68,7 +75,7 @@
     </div>
 
     <div class="place-body">
-        <x-business.Facilities01Component :settingname="$setting_name" :setting="$setting" :filteredlocales="$filteredLocales" :ui="$ui"/>
+      
         @yield('business-content')
     </div>
 
@@ -79,6 +86,9 @@
 
 {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
     {{-- @livewireScripts --}}
     
 <form id="languageForm" action="{{ route('setLocale') }}" method="post">
@@ -93,6 +103,7 @@
     }
 </script>
 @stack('business_script')
+
 </body>
 {{-- <livewire:user.ui02-livewire/> --}}
 </html>

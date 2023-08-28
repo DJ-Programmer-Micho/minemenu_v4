@@ -64,7 +64,7 @@ nav-pills UI/UX-01
     cursor: pointer;
     font-size: 1.18rem;
     white-space: nowrap;
-    padding: 8px 10px;
+    /* padding: 8px 10px; */
     border-radius: 30px;
 }
 .tabs-box-01 .tab-01 .nav-link-01 {

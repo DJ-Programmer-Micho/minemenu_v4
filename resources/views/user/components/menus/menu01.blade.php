@@ -1,3 +1,4 @@
+<x-business.offer01component :user="$user_id" :glang="$glang" :ui="$ui" />
 <div class=" my-3">
     <div class="wrapper-01">
         <ul class="nav nav-pills-01 tabs-box-01 flex-nowrap" id="pills-tab" role="tablist">
@@ -38,6 +39,7 @@
                 </li>
         </ul>
     </div>
+
     <div class="tab-content" id="pills-tabContent">
         @foreach ($menuData as $menu)
         <div class="tab-pane fade {{$loop->index == 0 ? 'show active' : ''}}" id="pills-{{$menu->id}}" role="tabpanel"
