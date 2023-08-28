@@ -18,6 +18,5 @@ $(document).ready(function(){
         $('#pills-tab button[id="' + activeTab + '"]').tab('show');
     }
 });
-
 </script>
 @endpush

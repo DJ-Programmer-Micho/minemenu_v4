@@ -5,24 +5,13 @@ GENERAL
 /************
 nav-pills UI/UX-01
 ************/
-.nav-pills-scroll-container {
-    max-width: 400px; /* Set a width for the container */
-    overflow-x: auto;
-}
-
-.nav-pills-scroll-01 {
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
-    /* No need to set width here */
-}
-
 .nav-pills-01 .nav-link-01 {
     border: 1px solid var(--theme-color);
     border-radius: 20px;
-    padding: 5px 15px; /* Adjust padding for better visual */
+    margin-left: 5px;
+    height: 50px;
     font-weight: bold;
     color: var(--theme-color);
-    white-space: nowrap; /* Prevent text from wrapping */
 }
 
 [lang="ar"] .nav-pills-01 {
@@ -34,4 +23,76 @@ nav-pills UI/UX-01
 .nav-pills-01 .nav-link-01.active {
     background-color: var(--theme-color);
     color: var(--nav-active-text);
+}
+.wrapper-01 {
+    position: relative;
+    overflow-x: hidden;
+    max-width: 770px;
+    border-radius: 13px;
+}
+[lang="ar"],
+[lang="ku"] .wrapper-01 {
+    text-align: right;
+    direction: rtl;
+}
+
+[lang="ar"],
+[lang="ku"] .tabs-box-01 .tab-01 {
+    text-align: right;
+    direction: rtl;
+}
+
+.wrapper-01 .tabs-box-01 {
+    display: flex;
+    list-style: none;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+}
+.wrapper-01 .tabs-box-01::-webkit-scrollbar {
+    display: none;
+}
+.wrapper-01 .tabs-box-01 {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.tabs-box-01.dragging {
+    scroll-behavior: auto;
+    cursor: grab;
+}
+.tabs-box-01 .tab-01 {
+    cursor: pointer;
+    font-size: 1.18rem;
+    white-space: nowrap;
+    padding: 8px 10px;
+    border-radius: 30px;
+}
+.tabs-box-01 .tab-01 .nav-link-01 {
+    border: 1px solid var(--theme-color);
+    border-radius: 20px;
+    margin-left: 5px;
+    padding: 5px;
+    font-weight: bold;
+    color: var(--theme-color);
+}
+[lang="ar"],
+[lang="ku"].wrapper-01 {
+    text-align: right;
+    direction: rtl;
+}
+
+[lang="ar"],
+[lang="ku"] .tabs-box-01 .tab-01 {
+    text-align: right;
+    direction: rtl;
+}
+
+.tabs-box-01 .tab-01 .nav-link-01.active {
+    background-color: var(--theme-color);
+    color: var(--nav-active-text);
+}
+
+.tabs-box-01.dragging .tab-01 {
+    user-select: none;
+    pointer-events: none;
 }
