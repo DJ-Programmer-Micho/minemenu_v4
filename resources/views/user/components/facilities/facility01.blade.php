@@ -46,7 +46,10 @@
     </label>
     <div id="sidebarMenu">
       <ul class="sidebarMenuInner">
-        <li>{{$setting_name}}</li>
+        <li>
+            <h5>{{$setting_name}}</h5>
+            <p>{{__('top #100 resturant')}}</p>
+        </li>
         @foreach ($filteredLocales as $locale)
         <li><a href="#"  onclick="changeLanguage('{{ $locale }}')">{{ __(strtoupper($locale)) }}</a></li>
         @endforeach

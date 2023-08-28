@@ -1,0 +1,185 @@
+/************
+nav-pills UI/UX-01
+************/
+.container-fluid .box2 {
+    width: 100%;
+    align-items: center;
+    position: relative;
+}
+.container-fluid .box2 .box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: var(--background-color);
+    /* padding: 1rem; */
+    height: 100vh;
+    border-radius: 30px;
+    /* padding-bottom: 1rem; */
+}
+.container-fluid .box2 .box .top-image-container {
+    width: 100%;
+    height: 340px;
+    border-radius: 30px;
+    position: relative;
+    margin-top: -0.65rem;
+}
+.img-head-01 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+    border-radius: 30px;
+}
+.img-head-01 .content-01 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    transition: 1s ease-in-out all;
+}
+.img-head-01 .content-01 .img-top-01 {
+    min-width: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+.container-fluid .box2 .box .content-section {
+    margin-top: 2.5rem;
+    padding: 0.5rem 2rem;
+    background: transparent;
+    position: relative;
+}
+
+.container-fluid .box2 .box .content-section .title {
+    font-size: 2rem;
+    color: var(--title-color);
+}
+
+.container-fluid .box2 .box .content-section .color-section {
+    margin-top: 1rem;
+    /* display: flex; */
+    /* justify-content: space-between; */
+    /* align-items: center; */
+    color: var(--title-color);
+}
+.container-fluid .box2 .box .content-section .color-section .right {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex: 1;
+    flex-direction: column;
+    height: 100px;
+}
+.container-fluid .box2 .box .content-section .color-section .right div {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+}
+
+.container-fluid .box2 .box .content-section .description .tab {
+    display: flex;
+    margin-top: 15px;
+}
+.container-fluid .box2 .box .content-section .description .tab {
+    display: flex;
+    justify-content: space-between;
+    max-width: 260px;
+}
+.container-fluid .box2 .box .content-section .description .tab a {
+    font-size: 24px;
+    color: var(--title-color);
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 0.4rem;
+}
+.container-fluid
+    .box2
+    .box
+    .content-section
+    .description
+    .tab
+    a:first-child::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40%;
+    height: 3px;
+    background: var(--theme-color);
+    border-radius: 10px;
+}
+.container-fluid .box2 .box .content-section .description .text {
+    margin-top: 0.5rem;
+    color: var(--title-color);
+    font-size: 22px;
+    line-height: 1.6rem;
+}
+.container-fluid .box2 .box .content-section .add-to-catr-btn {
+    margin-top: 1.5rem;
+}
+.container-fluid .box2 .box .content-section .add-to-catr-btn .btn {
+    width: 100%;
+    padding: 1rem 0;
+    font-size: 20px;
+    color: var(--title-color);
+    border: none;
+    outline: none;
+    border-radius: 14px;
+    /* background: linear-gradient(135deg, #ada5d5, #8676b5); */
+    background-color: var(--theme-color);
+    cursor: pointer;
+}
+.container-fluid .box2 .box .content-section .add-to-catr-btn .btn span {
+    margin-left: 1.5rem;
+}
+.back-butt-detail-01 {
+    background-color: var(--back-button);
+    position: absolute;
+    color: var(--backicon-button);
+    border: none;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    z-index: 555;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 15px;
+    left: 12px;
+    font-weight: bolder;
+}
+
+.back-butt-detail-01:hover {
+    color: var(--backicon-button);
+}
+
+.home-butt-detail-01 {
+    background-color: var(--back-button);
+    position: absolute;
+    color: var(--backicon-button);
+    border: none;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    z-index: 555;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 15px;
+    left: 60px;
+    font-weight: bolder;
+}
+
+.home-butt-detail-01:hover {
+    color: var(--backicon-button);
+}
+.price-detail-01 {
+    color: var(--title-color);
+}

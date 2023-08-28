@@ -16,7 +16,18 @@
     <meta name="news_keywords" content="minemenu, mine menu, ماين منيو, menu iraq, menu erbil, menu resturant, qr code, resturant qr code, finedine, finedinemenu, mine menu iraq, food, drinks, food menu, menu scan, scan menu, منيو, menu generator, food menu generator, قائمة الطعام, food">
     <title>TEST MENU UI</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{asset('/assets/user/ui-01/style.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/general/lib/fontawesome-free/css/all.min.css')}}">
+    {{-- <link rel="stylesheet" href="{{asset('/assets/user/ui-01/style.css')}}"> --}}
+    <link rel="stylesheet" href="{{asset('/assets/user/master.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/header.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/sidenav.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/facility.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/detail.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/body.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/menu.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/offer.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/category.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/food.css')}}">
     {{-- @livewireStyles --}}
     @stack('business_style')
 </head>

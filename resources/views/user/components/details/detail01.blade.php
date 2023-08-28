@@ -1,42 +1,41 @@
-<div class="place-header">
 
-    {{-- <div class="place-header-inner" id="rest-img" style="background-image: url('{{$cloudFront .'/'. ((isset($catPic) && $catPic !=null) ? $catPic : $user_ui->logo)}}')">
-</div> --}}
-<div class="place-header-inner" id="rest-img" style="background-image: url('{{app('cloudfront').$foodData->img}}')">
-</div>
-{{-- @section('back') --}}
-<a class="back-butt" href="">zxc<i class="fa-solid fa-arrow-left"></i></a>
-<a class="home-butt" href="">zxc<i class="fa-solid fa-house"></i></a>
-{{-- @endsection --}}
 
-<div id="my-cart">
-    {{-- @include('main.index.layouts.cart') --}}
-</div>
-</div>
-<div class="place-body">
-    <div class="d-flex justify-content-between title-lang">
-        <h4 id="rest-title">{{$setting_name}}</h4>
-        <select name="my_select" class="mySelect" onchange="selectLang(this.value);" id="list" name="list">
+<div class="container-fluid m-0 p-0">
+    <div class="box2">
+        <div class="box">
+            <div class="top-image-container">
+                <div class="icon-row">
+                    <a class="back-butt-01" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
+                    <a class="home-butt-01" href="{{ route('business.home', ['business_name' => 'red'])}}"><i
+                            class="fas fa-home"></i></a>
+                </div>
+                <div class="img-head-01">
+                    <div class="content-01">
+                        <img src="{{app('cloudfront').$foodData->img}}" alt="slide image" class="img-top-01">
+                    </div>
+                </div>
+            </div>
+            <div class="content-section">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="title mb-5">{{$foodData->translation->name}}</h2>
+                    </div>
+                    
 
-            <option>{{__("Language")}}</option>
-            <option value="kr">كوردى</option>
-            <option value="ar">العربية</option>
-            <option value="en">asd</option>
-        </select>
-        @foreach ($filteredLocales as $locale)
-        <a class="dropdown-item" href="#" onclick="changeLanguage('{{ $locale }}')">
-            <i class="fas fa-language fa-sm fa-fw mr-2 text-gray-400"></i>
-            {{ strtoupper($locale) }}
-        </a>
-        @endforeach
+            <livewire:cart.food-cart-livewire :foodcartdata="$foodData" :setting="$settings" :glang="$glang"/>
+            <div class="description mt-5">
+                <div class="tab">
+                    <a>Description</a>
+                </div>
+                <p class="text">
+                    {{$foodData->translation->description}}
+                </p>
+            </div>
+
+            {{-- <div class="add-to-catr-btn">
+                <button class="btn" data-toggle="modal" data-target="#addCart"> {{__('Add to Cart')}}</button>
+            </div> --}}
+        </div>
     </div>
-
-    <h1 class="text-white">{{$foodData->translation->name}}</h1>
-    <p class="text-white">{{$foodData->translation->description}}</p>
-    <p class="text-white">{{$foodData->price}}</p>
-    <p class="text-white">{{$foodData->old_price}}</p>
-    <div>
-
-        {{-- <livewire:user.components.body01-livewire :user="$data" :setting="$setting"/> --}}
-    </div>
+</div>
 </div>

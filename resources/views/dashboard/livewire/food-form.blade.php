@@ -312,7 +312,7 @@
                                 </div>
                                 <div class="form-group col-12 col-md-6 col-lg-5">
                                     <label>Price</label>
-                                    <input type="text" wire:model="options.{{ $locale }}.{{ $index }}.value"
+                                    <input type="number" wire:model="options.{{ $locale }}.{{ $index }}.value"
                                         class="form-control">
                                         <small class="text-info">{{__('(Original Price)')}}</small>
                                 </div>

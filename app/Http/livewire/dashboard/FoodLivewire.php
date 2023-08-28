@@ -106,7 +106,7 @@ class FoodLivewire extends Component
                 Storage::disk('s3')->put($this->objectName, $croppedImage);
             }
             
-            $this->emit('imageUploaded', $this->objectName);
+            // $this->emit('imageUploaded', $this->objectName);
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Image did not crop!!!')]);
             return 'failed to crop image code...405';
@@ -188,14 +188,25 @@ class FoodLivewire extends Component
  
     public function updateFood()
     {
-        // $this->objectName = $this->imgReader;
+  
+        if($this->objectName == null){
+            $this->objectName = $this->imgReader;
+        } 
+
         $validatedData = $this->validate();
+
+        $sorm = $this->showTextarea ? 1 : 0;
+        $optionsData = $this->showTextarea ? json_encode(json_encode($this->options)) : null;
         // Update the Food record
         Food::where('id', $this->food_update->id)->update([
             'cat_id' => $validatedData['cat_id'],
             'priority' => $validatedData['priority'],
             'status' => $validatedData['status'],
-            'img' => $this->objectName,
+            'sorm' => $sorm,
+            'options' => $optionsData,
+            'old_price' => isset($validatedData['oldPrice']) ? $validatedData['oldPrice'] : null,
+            'price' => isset($validatedData['price']) ? $validatedData['price'] : null,
+            'img' => isset($this->objectName) ? $this->objectName : $this->imgReader,
         ]);
     
         // Create or update the Foods_Translator records
@@ -214,7 +225,7 @@ class FoodLivewire extends Component
         }
         $this->dispatchBrowserEvent('close-modal');
         $this->resetInput();
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Menu Updated Successfully')]);
+        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Food Updated Successfully')]);
     }
 
     public function updateStatus(int $food_id)
