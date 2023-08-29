@@ -17,6 +17,8 @@
     <title>TEST MENU UI</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('/assets/general/lib/fontawesome-free/css/all.min.css')}}">
+    <link href="{{asset('assets/general/css/toaster.css')}}" rel="stylesheet" type="text/css">
+
     {{-- <link rel="stylesheet" href="{{asset('/assets/user/ui-01/style.css')}}"> --}}
     <link rel="stylesheet" href="{{asset('/assets/user/master.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/header.css')}}">
@@ -28,7 +30,7 @@
     <link rel="stylesheet" href="{{asset('/assets/user/offer.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/category.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/food.css')}}">
-    {{-- @livewireStyles --}}
+    @livewireStyles
     @stack('business_style')
 </head>
 <body>
@@ -44,7 +46,7 @@
 </div>
 <script src="{{asset('/assets/general/lib/jquery/jquery.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-    {{-- @livewireScripts --}}
+    @livewireScripts
     
 <form id="languageForm" action="{{ route('setLocale') }}" method="post">
     @csrf
@@ -58,6 +60,17 @@
     }
 </script>
 @stack('business_script')
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script>
+    window.addEventListener('alert', event => { 
+                 toastr[event.detail.type](event.detail.message, 
+                 event.detail.title ?? ''), toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true,
+                    }
+                });
+    </script>
 </body>
 {{-- <livewire:user.ui02-livewire/> --}}
 </html>

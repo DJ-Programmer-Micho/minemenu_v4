@@ -24,83 +24,59 @@
 @php
 $options = json_decode($foodAction->options, true); // Decode the JSON options for the current item
 $currentOptions = $options[$glang] ?? []; // Get options for the current language or default to an empty array
+// dd( isset($quantity[$foodAction->id]));
+// dd(  $zero);
 @endphp
-                @if ($foodAction->sorm == 0)
-                    <div class="col-md-12 text-right">
-                        <div class="row">
-                            <div class="col-6 text-left">
-                                <h6 class="price-detail-01">{{$foodAction->price . ' ' .  $settings->currency}}</h6>
-                            </div>
-                            <div class="col-6">
-                                <section class="text-white">
-
-                                    <div class="plus-minus">
-                                      <i class="fas fa-plus"></i>
-                                      <input type="number" value="1" min="1" max="10" />
-                                      <i class="fas fa-minus"></i>
-                                    </div>
-                            </section>
-                            </div>
-                        </div>
-                        
+<form wire:submit.prevent="addToCart({{ $foodAction->id }})">
+@if ($foodAction->sorm == 0)
+    <div class="col-md-12 text-right">
+        <div class="row">
+            <div class="col-6 text-left">
+                <h6 class="price-detail-01">{{$foodAction->price . ' ' .  $settings->currency}}</h6>
+            </div>
+            <div class="col-6">
+                <section class="text-white">
+                    <div class="plus-minus">
+                        <i class="fas fa-plus" wire:click="increaseQuantity('{{ $foodAction->id }}')"></i>
+                        <input type="number" 
+                         min="1" max="10"
+                         wire:model="quantity.{{ $foodAction->id }}"
+                         value="{{ isset($quantity[$foodAction->id]) ? $quantity[$foodAction->id] : '0' }}"
+                         wire:change="addToCart('{{ $foodAction->id }}')"
+                        />
+                        <i class="fas fa-minus" wire:click="decreaseQuantity('{{ $foodAction->id }}')"></i>
                     </div>
-                </div>
-                @else
+                </section>
             </div>
-            <div class="color-section">
-                <div class="left">
-                    <h5 class="label">{{__('Choose Size')}}</h5>
-                    <hr>
-                    @foreach ($currentOptions as $option)
-                        <div class="row mb-3">
-                            <div class="col-6 my-auto">
-                                <h6><span class="font-weight-bold ">{{$option['key']}}</span> : {{$option['value'] . ' ' . $settings->currency}}</h6>
-
-                            </div>
-                            <div class="col-6">
-                                <section class="text-white text-right ">
-                                    <button class="btn btn-success"><i class="fas fa-cart-plus"></i></button>
-                                    <div class="plus-minus border border-white">
-                                        <i class="fas fa-minus"></i>
-                                        <input type="number" value="1" min="1" max="10" />
-                                        <i class="fas fa-plus"></i>
-                                    </div>
-                            </section>
-                            </div>
+        </div>
+    </div>
+    </div> {{-- Parent div --}}
+    @else
+    </div> {{-- Parent div --}}
+    <div class="color-section">
+        <div class="left">
+            <h5 class="label">{{__('Choose Size')}}</h5>
+            <hr>
+            @foreach ($currentOptions as $option)
+            <div class="row mb-3">
+                <div class="col-6 my-auto">
+                    <h6><span class="font-weight-bold ">{{$option['key']}}</span> : {{$option['value'] . ' ' . $settings->currency}}</h6>
+                </div>
+                <div class="col-6">
+                    <section class="text-white text-right ">
+                        <button type="submit" class="btn btn-success"><i class="fas fa-cart-plus"></i></button>
+                        <div class="plus-minus border border-white">
+                            <i class="fas fa-minus"></i>
+                            <input type="number"
+                                wire:model="quantity.{{$option['key'] .'.'. $foodAction->id }}" min="1"
+                                max="10" />
+                            <i class="fas fa-plus"></i>
                         </div>
-                    @endforeach
+                    </section>
                 </div>
             </div>
-            @endif
-
-
-
-<style>
-
-
- .plus-minus {
-  border-radius: 6px;
-  border: 1px solid rgba(var(--theme-color), 1);
-  padding: 6px 17px;
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  background-color: rgba(var(--white), 1);
-  text-align: center;
-}
- .plus-minus input {
-  background-color: rgba(var(--white), 1);
-  color: rgba(var(--theme-color), 1);
-  border: none;
-  font-size: 14px;
-  outline: none;
-  width: 35px;
-  text-align: center;
-}
- .plus-minus i {
-  color: rgba(var(--theme-color), 1);
-}
-</style>
+            @endforeach
+        </div>
+    </div>
+</form>
+@endif

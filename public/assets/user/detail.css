@@ -221,3 +221,29 @@ nav-pills UI/UX-01
     font-weight: bold;
     z-index: 99999;
 }
+
+.plus-minus {
+    border-radius: 6px;
+    border: 1px solid rgba(var(--theme-color), 1);
+    padding: 6px 17px;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: rgba(var(--white), 1);
+    text-align: center;
+}
+.plus-minus input {
+    background-color: rgba(var(--white), 1);
+    color: rgba(var(--theme-color), 1);
+    border: none;
+    font-size: 14px;
+    outline: none;
+    width: 35px;
+    text-align: center;
+}
+.plus-minus i {
+    color: rgba(var(--theme-color), 1);
+}
