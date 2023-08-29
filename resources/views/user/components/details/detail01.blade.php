@@ -5,9 +5,9 @@
         <div class="box">
             <div class="top-image-container">
                 <div class="icon-row">
-                    <a class="back-butt-01" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
-                    <a class="home-butt-01" href="{{ route('business.home', ['business_name' => 'red'])}}"><i
-                            class="fas fa-home"></i></a>
+                    <a class="back-butt-detail-01" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
+                    <a class="home-butt-detail-01" href="{{ route('business.home', ['business_name' => 'red'])}}"><i class="fas fa-home"></i></a>
+                    <livewire:cart.food-cart-livewire/>
                 </div>
                 <div class="img-head-01">
                     <div class="content-01">
