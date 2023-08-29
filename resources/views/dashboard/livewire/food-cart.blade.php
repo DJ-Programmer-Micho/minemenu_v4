@@ -52,24 +52,22 @@ $currentOptions = $options[$glang] ?? []; // Get options for the current languag
                     <h5 class="label">{{__('Choose Size')}}</h5>
                     <hr>
                     @foreach ($currentOptions as $option)
-                    <div>
-                        <div class="row">
-                            <div class="col-6">
-                                <h6><span class="font-weight-bold">{{$option['key']}}</span>:{{$option['value'] . ' ' . $settings->currency}}</h6>
+                        <div class="row mb-3">
+                            <div class="col-6 my-auto">
+                                <h6><span class="font-weight-bold ">{{$option['key']}}</span> : {{$option['value'] . ' ' . $settings->currency}}</h6>
 
                             </div>
                             <div class="col-6">
-                                <section class="text-white text-right">
-
-                                    <div class="plus-minus">
-                                      <i class="fas fa-plus"></i>
-                                      <input type="number" value="1" min="1" max="10" />
-                                      <i class="fas fa-minus"></i>
+                                <section class="text-white text-right ">
+                                    <button class="btn btn-success"><i class="fas fa-cart-plus"></i></button>
+                                    <div class="plus-minus border border-white">
+                                        <i class="fas fa-minus"></i>
+                                        <input type="number" value="1" min="1" max="10" />
+                                        <i class="fas fa-plus"></i>
                                     </div>
                             </section>
                             </div>
                         </div>
-                    </div>
                     @endforeach
                 </div>
             </div>
