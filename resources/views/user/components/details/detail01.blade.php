@@ -7,7 +7,7 @@
                 <div class="icon-row">
                     <a class="back-butt-detail-01" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
                     <a class="home-butt-detail-01" href="{{ route('business.home', ['business_name' => 'red'])}}"><i class="fas fa-home"></i></a>
-                    <livewire:cart.food-cart-counter-livewire/>
+                    <livewire:cart.food-cart-counter-livewire :foodcartdata="$foodData" :setting="$settings" :glang="$glang"/>
                 </div>
                 <div class="img-head-01">
                     <div class="content-01">
@@ -31,7 +31,7 @@
                     {{$foodData->translation->description}}
                 </p>
             </div>
-
+            
             {{-- <div class="add-to-catr-btn">
                 <button class="btn" data-toggle="modal" data-target="#addCart"> {{__('Add to Cart')}}</button>
             </div> --}}

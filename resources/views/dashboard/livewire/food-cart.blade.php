@@ -24,32 +24,32 @@
 @php
 $options = json_decode($foodAction->options, true); // Decode the JSON options for the current item
 $currentOptions = $options[$glang] ?? []; // Get options for the current language or default to an empty array
-// dd( isset($quantity[$foodAction->id]));
-// dd(  $zero);
+// dd($cart);
 @endphp
-<form wire:submit.prevent="addToCart({{ $foodAction->id }})">
+{{-- {{$cart}} --}}
 @if ($foodAction->sorm == 0)
-    <div class="col-md-12 text-right">
-        <div class="row">
-            <div class="col-6 text-left">
-                <h6 class="price-detail-01">{{$foodAction->price . ' ' .  $settings->currency}}</h6>
-            </div>
-            <div class="col-6">
-                <section class="text-white">
-                    <div class="plus-minus">
-                        <i class="fas fa-plus" wire:click="increaseQuantity('{{ $foodAction->id }}')"></i>
-                        <input type="number" 
-                         min="1" max="10"
-                         wire:model="quantity.{{ $foodAction->id }}"
-                         value="{{ isset($quantity[$foodAction->id]) ? $quantity[$foodAction->id] : '0' }}"
-                         wire:change="addToCart('{{ $foodAction->id }}')"
-                        />
-                        <i class="fas fa-minus" wire:click="decreaseQuantity('{{ $foodAction->id }}')"></i>
-                    </div>
-                </section>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-6 mt-2">
+            <h6 class="price-detail-01">{{$foodAction->price . ' ' .  $settings->currency}}</h6>
+        </div>
+        <div class="col-6">
+            <div class="d-flex align-items-center justify-content-end">
+                <button class="btn btn-sm btn-dark" wire:click="decreaseQuantity('{{ $foodAction->id }}', 'null', 'null')">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <input class="form-control mx-2 text-center" type="number" min="1" max="10"
+                    wire:model="quantity.{{ $foodAction->id }}"
+                    value="{{ isset($quantity[$foodAction->id]) ? $quantity[$foodAction->id] : '0' }}"
+                    wire:change="addToCart('{{ $foodAction->id }}','null','null')"
+                />
+                <button class="btn btn-sm btn-dark" wire:click="increaseQuantity('{{ $foodAction->id }}', 'null', 'null')">
+                    <i class="fas fa-plus"></i>
+                </button>
             </div>
         </div>
     </div>
+</div>
     </div> {{-- Parent div --}}
     @else
     </div> {{-- Parent div --}}
@@ -57,20 +57,28 @@ $currentOptions = $options[$glang] ?? []; // Get options for the current languag
         <div class="left">
             <h5 class="label">{{__('Choose Size')}}</h5>
             <hr>
-            @foreach ($currentOptions as $option)
-            <div class="row mb-3">
+            @foreach ($currentOptions as $index => $option)
+            @php
+                // dd($option);
+            @endphp
+            <div class="row mb-3" wire:key="{{ $index }}">
                 <div class="col-6 my-auto">
                     <h6><span class="font-weight-bold ">{{$option['key']}}</span> : {{$option['value'] . ' ' . $settings->currency}}</h6>
                 </div>
                 <div class="col-6">
                     <section class="text-white text-right ">
-                        <button type="submit" class="btn btn-success"><i class="fas fa-cart-plus"></i></button>
                         <div class="plus-minus border border-white">
-                            <i class="fas fa-minus"></i>
-                            <input type="number"
-                                wire:model="quantity.{{$option['key'] .'.'. $foodAction->id }}" min="1"
-                                max="10" />
-                            <i class="fas fa-plus"></i>
+                            <button class="btn btn-sm btn-dark" wire:click="decreaseQuantity('{{ $foodAction->id }}', '{{ $option['key'] }}', '{{$index}}')">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <input class="form-control mx-2 text-center" type="number" min="1" max="10"
+                                wire:model="quantity.{{ $foodAction->id . '.' . $index .'.' . $option['key'] }}" 
+                                value="{{ isset($previewQuantity[$foodAction->id][$index][$option['key']]) ? $previewQuantity[$foodAction->id][$index][$option['key']] : '0' }}"
+                                wire:change="addToCart('{{ $foodAction->id }}','{{$option['key']}}','{{$index}}')"
+                                 />
+                            <button class="btn btn-sm btn-dark" wire:click="increaseQuantity('{{ $foodAction->id }}', '{{ $option['key'] }}', '{{$index}}')">
+                                <i class="fas fa-plus"></i>
+                            </button>
                         </div>
                     </section>
                 </div>
@@ -78,5 +86,5 @@ $currentOptions = $options[$glang] ?? []; // Get options for the current languag
             @endforeach
         </div>
     </div>
-</form>
 @endif
+

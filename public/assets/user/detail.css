@@ -247,3 +247,17 @@ nav-pills UI/UX-01
 .plus-minus i {
     color: rgba(var(--theme-color), 1);
 }
+
+/* Hide the number input arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}
+.form-control {
+    padding: 0.375rem 0rem;
+    width: 35px;
+}
