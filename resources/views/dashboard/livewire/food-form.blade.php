@@ -246,7 +246,6 @@
                                 <small class="text-info">{{__('Show or Hide')}}</small>
                                 @error('status') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
-
                         </div>
                         <div class="col-12 col-sm-4">
                             <div class="mb-3">
