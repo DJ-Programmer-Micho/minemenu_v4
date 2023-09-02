@@ -1,4 +1,5 @@
 <div>
+    <x-business.offer01component :user="$user_id" :glang="$glang" :ui="$ui" />
 
     <x-business.menu01component :user="$user_id" :glang="$glang" :ui="$ui"/>
 

@@ -1,4 +1,3 @@
-<x-business.offer01component :user="$user_id" :glang="$glang" :ui="$ui" />
 <div class=" my-3">
     <div class="wrapper-01">
         <ul class="nav nav-pills-01 tabs-box-01 flex-nowrap" id="pills-tab" role="tablist">

@@ -85,4 +85,20 @@ class BusinessController extends Controller
             // 'cart_count' => $cart_count
         ]);
     }
+
+    public function offerDetail($business_name, $offerId,$detail){
+        $user = User::where('name', $business_name)->first();
+        $setting = Setting::where('user_id', $user->id)->with('translations')->first();
+        $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
+        // $cart_count = Cart::content()->count();
+        $ui = ['01','01','01','01'];
+        return view('user.layouts.food_detail', [
+            'user' => $user,
+            'setting' => $setting,
+            'setting_name' => $setting_name,
+            'detail' => $detail,
+            'ui' => $ui,
+            // 'cart_count' => $cart_count
+        ]);
+    }
 }

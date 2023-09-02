@@ -3,9 +3,10 @@
 namespace App\View\Components\Business;
 
 use Closure;
-use Illuminate\Contracts\View\View;
-use Illuminate\View\Component;
+use App\Models\Offer;
 use App\Models\Mainmenu;
+use Illuminate\View\Component;
+use Illuminate\Contracts\View\View;
 
 class Offer01Component extends Component
 {
@@ -32,16 +33,16 @@ class Offer01Component extends Component
      */
     public function render(): View|Closure|string
     {
-        // $menuData = Mainmenu::with(['translation' => function ($query) {
-        //     $query->where('lang', $this->glang);
-        // }])
-        // ->where('user_id', $this->user_id )
-        // ->get();
-        // ->orderBy('priority', 'ASC')
+        $offerData = Offer::with(['translation' => function ($query) {
+            $query->where('lang', $this->glang);
+        }])
+        ->where('user_id', $this->user_id )
+        ->orderBy('priority', 'ASC')
+        ->get();
         // ->paginate(10);
 
         if ($this->ui_select == '01') {
-            return view('user.components.offers.offer01');
+            return view('user.components.offers.offer01',['offerData' => $offerData]);
         } else if ($this->ui_select == '02') {
             return view('user.components.offers.offer02');
         } else {

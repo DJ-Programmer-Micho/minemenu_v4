@@ -10,7 +10,7 @@ class Offer extends Model
 {
     use HasFactory;
 
-    protected $table = 'offer';
+    protected $table = 'offers';
     protected $fillable = [
         'user_id',
         'name',
@@ -18,6 +18,7 @@ class Offer extends Model
         'img',
         'status',
         'price',
+        'old_price',
         'priority',
     ];
 

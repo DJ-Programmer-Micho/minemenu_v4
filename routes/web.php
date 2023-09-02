@@ -99,12 +99,8 @@ Route::prefix('/emp')->middleware(['checkStatus', 'LocalizationMiddleware', 'emp
 |--------------------------------------------------------------------------
 */
 Route::prefix('/{business_name}')->middleware(['LocalizationMiddleware'])->group(function () {
-    // Route::get('/', [Header01Livewire::class, 'rendedr']);
     Route::get('/', [BusinessController::class, 'category'])->name('business.home');
     Route::get('/cat/{food}', [BusinessController::class, 'food'])->name('business.food');
     Route::get('/cat/{food}/{detail}', [BusinessController::class, 'foodDetail'])->name('business.food_detail');
-    // Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
-    // Route::get('/posts', [PostController::class, 'show'])->name('posts.show');
-    // Route::get('/profile', [UserPageController::class, 'profile'])->name('user.profile');
-    // Route::get('/settings', [UserPageController::class, 'settings'])->name('user.settings');
+    Route::get('/offer/{detail}', [BusinessController::class, 'offerDetail'])->name('business.offer_detail');
 });

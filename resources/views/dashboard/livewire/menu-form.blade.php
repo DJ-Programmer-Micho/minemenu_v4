@@ -1,6 +1,6 @@
 <div>
 
-    @include('dashboard.livewire.form-main-menu')
+    @include('dashboard.livewire.menu-table')
     <div class="m-4">
         <h2 class="text-lg font-medium mr-auto">
             <b>TABLE MENU</b>

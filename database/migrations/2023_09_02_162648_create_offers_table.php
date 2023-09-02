@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->string('img')->nullable();
             $table->integer('price')->nullable();
+            $table->integer('old_price')->nullable();
             $table->integer('priority')->default(0);
             $table->integer('status')->default(1);
             $table->timestamps();

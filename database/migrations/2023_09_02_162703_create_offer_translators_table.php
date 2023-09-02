@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('offer_translators', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('offer_id')->references('id')->on('food')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('offer_id')->references('id')->on('offers')->onDelete('cascade')->onUpdate('cascade');
             $table->string('lang',5);
             $table->string('name')->nullable();
             $table->string('description',1000)->nullable();
