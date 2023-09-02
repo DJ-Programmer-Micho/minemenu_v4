@@ -15,7 +15,7 @@
             <div>
                 <div class="">
                     <button class="btn btn-info" data-toggle="modal"
-                        data-target="#studentModal">{{__('Add New Menu')}}</button>
+                        data-target="#menuModal">{{__('Add New Menu')}}</button>
                 </div>
             </div>
         </div>
@@ -52,12 +52,12 @@
                             <button type="button" onclick="updatePriorityValue({{ $item->id }})" class="btn btn-warning btn-icon text-dark">
                                 <i class="fas fa-sort"></i>
                             </button>
-                            <button type="button" data-toggle="modal" data-target="#updateStudentModal"
-                                wire:click="editStudent({{ $item->id }})" class="btn btn-primary m-1">
+                            <button type="button" data-toggle="modal" data-target="#updatemenuModal"
+                                wire:click="editMenu({{ $item->id }})" class="btn btn-primary m-1">
                                 <i class="far fa-edit"></i>
                             </button>
-                            <button type="button" data-toggle="modal" data-target="#deleteStudentModal"
-                                wire:click="deleteStudent({{ $item->id }})" class="btn btn-danger m-1">
+                            <button type="button" data-toggle="modal" data-target="#deletemenuModal"
+                                wire:click="deleteMenu({{ $item->id }})" class="btn btn-danger m-1">
                                 <i class="far fa-trash-alt"></i>
                             </button>
                             <button type="button"

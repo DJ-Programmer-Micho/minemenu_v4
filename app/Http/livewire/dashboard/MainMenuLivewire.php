@@ -14,7 +14,6 @@ class MainMenuLivewire extends Component
  
     protected $paginationTheme = 'bootstrap';
  
-    // public $name, $email, $role, $student_id, $status;
     public $search = '';
     public $glang;
     public $filteredLocales;
@@ -66,11 +65,12 @@ class MainMenuLivewire extends Component
         $this->dispatchBrowserEvent('close-modal');
     }
      
-    public function editStudent(int $menu_selected)
+    public function editMenu(int $menu_selected)
     {
         $menu_edit = Mainmenu::find($menu_selected);
         $this->menu_update = $menu_edit;
         $this->priority = $menu_edit->priority;
+        $this->status = $menu_edit->status;
 
         if ($menu_edit) {
             foreach ($this->filteredLocales as $locale) {
@@ -94,7 +94,7 @@ class MainMenuLivewire extends Component
         }
     }
  
-    public function updateStudent()
+    public function updateMenu()
     {
         $validatedData = $this->validate();
 
@@ -116,7 +116,7 @@ class MainMenuLivewire extends Component
             );
         }
 
-        session()->flash('message','Menu Updated Successfully');
+        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Menu Updated Successfully')]);
         $this->resetInput();
         $this->dispatchBrowserEvent('close-modal');
     }
@@ -143,23 +143,31 @@ class MainMenuLivewire extends Component
         }
     }
 
-    public function deleteStudent(int $menu_selected_id)
+    public $confirmDelete = false;
+    public $menuNameToDelete = '';
+    public $showTextTemp = '';
+    public $menu_selected_id_delete;
+    public $menu_selected_name_delete;
+
+    public function deleteMenu(int $menu_selected_id)
     {
-        $this->menu_selected_id = $menu_selected_id;;
+        $this->menu_selected_id_delete = Mainmenu::find($menu_selected_id);
+        $this->menu_selected_name_delete = Mainmenu_Translator::where('menu_id', $menu_selected_id)->where('lang', $this->glang)->first();
+        $this->showTextTemp = $this->menu_selected_name_delete->name;
+        $this->confirmDelete = true;
     }
- 
-    public function destroyStudent()
+
+    public function destroyMenu()
     {
-        if( Mainmenu::find($this->menu_selected_id)->delete()) {
-        // Mainmenu::find($this->menu_selected_id)->delete();
-            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Menu Deleted Successfully')]);
-            $this->dispatchBrowserEvent('fixx');
+        if ($this->confirmDelete && $this->menuNameToDelete === $this->showTextTemp) {
+            Mainmenu::find($this->menu_selected_id_delete->id)->delete();
             $this->dispatchBrowserEvent('close-modal');
+            $this->closeModal();
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Menu Deleted Successfully')]);
         } else {
-            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Operaiton Faild del-301')]);
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Operaiton Faild')]);
         }
     }
- 
     public function closeModal()
     {
         $this->resetInput();
@@ -192,9 +200,9 @@ class MainMenuLivewire extends Component
                         ->orWhere('user_id', 'like', '%' . $this->search . '%');
                 });
         })
-        ->orderBy('id', 'DESC')
+        ->orderBy('priority', 'ASC')
         ->paginate(10);
-        //$students = Student::select('id','name','email','course')->get();
+        //$Menus = Menu::select('id','name','email','course')->get();
         return view('dashboard.livewire.menu-form', ['items' => $data, 'cols_th' => $cols_th, 'cols_td' => $cols_td,'colspan' => $colspan]);
     }
 }
