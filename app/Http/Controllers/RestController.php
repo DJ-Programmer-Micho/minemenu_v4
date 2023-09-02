@@ -14,7 +14,7 @@ class RestController extends Controller
     } // END FUNCTION (DASHBOARD)
     public function mainmenu(){
         return view('dashboard.rest.pages.menu.index');
-    } // END FUNCTION (DASHBOARD)
+    } // END FUNCTION (MENU)
     public function category(){
         return view('dashboard.rest.pages.category.index');
     } // END FUNCTION (DASHBOARD)

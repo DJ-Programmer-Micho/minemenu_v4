@@ -13,7 +13,7 @@ GENERAL
     /* position: fixed; */
     height: 60px !important;
     overflow: hidden;
-    z-index: 99999;
+    z-index: 999;
 }
 .main {
     margin: 0 auto;
@@ -44,7 +44,7 @@ GENERAL
     transform: translateX(-100%); /* Change the value to move it off-screen */
     transition: transform 250ms ease-in-out;
     background: linear-gradient(180deg, #fc466bee 0%, #3f5efbee 100%);
-    z-index: 99999;
+    z-index: 999;
 }
 
 .sidebarMenuInner {

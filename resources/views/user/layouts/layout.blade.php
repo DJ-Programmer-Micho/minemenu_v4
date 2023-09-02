@@ -53,18 +53,21 @@
     <link rel="stylesheet" href="{{asset('/assets/user/header.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/sidenav.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/facility.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/detailnav.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/body.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/menu.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/offer.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/category.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/food.css')}}">
+    @livewireStyles
     @stack('business_style')
 </head>
 <body>
 <div class="master-container">
     <x-business.Facilities01Component :settingname="$setting_name" :setting="$setting" :filteredlocales="$filteredLocales" :ui="$ui"/>
+
     <div class="place-header">
-        <x-business.header01component :user="$user" :ui="$ui"/>
+        <x-business.header01component :user="$user" :ui="$ui" :setting="$setting"/>
     </div>
     <div class="place-body">
         @yield('business-content')
@@ -84,6 +87,7 @@
         document.getElementById('languageForm').submit();
     }
 </script>
+@livewireScripts
 @stack('business_script')
 </body>
 </html>

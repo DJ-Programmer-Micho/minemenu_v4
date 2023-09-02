@@ -9,7 +9,8 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 class FoodCartLivewire extends Component
 {
     protected $listeners = [
-        'go-check' => 'refreshAQuantity'
+        'go-check' => 'refreshAQuantity',
+        'reset' => 'render'
     ];
 
     public $food;
@@ -167,6 +168,9 @@ class FoodCartLivewire extends Component
                     $this->quantity_f = $quantity;
                 } else {
                     Cart::remove($rowId);
+                    $this->emit('check-go', $food_id, $option_key, $option_index);
+                    $this->emit('cart_updated');
+                    return;
                 }
             }
 
@@ -181,7 +185,6 @@ class FoodCartLivewire extends Component
             
             // MAIN CHILD index = en lang = 0 1
             foreach ($options as $index => $lang_option) {
-                // dd($options,  $lang_option, $lang_option[$this->selectedSizeOptionIndex],$lang_option[$this->selectedSizeOptionIndex]['key']);
                 if($lang_option[$option_index]['key']){
                     $ars[$index] = $lang_option[$option_index]['key'];
                     $price = $lang_option[$option_index]['value'];
@@ -197,7 +200,10 @@ class FoodCartLivewire extends Component
                 if ($quantity > 0) {
                     $allFood = $food->translation()->pluck('name', 'lang')->toArray();
                     $this->quantity_f = $quantity;
-                } 
+                } else {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'warning',  'message' => __('Done!')]);
+                    return;
+                }
             }
 
             $result = [];
@@ -234,6 +240,7 @@ class FoodCartLivewire extends Component
 
     }
 
+
     public function increaseQuantity($food_id, $option_key, $option_index)
     {
         if ($this->foodAction->sorm == 0) {
@@ -246,7 +253,6 @@ class FoodCartLivewire extends Component
             $this->selectedSizeOption = $option_key;
             $this->selectedSizeOptionIndex = $option_index;
             // Multiple-size food item scenario
-            // dd($this->quantity,[$food_id],[$this->selectedSizeOption]);
             if ($this->selectedSizeOption && isset($this->quantity[$food_id][$this->selectedSizeOptionIndex][$this->selectedSizeOption])) {
                 $this->quantity[$food_id][$this->selectedSizeOptionIndex][$this->selectedSizeOption]++;
                 $this->addToCartMultiple($food_id, $option_key, $option_index);
@@ -258,17 +264,25 @@ class FoodCartLivewire extends Component
     {
         if ($this->foodAction->sorm == 0) {
             // Single food item scenario
-            if (isset($this->quantity[$food_id]) && $this->quantity[$food_id] > 0) {
-                $this->quantity[$food_id]--;
-                $this->addToCartSingle($food_id); // Call the addToCartSingle method with the updated quantity
+            if (isset($this->quantity[$food_id]) && $this->quantity[$food_id] == 0) {
+                return;
+            } else {
+                if (isset($this->quantity[$food_id]) && $this->quantity[$food_id] > 0) {
+                    $this->quantity[$food_id]--;
+                    $this->addToCartSingle($food_id); // Call the addToCartSingle method with the updated quantity
+                }
             }
-        } else {
+            } else {
             $this->selectedSizeOption = $option_key;
             $this->selectedSizeOptionIndex = $option_index;
             // Multiple-size food item scenario
-            if ($this->selectedSizeOption && isset($this->quantity[$food_id][$this->selectedSizeOptionIndex][$this->selectedSizeOption])) {
-                $this->quantity[$food_id][$this->selectedSizeOptionIndex][$this->selectedSizeOption]--;
-                $this->addToCartMultiple($food_id, $option_key, $option_index);
+            if ($this->quantity[$food_id][$this->selectedSizeOptionIndex][$this->selectedSizeOption] == 0) {
+                return;
+            } else {
+                if ($this->selectedSizeOption && isset($this->quantity[$food_id][$this->selectedSizeOptionIndex][$this->selectedSizeOption])) {
+                    $this->quantity[$food_id][$this->selectedSizeOptionIndex][$this->selectedSizeOption]--;
+                    $this->addToCartMultiple($food_id, $option_key, $option_index);
+                }
             }
         }
     }
@@ -306,58 +320,7 @@ class FoodCartLivewire extends Component
                 }
             }
         } else {
-            $this->dispatchBrowserEvent('alert', ['type' => 'info', 'message' => __('Something Processing!')]);
+            $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Working On It!')]);
         }
-        // foreach (Cart::content() as $cartItem) {
-        //     $rowId = $cartItem->id;
-        //     if ($cartItem->options['sorm'] == 0) {
-        //         if ($rowId) {
-        //             $this->quantity[$rowId] = $cartItem->qty;
-        //         } else {
-        //             $this->quantity[$rowId] = 0;
-        //         }
-        //     } else {
-        //         if ($rowId) {
-        //             $this->quantity[$rowId][$cartItem->options['sizeindex']][$cartItem->options['size']] = $cartItem->qty;
-        //             // $this->previewQuantity[$rowId][$cartItem->options['sizeindex']][$cartItem->options['size']] = $cartItem->qty;
-        //         } else {
-        //             $this->quantity[$rowId][$cartItem->options['sizeindex']][$cartItem->options['size']] = 0;
-        //             // $this->previewQuantity[$rowId][$cartItem->options['sizeindex']][$cartItem->options['size']] = 0;
-        //         }
-        //     }
-        // }
-
-
-
-        // if ($this->foodAction->sorm == 0) {
-        //     // Single food item scenario
-        //     $existingCartItem = Cart::search(function ($cartItem) use ($food_id) {
-        //         return $cartItem->id == $food_id;
-        //     })->first();
-    
-        //     if ($existingCartItem) {
-        //         $this->quantity[$food_id] = $existingCartItem->qty;
-        //     } else {
-        //         $this->quantity[$food_id] = 0;
-        //     }
-        // } else {
-        //     // Multiple-size food item scenario
-        //     if ($this->selectedSizeOption) {
-        //         $existingCartItem = Cart::search(function ($cartItem) use ($food_id) {
-        //             return $cartItem->id == $food_id && $cartItem->options['size'] == $this->selectedSizeOption;
-        //         })->first();
-    
-        //         if ($existingCartItem) {
-        //             $this->quantity[$food_id][$existingCartItem->options['sizeindex']][$existingCartItem->options['size']] = $existingCartItem->qty;
-        //         } else {
-        //             $this->quantity[$food_id][$existingCartItem->options['sizeindex']][$existingCartItem->options['size']] = 0;
-        //         }
-        //     }
-        // }
     }
-    // public function removeFromCart($rowId)
-    // {
-    //     Cart::remove($rowId);
-    //     $this->emit('cart_updated');
-    // }
 } 

@@ -3,8 +3,9 @@
 namespace App\View\Components\Business;
 
 use Closure;
-use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Illuminate\Contracts\View\View;
+
 
 class Facilities01Component extends Component
 {
@@ -17,6 +18,7 @@ class Facilities01Component extends Component
     public $filteredlocales;
     public $ui;
     public $ui_select;
+    // public $cartcount;
 
    
     public function __construct($settingname, $filteredlocales, $setting, $ui)
@@ -26,6 +28,8 @@ class Facilities01Component extends Component
         $this->setting = $setting;
         $this->ui = $ui;
         $this->ui_select = $ui[0];
+        // $this->cartcount = Cart::content()->count();
+        // $this->cartcount = $cartcount;
     }
 
     /**
@@ -42,12 +46,16 @@ class Facilities01Component extends Component
         } else if ($this->ui_select == '02') {
             return view('user.components.facilities.facility01',[
                 'filteredLocales' => $this->filteredlocales,
+                'setting' => $this->setting,
                 'setting_name' => $this->settingname,
+                // 'cart_count' => $this->cartcount
             ]);
         } else {
             return view('user.components.facilities.facility01',[
                 'filteredLocales' => $this->filteredlocales,
+                'setting' => $this->setting,
                 'setting_name' => $this->settingname,
+                // 'cart_count' => $this->cartcount
             ]);
         }
     }

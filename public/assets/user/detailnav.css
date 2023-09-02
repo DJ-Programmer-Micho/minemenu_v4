@@ -219,14 +219,13 @@ nav-pills UI/UX-01
     height: 20px;
     width: 20px;
     font-weight: bold;
-    z-index: 99999;
+    z-index: 999;
 }
 
 .plus-minus {
     border-radius: 6px;
     border: 1px solid rgba(var(--theme-color), 1);
-    padding: 1px 2px;
-    margin: 1px;
+    padding: 6px 17px;
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
     display: inline-flex;
@@ -237,23 +236,18 @@ nav-pills UI/UX-01
     text-align: center;
 }
 .plus-minus input {
-    background-color: rgba(var(--background-color));
-    color: rgba(var(--title-color));
+    background-color: rgba(var(--white), 1);
+    color: rgba(var(--theme-color), 1);
     border: none;
-    font-size: 12px;
+    font-size: 14px;
     outline: none;
-    width: 25px;
+    width: 35px;
     text-align: center;
 }
 .plus-minus i {
     color: rgba(var(--theme-color), 1);
 }
-.table td,
-.table th {
-    padding: 0.25rem;
-    vertical-align: middle;
-    border-top: 1px solid #dee2e6;
-}
+
 /* Hide the number input arrows */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {

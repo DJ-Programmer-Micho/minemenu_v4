@@ -3,9 +3,10 @@
 namespace App\View\Components\Business;
 
 use Closure;
-use Illuminate\Contracts\View\View;
-use Illuminate\View\Component;
 use App\Models\Food;
+use Illuminate\View\Component;
+use Illuminate\Contracts\View\View;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class Detail01Component extends Component
 {
@@ -20,6 +21,8 @@ class Detail01Component extends Component
     public $setting_name;
     public $ui;
     public $ui_select;
+    public $cartcount;
+
 
     public function __construct($user, $detail, $ui, $settings, $settingname)
     {
@@ -31,6 +34,7 @@ class Detail01Component extends Component
         $this->settings = $settings;
         $this->setting_name = $settingname;
         // Initialize the categoryData based on menuId
+        $this->cartcount = Cart::content()->count();
         $this->initializeFoodData();
     }
 
@@ -58,11 +62,26 @@ class Detail01Component extends Component
     public function render(): View|Closure|string
     {
         if ($this->ui_select == '01') {
-            return view('user.components.details.detail01',['foodData' => $this->foodData, 'settings' => $this->settings, 'setting_name' => $this->setting_name]);
+            return view('user.components.details.detail01',[
+                'foodData' => $this->foodData, 
+                'settings' => $this->settings, 
+                'setting_name' => $this->setting_name, 
+                'cart_count' => $this->cartcount
+            ]);
         } else if ($this->ui_select == '02') {
-            return view('user.components.details.detail02',['foodData' => $this->foodData, 'settings' => $this->settings, 'setting_name' => $this->setting_name]);
+            return view('user.components.details.detail02',[
+                'foodData' => $this->foodData, 
+                'settings' => $this->settings, 
+                'setting_name' => $this->setting_name, 
+                'cart_count' => $this->cartcount
+            ]);
         } else {
-            return view('user.components.details.detail03',['foodData' => $this->foodData, 'settings' => $this->settings, 'setting_name' => $this->setting_name]);
+            return view('user.components.details.detail03',[
+                'foodData' => $this->foodData, 
+                'settings' => $this->settings, 
+                'setting_name' => $this->setting_name, 
+                'cart_count' => $this->cartcount
+            ]);
         }
     }
 }

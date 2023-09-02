@@ -18,17 +18,15 @@ class FoodCartCounterLivewire extends Component
     public array $quantity = [];
     public $selectedSizeOption;
     public $selectedSizeOptionIndex;
-    public $foodAction;
-    public $setting;
     public $glang;
+    public $tax;
     public $quantity_f = [];
     public $previewQuantity = [];
     
 
-    public function mount($foodcartdata, $setting ,$glang){
-        $this->foodAction = $foodcartdata;
-        $this->setting = $setting;
+    public function mount($glang, $setting){
         $this->glang = $glang;
+        $this->tax = $setting->fees;
 
         // GET THE VALUES
         foreach (Cart::content() as $cartItem) {
@@ -53,14 +51,29 @@ class FoodCartCounterLivewire extends Component
     public function render(){
         $cart_count = Cart::content()->count();
         $cart = Cart::content();
+        
+
+        $data = json_decode($cart, true);
+
+        // Initialize a variable to store the sum of subtotals
+        $totalSubtotal = 0;
+        
+        // Loop through the data and sum the subtotals
+        foreach ($data as $item) {
+            $subtotal = floatval($item['subtotal']); // Convert subtotal to float
+            $totalSubtotal += $subtotal;
+        }
+        $taxRate = $this->tax / 100;
+        $grandTotal = $totalSubtotal + ($totalSubtotal * $taxRate);
 
         return view('dashboard.livewire.food-cart-counter', 
         [
-            'foodAction' => $this->foodAction,
-            'settings' => $this->setting,
             'glang' => $this->glang,
             'cart_count' => $cart_count,
-            'cart' => $cart
+            'cart' => $cart,
+            'tax' => $this->tax,
+            'totalSubtotal' => $totalSubtotal,
+            'grandTotal' => $grandTotal
         ]
     );
     }
@@ -121,6 +134,9 @@ class FoodCartCounterLivewire extends Component
                     $this->quantity_f = $quantity;
                 } else {
                     Cart::remove($rowId);
+                    $this->emit('go-check', $food_id, $option_key, $option_index);
+                    $this->emit('cart_updated');
+                    return;
                 }
             }
 
@@ -158,17 +174,25 @@ class FoodCartCounterLivewire extends Component
     {
         if ($check_sorm == 0) {
             // Single food item scenario
-            if (isset($this->quantity[$food_id]) && $this->quantity[$food_id] > 0) {
-                $this->quantity[$food_id]--;
-                $this->addToCart($food_id, $option_key, $option_index, $check_sorm); // Call the addToCartSingle method with the updated quantity
-            } 
+            if (isset($this->quantity[$food_id]) && $this->quantity[$food_id] == 0) {
+                return;
+            } else {
+                if (isset($this->quantity[$food_id]) && $this->quantity[$food_id] > 0) {
+                    $this->quantity[$food_id]--;
+                    $this->addToCart($food_id, $option_key, $option_index, $check_sorm); // Call the addToCartSingle method with the updated quantity
+                } 
+            }
         } else {
             $this->selectedSizeOption = $option_key;
             $this->selectedSizeOptionIndex = $option_index;
             // Multiple-size food item scenario
-            if ($this->selectedSizeOption && isset($this->quantity[$food_id][$this->selectedSizeOptionIndex][$this->selectedSizeOption])) {
-                $this->quantity[$food_id][$this->selectedSizeOptionIndex][$this->selectedSizeOption]--;
-                $this->addToCart($food_id, $option_key, $option_index, $check_sorm);
+            if ($this->quantity[$food_id][$this->selectedSizeOptionIndex][$this->selectedSizeOption] == 0) {
+                return;
+            } else {
+                if ($this->selectedSizeOption && isset($this->quantity[$food_id][$this->selectedSizeOptionIndex][$this->selectedSizeOption])) {
+                    $this->quantity[$food_id][$this->selectedSizeOptionIndex][$this->selectedSizeOption]--;
+                    $this->addToCart($food_id, $option_key, $option_index, $check_sorm);
+                }
             }
         }
     }
@@ -205,7 +229,24 @@ class FoodCartCounterLivewire extends Component
                 }
             }
         } else {
-            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Something Went Wrong!')]);
+            $this->dispatchBrowserEvent('alert', ['type' => 'info', 'message' => __('Cart Processing')]);
         }
+    }
+
+    public function removeFood($rowId, $food_id, $option_key, $option_index){
+    // public function removeFood($rowId){
+            Cart::remove($rowId);
+            $this->emit('reset');
+            $this->emit('go-check', $food_id, $option_key, $option_index);
+            $this->emit('cart_updated');
+            $this->render();
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Food Removed')]);
+    }
+    public function removeList(){
+            Cart::destroy();
+            $this->emit('reset');
+            $this->emit('cart_updated');
+            $this->render();
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Cart Removed, New Cart :)')]);
     }
 } 

@@ -133,6 +133,19 @@
                 </lord-icon> 
                     <span>{{__('Food')}}</span></a>
             </li>
+            <!-- Nav Item - Offer -->
+            <li class="nav-item  {{(request()->path() == 'rest/food') ? 'active' : ''}}">
+                <a class="nav-link" href="{{route('food')}}">
+                    <lord-icon
+                    src="https://cdn.lordicon.com/zhxxdohn.json"
+                    trigger="loop"
+                    delay="2000"
+                    colors="primary:#cc0022,secondary:#eee"
+                    state="hover-2"
+                    style="width:48px;height:48px">
+                </lord-icon> 
+                    <span>{{__('Offer')}}</span></a>
+            </li>
             <!-- Divider -->
             <hr class="sidebar-divider my-1">
             <!-- Heading -->
