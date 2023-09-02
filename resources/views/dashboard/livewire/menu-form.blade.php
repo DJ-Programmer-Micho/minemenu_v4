@@ -41,12 +41,17 @@
                                 <span class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
                                    <b>{{ $item->status == 1 ? __('Active') : __('Non-Active') }}</b>
                                 </span>
+                            @elseif ($col === 'priority')        
+                                <input type="number" id="priority_{{ $item->id }}" value="{{ $item->priority }}" class="form-control bg-dark text-white">
                             @else
                                 {{ data_get($item, $col) }}
                             @endif
                         </td>
                         @endforeach
                         <td>
+                            <button type="button" onclick="updatePriorityValue({{ $item->id }})" class="btn btn-warning btn-icon text-dark">
+                                <i class="fas fa-sort"></i>
+                            </button>
                             <button type="button" data-toggle="modal" data-target="#updateStudentModal"
                                 wire:click="editStudent({{ $item->id }})" class="btn btn-primary m-1">
                                 <i class="far fa-edit"></i>
@@ -64,7 +69,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="{{ count($cols_th) + 1 }}">No Record Found</td>
+                        <td colspan="{{ count($cols_th) + 1 }}">{{__('No Record Found')}}</td>
                     </tr>
                     @endforelse
                 </tbody>
@@ -79,3 +84,18 @@
 </div>
 
 </div>
+@if(session()->has('alert'))
+    @php $alert = session()->get('alert'); @endphp
+    <script>
+        toastr.{{ $alert['type'] }}('{{ $alert['message'] }}');
+    </script>
+@endif
+@push('cropper')
+<script>
+    function updatePriorityValue(itemId) {
+        var input = document.getElementById('priority_' + itemId);
+        var updatedPriority = input.value;
+        @this.call('updatePriority', itemId, updatedPriority);
+    }
+</script>
+@endpush

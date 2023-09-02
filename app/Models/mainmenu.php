@@ -13,6 +13,7 @@ class Mainmenu extends Model
     protected $table = 'mainmenus';
     protected $fillable = [
         'user_id',
+        'priority',
         'status',
     ];
 

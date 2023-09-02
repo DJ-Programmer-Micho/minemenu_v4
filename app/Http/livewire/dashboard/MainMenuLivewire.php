@@ -18,10 +18,12 @@ class MainMenuLivewire extends Component
     public $search = '';
     public $glang;
     public $filteredLocales;
+    public $status;
     public $names = [];
     public $menu_selected_id;
     public $menu_id;
     public $lang;
+    public $priority;
     public $menu_update;
 
     public function mount()
@@ -37,24 +39,19 @@ class MainMenuLivewire extends Component
         foreach ($this->filteredLocales as $locale) {
             $rules['names.' . $locale] = 'required|string|min:2';
         }
-    
-        // $rules['status'] = ['required'];
+        $rules['priority'] = ['required'];
+        $rules['status'] = ['required'];
     
         return $rules;
     }
  
-    // public function updated($fields)
-    // {
-    //     $this->validateOnly($fields);
-    // }
- 
     public function saveMenu()
-    {
-        // $validatedData = $this->validate(); // Automatically validates the form fields based on the rules
+    {        $validatedData = $this->validate();
 
         $menu = Mainmenu::create([
             'user_id' => auth()->id(),
-            // 'status' => $validatedData['status'],
+            'priority' => $validatedData['priority'],
+            'status' => $validatedData['status'],
         ]);
     
         foreach ($this->filteredLocales as $locale) {
@@ -73,6 +70,7 @@ class MainMenuLivewire extends Component
     {
         $menu_edit = Mainmenu::find($menu_selected);
         $this->menu_update = $menu_edit;
+        $this->priority = $menu_edit->priority;
 
         if ($menu_edit) {
             foreach ($this->filteredLocales as $locale) {
@@ -98,16 +96,13 @@ class MainMenuLivewire extends Component
  
     public function updateStudent()
     {
-        // dd($this->menu_update->id);
         $validatedData = $this->validate();
 
-        // Update the Mainmenu record
         Mainmenu::where('id', $this->menu_update->id)->update([
-            // Update the relevant fields based on the form data
-            // 'status' => $validatedData['status'],
+            'priority' => $validatedData['priority'],
+            'status' => $validatedData['status'],
         ]);
-    
-        // Create or update the Mainmenu_Translator records
+
         $menu = Mainmenu::find($this->menu_update->id);
         foreach ($this->filteredLocales as $locale) {
             Mainmenu_Translator::updateOrCreate(
@@ -137,6 +132,17 @@ class MainMenuLivewire extends Component
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Menu Status Updated Successfully')]);
     }
      
+    public function updatePriority(int $p_id, $updatedPriority){
+        $varr = Mainmenu::find($p_id);
+        if ($varr) {
+            $varr->priority = $updatedPriority;
+            $varr->save();
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Priority Updated Successfully')]);
+        } else {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Priority Did Not Update')]);
+        }
+    }
+
     public function deleteStudent(int $menu_selected_id)
     {
         $this->menu_selected_id = $menu_selected_id;;
@@ -163,14 +169,16 @@ class MainMenuLivewire extends Component
     {
         foreach ($this->filteredLocales as $locale) {
             $this->names[$locale] = "";
+            $this->status = '';
+            $this->priority = '';
         }
     }
  
     public function render()
     {
         $colspan = 6;
-        $cols_th = ['#','USER ID','Name','status','actions'];
-        $cols_td = ['id','user_id','translation.name','status'];
+        $cols_th = ['#','Name','Priority','Status','actions'];
+        $cols_td = ['id','translation.name','priority','status'];
 
         $data = Mainmenu::with(['translation' => function ($query) {
             $query->where('lang', $this->glang);

@@ -17,20 +17,23 @@ class RestController extends Controller
     } // END FUNCTION (MENU)
     public function category(){
         return view('dashboard.rest.pages.category.index');
-    } // END FUNCTION (DASHBOARD)
+    } // END FUNCTION (CATEGORY)
     public function food(){
         return view('dashboard.rest.pages.food.index');
-    } // END FUNCTION (DASHBOARD)
+    } // END FUNCTION (FOOD)
+    public function offer(){
+        return view('dashboard.rest.pages.offer.index');
+    } // END FUNCTION (OFFER)
     public function languageSetting(){
         return view('dashboard.rest.pages.setting.languageSetting');
-    } // END FUNCTION (DASHBOARD)
+    } // END FUNCTION (LANGUAGE-SETTING)
     public function nameSetting(){
         return view('dashboard.rest.pages.setting.nameSetting');
-    } // END FUNCTION (DASHBOARD)
+    } // END FUNCTION (NAME-SETTING)
     public function menuSetting(){
         return view('dashboard.rest.pages.setting.menuSetting');
-    } // END FUNCTION (DASHBOARD)
+    } // END FUNCTION (MENU-SETTING)
     public function startSetting(){
         return view('dashboard.rest.pages.setting.startSetting');
-    } // END FUNCTION (DASHBOARD)
+    } // END FUNCTION (START-SETTING)
 }

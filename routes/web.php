@@ -78,6 +78,7 @@ Route::prefix('/rest')->middleware(['checkStatus', 'LocalizationMiddleware', 're
     Route::get('/mainmenu', [RestController::class, 'mainmenu'])->name('mainmenu');
     Route::get('/category', [RestController::class, 'category'])->name('category');
     Route::get('/food', [RestController::class, 'food'])->name('food');
+    Route::get('/offer', [RestController::class, 'offer'])->name('offer');
     Route::get('/setting/language', [RestController::class, 'languageSetting'])->name('languageSetting');
     Route::get('/setting/name', [RestController::class, 'nameSetting'])->name('nameSetting');
     Route::get('/setting/menu', [RestController::class, 'menuSetting'])->name('menuSetting');

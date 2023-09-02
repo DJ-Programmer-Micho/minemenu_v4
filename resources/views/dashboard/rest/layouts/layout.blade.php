@@ -134,8 +134,8 @@
                     <span>{{__('Food')}}</span></a>
             </li>
             <!-- Nav Item - Offer -->
-            <li class="nav-item  {{(request()->path() == 'rest/food') ? 'active' : ''}}">
-                <a class="nav-link" href="{{route('food')}}">
+            <li class="nav-item  {{(request()->path() == 'rest/offer') ? 'active' : ''}}">
+                <a class="nav-link" href="{{route('offer')}}">
                     <lord-icon
                     src="https://cdn.lordicon.com/zhxxdohn.json"
                     trigger="loop"
