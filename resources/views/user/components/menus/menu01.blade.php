@@ -11,31 +11,6 @@
                         type="button" role="tab" aria-controls="pills-social"
                         aria-selected="true">{{__("Follow Us")}}</button>
                 </li>
-                <li class="nav-item tab-01" role="presentation">
-                    <button class="nav-link-01 equal-width" id="pills-social-tab" data-toggle="pill" data-target="#pills-social"
-                        type="button" role="tab" aria-controls="pills-social"
-                        aria-selected="true">{{__("Follow Us")}}</button>
-                </li>
-                <li class="nav-item tab-01" role="presentation">
-                    <button class="nav-link-01 equal-width" id="pills-social-tab" data-toggle="pill" data-target="#pills-social"
-                        type="button" role="tab" aria-controls="pills-social"
-                        aria-selected="true">{{__("Follow Us")}}</button>
-                </li>
-                <li class="nav-item tab-01" role="presentation">
-                    <button class="nav-link-01 equal-width" id="pills-social-tab" data-toggle="pill" data-target="#pills-social"
-                        type="button" role="tab" aria-controls="pills-social"
-                        aria-selected="true">{{__("Follow Us")}}</button>
-                </li>
-                <li class="nav-item tab-01" role="presentation">
-                    <button class="nav-link-01 equal-width" id="pills-social-tab" data-toggle="pill" data-target="#pills-social"
-                        type="button" role="tab" aria-controls="pills-social"
-                        aria-selected="true">{{__("Follow Us")}}</button>
-                </li>
-                <li class="nav-item tab-01" role="presentation">
-                    <button class="nav-link-01 equal-width" id="pills-social-tab" data-toggle="pill" data-target="#pills-social"
-                        type="button" role="tab" aria-controls="pills-social"
-                        aria-selected="true">{{__("Follow Us")}}</button>
-                </li>
         </ul>
     </div>
 

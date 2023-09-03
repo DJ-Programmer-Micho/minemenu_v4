@@ -1,32 +1,7 @@
-{{-- <div wire:ignore.self class="modal fade overflow-auto" id="addCart" tabindex="-1" aria-labelledby="addCart:abel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xl text-white mx-1 mx-lg-auto" style="max-width: 1140px;">
-        <div class="modal-content bg-dark">
-            <form wire:submit.prevent="saveFood">
-                <div class="modal-body">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="createFoodLabel">{{__('Add Food')}}</h5>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close"
-                            wire:click="closeModal">
-                            <span aria-hidden="true"><i class="fas fa-times"></i></span></button>
-                        </div>
-                        {{$hi->translation->name}}
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                            data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> --}}
 @php
 $options = json_decode($foodAction->options, true); // Decode the JSON options for the current item
 $currentOptions = $options[$glang] ?? []; // Get options for the current language or default to an empty array
-// dd($cart);
 @endphp
-{{-- {{$cart}} --}}
 @if ($foodAction->sorm == 0)
 <div class="col-md-12">
     <div class="row">
@@ -58,9 +33,6 @@ $currentOptions = $options[$glang] ?? []; // Get options for the current languag
             <h5 class="label">{{__('Choose Size')}}</h5>
             <hr>
             @foreach ($currentOptions as $index => $option)
-            @php
-                // dd($option);
-            @endphp
             <div class="row mb-3" wire:key="{{ $index }}">
                 <div class="col-6 my-auto">
                     <h6><span class="font-weight-bold ">{{$option['key']}}</span> : {{$option['value'] . ' ' . $settings->currency}}</h6>

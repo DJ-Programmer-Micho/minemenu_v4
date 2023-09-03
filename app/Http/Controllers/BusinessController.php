@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Setting;
-use Gloudemans\Shoppingcart\Facades\Cart;
-
 
 class BusinessController extends Controller
 {
@@ -14,7 +12,6 @@ class BusinessController extends Controller
 
         $user = User::where('name', $business_name)->first();
         $setting = Setting::where('user_id', $user->id)->first();
-        // $cart_count = Cart::content()->count();
         $ui = ['01','01','01','01'];
         // $ui = [Header, Menu, Category, Food]
 
@@ -28,7 +25,6 @@ class BusinessController extends Controller
             'user' => $user,
             'setting' => $setting,
             'ui' => $ui,
-            // 'cart_count' => $cart_count
         ]);
     }
     public function category($business_name){
@@ -36,7 +32,6 @@ class BusinessController extends Controller
         $user = User::where('name', $business_name)->first();
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
-        // $cart_count = Cart::content()->count();
         $ui = ['01','01','01','01'];
         // $ui = [Header, Menu, Category, Food]
 
@@ -50,7 +45,6 @@ class BusinessController extends Controller
             'setting' => $setting,
             'setting_name' => $setting_name,
             'ui' => $ui,
-            // 'cart_count' => $cart_count
         ]);
     }
 
@@ -58,7 +52,6 @@ class BusinessController extends Controller
         $user = User::where('name', $business_name)->first();
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
-        // $cart_count = Cart::content()->count();
         $ui = ['01','01','01','01'];
         return view('user.layouts.food_list', [
             'user' => $user,
@@ -66,7 +59,6 @@ class BusinessController extends Controller
             'setting_name' => $setting_name,
             'foodId' => $foodId,
             'ui' => $ui,
-            // 'cart_count' => $cart_count
         ]);
     }
 
@@ -74,7 +66,6 @@ class BusinessController extends Controller
         $user = User::where('name', $business_name)->first();
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
-        // $cart_count = Cart::content()->count();
         $ui = ['01','01','01','01'];
         return view('user.layouts.food_detail', [
             'user' => $user,
@@ -82,23 +73,21 @@ class BusinessController extends Controller
             'setting_name' => $setting_name,
             'detail' => $detail,
             'ui' => $ui,
-            // 'cart_count' => $cart_count
         ]);
     }
 
-    public function offerDetail($business_name, $offerId,$detail){
+    public function offerDetail($business_name ,$detail){
         $user = User::where('name', $business_name)->first();
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
-        // $cart_count = Cart::content()->count();
         $ui = ['01','01','01','01'];
-        return view('user.layouts.food_detail', [
+
+        return view('user.layouts.offer_detail', [
             'user' => $user,
             'setting' => $setting,
             'setting_name' => $setting_name,
             'detail' => $detail,
             'ui' => $ui,
-            // 'cart_count' => $cart_count
         ]);
     }
 }

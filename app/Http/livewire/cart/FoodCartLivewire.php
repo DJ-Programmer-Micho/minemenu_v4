@@ -296,6 +296,7 @@ class FoodCartLivewire extends Component
 
         if ($existingCartItem) {
             $rowId = $existingCartItem->id;
+            if ($existingCartItem->options['size'] != 'offer') {
             if ($existingCartItem->options['sorm'] == 0) {
                 if ($rowId) {
                     $this->quantity[$rowId] = $existingCartItem->qty;
@@ -304,11 +305,13 @@ class FoodCartLivewire extends Component
                 }
             } else {
                 foreach (Cart::content() as $cartItem) {
+                    if ( $cartItem->options['size'] != 'offer') {
                     if ( $cartItem->options['sorm'] == 1) {
                         if( $cartItem->options['size'] == $option_key){
                          $existingCartItem = $cartItem;
                          break;
                         }
+                    }
                     }
                 }
                 if ($rowId) {
@@ -318,6 +321,7 @@ class FoodCartLivewire extends Component
                     $this->quantity[$rowId][$option_index][$option_key] = 0;
                     // $this->previewQuantity[$rowId][$cartItem->options['sizeindex']][$cartItem->options['size']] = 0;
                 }
+            }
             }
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Working On It!')]);

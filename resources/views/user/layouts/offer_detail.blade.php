@@ -14,7 +14,7 @@
     <meta name="robots" content="index, follow"> 
     <meta name='keywords' content='minemenu, mine menu, ماين منيو, menu iraq, menu erbil, menu resturant, qr code, resturant qr code, finedine, finedinemenu, mine menu iraq, food, drinks, food menu, menu scan, scan menu, منيو, menu generator, food menu generator, قائمة الطعام, food'>
     <meta name="news_keywords" content="minemenu, mine menu, ماين منيو, menu iraq, menu erbil, menu resturant, qr code, resturant qr code, finedine, finedinemenu, mine menu iraq, food, drinks, food menu, menu scan, scan menu, منيو, menu generator, food menu generator, قائمة الطعام, food">
-    <title>TEST MENU UI</title>
+    <title>{{$setting_name}} | {{__('Offers')}}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('/assets/general/lib/fontawesome-free/css/all.min.css')}}">
     <link href="{{asset('assets/general/css/toaster.css')}}" rel="stylesheet" type="text/css">
@@ -36,11 +36,10 @@
 <body>
     <div class="master-container">
 
-        <x-business.offer01component :user="$user" :detail="$detail" :ui="$ui" :settings="$setting" :settingname="$setting_name"/>
+        <x-business.offerdetail01component :user="$user" :detail="$detail" :ui="$ui" :settings="$setting" :settingname="$setting_name"/>
 
     <div class="place-footer">
-        {{-- <livewire:user.components.food01-livewire/> --}}
-        {{-- @include('name') --}}
+
     </div>
    
 </div>

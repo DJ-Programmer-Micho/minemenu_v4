@@ -4,6 +4,7 @@ namespace App\Http\Livewire\cart;
  
 
 use App\Models\Food;
+use App\Models\Offer;
 use Livewire\Component;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
@@ -11,11 +12,13 @@ class FoodCartCounterLivewire extends Component
 {
     protected $listeners = [
         'cart_updated' => 'render',
-        'check-go' => 'refreshQuantity'
+        'check-go' => 'refreshQuantity',
+        'check-offer-go' => 'refreshOfferQuantity',
     ];
 
     public $food;
-    public array $quantity = [];
+    public array $quantity = []; 
+    public array $quantityOffer = []; 
     public $selectedSizeOption;
     public $selectedSizeOptionIndex;
     public $glang;
@@ -31,19 +34,27 @@ class FoodCartCounterLivewire extends Component
         // GET THE VALUES
         foreach (Cart::content() as $cartItem) {
             $rowId = $cartItem->id;
-            if ($cartItem->options['sorm'] == 0) {
+            if($cartItem->options['size'] == 'offer'){
                 if ($rowId) {
-                    $this->quantity[$rowId] = $cartItem->qty;
+                    $this->quantityOffer[$rowId] = $cartItem->qty;
                 } else {
-                    $this->quantity[$rowId] = 0;
+                    $this->quantityOffer[$rowId] = 0;
                 }
-            } else {
-                if ($rowId) {
-                    $this->quantity[$rowId][$cartItem->options['sizeindex']][$cartItem->options['size']] = $cartItem->qty;
-                    // $this->previewQuantity[$rowId][$cartItem->options['sizeindex']][$cartItem->options['size']] = $cartItem->qty;
+            } else {  
+                if ($cartItem->options['sorm'] == 0) {
+                    if ($rowId) {
+                        $this->quantity[$rowId] = $cartItem->qty;
+                    } else {
+                        $this->quantity[$rowId] = 0;
+                    }
                 } else {
-                    $this->quantity[$rowId][$cartItem->options['sizeindex']][$cartItem->options['size']] = 0;
-                    // $this->previewQuantity[$rowId][$cartItem->options['sizeindex']][$cartItem->options['size']] = 0;
+                    if ($rowId) {
+                        $this->quantity[$rowId][$cartItem->options['sizeindex']][$cartItem->options['size']] = $cartItem->qty;
+                        // $this->previewQuantity[$rowId][$cartItem->options['sizeindex']][$cartItem->options['size']] = $cartItem->qty;
+                    } else {
+                        $this->quantity[$rowId][$cartItem->options['sizeindex']][$cartItem->options['size']] = 0;
+                        // $this->previewQuantity[$rowId][$cartItem->options['sizeindex']][$cartItem->options['size']] = 0;
+                    }
                 }
             }
         }
@@ -65,7 +76,8 @@ class FoodCartCounterLivewire extends Component
         }
         $taxRate = $this->tax / 100;
         $grandTotal = $totalSubtotal + ($totalSubtotal * $taxRate);
-
+        
+    
         return view('dashboard.livewire.food-cart-counter', 
         [
             'glang' => $this->glang,
@@ -91,6 +103,10 @@ class FoodCartCounterLivewire extends Component
         }
 
         if ($existingCartItem) {
+        if ($existingCartItem->options['size'] != 'offer') {
+            
+
+
             if($check_sorm == 0){
             // update the quantity
             $rowId = $existingCartItem->rowId;
@@ -103,10 +119,12 @@ class FoodCartCounterLivewire extends Component
 
             $rowId = null;
             foreach (Cart::content() as $cartItem) {
+                if ( $cartItem->options['size'] != 'offer') {
                 if ( $cartItem->options['sorm'] == 1) {
                     if( $cartItem->options['size'] == $option_key){
                      $rowId = $cartItem->rowId;
                      break;
+                    }
                     }
                 }
             }
@@ -146,6 +164,11 @@ class FoodCartCounterLivewire extends Component
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Food Quantity Updated')]);
         }
         
+
+
+
+
+    }
     }
 }
 //End Main Function
@@ -197,6 +220,52 @@ class FoodCartCounterLivewire extends Component
         }
     }
 
+
+
+    public function increaseOfferQuantity($offer_id)
+    {
+        if (isset($this->quantityOffer[$offer_id])) {
+            $this->quantityOffer[$offer_id]++;
+            $this->addOfferToCartSingle($offer_id); // Call the addToCartSingle method with the updated quantity
+        }
+    }
+
+    public function decreaseOfferQuantity($offer_id)
+    {
+        if (isset($this->quantityOffer[$offer_id]) && $this->quantityOffer[$offer_id] == 0) {
+            return;
+        } else {
+            if (isset($this->quantityOffer[$offer_id]) && $this->quantityOffer[$offer_id] > 0) {
+                $this->quantityOffer[$offer_id]--;
+                $this->addOfferToCartSingle($offer_id); // Call the addToCartSingle method with the updated quantity
+            }
+        }
+    }
+
+    public function addOfferToCartSingle($offer_id)
+    {
+        $existingCartItem = null;
+        foreach (Cart::content() as $cartItem) {
+            if ($cartItem->id == $offer_id && $cartItem->options->get('size') === 'offer') {
+                $existingCartItem = $cartItem;
+                // dd($existingCartItem);
+                break;
+            }
+        }
+
+        if ($existingCartItem) {
+            // update the quantity
+            $rowId = $existingCartItem->rowId;
+            Cart::update($rowId, ['qty' => $this->quantityOffer[$offer_id]]);
+            $this->emit('cart_updated');
+            $this->emit('refreshOfferQuantityA', $offer_id);
+            $this->refreshOfferQuantity($offer_id);
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Offer Quantity Updated')]);
+        } 
+    }
+
+
+
     public function refreshQuantity($food_id,$option_key, $option_index)
     {
         $existingCartItem = Cart::search(function ($cartItem) use ($food_id) {
@@ -204,7 +273,10 @@ class FoodCartCounterLivewire extends Component
         })->first();
 
         if ($existingCartItem) {
-            $rowId = $existingCartItem->id;
+            if ($existingCartItem->options['size'] != 'offer'){
+                $rowId = $existingCartItem->id;
+
+        
             if ($existingCartItem->options['sorm'] == 0) {
                 if ($rowId) {
                     $this->quantity[$rowId] = $existingCartItem->qty;
@@ -213,11 +285,13 @@ class FoodCartCounterLivewire extends Component
                 }
             } else {
                 foreach (Cart::content() as $cartItem) {
+                    if ($cartItem->options['size'] != 'offer'){
                     if ( $cartItem->options['sorm'] == 1) {
                         if( $cartItem->options['size'] == $option_key){
                          $existingCartItem = $cartItem;
                          break;
                         }
+                    }
                     }
                 }
                 if ($rowId) {
@@ -228,6 +302,27 @@ class FoodCartCounterLivewire extends Component
                     // $this->previewQuantity[$rowId][$cartItem->options['sizeindex']][$cartItem->options['size']] = 0;
                 }
             }
+        } else {
+            $this->dispatchBrowserEvent('alert', ['type' => 'info', 'message' => __('Cart Processing')]);
+        }
+    }
+    }
+
+    public function refreshOfferQuantity($offer_id)
+    {
+        $existingCartItem = Cart::search(function ($cartItem) use ($offer_id) {
+            return $cartItem->id == $offer_id;
+        })->first();
+
+        if ($existingCartItem) {
+            $rowId = $existingCartItem->id;
+            if ($existingCartItem->options['size'] == 'offer') {
+                if ($rowId) {
+                    $this->quantityOffer[$rowId] = $existingCartItem->qty;
+                } else {
+                    $this->quantityOffer[$rowId] = 0;
+                }
+            } 
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'info', 'message' => __('Cart Processing')]);
         }

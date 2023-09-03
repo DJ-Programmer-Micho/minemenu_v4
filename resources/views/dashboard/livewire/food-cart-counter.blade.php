@@ -13,23 +13,96 @@
                         <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true"><i class="fas fa-times"></i></span></button>
                     </div>
-                    {{-- {{$cart}} --}}
+
                     @if(count($cart) === 0)
                     <h3 class="text-center">{{__('Nothing To Show')}}</h3>
                     @else
-                    <table class="table table-dark table-sm">
-                        <thead>
-                          <tr>
-                            <th scope="col"><small>Image</small></th>
-                            <th scope="col"><small>Name</small></th>
-                            <th scope="col" class="text-center"><small>Unit Price</small></th>
-                            <th scope="col" class="text-center"><small>QTY</small></th>
-                            <th scope="col" class="text-center"><small>Total</small></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($cart as $item)     
-                            @if ($item->options['sorm'] == 0)
+                   
+                       
+                        <table class="table table-dark table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col"><small>Image</small></th>
+                                    <th scope="col"><small>Name</small></th>
+                                    <th scope="col" class="text-center"><small>Unit Price</small></th>
+                                    <th scope="col" class="text-center"><small>QTY</small></th>
+                                    <th scope="col" class="text-center"><small>Total</small></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        @foreach ($cart as $item) 
+                             @if($item->options['size'] != 'offer')
+                                @if ($item->options['sorm'] == 0)
+                                <tr>
+                                    <td>
+                                        <img src="{{ app('cloudfront') . $item->options['img'] }}"
+                                        alt="Image"
+                                        style="width: 68px; height: 68px; object-fit: cover; margin: auto;">                            
+                                    </td>
+                                    <td>
+                                        {{$item->name[$glang]}}<br>
+                                        <div class="plus-minus border border-white">
+                                            <button class="btn btn-sm btn-dark" wire:click="decreaseQuantity('{{$item->id }}', 'null', 'null', {{$item->options['sorm']}})">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <input class="form-control mx-2 text-center" type="number" min="1" max="10" style="background-color: transparent;"
+                                            wire:model="quantity.{{ $item->id }}"
+                                            value="{{ isset($quantity[$item->id]) ? $quantity[$item->id] : '0' }}"
+                                            wire:change="addToCart('{{ $item->id }}','null','null')"
+                                        />
+                                            <button class="btn btn-sm btn-dark" wire:click="increaseQuantity('{{ $item->id }}', 'null', 'null', {{$item->options['sorm']}})">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">{{$item->price}}</td>
+                                    <td class="text-center">{{$item->qty}}</td>
+                                    <td class="text-center">{{floatval($item->subtotal)}}</td>
+
+                                </tr>                                  
+                                <tr>
+                                    <td>
+                                        {{-- <button class="btn btn-sm btn-danger" wire:click="removeFood('{{$item->rowId }}')">{{__('Remove')}}</button> --}}
+                                        <button class="btn btn-sm btn-danger" wire:click="removeFood('{{$item->rowId }}','{{$item->id }}', 'null', 'null')">{{__('Remove')}}</button>
+                                    </td>
+                                </tr>
+                                @else
+                                <tr>
+                                    <td>
+                                        <img src="{{ app('cloudfront') . $item->options['img'] }}"
+                                        alt="Image"
+                                        style="width: 68px; height: 68px; object-fit: cover; margin: auto;">                            
+                                    </td>
+                                    <td>
+                                        {{$item->name[$glang]}}<br>
+                                        <div class="plus-minus border border-white">
+                                            <button class="btn btn-sm btn-dark" wire:click="decreaseQuantity('{{$item->id }}', '{{ $item->options['size'] }}', '{{ $item->options['sizeindex']}}',{{$item->options['sorm']}})">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <input class="form-control mx-2 text-center" type="number" min="1" max="10" style="background-color: transparent;
+                                            wire:model="quantity.{{$item->id . '.' .  $item->options['sizeindex'] .'.' .$item->options['size'] }}" 
+                                            value="{{ isset($quantity[$item->id][$item->options['sizeindex']][$item->options['size']]) ? $quantity[$item->id][$item->options['sizeindex']][$item->options['size']] : '0' }}"
+                                            wire:change="addToCart('{{$item->id }}','{{ $item->options['size']}}','{{ $item->options['sizeindex']}}')"
+                                            />
+                                            {{-- <button class="btn btn-sm btn-dark" wire:click="increaseQuantity('{{$item->id }}')"> --}}
+                                            <button class="btn btn-sm btn-dark" wire:click="increaseQuantity('{{$item->id }}', '{{ $item->options['size'] }}', '{{ $item->options['sizeindex']}}',{{$item->options['sorm']}})">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">{{$item->price}}</td>
+                                    <td class="text-center">{{$item->qty}}</td>
+                                    <td class="text-center">{{floatval($item->subtotal)}}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button class="btn btn-sm btn-danger" wire:click="removeFood('{{$item->rowId }}', '{{$item->id }}', '{{ $item->options['size'] }}', '{{ $item->options['sizeindex']}}')">{{__('Remove')}}</button>
+                                    </td>
+                                </tr>
+                                @endif  
+                        
+                            @else
+                            
                             <tr>
                                 <td>
                                     <img src="{{ app('cloudfront') . $item->options['img'] }}"
@@ -39,15 +112,15 @@
                                 <td>
                                     {{$item->name[$glang]}}<br>
                                     <div class="plus-minus border border-white">
-                                        <button class="btn btn-sm btn-dark" wire:click="decreaseQuantity('{{$item->id }}', 'null', 'null', {{$item->options['sorm']}})">
+                                        <button class="btn btn-sm btn-dark" wire:click="decreaseOfferQuantity('{{$item->id }}', 'null', 'null', 'null')">
                                             <i class="fas fa-minus"></i>
                                         </button>
                                         <input class="form-control mx-2 text-center" type="number" min="1" max="10" style="background-color: transparent;"
-                                        wire:model="quantity.{{ $item->id }}"
-                                        value="{{ isset($quantity[$item->id]) ? $quantity[$item->id] : '0' }}"
+                                        wire:model="quantityOffer.{{ $item->id }}"
+                                        value="{{ isset($quantityOffer[$item->id]) ? $quantityOffer[$item->id] : '0' }}"
                                         wire:change="addToCart('{{ $item->id }}','null','null')"
                                     />
-                                         <button class="btn btn-sm btn-dark" wire:click="increaseQuantity('{{ $item->id }}', 'null', 'null', {{$item->options['sorm']}})">
+                                        <button class="btn btn-sm btn-dark" wire:click="increaseOfferQuantity('{{ $item->id }}', 'null', 'null', 'null')">
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </div>
@@ -56,49 +129,11 @@
                                 <td class="text-center">{{$item->qty}}</td>
                                 <td class="text-center">{{floatval($item->subtotal)}}</td>
 
-                              </tr>                                  
-                              <tr>
-                                <td>
-                                    {{-- <button class="btn btn-sm btn-danger" wire:click="removeFood('{{$item->rowId }}')">{{__('Remove')}}</button> --}}
-                                    <button class="btn btn-sm btn-danger" wire:click="removeFood('{{$item->rowId }}','{{$item->id }}', 'null', 'null')">{{__('Remove')}}</button>
-                                </td>
-                              </tr>
-                              @else
-                              <tr>
-                                <td>
-                                    <img src="{{ app('cloudfront') . $item->options['img'] }}"
-                                    alt="Image"
-                                    style="width: 68px; height: 68px; object-fit: cover; margin: auto;">                            
-                                </td>
-                                <td>
-                                    {{$item->name[$glang]}}<br>
-                                    <div class="plus-minus border border-white">
-                                        <button class="btn btn-sm btn-dark" wire:click="decreaseQuantity('{{$item->id }}', '{{ $item->options['size'] }}', '{{ $item->options['sizeindex']}}',{{$item->options['sorm']}})">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <input class="form-control mx-2 text-center" type="number" min="1" max="10" style="background-color: transparent;
-                                        wire:model="quantity.{{$item->id . '.' .  $item->options['sizeindex'] .'.' .$item->options['size'] }}" 
-                                        value="{{ isset($quantity[$item->id][$item->options['sizeindex']][$item->options['size']]) ? $quantity[$item->id][$item->options['sizeindex']][$item->options['size']] : '0' }}"
-                                        wire:change="addToCart('{{$item->id }}','{{ $item->options['size']}}','{{ $item->options['sizeindex']}}')"
-                                         />
-                                         {{-- <button class="btn btn-sm btn-dark" wire:click="increaseQuantity('{{$item->id }}')"> --}}
-                                         <button class="btn btn-sm btn-dark" wire:click="increaseQuantity('{{$item->id }}', '{{ $item->options['size'] }}', '{{ $item->options['sizeindex']}}',{{$item->options['sorm']}})">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                                <td class="text-center">{{$item->price}}</td>
-                                <td class="text-center">{{$item->qty}}</td>
-                                <td class="text-center">{{floatval($item->subtotal)}}</td>
-                              </tr>
-                              <tr>
-                                <td>
-                                    <button class="btn btn-sm btn-danger" wire:click="removeFood('{{$item->rowId }}', '{{$item->id }}', '{{ $item->options['size'] }}', '{{ $item->options['sizeindex']}}')">{{__('Remove')}}</button>
-                                </td>
-                              </tr>
-                            @endif  
-                          @endforeach
-                       
+                            </tr> 
+                        
+                            @endif
+                 
+                        @endforeach
                         </tbody>
                       </table>
                       <div class="mt-2"></div>
