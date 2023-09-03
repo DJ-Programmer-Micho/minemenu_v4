@@ -59,7 +59,8 @@
     }
 </script>
 @stack('business_script')
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+{{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
+<script type="text/javascript" src="{{asset('/assets/general/lib/js/toaster.js')}}"></script>
 
 <script>
     window.addEventListener('alert', event => { 
@@ -67,6 +68,9 @@
                  event.detail.title ?? ''), toastr.options = {
                         "closeButton": true,
                         "progressBar": true,
+                        "hideDuration": 100,
+                        "positionClass": 'toast-top-center',
+                        
                     }
                 });
     </script>

@@ -119,7 +119,7 @@ class CategoryLivewire extends Component
         if ($menu_edit) {
             foreach ($this->filteredLocales as $locale) {
                 $translation = Categories_Translator::where('cat_id', $menu_edit->id)
-                    ->where('lang', $locale)
+                    ->where('locale', $locale)
                     ->first();
 
                 if ($translation) {
@@ -141,6 +141,11 @@ class CategoryLivewire extends Component
  
     public function updateCategory()
     {
+          
+        if($this->objectName == null){
+            $this->objectName = $this->imgReader;
+        } 
+
         // $this->objectName = $this->imgReader;
         $validatedData = $this->validate();
         // Update the Categories record
@@ -148,7 +153,7 @@ class CategoryLivewire extends Component
             'menu_id' => $validatedData['menu_id'],
             'priority' => $validatedData['priority'],
             'status' => $validatedData['status'],
-            'img' => $this->objectName,
+            'img' => isset($this->objectName) ? $this->objectName : $this->imgReader,
             'cover' => null,
         ]);
     
@@ -158,7 +163,7 @@ class CategoryLivewire extends Component
             Categories_Translator::updateOrCreate(
                 [
                     'cat_id' => $menu->id, 
-                    'lang' => $locale
+                    'locale' => $locale
                 ],
                 [
                     'name' => $this->names[$locale],
@@ -225,6 +230,8 @@ class CategoryLivewire extends Component
         $this->categoryNameToDelete = '';
         $this->confirmDelete = false;
         $this->imgFlag = false;
+        $this->objectName = '';
+        $this->tempImg = '';
     }
  
     public function render()

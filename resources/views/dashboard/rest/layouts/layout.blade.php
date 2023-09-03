@@ -224,7 +224,7 @@
                 {{__('Customization')}}
             </div>
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
+            <li class="nav-item {{(str_contains(request()->path(), 'rest/design/')) ? 'active' : ''}}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
                     <lord-icon
@@ -240,7 +240,7 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         {{-- <h6 class="collapse-header">Custom Utilities:</h6> --}}
-                        <a class="collapse-item" href="buttons.html">
+                        <a class="collapse-item" href="{{route('designUiUx')}}">
                             <lord-icon
                                         src="https://cdn.lordicon.com/pndvzexs.json"
                                         trigger="loop"

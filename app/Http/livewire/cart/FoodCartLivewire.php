@@ -121,7 +121,7 @@ class FoodCartLivewire extends Component
                 $allFoodTranslations,
                 $this->quantity[$food_id],
                 $food->price,
-                ['img' => $food->img, 'sorm' => $this->foodAction->sorm]
+                ['img' => $food->img,  'size' => 'null','sorm' => $this->foodAction->sorm]
             );
             $this->emit('cart_updated');
             $this->emit('check-go', $food_id,'null','null');

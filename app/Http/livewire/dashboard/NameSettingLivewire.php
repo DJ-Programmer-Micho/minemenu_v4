@@ -21,11 +21,12 @@ class NameSettingLivewire extends Component
         $this->glang = app('glang');
         $this->filteredLocales = app('userlanguage');
         $userId = auth()->id();
-        $settings = Setting::where('id', $userId)->first();
+        $settings = Setting::where('user_id', $userId)->first();
+
         if ($settings) {
             foreach ($this->filteredLocales as $locale) {
                 $translation = Setting_Translation::where('setting_id', $settings->id)
-                    ->where('lang', $locale)
+                    ->where('locale', $locale)
                     ->first();
                 if ($translation) {
                     $this->namesData[$locale] = $translation->rest_name;
@@ -38,11 +39,6 @@ class NameSettingLivewire extends Component
             }
         }
     }
-
-    // public function updated($propertyName)
-    // {
-    //     $this->saveSettings();
-    // }
 
     public function saveSettings()
     {

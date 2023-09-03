@@ -36,4 +36,7 @@ class RestController extends Controller
     public function startSetting(){
         return view('dashboard.rest.pages.setting.startSetting');
     } // END FUNCTION (START-SETTING)
+    public function designUiUx(){
+        return view('dashboard.rest.pages.design.designUiUx');
+    } // END FUNCTION (START-SETTING)
 }

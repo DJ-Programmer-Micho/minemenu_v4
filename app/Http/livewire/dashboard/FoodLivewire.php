@@ -85,6 +85,8 @@ class FoodLivewire extends Component
         }
         $rules['cat_id'] = ['required'];
         $rules['priority'] = ['required'];
+        $rules['price'] = ['required'];
+        $rules['oldPrice'] = ['required'];
         $rules['status'] = ['required'];
         $rules['objectName'] = ['required'];
         return $rules;
@@ -188,11 +190,10 @@ class FoodLivewire extends Component
  
     public function updateFood()
     {
-  
         if($this->objectName == null){
             $this->objectName = $this->imgReader;
         } 
-
+        
         $validatedData = $this->validate();
 
         $sorm = $this->showTextarea ? 1 : 0;
@@ -204,8 +205,8 @@ class FoodLivewire extends Component
             'status' => $validatedData['status'],
             'sorm' => $sorm,
             'options' => $optionsData,
-            'old_price' => isset($validatedData['oldPrice']) ? $validatedData['oldPrice'] : null,
             'price' => isset($validatedData['price']) ? $validatedData['price'] : null,
+            'old_price' => isset($validatedData['oldPrice']) ? $validatedData['oldPrice'] : null,
             'img' => isset($this->objectName) ? $this->objectName : $this->imgReader,
         ]);
     

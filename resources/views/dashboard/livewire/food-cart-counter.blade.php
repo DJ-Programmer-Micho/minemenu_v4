@@ -130,7 +130,12 @@
                                 <td class="text-center">{{floatval($item->subtotal)}}</td>
 
                             </tr> 
-                        
+                            <tr>
+                                <td>
+                                    {{-- <button class="btn btn-sm btn-danger" wire:click="removeFood('{{$item->rowId }}')">{{__('Remove')}}</button> --}}
+                                    <button class="btn btn-sm btn-danger" wire:click="removeFood('{{$item->rowId }}', 'null', 'null', 'null')">{{__('Remove')}}</button>
+                                </td>
+                            </tr>
                             @endif
                  
                         @endforeach

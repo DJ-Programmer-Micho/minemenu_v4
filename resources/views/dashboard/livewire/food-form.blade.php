@@ -158,14 +158,14 @@
                         <div class="col-12 col-sm-6">
                             <div class="mb-3">
                                 <label for="price">Price</label>
-                                <input type="number" wire:model="price" class="form-control" id="price">
+                                <input type="number" name="price" wire:model="price" class="form-control" id="price">
                                 <small class="text-info">{{__('(Original Price)')}}</small>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="mb-3">
                                 <label for="oldPrice">Old Price</label>
-                                <input type="number" wire:model="oldPrice" class="form-control" id="oldPrice">
+                                <input type="number" name="oldPrice" wire:model="oldPrice" class="form-control" id="oldPrice">
                                 <small class="text-info">{{__('(Discount Price)')}}</small>
                             </div>
                         </div>
@@ -338,14 +338,14 @@
                         <div class="col-12 col-sm-6">
                             <div class="mb-3">
                                 <label for="price">Price</label>
-                                <input type="number" wire:model="price" class="form-control" id="price">
+                                <input type="number" name="price" wire:model="price" class="form-control" id="price">
                                 <small class="text-info">{{__('(Original Price)')}}</small>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="mb-3">
                                 <label for="oldPrice">Old Price</label>
-                                <input type="number" wire:model="oldPrice" class="form-control" id="oldPrice">
+                                <input type="number" name="oldPrice" wire:model="oldPrice" class="form-control" id="oldPrice">
                                 <small class="text-info">{{__('(Discount Price)')}}</small>
                             </div>
                         </div>
@@ -366,7 +366,7 @@
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="mb-3 d-flex justify-content-center mt-1">
-                                <img id="showEditFoodImg" class="img-thumbnail rounded" src="{{ $tempImg ? $tempImg : app('cloudfront').$imgReader}}">
+                                <img id="showEditFoodImg" class="img-thumbnail rounded" src="{{ $tempImg ? $tempImg : (app('cloudfront').$imgReader  ?: app('fixedimage_640x360'))}}">
                             </div>
                         </div>
                     </div>
