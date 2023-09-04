@@ -47,6 +47,9 @@
             fill: #fff;
             height: 50px;
         }
+        /* .minicolors-sprite {
+  background-image: url(@php echo asset('assets/dashboard/css/jquery.minicolors.css') @endphp);
+} */
     </style>
 </head>
 
@@ -695,7 +698,9 @@
             document.getElementById('languageForm').submit();
         }
     </script>
-    
+
+
+@stack('color');
 
 </body>
 
