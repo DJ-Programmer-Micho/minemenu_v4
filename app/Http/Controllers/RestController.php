@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Models\FileUpload;
 
 class RestController extends Controller
 {
@@ -38,5 +37,8 @@ class RestController extends Controller
     } // END FUNCTION (START-SETTING)
     public function designUiUx(){
         return view('dashboard.rest.pages.design.designUiUx');
-    } // END FUNCTION (START-SETTING)
+    } // END FUNCTION (DESIGN-UI-UX)
+    public function designCustomize(){
+        return view('dashboard.rest.pages.design.designCustomize');
+    } // END FUNCTION (DESIGN-CUSTOMIZE)
 }

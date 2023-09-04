@@ -165,32 +165,32 @@
                     <span>{{__('Setting')}}</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
+                    <div class="py-2 collapse-inner rounded" style="background-color: #1f2535">
                         {{-- <h6 class="collapse-header">{{__('Setting')}}</h6> --}}
                         <a class="collapse-item" href="{{route('languageSetting')}}">
                             <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
                                 colors="primary:#cc0022,secondary:#eee" state="hover-2" style="width:36px;height:36px">
                             </lord-icon>
-                            <span>{{__('Language')}}</span>
+                            <span class="text-white">{{__('Language')}}</span>
                         </a>
                         <a class="collapse-item" href="{{route('nameSetting')}}">
                             <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
                                 colors="primary:#cc0022,secondary:#eee" state="hover-1" style="width:36px;height:36px">
                             </lord-icon>
-                            <span>{{__('Resturant Name')}}</span>
+                            <span class="text-white">{{__('Resturant Name')}}</span>
 
                         </a>
                         <a class="collapse-item" href="{{route('menuSetting')}}">
                             <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
                                 colors="primary:#cc0022,secondary:#eee" state="hover-2" style="width:36px;height:36px">
                             </lord-icon>
-                            <span>{{__('Menu Setting')}}</span>
+                            <span class="text-white">{{__('Menu Setting')}}</span>
                         </a>
                         <a class="collapse-item" href="{{route('startSetting')}}">
                             <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
                                 colors="primary:#cc0022,secondary:#eee" state="hover-1" style="width:36px;height:36px">
                             </lord-icon>
-                            <span>{{__('Start Up Page')}}</span>
+                            <span class="text-white">{{__('Start Up Page')}}</span>
 
                         </a>
 
@@ -238,7 +238,7 @@
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
+                    <div class="py-2 collapse-inner rounded" style="background-color: #1f2535">
                         {{-- <h6 class="collapse-header">Custom Utilities:</h6> --}}
                         <a class="collapse-item" href="{{route('designUiUx')}}">
                             <lord-icon
@@ -248,10 +248,10 @@
                                         colors="primary:#cc0022,secondary:#eee"
                                         style="width:36px;height:36px">
                                     </lord-icon>
-                            <span>{{__('Select UI/UX')}}</span>
+                            <span class="text-white">{{__('Select UI/UX')}}</span>
                             
                             </a>
-                        <a class="collapse-item" href="buttons.html">
+                        <a class="collapse-item" href="{{route('designCustomize')}}">
                             <lord-icon
                             src="https://cdn.lordicon.com/tyounuzx.json"
                             trigger="loop"
@@ -259,7 +259,7 @@
                             colors="primary:#cc0022,secondary:#eee"
                             style="width:36px;height:36px">
                         </lord-icon>
-                            <span>{{__('Customize UI/UX')}}</span>
+                            <span class="text-white">{{__('Customize UI/UX')}}</span>
                             
                             </a>
                         <a class="collapse-item" href="cards.html">
@@ -270,7 +270,7 @@
                             state="loop"
                             style="width:36px;height:36px">
                         </lord-icon>
-                            <span>{{__('QR Code')}}</span>
+                            <span class="text-white">{{__('QR Code')}}</span>
                             </a>
                     </div>
                 </div>
@@ -298,7 +298,7 @@
                     <span>{{__('Need Help?')}}</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
+                    <div class="py-2 collapse-inner rounded" style="background-color: #1f2535">
                         <h6 class="collapse-header">{{__('Self Support:')}}</h6>
                         <a class="collapse-item" href="#">
                             <lord-icon
@@ -308,7 +308,7 @@
                             state="loop"
                             style="width:36px;height:36px">
                         </lord-icon>
-                            <span>{{__('Tutorial')}}</span>
+                            <span class="text-white">{{__('Tutorial')}}</span>
                             </a>
                         <a class="collapse-item" href="#">
                             <lord-icon
@@ -318,7 +318,7 @@
                             colors="primary:#cc0022,secondary:#ccc"
                             style="width:36px;height:36px">
                         </lord-icon> 
-                            <span>{{__('Documents')}}</span>
+                            <span class="text-white">{{__('Documents')}}</span>
                             </a>
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">{{__('Team Support:')}}</h6>
@@ -330,7 +330,7 @@
                             colors="primary:#cc0022,secondary:#ccc"
                             style="width:36px;height:36px">
                         </lord-icon> 
-                            <span>{{__('Contact Us')}}</span>
+                            <span class="text-white">{{__('Contact Us')}}</span>
                             </a>
                         <a class="collapse-item" href="blank.html">
                             <lord-icon
@@ -340,7 +340,7 @@
                             colors="primary:#ccc,secondary:#cc0022"
                             style="width:36px;height:36px">
                         </lord-icon>
-                            <span>{{__('Menu Fix')}}</span>
+                            <span class="text-white">{{__('Menu Fix')}}</span>
                             </a>
                         <a class="collapse-item" href="blank.html">
                             <lord-icon
@@ -350,7 +350,7 @@
                             colors="primary:#cc0022,secondary:#ccc"
                             style="width:36px;height:36px">
                         </lord-icon>
-                            <span>{{__('Error!')}}</span>
+                            <span class="text-white">{{__('Error!')}}</span>
                             </a>
                     </div>
                 </div>

@@ -3,7 +3,7 @@
 @section('rest_content')
 
 <div>
-    @livewire('dashboard.language-setting-livewire')
+    @livewire('dashboard.design-customize-livewire')
 </div>
 
 @endsection
