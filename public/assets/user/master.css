@@ -1,8 +1,62 @@
 /************
 GENERAL
 ************/
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+
 :root {
-    --primary-color: #f2f2f2;
+    /* NAVBAR */
+    --navbar-title-color: initial;
+    --navbar-toggle-color: initial;
+    --navbar-top-color: initial;
+    --navbar-sub-title-color: initial;
+    --navbar-text-color: initial;
+    --navbar-top-ground-color: initial;
+    --navbar-bottom-ground-color: initial;
+    /* Main */
+    --main-background-color: initial;
+    --main-body-color: initial;
+    --main-theme-text-color: initial;
+    --main-theme-backgroud-color: initial;
+    --main-theme-text-active-color: initial;
+    --main-theme-background-active-color: initial;
+    --main-theme-border-active-color: initial;
+    --main-card-text-color: initial;
+    --main-card-opacity-color: initial;
+    /* Cart */
+    --cart-icon-color: initial;
+    --cart-back-icon-color: initial;
+    --cart-noti-color: initial;
+    --cart-back-noti-color: initial;
+    --cart-text-color: initial;
+    --cart-background-color: initial;
+    --cart-reset-text-color: initial;
+    --cart-reset-backgound-color: initial;
+    --cart-close-text-color: initial;
+    --cart-close-backgound-color: initial;
+    /* Category */
+    --category-title-color: initial;
+    --category-description-color: initial;
+    --category-price-color: initial;
+    --category-old-price-color: initial;
+    --category-card-background-color: initial;
+    --category-shadow-color: initial;
+    /* Food Detail */
+    --food-background: initial;
+    --food-title: initial;
+    --food-description: initial;
+    --food-price: initial;
+    --food-old-price: initial;
+    --food-button-text: initial;
+    --food-price-key: initial;
+    --food-price-value: initial;
+    --food-button-background: initial;
+    --food-image-shadow: initial;
+    --food-image-shadow-opacity: initial;
+    /* Utilities */
+    --utl-icon-color: initial;
+    --utl-icon-background: initial;
+    /* */
+    /* --primary-color: #f2f2f2;
     --theme-color: #c72931;
     --title-color: #fff;
     --info-color: #b5b5b5;
@@ -19,15 +73,17 @@ GENERAL
     --back-button: #354249;
     --addicon-cart: #fff;
     --add-cart: #354249;
+} */
 }
 
 body {
-    background-color: var(--background-color);
+    background-color: var(--main-body-color);
     padding: 0;
     margin: 0;
     background-position: center;
     background-repeat: repeat;
     background-size: 30%;
+    /* font-family: "Bebas Neue", sans-serif !important; */
 }
 
 [lang="ar"] .place-body {

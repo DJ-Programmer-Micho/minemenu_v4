@@ -8,29 +8,33 @@ use App\Models\Setting;
 class BusinessController extends Controller
 {
 
-    public function index($business_name){
+    // public function index($business_name){
 
-        $user = User::where('name', $business_name)->first();
-        $setting = Setting::where('user_id', $user->id)->first();
-        $ui = ['01','01','01','01'];
-        // $ui = [Header, Menu, Category, Food]
+    //     $user = User::where('name', $business_name)->first();
+    //     $setting = Setting::where('user_id', $user->id)->first();
 
-        if (!$user) {
-            return response('User not found', 404);
-        }
+    //     $color = json_decode($setting->default_lang);
+    //     $ui = ['01','01','01','01'];
+    //     // $ui = [Header, Menu, Category, Food]
+
+    //     if (!$user) {
+    //         return response('User not found', 404);
+    //     }
        
-        
+    //     dd($ui);
 
-        return view('user.layouts.layout', [
-            'user' => $user,
-            'setting' => $setting,
-            'ui' => $ui,
-        ]);
-    }
+    //     return view('user.layouts.layout', [
+    //         'user' => $user,
+    //         'setting' => $setting,
+    //         'color' => $color,
+    //         'ui' => $ui,
+    //     ]);
+    // }
     public function category($business_name){
 
         $user = User::where('name', $business_name)->first();
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
+        $color = json_decode($setting->default_lang);
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
         $ui = ['01','01','01','01'];
         // $ui = [Header, Menu, Category, Food]
@@ -38,12 +42,13 @@ class BusinessController extends Controller
         if (!$user) {
             return response('User not found', 404);
         }
-    
+    // dd($color);
 
         return view('user.layouts.menu_list', [
             'user' => $user,
             'setting' => $setting,
             'setting_name' => $setting_name,
+            'color' => $color,
             'ui' => $ui,
         ]);
     }
@@ -52,12 +57,15 @@ class BusinessController extends Controller
         $user = User::where('name', $business_name)->first();
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
+        $color = json_decode($setting->default_lang);
+
         $ui = ['01','01','01','01'];
         return view('user.layouts.food_list', [
             'user' => $user,
             'setting' => $setting,
             'setting_name' => $setting_name,
             'foodId' => $foodId,
+            'color' => $color,
             'ui' => $ui,
         ]);
     }
@@ -66,12 +74,14 @@ class BusinessController extends Controller
         $user = User::where('name', $business_name)->first();
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
+        $color = json_decode($setting->default_lang);
         $ui = ['01','01','01','01'];
         return view('user.layouts.food_detail', [
             'user' => $user,
             'setting' => $setting,
             'setting_name' => $setting_name,
             'detail' => $detail,
+            'color' => $color,
             'ui' => $ui,
         ]);
     }
@@ -80,6 +90,7 @@ class BusinessController extends Controller
         $user = User::where('name', $business_name)->first();
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
+        $color = json_decode($setting->default_lang);
         $ui = ['01','01','01','01'];
 
         return view('user.layouts.offer_detail', [
@@ -87,6 +98,7 @@ class BusinessController extends Controller
             'setting' => $setting,
             'setting_name' => $setting_name,
             'detail' => $detail,
+            'color' => $color,
             'ui' => $ui,
         ]);
     }

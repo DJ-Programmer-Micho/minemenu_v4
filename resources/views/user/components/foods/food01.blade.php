@@ -4,6 +4,17 @@
         @php
         $options = json_decode($item->options, true); // Decode the JSON options for the current item
         $currentOptions = $options[$glang] ?? []; // Get options for the current language or default to an empty array
+        $itemDescription = $item->translation->description; 
+        if (strlen($itemDescription) > 120) {
+            $trimmedDescription = substr($itemDescription, 0, 120);
+            $lastLineBreak = strrpos($trimmedDescription, "\n");
+            if ($lastLineBreak !== false) {
+                $trimmedDescription = substr($trimmedDescription, 0, $lastLineBreak);
+            }
+            $trimmedDescription .= '...';
+        } else {
+            $trimmedDescription = $itemDescription;
+        }
         @endphp
         <div class="col-12 col-sm-6 p-1">
             <div class="card-01 shd-01 h-100">
@@ -16,13 +27,17 @@
                     </div>
 
                     <div class="food-desc-01">
-                        <p class="m-0">{!! nl2br($item->translation->description) !!}</p>
+                        <p class="m-0">{!! nl2br($trimmedDescription) !!}</p>
                     </div>
                     @if ($item->sorm == 0)
                     <div class="food-price-01">
                         <span class="font-weight-bold h5">{{$item->price . ' ' .  $settings->currency}}</span>
                         <span class="ml-2 old-price-01"
                             style="text-decoration: line-through;font-size:17px;font-weight:bolder;padding-right: 10px">{{($item->old_price) ? $item->old_price : ''}}</span>
+                        </div>
+                        <span><a href="{{url()->current().'/'.$item->id}}" class="btn btn-info">See More Details</a></span>
+                    <div>
+                       
                     </div>
                     @else
                     @foreach ($currentOptions as $option)
@@ -35,7 +50,7 @@
                     </div>
                     @endforeach
                     @endif
-                    <div class="add">
+                    {{-- <div class="add">
                         @if ($item->options)
                         <button type="button" data-toggle="modal" data-target="#addlist_modal_Id"
                             class="btn addItem addToList" data-name="{{ $item->name }}" data-id="{{ $item->id }}"
@@ -48,7 +63,7 @@
                             data-img="{{ app('cloudfront') . $item->img }}" data-price="{{ $item->price }}"><i
                                 class="fa-solid fa-plus-minus"></i></button>
                         @endif
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

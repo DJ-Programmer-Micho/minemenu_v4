@@ -24,9 +24,14 @@ Food UI/UX-01
 
 .food-text-01 {
     margin-left: 10px;
-    color: var(--text-color);
+}
+.food-name-01 {
+    color: var(--category-title-color);
 }
 
+.food-desc-01 {
+    color: var(--category-description-color);
+}
 [lang="ar"] .food-text-01 {
     margin-right: 10px;
 }
@@ -46,23 +51,23 @@ Food UI/UX-01
 }
 
 .food-price-01 {
-    color: var(--theme-color);
+    color: var(--category-price-color);
 }
 
 .old-price-01 {
-    color: var(--text-color);
+    color: var(--category-old-price-color);
 }
 
 .card-01 {
-    background-color: var(--card-color);
+    background-color: var(--category-card-background-color);
     border-radius: 24px 24px 6px 6px;
-    color: var(--text-color);
+    /* color: var(--text-color); */
 }
 
 .shd-01 {
     border-radius: 8px;
     border-bottom: 1px solid var(--theme-color);
-    box-shadow: -1px 8px 6px 0px var(--background-color);
-    -webkit-box-shadow: -1px 8px 6px 0px var(--background-color);
-    -moz-box-shadow: -1px 8px 6px 0px var(--background-color);
+    box-shadow: -1px 8px 6px 0px var(--category-shadow-color);
+    -webkit-box-shadow: -1px 8px 6px 0px var(--category-shadow-color);
+    -moz-box-shadow: -1px 8px 6px 0px var(--category-shadow-color);
 }

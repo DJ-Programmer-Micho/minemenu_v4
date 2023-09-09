@@ -18,13 +18,13 @@ Category UI/UX-01
 .overlay-01 {
     height: 100%;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.26);
+    background-color: rgba(0, 0, 0, var(--main-card-opacity-color));
     text-align: center;
     margin: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #fff;
+    color: var(--main-card-text-color);
     font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
         sans-serif;
 }
@@ -33,9 +33,4 @@ Category UI/UX-01
     text-align: right;
     direction: rtl;
     padding-inline-start: 4px !important;
-}
-
-.nav-pills-01 .nav-link-01.active {
-    background-color: var(--theme-color);
-    color: var(--nav-active-text);
 }

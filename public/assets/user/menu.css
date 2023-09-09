@@ -1,28 +1,26 @@
 /************
-GENERAL
-************/
-
-/************
 nav-pills UI/UX-01
 ************/
 .nav-pills-01 .nav-link-01 {
-    border: 1px solid var(--theme-color);
+    border: 1px solid var(--main-theme-border-active-color);
     border-radius: 20px;
     margin-left: 5px;
     height: 50px;
     font-weight: bold;
-    color: var(--theme-color);
+    color: var(--main-theme-text-color);
+    background-color: var(--main-theme-backgroud-color);
 }
 
-[lang="ar"] .nav-pills-01 {
+[lang="ar"],
+[lang="ku"] .nav-pills-01 {
     text-align: right;
     direction: rtl;
     padding-inline-start: 4px !important;
 }
 
 .nav-pills-01 .nav-link-01.active {
-    background-color: var(--theme-color);
-    color: var(--nav-active-text);
+    color: var(--main-theme-text-active-color);
+    background-color: var(--main-theme-background-active-color);
 }
 .wrapper-01 {
     position: relative;
@@ -68,12 +66,13 @@ nav-pills UI/UX-01
     border-radius: 30px;
 }
 .tabs-box-01 .tab-01 .nav-link-01 {
-    border: 1px solid var(--theme-color);
+    border: 1px solid var(--main-theme-border-active-color);
     border-radius: 20px;
     margin-left: 5px;
     padding: 5px;
     font-weight: bold;
-    color: var(--theme-color);
+    color: var(--main-theme-text-color);
+    background-color: var(--main-theme-backgroud-color);
 }
 [lang="ar"],
 [lang="ku"].wrapper-01 {
@@ -88,8 +87,8 @@ nav-pills UI/UX-01
 }
 
 .tabs-box-01 .tab-01 .nav-link-01.active {
-    background-color: var(--theme-color);
-    color: var(--nav-active-text);
+    color: var(--main-theme-text-active-color);
+    background-color: var(--main-theme-background-active-color);
 }
 
 .tabs-box-01.dragging .tab-01 {

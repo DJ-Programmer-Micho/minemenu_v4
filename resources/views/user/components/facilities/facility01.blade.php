@@ -46,7 +46,7 @@
     </label>
     <div id="sidebarMenu">
       <ul class="sidebarMenuInner">
-        <li>
+        <li class="sub_title">
             <h5>{{$setting_name}}</h5>
             <p>{{__('top #100 resturant')}}</p>
         </li>

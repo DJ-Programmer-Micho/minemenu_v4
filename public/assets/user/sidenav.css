@@ -9,12 +9,16 @@ GENERAL
     width: 100%;
     max-width: 100%;
     box-shadow: none;
-    background-color: #fc466b;
+    background-color: var(--navbar-top-color);
     /* position: fixed; */
     height: 60px !important;
     overflow: hidden;
     z-index: 999;
 }
+.header h3 {
+    color: var(--navbar-title-color);
+}
+
 .main {
     margin: 0 auto;
     display: block;
@@ -43,7 +47,11 @@ GENERAL
     /* margin-top: 60px; Remove margin-top */
     transform: translateX(-100%); /* Change the value to move it off-screen */
     transition: transform 250ms ease-in-out;
-    background: linear-gradient(180deg, #fc466bee 0%, #3f5efbee 100%);
+    background: linear-gradient(
+        180deg,
+        var(--navbar-top-ground-color) 0%,
+        var(--navbar-bottom-ground-color) 100%
+    );
     z-index: 999;
 }
 
@@ -54,20 +62,24 @@ GENERAL
 }
 .sidebarMenuInner li {
     list-style: none;
-    color: #fff;
+    color: var(--navbar-text-color);
     text-transform: uppercase;
     font-weight: bold;
     padding: 20px;
     cursor: pointer;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
+ul.sidebarMenuInner li.sub_title {
+    color: var(--navbar-sub-title-color);
+}
+
 .sidebarMenuInner li span {
     display: block;
     font-size: 14px;
     color: rgba(255, 255, 255, 0.5);
 }
 .sidebarMenuInner li a {
-    color: #fff;
+    color: var(--navbar-text-color);
     text-transform: uppercase;
     font-weight: bold;
     cursor: pointer;
@@ -102,7 +114,7 @@ input[type="checkbox"] {
     position: absolute;
     height: 3px;
     width: 100%;
-    background-color: #fff;
+    background-color: var(--navbar-toggle-color);
 }
 .horizontal {
     transition: all 0.3s;

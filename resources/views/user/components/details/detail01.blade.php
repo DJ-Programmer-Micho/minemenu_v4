@@ -1,5 +1,3 @@
-
-
 <div class="container-fluid m-0 p-0">
     <div class="box2">
         <div class="box">

@@ -53,19 +53,63 @@
     <link rel="stylesheet" href="{{asset('/assets/user/header.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/sidenav.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/facility.css')}}">
-    <link rel="stylesheet" href="{{asset('/assets/user/detailnav.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/user/detail.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/body.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/menu.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/offer.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/category.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/food.css')}}">
     @livewireStyles
+    <style>
+        :root{
+            /* Navbar */
+            --navbar-title-color: @php echo ($color->selectedNavbarTitle) ?? 'blue'; @endphp ;
+            --navbar-toggle-color: @php echo ($color->selectedNavbarToggle) ?? 'blue'; @endphp ;
+            --navbar-top-color: @php echo ($color->selectedNavbarTop) ?? 'blue'; @endphp ;
+            --navbar-sub-title-color: @php echo ($color->selectedNavbarSubTitle) ?? 'blue'; @endphp ;
+            --navbar-text-color: @php echo ($color->selectedNavbarText) ?? 'blue'; @endphp ;
+            --navbar-top-ground-color: @php echo ($color->selectedNavbarTopGround) ?? 'blue'; @endphp ;
+            --navbar-bottom-ground-color: @php echo ($color->selectedNavbarBottomGround) ?? 'blue'; @endphp ;
+            /* Main Group */
+            --main-background-color: @php echo ($color->selectedMainBackground) ?? 'blue'; @endphp ;
+            --main-body-color: @php echo ($color->selectedMainBody) ?? 'blue'; @endphp ;
+            --main-theme-text-color: @php echo ($color->selectedMainThemeText) ?? 'blue'; @endphp ;
+            --main-theme-backgroud-color: @php echo ($color->selectedMainThemeBackgroud) ?? 'blue'; @endphp ;
+            --main-theme-text-active-color: @php echo ($color->selectedMainThemeTextActive) ?? 'blue'; @endphp ;
+            --main-theme-background-active-color: @php echo ($color->selectedMainThemeBackgroudActive) ?? 'blue'; @endphp ;
+            --main-theme-border-active-color: @php echo ($color->selectedMainThemeBorder) ?? 'blue'; @endphp ;
+            --main-card-text-color: @php echo ($color->selectedMainCardText) ?? 'blue'; @endphp ;
+            --main-card-opacity-color: @php echo ($color->selectedMainCardOpacity) ?? 'blue'; @endphp ;
+            /* Cart Group */
+            --cart-icon-color: @php echo ($color->selectedCartIcon) ?? 'blue'; @endphp ;
+            --cart-back-icon-color: @php echo ($color->selectedCartBackIcon) ?? 'blue'; @endphp ;
+            --cart-noti-color: @php echo ($color->selectedCartNoti) ?? 'blue'; @endphp ;
+            --cart-back-noti-color: @php echo ($color->selectedCartBackNoti) ?? 'blue'; @endphp ;
+            --cart-text-color: @php echo ($color->selectedCartText) ?? 'blue'; @endphp ;
+            --cart-background-color: @php echo ($color->selectedCartBackground) ?? 'blue'; @endphp ;
+            --cart-reset-text-color: @php echo ($color->selectedCartResetText) ?? 'blue'; @endphp ;
+            --cart-reset-backgound-color: @php echo ($color->selectedCartResetBackgound) ?? 'blue'; @endphp ;
+            --cart-close-text-color: @php echo ($color->selectedCartCloseText) ?? 'blue'; @endphp ;
+            --cart-close-backgound-color : @php echo ($color->selectedCartCloseBackgound) ?? 'blue'; @endphp ;
+            /* Category Group */
+            --category-title-color: @php echo ($color->selectedCategoryTitle) ?? 'red'; @endphp ;
+            --category-description-color: @php echo ($color->selectedCategoryDescription) ?? 'blue'; @endphp ;
+            --category-price-color: @php echo ($color->selectedCategoryPrice) ?? 'blue'; @endphp ;
+            --category-old-price-color: @php echo ($color->selectedCategoryOldPrice) ?? 'blue'; @endphp ;
+            --category-card-background-color: @php echo ($color->selectedCategoryCardBackground) ?? 'blue'; @endphp ;
+            --category-shadow-color: @php echo ($color->selectedCategoryShabow) ?? 'blue'; @endphp ;
+            
+        }
+    </style>
+
     @stack('business_style')
 </head>
 <body>
 <div class="master-container">
-    <x-business.Facilities01Component :settingname="$setting_name" :setting="$setting" :filteredlocales="$filteredLocales" :ui="$ui"/>
 
+    {{-- @if (count(request()->segments()) <= 3) --}}
+    <x-business.Facilities01Component :settingname="$setting_name" :setting="$setting" :filteredlocales="$filteredLocales" :ui="$ui"/>
+    {{-- @endif --}}
     <div class="place-header">
         <x-business.header01component :user="$user" :ui="$ui" :setting="$setting"/>
     </div>
