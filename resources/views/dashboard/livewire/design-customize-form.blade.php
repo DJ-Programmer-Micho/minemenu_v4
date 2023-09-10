@@ -1,6 +1,96 @@
 <div class="my-4">
+
+{{-- MODAL 1--}}
+<div wire:ignore.self class="modal fade" id="presetNameModal0" tabindex="-1" aria-labelledby="presetNameModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog text-white">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title" id="presetNameModalLabel">Add New Preset</h5>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" wire:click="closeModal"
+                    aria-label="Close"><i class="fas fa-times"></i></button>
+            </div>
+            <form wire:submit.prevent="saveNewPreset({{0}})">
+                <div class="modal-body">
+                    <p>{{ __('Saving new preset?, Give a name') }}</p>
+                    <p>{{ __('Please enter the Name')}}</p>
+                    <input type="text" wire:model="presetNameToSave" class="form-control">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" wire:click="closeModal" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success">{{__('Save Preset')}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{-- MODAL 1--}}
+{{-- MODAL 2--}}
+<div wire:ignore.self class="modal fade" id="presetNameModal1" tabindex="-1" aria-labelledby="presetNameModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog text-white">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title" id="presetNameModalLabel">Add New Preset</h5>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" wire:click="closeModal"
+                    aria-label="Close"><i class="fas fa-times"></i></button>
+            </div>
+            <form wire:submit.prevent="saveNewPreset({{1}})">
+                <div class="modal-body">
+                    <p>{{ __('Saving new preset?, Give a name') }}</p>
+                    <p>{{ __('Please enter the Name')}}</p>
+                    <input type="text" wire:model="presetNameToSave" class="form-control">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" wire:click="closeModal" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success">{{__('Save Preset')}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{-- MODAL 2--}}
+{{-- MODAL 3--}}
+<div wire:ignore.self class="modal fade" id="presetNameModal2" tabindex="-1" aria-labelledby="presetNameModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog text-white">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title" id="presetNameModalLabel">Add New Preset</h5>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" wire:click="closeModal"
+                    aria-label="Close"><i class="fas fa-times"></i></button>
+            </div>
+            <form wire:submit.prevent="saveNewPreset({{2}})">
+                <div class="modal-body">
+                    <p>{{ __('Saving new preset?, Give a name') }}</p>
+                    <p>{{ __('Please enter the Name')}}</p>
+                    <input type="text" wire:model="presetNameToSave" class="form-control">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" wire:click="closeModal" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success">{{__('Save Preset')}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{-- MODAL 3--}}
+
+
+
+
+
     <div>
-        <form wire:submit.prevent="saveColors">
+        {{-- <select wire:model="selectedPreset">
+            <option value="p1">Preset 1</option>
+            <option value="p2">Preset 2</option>
+            <!-- Add more preset options as needed -->
+        </select>
+        <button wire:click="fixedPreset">Apply Preset</button> --}}
+
+        <h3 class="text-white">{{__('MENU CUSTOMIZATION')}}</h3>
+        <hr>
+       
             <div class="well">
                 <div class="row">
                     <div class="col-lg-6 col-12">
@@ -10,6 +100,37 @@
                         </div>
                     </div>
                     <div class="col-lg-6 col-12">
+                        <h3 class="text-white">
+                            {{__('Presets')}}
+                        </h3>
+                        <div class="mb-3 P">
+                            <button type="button" class="btn btn-danger mb-1" wire:click="fixedPreset('p1')">CLASSIC</button>
+                            <button type="button" class="btn btn-dark mb-1" wire:click="fixedPreset('p2')">DARK</button>
+                        </div>
+                        <h3 class="text-white mt-3">
+                            {{__('User Presets')}}
+                        </h3>
+                        <div>
+                            @for ($i = 0; $i <= 2; $i++)
+                            @if (array_key_exists($i, $user_color))
+                                <div class="mb-1 btn-group w-100" role="group" aria-label="Basic example">
+                                    <button type="button" class="h-100 btn btn-dark w-100 mb-1" wire:click="loadPreset({{$i}})">{{$user_color[$i]['name']}}</button>
+                                    <button type="button" class="h-100 btn btn-primary" wire:click="loadPreset({{$i}})"><i class="fas fa-window-restore"></i></button>
+                                    <button type="button" class="h-100 btn btn-info" wire:click="saveExistPreset({{$i}},'{{$user_color[$i]['name']}}')"><i class="far fa-save"></i></button>
+                                    <button type="button" class="h-100 btn btn-danger" wire:click="deletePreset({{$i}})"><i class="fas fa-ban"></i></button>
+                                </div>
+                            @else
+                                <div class="mb-1 btn-group w-100" role="group" aria-label="Basic example">
+                                    <button type="button" class="h-100 btn btn-light w-100 mb-1" data-toggle="modal" data-target="#presetNameModal{{$i}}">{{__('Empty')}}</button>
+                                    <button type="button" class="h-100 btn btn-success"><i class="far fa-save"></i></button>
+                                </div>
+                            @endif
+                            @endfor
+    
+                            
+                            </div> 
+
+                    <form wire:submit.prevent="saveColors">
                         <div class="accordion " id="accordionExample">
                             <div class="card bg-dark text-white">
                                 <div class="card-header bg-dark text-white" id="headingOne">
@@ -625,11 +746,11 @@
                                 </div>
                             </div>
                         </div>
+                        <button type="submit" class="my-4 btn btn-info" wire:click="saveColors">Update Colors</button>
+                    </form>
                     </div>
                 </div>
-                <button type="submit" wire:click="saveColors">Save Colors</button>
             </div>
-        </form>
     </div>
 </div>
 
@@ -755,6 +876,54 @@
         myframe.documentElement.style.setProperty('--utl-icon-background', utlIconBackground);
     }
 
+    const cssVariableMapping = {
+        navbarTitle: '--navbar-title-color',
+        navbarToggle: '--navbar-toggle-color',
+        navbarTop: '--navbar-top-color',
+        navbarSubTitle: '--navbar-sub-title-color',
+        navbarText: '--navbar-text-color',
+        navbarTopGround: '--navbar-top-ground-color',
+        navbarBottomGround: '--navbar-bottom-ground-color',
+        mainBackground: '--main-background-color',
+        mainBody: '--main-body-color',
+        mainThemeText: '--main-theme-text-color',
+        mainThemeBackground: '--main-theme-background-color',
+        mainThemeTextActive: '--main-theme-text-active-color',
+        mainThemeBackgroundActive: '--main-theme-background-active-color',
+        mainThemeBorder: '--main-theme-border-active-color',
+        mainCardText: '--main-card-text-color',
+        mainCardOpacity: '--main-card-opacity-color',
+        cartIcon: '--cart-icon-color',
+        cartBackIcon: '--cart-back-icon-color',
+        cartNoti: '--cart-noti-color',
+        cartBackNoti: '--cart-back-noti-color',
+        cartText: '--cart-text-color',
+        cartBackground: '--cart-background-color',
+        cartResetext: '--cart-reset-text-color',
+        cartResetBackgound: '--cart-reset-backgound-color',
+        cartCloseText: '--cart-close-text-color',
+        cartCloseBackgound: '--cart-close-backgound-color',
+        categoryTitle: '--category-title-color',
+        categoryDescription: '--category-description-color',
+        categoryPrice: '--category-price-color',
+        categoryOldPrice: '--category-old-price-color',
+        categoryCardBackground: '--category-card-background-color',
+        categoryShabow: '--category-shadow-color',
+        foodBackground: '--food-background',
+        foodTitle: '--food-title',
+        foodDescription: '--food-description',
+        foodPrice: '--food-price',
+        foodOldPrice: '--food-old-price',
+        foodPriceKey: '--food-price-key',
+        foodPriceValue: '--food-price-value',
+        foodButtonText: '--food-button-text',
+        foodButtonBackground: '--food-button-background',
+        foodImageShadow: '--food-image-shadow',
+        foodImageShadowOpacity: '--food-image-shadow-opacity',
+        utlIconColor: '--utl-icon-color',
+        utlIconBackground: '--utl-icon-background',
+    };
+  
     // Event listener for input changes
     $('.color-control').on('input', function() {
         applyColorToIframe();
@@ -765,5 +934,44 @@
     iframe.addEventListener("load", function() {
         applyColorToIframe();
     });
+
+    window.addEventListener('userPreset', function () {
+        applyColorToIframe();
+    });
+</script>
+<script>
+   window.addEventListener('fixedPreset', function (presetData) {
+       const presetDataCss = presetData.detail;
+       // Get the iframe element
+        const iframe = document.getElementById('myform');
+        // Access the iframe's content window
+        const iframeContent = iframe.contentWindow;
+        console.log(presetDataCss);
+        console.log('Keys in presetData:', Object.keys(presetDataCss));
+        
+        // Loop through the presetData and set CSS variables
+        for (const key in presetDataCss) {
+            if (presetDataCss.hasOwnProperty(key) && cssVariableMapping[key]) {
+
+                // Get the corresponding CSS variable name from the mapping
+                const cssVariableName = cssVariableMapping[key];
+
+                // Log the CSS variable name and value for debugging
+                console.log('Setting CSS variable:', cssVariableName, 'to value:', presetDataCss[key]);
+
+                // Set CSS variables within the iframe's content
+                iframeContent.document.documentElement.style.setProperty(cssVariableName, presetDataCss[key]);
+            }
+        }
+    });
+
+    window.addEventListener('refreshSave', function (presetData) {
+        location.reload();
+        alert("{{__('Please select the name you provided to confirm your changes')}}");
+    });
+    window.addEventListener('refreshDelete', function (presetData) {
+        location.reload();
+    });
+
 </script>
 @endpush

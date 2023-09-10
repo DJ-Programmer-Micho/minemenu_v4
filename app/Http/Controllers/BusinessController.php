@@ -34,7 +34,7 @@ class BusinessController extends Controller
 
         $user = User::where('name', $business_name)->first();
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
-        $color = json_decode($setting->default_lang);
+        $color = json_decode($setting->ui_color);
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
         $ui = ['01','01','01','01'];
         // $ui = [Header, Menu, Category, Food]
@@ -57,7 +57,7 @@ class BusinessController extends Controller
         $user = User::where('name', $business_name)->first();
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
-        $color = json_decode($setting->default_lang);
+        $color = json_decode($setting->ui_color);
 
         $ui = ['01','01','01','01'];
         return view('user.layouts.food_list', [
@@ -74,7 +74,7 @@ class BusinessController extends Controller
         $user = User::where('name', $business_name)->first();
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
-        $color = json_decode($setting->default_lang);
+        $color = json_decode($setting->ui_color);
         $ui = ['01','01','01','01'];
         return view('user.layouts.food_detail', [
             'user' => $user,
@@ -90,7 +90,7 @@ class BusinessController extends Controller
         $user = User::where('name', $business_name)->first();
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
-        $color = json_decode($setting->default_lang);
+        $color = json_decode($setting->ui_color);
         $ui = ['01','01','01','01'];
 
         return view('user.layouts.offer_detail', [

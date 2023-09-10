@@ -28,10 +28,15 @@ class Setting extends Model
         'intro_page',
         'currency',
         'fees',
+        'ui_ux',
+        'ui_color',
+        'user_ui_color',
     ];
 
     protected $casts = [
         'languages' => 'array',
+        'ui_ux' => 'array',
+        'user_ui_color' => 'array'
     ];
 
     public function user()

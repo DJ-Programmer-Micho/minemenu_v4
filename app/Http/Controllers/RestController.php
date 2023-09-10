@@ -41,4 +41,7 @@ class RestController extends Controller
     public function designCustomize(){
         return view('dashboard.rest.pages.design.designCustomize');
     } // END FUNCTION (DESIGN-CUSTOMIZE)
+    public function designQr(){
+        return view('dashboard.rest.pages.design.designQr');
+    } // END FUNCTION (DESIGN-CUSTOMIZE)
 }

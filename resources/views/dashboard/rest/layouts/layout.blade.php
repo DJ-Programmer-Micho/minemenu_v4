@@ -22,6 +22,7 @@
     
     <!-- Custom styles for this template-->
     <link href="{{asset('assets/dashboard/css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/dashboard/css/qr-style.css')}}" rel="stylesheet">
     @livewireStyles
     @stack('language_css')
     @stack('cropper_links')
@@ -265,7 +266,7 @@
                             <span class="text-white">{{__('Customize UI/UX')}}</span>
                             
                             </a>
-                        <a class="collapse-item" href="cards.html">
+                        <a class="collapse-item"  href="{{route('designQr')}}">
                             <lord-icon
                             src="https://cdn.lordicon.com/fqrjldna.json"
                             trigger="loop"
@@ -686,6 +687,7 @@
         </script>
     @stack('cropper')
     @stack('drag')
+    @stack('color');
     @yield('rest_script')
     <form id="languageForm" action="{{ route('setLocale') }}" method="post">
         @csrf
@@ -700,7 +702,6 @@
     </script>
 
 
-@stack('color');
 
 </body>
 

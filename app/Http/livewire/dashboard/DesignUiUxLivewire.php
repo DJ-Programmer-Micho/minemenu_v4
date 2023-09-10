@@ -15,7 +15,8 @@ class DesignUiUxLivewire extends Component
     public function mount()
     {
         $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
-        $ui = json_decode($settings->default_lang);
+        $ui = json_decode($settings->ui_ux);
+        $ui ? $ui : $ui = [01,02,03,04,05,06];
         $this->selectedDesigns = [
             'header' => $ui[0],
             'navbar' => $ui[1],
@@ -34,7 +35,7 @@ class DesignUiUxLivewire extends Component
 
 
         $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
-        $settings->default_lang = $selectedDesignString;
+        $settings->ui_ux = $selectedDesignString;
         $settings->save();
 
 
