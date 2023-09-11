@@ -27,6 +27,7 @@
     @stack('language_css')
     @stack('cropper_links')
     @stack('style_tag')
+    @stack('support')
     <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
     <link href="{{asset('assets/general/css/toaster.css')}}" rel="stylesheet" type="text/css">
     @yield('rest_css')
@@ -289,7 +290,7 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item" {{(str_contains(request()->path(), 'rest/support/')) ? 'active' : ''}}">
+            <li class="nav-item {{(str_contains(request()->path(), 'rest/support/')) ? 'active' : ''}}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
                     <lord-icon
@@ -326,7 +327,7 @@
                             </a>
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">{{__('Team Support:')}}</h6>
-                        <a class="collapse-item" href="404.html">
+                        <a class="collapse-item" href="{{route('supportContactUs')}}">
                             <lord-icon
                             src="https://cdn.lordicon.com/bwnhdkha.json"
                             trigger="loop"
@@ -336,7 +337,7 @@
                         </lord-icon> 
                             <span class="text-white">{{__('Contact Us')}}</span>
                             </a>
-                        <a class="collapse-item" href="blank.html">
+                        <a class="collapse-item" href="{{route('supportMenuFix')}}">
                             <lord-icon
                             src="https://cdn.lordicon.com/hdiorcun.json"
                             trigger="loop"
@@ -346,7 +347,7 @@
                         </lord-icon>
                             <span class="text-white">{{__('Menu Fix')}}</span>
                             </a>
-                        <a class="collapse-item" href="blank.html">
+                        <a class="collapse-item" href="{{route('supportError')}}">
                             <lord-icon
                             src="https://cdn.lordicon.com/tdrtiskw.json"
                             trigger="loop"

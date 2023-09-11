@@ -88,6 +88,9 @@ Route::prefix('/rest')->middleware(['checkStatus', 'LocalizationMiddleware', 're
     Route::get('/design/qr', [RestController::class, 'designQr'])->name('designQr');
     Route::get('/support/tutorial', [RestController::class, 'supportVideo'])->name('supportVideo');
     Route::get('/support/document', [RestController::class, 'supportDocument'])->name('supportDocument');
+    Route::get('/support/contactus', [RestController::class, 'supportContactUs'])->name('supportContactUs');
+    Route::get('/support/menufix', [RestController::class, 'supportMenuFix'])->name('supportMenuFix');
+    Route::get('/support/error', [RestController::class, 'supportError'])->name('supportError');
 });
  /*
 |--------------------------------------------------------------------------

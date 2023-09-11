@@ -85,8 +85,8 @@ class FoodLivewire extends Component
         }
         $rules['cat_id'] = ['required'];
         $rules['priority'] = ['required'];
-        $rules['price'] = ['required'];
-        $rules['oldPrice'] = ['required'];
+        // $rules['price'] = ['required'];
+        // $rules['oldPrice'] = ['required'];
         $rules['status'] = ['required'];
         $rules['objectName'] = ['required'];
         return $rules;
@@ -117,8 +117,8 @@ class FoodLivewire extends Component
 
     public function saveFood()
     {
-        $validatedData = $this->validate();
 
+        $validatedData = $this->validate();
         $sorm = $this->showTextarea ? 1 : 0;
         $optionsData = $this->showTextarea == false ? null : json_encode($this->options);
 
