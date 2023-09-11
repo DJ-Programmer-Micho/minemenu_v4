@@ -43,5 +43,11 @@ class RestController extends Controller
     } // END FUNCTION (DESIGN-CUSTOMIZE)
     public function designQr(){
         return view('dashboard.rest.pages.design.designQr');
-    } // END FUNCTION (DESIGN-CUSTOMIZE)
+    } // END FUNCTION (DESIGN-QR CODE)
+    public function supportVideo(){
+        return view('dashboard.rest.pages.support.tutorial');
+    } // END FUNCTION (DESIGN-QR CODE)
+    public function supportDocument(){
+        return view('dashboard.rest.pages.support.document');
+    } // END FUNCTION (DESIGN-QR CODE)
 }

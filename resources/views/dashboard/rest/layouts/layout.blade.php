@@ -22,7 +22,7 @@
     
     <!-- Custom styles for this template-->
     <link href="{{asset('assets/dashboard/css/sb-admin-2.min.css')}}" rel="stylesheet">
-    <link href="{{asset('assets/dashboard/css/qr-style.css')}}" rel="stylesheet">
+    {{-- <link href="{{asset('assets/dashboard/css/qr-style.css')}}" rel="stylesheet"> --}}
     @livewireStyles
     @stack('language_css')
     @stack('cropper_links')
@@ -289,7 +289,7 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            <li class="nav-item" {{(str_contains(request()->path(), 'rest/support/')) ? 'active' : ''}}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
                     <lord-icon
@@ -304,7 +304,7 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="py-2 collapse-inner rounded" style="background-color: #1f2535">
                         <h6 class="collapse-header">{{__('Self Support:')}}</h6>
-                        <a class="collapse-item" href="#">
+                        <a class="collapse-item"  href="{{route('supportVideo')}}">
                             <lord-icon
                             src="https://cdn.lordicon.com/tdxypxgp.json"
                             trigger="loop"
@@ -314,7 +314,7 @@
                         </lord-icon>
                             <span class="text-white">{{__('Tutorial')}}</span>
                             </a>
-                        <a class="collapse-item" href="#">
+                        <a class="collapse-item" href="{{route('supportDocument')}}">
                             <lord-icon
                             src="https://cdn.lordicon.com/jqeuwnmb.json"
                             trigger="loop"
