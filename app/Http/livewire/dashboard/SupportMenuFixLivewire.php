@@ -14,12 +14,15 @@ class SupportMenuFixLivewire extends Component
     public $menuCount;
     public $categoryCount;
     public $offerCount;
-
+    public $glang;
     public $showRequirements = false;
     public $analysing = false;
     public $messages = [];
 
-
+    public function mount()
+    {
+        $this->glang = app('glang');
+    }
 
     public function checkRequirements()
     {
@@ -61,12 +64,15 @@ class SupportMenuFixLivewire extends Component
             $this->messages['category'][] = "You don't have any categories. Add more to optimize.";
         }
 
-                // Get the user's food items
+                //Get the user's food items
                 $foods = Food::with(['category.translation', 'translation'])
                 ->where('user_id', $user)
-                ->whereHas('translation', function ($query) {})
+                ->whereHas('translation', function ($query) {
+                    $query->where('lang', $this->glang);
+                })
                 ->get();
-    
+
+
         // 3. Check food names and descriptions
         // dd($foods);
         foreach ($foods as $food) {

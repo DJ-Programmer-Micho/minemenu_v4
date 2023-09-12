@@ -106,7 +106,7 @@ Route::prefix('/emp')->middleware(['checkStatus', 'LocalizationMiddleware', 'emp
 | User Pages with User ID Prefix
 |--------------------------------------------------------------------------
 */
-Route::prefix('/{business_name}')->middleware(['LocalizationMiddleware'])->group(function () {
+Route::prefix('/{business_name}')->middleware(['LocalizationMiddleware','tracker'])->group(function () {
     Route::get('/', [BusinessController::class, 'category'])->name('business.home');
     Route::get('/cat/{food}', [BusinessController::class, 'food'])->name('business.food');
     Route::get('/cat/{food}/{detail}', [BusinessController::class, 'foodDetail'])->name('business.food_detail');
