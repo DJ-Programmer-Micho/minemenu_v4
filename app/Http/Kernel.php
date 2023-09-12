@@ -70,5 +70,7 @@ class Kernel extends HttpKernel
         'rest' => \App\Http\Middleware\Rest::class,
         'emp' => \App\Http\Middleware\Emp::class,
         'LocalizationMiddleware' => \App\Http\Middleware\LocalizationMiddleware::class,
+        'TrackerVisit' => \App\Http\Middleware\TrackVisits::class,
+        'track-clicks' => \App\Http\Middleware\TrackClicks::class,
     ];
 }
