@@ -26,9 +26,11 @@ class TrackClicks
 
         if ($businessName && $clickedId) {
             // Generate a unique identifier for the guest based on IP
-            $guestIdentifier = md5($_SERVER['REMOTE_ADDR'] . $businessName);
+            $guestIdentifier = md5($_SERVER['REMOTE_ADDR'] . '-' . $businessName);
+            $deviceIdentifier = md5($_SERVER['REMOTE_ADDR'] . '-' . $_SERVER['HTTP_USER_AGENT']) . '-' . $businessName;
 
             $existingClick = TrackFoods::where('guest_identifier', $guestIdentifier)
+                ->where('guest_device', $deviceIdentifier)
                 ->where($type.'_id', $clickedId)
                 ->where('category_id', $cat_id)
                 ->where('food_id', $food_id)
@@ -37,6 +39,7 @@ class TrackClicks
             if (!$existingClick) {
                 TrackFoods::create([
                     'guest_identifier' => $guestIdentifier,
+                    'guest_device' => $deviceIdentifier,
                     'category_id' => $cat_id,
                     'food_id' => $food_id,
                     $type.'_id' => $clickedId,

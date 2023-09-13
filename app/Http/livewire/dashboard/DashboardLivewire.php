@@ -1,57 +1,214 @@
 <?php
  
 namespace App\Http\Livewire\dashboard;
- 
+
+use App\Models\Food;
+use App\Models\Tracker;
 use Livewire\Component;
-use App\Models\Mainmenu;
-use App\Models\Mainmenu_Translator;
-use Livewire\WithPagination;
+use App\Models\Categories;
+// use Livewire\WithPagination;
+use App\Models\TrackFoods;
 use Illuminate\Support\Facades\Auth;
  
 class DashboardLivewire extends Component
 {
-    use WithPagination;
- 
-    protected $paginationTheme = 'bootstrap';
- 
-    public $search = '';
     public $glang;
     public $filteredLocales;
-    public $status;
-    public $names = [];
-    public $menu_selected_id;
-    public $menu_id;
-    public $lang;
-    public $priority;
-    public $menu_update;
+    public $totalVisitsLifetime;
+    public $totalVisitsPerMonth;
+    public $totalCategories;
+    public $totalFoods;
+    public $currentYear;
+    public $selectedYear;
+    public $categoryClicksData;
+    public $foodClicksData;
+    public $availableYears;
+    public $chartData;
+    public $categoriesWithNames;
+    public $sumCategoryClick;
+    public $topCategoriesStore;
+    public $topCategories;
+    public $foodWithNames;
+    public $sumFoodClick;
+    public $topFoodStore;
+    public $topFood;
+    public $profile = [];
 
     public function mount()
     {
         $this->glang = app('glang');
         $this->filteredLocales = app('userlanguage');
+
+        if (Auth::check()) {
+            $this->totalVisitsLifetime = $this->getTotalVisitsLifetime(auth()->user()->name);
+            $this->totalVisitsPerMonth = $this->getTotalVisitsPerMonth(auth()->user()->name);
+            $this->totalCategories = $this->getTotalCategories(auth()->user()->id);
+            $this->totalFoods = $this->getTotalFoods(auth()->user()->id);
+            $this->topCategories(auth()->user()->name);
+            $this->topFoods(auth()->user()->name);
+            $this->availableYears = $this->getAvailableYears();
+            $this->selectedYear = now()->year; // Initialize with the current year
+            $this->loadChartData($this->selectedYear, auth()->user()->name);
+
+            // dd(auth()->user()->profile);
+            $this->profile['restName'] = auth()->user()->name;
+            $this->profile['name'] = auth()->user()->profile->fullname;
+            $this->profile['email'] = auth()->user()->email;
+            $this->profile['phone'] = auth()->user()->profile->phone;
+            $this->profile['country'] = auth()->user()->profile->country;
+            $this->profile['create'] = '2023-9-13';
+            $this->profile['expire'] = '2024-9-13';
+        }
     }
 
+    // SOME TRACKING FUNCTIONS TO COUNT
+    private function getTotalVisitsLifetime($businessName)
+    {
+        return Tracker::where('business_name', $businessName)->count();
+    }
+
+    private function getTotalVisitsPerMonth($businessName)
+    {
+        $currentMonth = now()->format('Y-m');
+        
+        return Tracker::selectRaw('DATE_FORMAT(visit_date, "%Y-%m") as month, COUNT(*) as total_visits')
+            ->where('business_name', $businessName)
+            ->whereRaw('DATE_FORMAT(visit_date, "%Y-%m") = ?', [$currentMonth])
+            ->groupBy('month')
+            ->get();
+    }
+    private function getTotalCategories($id)
+    {
+        return Categories::where('user_id', $id)->count();
+    }
+    private function getTotalFoods($id)
+    {
+        return Food::where('user_id', $id)->count();
+    }
+    private function getAvailableYears()
+    {
+        // Fetch unique years from the Tracker table
+        return Tracker::where('business_name', auth()->user()->name)
+            ->distinct()
+            ->pluck('visit_date')
+            ->map(function ($date) {
+                return date('Y', strtotime($date));
+            })
+            ->unique()
+            ->toArray();
+    }
+    private function loadChartData($selectedYear,$businessName)
+    {
+        // Fetch chart data based on the selected year
+        $this->chartData = [
+            // Fetch visits data for the selected year
+            'visits' => Tracker::selectRaw('DATE_FORMAT(visit_date, "%Y-%m") as month, COUNT(*) as count')
+                ->where('business_name', $businessName)
+                ->whereYear('visit_date', $selectedYear)
+                ->groupBy('month')
+                ->orderBy('month')
+                ->get(),
+
+            // Fetch clicks in categories data for the selected year
+            'categoryClicks' => TrackFoods::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+                ->where('business_name_id', $businessName)
+                ->where('food_id', null)
+                ->whereYear('created_at', $selectedYear)
+                ->groupBy('month')
+                ->orderBy('month')
+                ->get(),
+
+            // Fetch clicks in food data for the selected year
+            'foodClicks' => TrackFoods::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+                ->where('business_name_id', $businessName)
+                ->whereYear('created_at', $selectedYear)
+                ->whereNotNull('food_id')
+                ->groupBy('month')
+                ->orderBy('month')
+                ->get(),
+        ];
+  
+        
+    }
+    private function topCategories($businessName){
+        $topCategories = TrackFoods::selectRaw('category_id, COUNT(*) as click_count')
+        ->where('business_name_id', $businessName)
+        ->where('food_id', null)
+        ->groupBy('category_id')
+        ->orderByDesc('click_count')
+        ->limit(5)
+        ->get();
+
+        $maxClickCount = TrackFoods::where('business_name_id', $businessName)
+        ->where('food_id', null)
+        ->count();
+
+        $topCategoryIds = $topCategories->pluck('category_id')->toArray();
+
+        $this->categoriesWithNames = Categories::whereIn('id', $topCategoryIds)
+        ->with(['translation' => function ($query) {
+            $query->where('locale', $this->glang);
+        }])
+        ->get();
+
+        $this->sumCategoryClick = $maxClickCount;
+        $this->topCategories = $topCategories;
+    }
+    private function topFoods($businessName){
+        $topFood = TrackFoods::selectRaw('food_id, COUNT(*) as click_count')
+        ->where('business_name_id', $businessName)
+        ->whereNotNull('food_id')
+        ->groupBy('food_id')
+        ->orderByDesc('click_count')
+        ->limit(5)
+        ->get();
+
+        $maxClickCount = TrackFoods::where('business_name_id', $businessName)
+        ->whereNotNull('food_id')
+        ->count();
+
+        $topFoodIds = $topFood->pluck('food_id')->toArray();
+
+        $this->foodWithNames = Food::whereIn('id', $topFoodIds)
+        ->with(['translation' => function ($query) {
+            $query->where('lang', $this->glang);
+        }])
+        ->get();
+
+        $this->sumFoodClick = $maxClickCount;
+        $this->topFood = $topFood;
+        // dd($topFood,$this->foodWithNames);
+    }
+
+    public function updatedSelectedYear()
+    {
+        $this->loadChartData($this->selectedYear, auth()->user()->name);
+        $this->dispatchBrowserEvent('chartDataUpdated',  $this->chartData);
+    }
     public function render()
     {
-        $colspan = 6;
-        // $cols_th = ['#','Name','Priority','Status','actions'];
-        // $cols_td = ['id','translation.name','priority','status'];
+        if (Auth::check()) {
+            $this->totalVisitsLifetime = $this->getTotalVisitsLifetime(auth()->user()->name);
+            $this->totalVisitsPerMonth = $this->getTotalVisitsPerMonth(auth()->user()->name);
+            $this->totalCategories = $this->getTotalCategories(auth()->user()->id);
+            $this->totalFoods = $this->getTotalFoods(auth()->user()->id);
+            $this->topCategories(auth()->user()->name);
+            $this->topFoods(auth()->user()->name);
+        }
 
-        // $data = Mainmenu::with(['translation' => function ($query) {
-        //     $query->where('lang', $this->glang);
-        // }])
-        // ->where('user_id', Auth::id())
-        // ->whereHas('translation', function ($query) {
-        //     $query->
-        //     // where('lang', $this->glang)
-        //         where(function ($query) {
-        //             $query->where('name', 'like', '%' . $this->search . '%')
-        //                 ->orWhere('user_id', 'like', '%' . $this->search . '%');
-        //         });
-        // })
-        // ->orderBy('priority', 'ASC')
-        // ->paginate(10);
-        //$Menus = Menu::select('id','name','email','course')->get();
-        return view('dashboard.livewire.dashboard-view',['asd' => $colspan]);
+        return view('dashboard.livewire.dashboard-view',[
+            'visit_lifetime' => $this->totalVisitsLifetime,
+            'visit_monthly' => $this->totalVisitsPerMonth[0]['total_visits'] ?? 0,
+            'count_category' => $this->totalCategories,
+            'count_food' => $this->totalFoods,
+            'chartData' => $this->chartData,
+            'topCategories' => $this->topCategories,
+            'categoriesWithNames' => $this->categoriesWithNames,
+            'sumCategoryClick' => $this->sumCategoryClick,
+            'topFood' => $this->topFood,
+            'foodWithNames' => $this->foodWithNames,
+            'sumFoodClick' => $this->sumFoodClick,
+            'profile' => $this->profile
+        ]);
     }
 }

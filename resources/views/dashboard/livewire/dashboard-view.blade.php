@@ -1,46 +1,71 @@
-{{-- <div class="grid grid-cols-12 gap-6">
-    <div class="col-span-12 xxl:col-span-9 grid grid-cols-12 gap-6">
-        <x-dashboard.general_report/>
-
-        <div class="col-span-12 lg:col-span-6 mt-8">
-            <x-dashboard.chart_one/>
-        </div>
-        <div class="col-span-12 sm:col-span-6 lg:col-span-3 mt-8">
-            <x-dashboard.pie_one/>
-        </div>
-        <div class="col-span-12 sm:col-span-6 lg:col-span-3 mt-8">
-            <x-dashboard.pie_two/>
-        </div>
-    </div>
-    <div class="col-span-12 xxl:col-span-3 xxl:border-l border-theme-5 -mb-10 pb-10">
-        <x-dashboard.transaction/>
-    </div>
-</div> --}}
 <!-- Begin Page Content -->
-<div class="container-fluid">
+<div>
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-white">Dashboard {{$asd}}</h1>
+        <h1 class="h3 mb-0 text-white">Dashboard</h1>
         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
     </div>
 
     <!-- Content Row -->
     <div class="row">
+        <div class="col-12 mb-3">
+            <div class="row m-0 p-0 dash-card">
+                <div class="col-12 col-xl-2 m-0 p-0">
+                    <div class="card-profile text-center">
+                        <img src="https://images.unsplash.com/photo-1610216705422-caa3fcb6d158?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDB8fGZhY2V8ZW58MHwyfDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                            alt="Responsive Image" class="img-fluid rounded-circle p-3" style="max-width: 150px">
+                    </div>
+                </div>
+                <div class="col-md-10 m-0 p-0">
+                    <div class="card-body dash-card border-0">
+                        <div class="row text-white">
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-3">
+                                {{-- <h5>Profile</h5> --}}
+                                <p class="card-title">Restaurant Name: {{$profile['restName']}}</p>
+                                <p class="card-title">Country: {{$profile['country']}}</p>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-3">
+                                {{-- <h5>Initial Information</h5> --}}
+                                <p class="card-title">Name: {{$profile['name']}}</p>
+                                <p class="card-title">Email: {{$profile['email']}}</p>
+                                <p class="card-title">Phone: {{$profile['phone']}}</p>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-3">
+                                {{-- <h5>Menu Active Time</h3> --}}
+                                <p class="card-title text-success">Start: {{$profile['create']}}</p>
+                                <p class="card-title text-danger">Expire: {{$profile['expire']}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+
+    {{-- </div> --}}
 
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
+            <div class="card border-left-primary shadow h-100 py-2 dash-card">
+                <div class="card-body ">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Total Scans (Monthly)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">885 / {{__('mo')}}</div>
+                                {{__('Total Scans (Monthly)')}}</div>
+                            <div class="h5 mb-0 font-weight-bold text-white">{{$visit_monthly}} / {{__('mo')}}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+                            <lord-icon
+                                src="https://cdn.lordicon.com/fqrjldna.json"
+                                trigger="loop"
+                                colors="primary:#4e73df,secondary:#fff"
+                                state="loop"
+                                style="width:48px;height:48px">
+                            </lord-icon>
                         </div>
                     </div>
                 </div>
@@ -49,16 +74,23 @@
 
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
+            <div class="card border-left-danger shadow h-100 py-2 dash-card">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Total Scans (Life-time)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">6450</div>
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                {{__('Total Scans (Life-time')}})</div>
+                            <div class="h5 mb-0 font-weight-bold text-white">{{$visit_lifetime}}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+                            <lord-icon
+                                src="https://cdn.lordicon.com/msoeawqm.json"
+                                trigger="loop"
+                                delay="2000"
+                                colors="primary:#e74a3b,secondary:#fff"
+                                style="width:48px;height:48px">
+                            </lord-icon>
                         </div>
                     </div>
                 </div>
@@ -67,16 +99,23 @@
 
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
+            <div class="card border-left-warning shadow h-100 py-2 dash-card">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Total Categories</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">36</div>
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                {{__('Total Categories')}}</div>
+                            <div class="h5 mb-0 font-weight-bold text-white">{{$count_category}}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+                            <lord-icon
+                                src="https://cdn.lordicon.com/nocovwne.json"
+                                trigger="loop"
+                                delay="2000"
+                                colors="primary:#f6c23e,secondary:#fff"
+                                style="width:48px;height:48px">
+                            </lord-icon>
                         </div>
                     </div>
                 </div>
@@ -85,48 +124,54 @@
 
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
+            <div class="card border-left-info shadow h-100 py-2 dash-card">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Total Food</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">238</div>
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                {{__('Total Food')}}</div>
+                            <div class="h5 mb-0 font-weight-bold text-white">{{$count_food}}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+                            <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+                            <lord-icon
+                                src="https://cdn.lordicon.com/dnoiydox.json"
+                                trigger="loop"
+                                delay="2000"
+                                colors="primary:#36b9cc,secondary:#fff"
+                                style="width:48px;height:48px">
+                            </lord-icon>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
+    </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-12">
-            <div class="card shadow mb-4">
+            <div class="card shadow mb-4 dash-card">
                 <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between dash-card">
                     <h6 class="m-0 font-weight-bold text-white">
-                        Earnings Overview
+                        {{__('Overview Statistic')}}
                     </h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
                     <div class="chart-area">
-                        <canvas id="myAreaChart"></canvas>
+                        <canvas id="combinedChart"></canvas>
+                        {{-- <canvas id="myAreaChart"></canvas> --}}
                     </div>
                     <div class="my-4">
-                        <label for="yearSelect">Select Year:</label>
-                        <select id="yearSelect" class="form-control" style="background-color: #333; color: #fff;">
-                            {{-- @foreach ($years as $year) --}}
-                            <option value="">2023</option>
-                            <option value="">2023</option>
-                            <option value="">2023</option>
-                            <option value="">2023</option>
-                            <option value="">2023</option>
-                            {{-- <option value="{{ $year }}">{{ $year }}</option> --}}
-                        {{-- @endforeach --}}
+                        <label for="yearSelect">{{__('Select Year:')}}</label>
+                        <select id="yearSelect" class="form-control" 
+                        wire:model="selectedYear" 
+                        style="background-color: #303541; color: #fff;">
+                            @foreach ($availableYears as $year)
+                            <option value="{{ $year }}">{{ $year }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -141,230 +186,221 @@
         <div class="col-lg-6">
 
             <!-- Project Card Example -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Categories Click</h6>
+            <div class="card shadow mb-4 dash-card">
+                <div class="card-header py-3 dash-card">
+                    <h6 class="m-0 font-weight-bold text-white">Top 5 Categories Clicked</h6>
                 </div>
                 <div class="card-body">
-                    <h4 class="small font-weight-bold">Server Migration <span
-                            class="float-right">20%</span></h4>
+                    @foreach($categoriesWithNames as $category)
+                    @php
+                        $clickCount = $topCategories->where('category_id', $category->id)->first()->click_count ?? 0;
+                        $percentage = ($clickCount / $sumCategoryClick) * 100;
+                    @endphp
+                    <h4 class="small font-weight-bold text-white">{{ $category->translation->name }} <span class="float-right">{{ $clickCount }}</span></h4>
                     <div class="progress mb-4">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: 20%"
-                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-info" role="progressbar" style="width: {{ $percentage }}%" aria-valuenow="{{ $clickCount }}" aria-valuemin="0" aria-valuemax="{{ $sumCategoryClick }}"></div>
                     </div>
-                    <h4 class="small font-weight-bold">Sales Tracking <span
-                            class="float-right">40%</span></h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 40%"
-                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h4 class="small font-weight-bold">Customer Database <span
-                            class="float-right">60%</span></h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar" role="progressbar" style="width: 60%"
-                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h4 class="small font-weight-bold">Payout Details <span
-                            class="float-right">80%</span></h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar bg-info" role="progressbar" style="width: 80%"
-                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h4 class="small font-weight-bold">Account Setup <span
-                            class="float-right">Complete!</span></h4>
-                    <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
-                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
         <div class="col-lg-6">
 
             <!-- Project Card Example -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Food Clicks</h6>
+            <div class="card shadow mb-4 dash-card">
+                <div class="card-header py-3 dash-card">
+                    <h6 class="m-0 font-weight-bold text-white">Top 5 Food Clicked</h6>
                 </div>
                 <div class="card-body">
-                    <h4 class="small font-weight-bold">Server Migration <span
-                            class="float-right">20%</span></h4>
+                    @foreach($foodWithNames as $food)
+                    @php
+                        $clickCount = $topFood->where('food_id', $food->id)->first()->click_count ?? 0;
+                        $percentage = ($clickCount / $sumFoodClick) * 100;
+                    @endphp
+                    <h4 class="small font-weight-bold text-white">{{ $food->translation->name }} <span class="float-right">{{ $clickCount }}</span></h4>
                     <div class="progress mb-4">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: 20%"
-                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-info" role="progressbar" style="width: {{ $percentage }}%" aria-valuenow="{{ $clickCount }}" aria-valuemin="0" aria-valuemax="{{ $sumFoodClick }}"></div>
                     </div>
-                    <h4 class="small font-weight-bold">Sales Tracking <span
-                            class="float-right">40%</span></h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 40%"
-                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h4 class="small font-weight-bold">Customer Database <span
-                            class="float-right">60%</span></h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar" role="progressbar" style="width: 60%"
-                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h4 class="small font-weight-bold">Payout Details <span
-                            class="float-right">80%</span></h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar bg-info" role="progressbar" style="width: 80%"
-                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h4 class="small font-weight-bold">Account Setup <span
-                            class="float-right">Complete!</span></h4>
-                    <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
-                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
 
         <div class="col-lg-12 mb-4">
 
-            <!-- Illustrations -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
-                </div>
-                <div class="card-body">
-                    <div class="text-center">
-                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                            src="img/undraw_posting_photo.svg" alt="...">
-                    </div>
-                    <p>Add some quality, svg illustrations to your project courtesy of <a
-                            target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                        constantly updated collection of beautiful svg images that you can use
-                        completely free and without attribution!</p>
-                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                        unDraw &rarr;</a>
-                </div>
-            </div>
 
             <!-- Approach -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
+            <div class="card shadow mb-4 dash-card">
+                <div class="card-header py-3 dash-card">
+                    <h6 class="m-0 font-weight-bold text-white">Development Approach</h6>
                 </div>
-                <div class="card-body">
-                    <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
-                        CSS bloat and poor page performance. Custom CSS classes are used to create
-                        custom components and custom utility classes.</p>
+                <div class="card-body text-white dash-card">
+                    <div class="text-center">
+                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4 rounded-circle" style="width: 10rem; object-fit:cover;"
+                            src="https://i.ibb.co/7CdxCVJ/facebook-logo.jpg" alt="minemenulogo">
+                    </div>
+                    <p>Mine Menu Version 2 makes extensive use of Resturant utility in order to reduce
+                        poor page performance. Custom Design are used to create
+                        Great components to your Resturant.</p>
                     <p class="mb-0">Before working with this theme, you should become familiar with the
-                        Bootstrap framework, especially the utility classes.</p>
+                        Mine Menu, especially the utility classes.</p>
                 </div>
             </div>
 
         </div>
     </div>
 
-</div>
+
 <!-- /.container-fluid -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@push('rest_script')
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var ctx = document.getElementById("myAreaChart");
-        var myLineChart;
-    
-        // function updateChart(yearData) {
-        // if (myLineChart) {
-        //     myLineChart.destroy();
-        // }
-    
-        myLineChart = new Chart(ctx, {
-            type: "line",
-            data: {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            datasets: [
-                {
-                label: "Earnings",
-                data: 2023,
-                tension: 0.3,
-                borderColor: "#cc0022",
-                pointRadius: 3,
-                pointBackgroundColor: "#fff",
-                pointBorderColor: "#fff",
-                pointHoverRadius: 3,
-                pointHoverBackgroundColor: "rgba(204, 0, 34, 1)",
-                pointHoverBorderColor: "rgba(204, 0, 34, 1)",
-                pointHitRadius: 10,
-                pointBorderWidth: 2,
-                },
-            ],
-            },
-            options: {
+     document.addEventListener('livewire:load', function () {
+        console.log('Initial');
+
+        var combinedChart;
+
+        // Define chart options
+        var chartOptions = {
             maintainAspectRatio: false,
             layout: {
                 padding: {
-                left: 10,
-                right: 25,
-                top: 25,
-                bottom: 0,
+                    left: 10,
+                    right: 25,
+                    top: 25,
+                    bottom: 0,
                 },
             },
+            showLines: true,
             scales: {
-                x: {
-                grid: {
-                    display: false,
-                    drawBorder: false,
-                },
-                ticks: {
-                    color: "#ffffff",
-                    maxTicksLimit: 12,
-                },
-                },
-                y: {
-                maxTicksLimit: 5,
-                padding: 10,
-                color: "white",
-                ticks: {
-                    color: "#ffffff",
-                    maxTicksLimit: 12,
-                    callback: function (value, index, values) {
-                    return "$" + value.toFixed(2);
-                },
-                },
-                grid: {
-                    color: "rgb(234, 236, 244)",
-                    borderColor: "rgb(234, 236, 244)",
-                    drawBorder: false,
-                    borderDash: [2],
-                    borderDashOffset: [2],
-                },
-                },
+                xAxes: [{
+                    gridLines: {
+                        display: true,
+                        drawBorder: true,
+                    },
+                    ticks: {
+                        fontColor: "#ffffff",
+                        maxTicksLimit: 12,
+                    },
+                }],
+                yAxes: [{
+                    maxTicksLimit: 5,
+                    padding: 10,
+                    color: "white",
+                    ticks: {
+                        fontColor: "#ffffff",
+                        maxTicksLimit: 12,
+                        callback: function (value, index, values) {
+                            return value.toFixed(1);
+                            // return "$" + value.toFixed(2);
+                        },
+                    },
+                    gridLines: {
+                        color: "rgb(234, 236, 244)",
+                        borderColor: "rgb(234, 236, 244)",
+                        drawBorder: true,
+                        borderDash: [2],
+                        borderDashOffset: [2],
+                    },
+                }],
+            },
+            legend: {
+                labels: {
+                    fontColor: "#fff",
+                }
             },
             plugins: {
-                legend: {
-                display: false,
+
+                colors: {
+                    forceOverride: true
                 },
                 tooltip: {
-                backgroundColor: "#333",
-                bodyFontColor: "#eee",
-                titleFontColor: "#eee",
-                borderColor: "#eee",
-                borderWidth: 1,
-                xPadding: 15,
-                yPadding: 15,
-                displayColors: false,
-                intersect: false,
-                mode: "index",
-                caretPadding: 10,
-                callbacks: {
-                    label: function (context) {
-                    var label = context.dataset.label || "";
-                    if (label) {
-                        label += ": ";
-                    }
-                    if (context.parsed.y !== null) {
-                        label += "$" + context.parsed.y.toFixed(2);
-                    }
-                    return label;
+                    backgroundColor: "#333",
+                    bodyFontColor: "#eee",
+                    titleFontColor: "#eee",
+                    borderColor: "#eee",
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: true,
+                    intersect: true,
+                    mode: "index",
+                    caretPadding: 10,
+                    callbacks: {
+                        label: function (context) {
+                            var label = context.dataset.label || "";
+                            if (label) {
+                                label += ": ";
+                            }
+                            if (context.parsed.y !== null) {
+                                label += "$" + context.parsed.y.toFixed(2);
+                            }
+                            return label;
+                        },
                     },
                 },
+            },
+        };
+
+        function createOrUpdateChart($asd) {
+
+            if (combinedChart) {
+                combinedChart.destroy();
+            }
+            if($asd){
+                var chartData = $asd
+            } else {
+                var chartData = {!! json_encode($chartData) !!}
+            }
+
+            var visitsData = chartData.visits;
+            var categoryClicksData = chartData.categoryClicks;
+            var foodClicksData = chartData.foodClicks;
+
+            var ctx = document.getElementById("combinedChart").getContext('2d');
+            combinedChart = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: visitsData.map(item => item.month),
+                    datasets: [
+                        {
+                            label: 'Visits',
+                            data: visitsData.map(item => item.count),
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: ['rgba(75, 192, 192, 0.1)','rgba(75, 192, 192, 0)'],
+                            borderWidth: 2,
+                            fill: true,
+                        },
+                        {
+                            label: 'Category Clicks',
+                            data: categoryClicksData.map(item => item.count),
+                            borderColor: 'rgba(255, 99, 132, 1)', // Change the color
+                            backgroundColor: ['rgba(255, 99, 132, 0.1)','rgba(255, 99, 132, 0)'],
+                            borderWidth: 2,
+                            fill: true,
+                        },
+                        {
+                            label: 'Food Clicks',
+                            data: foodClicksData.map(item => item.count),
+                            borderColor: 'rgba(255, 206, 86, 1)', // Change the color
+                            backgroundColor: ['rgba(255, 206, 86, 0.1)','rgba(255, 206, 86, 0)'],
+                            borderWidth: 2,
+                            fill: true,
+                        },
+                    ],
                 },
-            },
-            },
+                options: chartOptions, // Reuse chart options
+            });
+        }
+
+        // Initial chart creation
+        createOrUpdateChart(null);
+
+        document.addEventListener('chartDataUpdated', function ($asd) {
+            console.log('Updated',$asd.detail);
+            createOrUpdateChart($asd.detail); // Update the chart when data changes
         });
     });
     </script>
+@endpush
+    </div>

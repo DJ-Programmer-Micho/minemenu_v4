@@ -689,6 +689,7 @@
     @stack('cropper')
     @stack('drag')
     @stack('color');
+    @stack('rest_script')
     @yield('rest_script')
     <form id="languageForm" action="{{ route('setLocale') }}" method="post">
         @csrf
