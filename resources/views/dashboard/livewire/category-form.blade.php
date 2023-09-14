@@ -64,7 +64,7 @@
                                 @error('Priority') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6">
+                        <div class="col-12 col-sm-6 mb-5">
                             <label for="img">Upload Image</label>
                             <input type="file" name="categoryImg" id="categoryImg" class="form-control" style="height: auto">
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
@@ -73,6 +73,19 @@
                         <hr>
                             <div class="mb-3 d-flex justify-content-center mt-1">
                                 <img id="showCategoryImg" class="img-thumbnail rounded" src="{{$imgFlag ? $tempImg : app('fixedimage_640x360')}}">
+                            </div>
+                        </div>
+
+
+                        <div class="col-12 col-sm-6">
+                            <label for="img">Upload Image</label>
+                            <input type="file" name="categoryImgCover" id="categoryImgCover" class="form-control" style="height: auto">
+                            @error('objectNameCover') <span class="text-danger">{{ $message }}</span> @enderror
+                            <input type="file" name="croppedCategoryImgCover" id="croppedCategoryImgCover" style="display: none;">
+                           
+                        <hr>
+                            <div class="mb-3 d-flex justify-content-center mt-1">
+                                <img id="showCategoryImgCover" class="img-thumbnail rounded" src="{{$tempImgCover ?? app('fixedimage_640x360')}}">
                             </div>
                         </div>
                     </div>
@@ -291,6 +304,155 @@
     });
 </script>
 {{-- Edit --}}
+<script>
+    document.addEventListener('livewire:load', function () {
+        var modal = new bootstrap.Modal(document.getElementById('modal'));
+        var cropper;
+    
+        $('#editCategoryImg').change(function (event) {
+            var image = document.getElementById('sample_image');
+            var files = event.target.files;
+            var done = function (url) {
+                image.src = url;
+                modal.show();
+            };
+            if (files && files.length > 0) {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    done(reader.result);
+                };
+                reader.readAsDataURL(files[0]);
+            }
+            handleCropButtonClick(image);
+        });
+    
+        function handleCropButtonClick(image) {
+            $('#modal').on('shown.bs.modal', function () {
+                if (cropper) {
+                    cropper.destroy();
+                }
+                cropper = new Cropper(image, {
+                    aspectRatio: 640 / 360,
+                    viewMode: 1,
+                    preview: '.preview'
+                });
+            });
+    
+            $('.crop-btn').off('click').on('click', function () {
+                var canvas = cropper.getCroppedCanvas({
+                    width: 640,
+                    height: 360
+                });
+    
+                canvas.toBlob(function (blob) {
+                    var url = URL.createObjectURL(blob);
+    
+
+                    // Livewire.emit('updateCroppedCategoryImg', data);
+                    var reader = new FileReader();
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        modal.hide();
+                        // $('#showEditCategoryImg').attr('src', base64data);
+                        Livewire.emit('updateCroppedCategoryImg', base64data); // Emit Livewire event
+
+                        if (cropper) {
+                            cropper.destroy();
+                            document.getElementById('editCategoryImg').value = null;
+                        }
+                    };
+                    reader.readAsDataURL(blob);
+    
+                    var file = new File([blob], 'met.jpg', { type: 'image/jpeg' });
+                    var fileInput = document.getElementById('editCroppedCategoryImg');
+                    var dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    fileInput.files = dataTransfer.files;
+    
+                    modal.hide();
+                }, 'image/jpeg');
+            });
+        }
+    });
+</script>
+
+
+
+{{-- Add COVER--}}
+<script>
+    document.addEventListener('livewire:load', function () {
+        var modal = new bootstrap.Modal(document.getElementById('modal'));
+        var cropper;
+        if (cropper) {
+                    cropper.destroy();
+                }
+        $('#categoryImgCover').change(function (event) {
+            var image = document.getElementById('sample_image');
+            var files = event.target.files;
+            var done = function (url) {
+                image.src = url;
+                modal.show();
+            };
+            if (files && files.length > 0) {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    done(reader.result);
+                };
+                reader.readAsDataURL(files[0]);
+            }
+            handleCropButtonClick(image);
+        });
+    
+        function handleCropButtonClick(image) {
+            $('#modal').on('shown.bs.modal', function () {
+                if (cropper) {
+                    cropper.destroy();
+                }
+                cropper = new Cropper(image, {
+                    aspectRatio: 640 / 360,
+                    viewMode: 1,
+                    preview: '.preview'
+                });
+            });
+    
+            $('.crop-btn').off('click').on('click', function () {
+                var canvas = cropper.getCroppedCanvas({
+                    width: 640,
+                    height: 360
+                });
+    
+                canvas.toBlob(function (blob) {
+                    var url = URL.createObjectURL(blob);
+    
+
+                    // Livewire.emit('updateCroppedCategoryImg', data);
+                    var reader = new FileReader();
+                    reader.onloadend = function () {
+                        var base64dataCover = reader.result;
+                        modal.hide();
+                        // $('#showCategoryImg').attr('src', base64data);
+                        Livewire.emit('updateCroppedCategoryImgCover', base64dataCover); // Emit Livewire event
+
+                        if (cropper) {
+                            cropper.destroy();
+                            document.getElementById('categoryImgCover').value = null;
+                        }
+                    };
+                    reader.readAsDataURL(blob);
+    
+                    var file = new File([blob], 'met_about.jpg', { type: 'image/jpeg' });
+                    var fileInput = document.getElementById('croppedCategoryImgCover');
+                    var dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    fileInput.files = dataTransfer.files;
+    
+                    modal.hide();
+                }, 'image/jpeg');
+            });
+        }
+    });
+</script>
+{{-- Edit COVER--}}
 <script>
     document.addEventListener('livewire:load', function () {
         var modal = new bootstrap.Modal(document.getElementById('modal'));

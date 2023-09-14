@@ -82,6 +82,9 @@
             --food-button-background:  @php echo ($color->selectedFoodButtonBackground) ?? 'red'; @endphp ;
             --food-image-shadow:  @php echo ($color->selectedFoodImageShadow) ?? 'red'; @endphp ;
             --food-image-shadow-opacity:  @php echo ($color->selectedFoodImageShadowOpacity) ?? '0.25'; @endphp ;
+            /* Utilities Group */
+            --utl-icon-color: @php echo ($color->selectedUtlIconColor) ?? 'blue'; @endphp ;
+            --utl-icon-background: @php echo ($color->selectedUtlIconBackground) ?? 'blue'; @endphp ;
         }
     </style>
     @stack('business_style')

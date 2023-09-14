@@ -613,8 +613,6 @@ class DesignCustomizeLivewire extends Component
         $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Preset Set successfully')]);
 
     }
-
-
     public $objectName; 
     public $tempImg;
     public $imgReader;

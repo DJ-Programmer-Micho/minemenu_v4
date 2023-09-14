@@ -100,6 +100,9 @@
             --category-shadow-color: @php echo ($color->selectedCategoryShabow) ?? 'blue'; @endphp ;
             --category-button-text-color: @php echo ($color->selectedCategoryButtonText) ?? 'blue'; @endphp ;
             --category-button-background-color: @php echo ($color->selectedCategoryButtonBackground) ?? 'blue'; @endphp ;
+            /* Utilities Group */
+            --utl-icon-color: @php echo ($color->selectedUtlIconColor) ?? 'blue'; @endphp ;
+            --utl-icon-background: @php echo ($color->selectedUtlIconBackground) ?? 'blue'; @endphp ;
             
         }
     </style>

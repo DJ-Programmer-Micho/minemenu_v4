@@ -40,7 +40,10 @@ class CategoryLivewire extends Component
     public $status;
     public $priority;
 
-    protected $listeners = ['updateCroppedCategoryImg' => 'handleCroppedImage'];
+    protected $listeners = [
+        'updateCroppedCategoryImg' => 'handleCroppedImage',
+        'updateCroppedCategoryImgCover' => 'handleCroppedImageCover'
+    ];
 
     public function mount()
     {
@@ -85,6 +88,29 @@ class CategoryLivewire extends Component
         }
     }
 
+    public $objectNameCover;
+    public $imgReaderCover;
+    public function handleCroppedImageCover($base64dataCover)
+    {
+        if ($base64dataCover){
+            $microtime = str_replace('.', '', microtime(true));
+            $this->objectNameCover = 'rest/menu/cover_' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
+            $croppedImageCover = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64dataCover));
+            $this->tempImg = $base64dataCover;
+            if( $this->imgReaderCover){
+                Storage::disk('s3')->delete($this->imgReaderCover);
+                Storage::disk('s3')->put($this->objectNameCover, $croppedImageCover);
+            } else {
+                Storage::disk('s3')->put($this->objectNameCover, $croppedImageCover);
+            }
+            
+            $this->emit('imageUploaded', $this->objectNameCover);
+        } else {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Image did not crop!!!')]);
+            return 'failed to crop image code...405';
+        }
+    }
+
     public function saveCategory()
     {
         $validatedData = $this->validate();
@@ -95,7 +121,7 @@ class CategoryLivewire extends Component
             'priority' => $validatedData['priority'],
             'status' => $validatedData['status'],
             'img' => $this->objectName,
-            'cover' => null,
+            'cover' => $this->objectNameCover,
         ]);
     
         foreach ($this->filteredLocales as $locale) {
