@@ -98,6 +98,8 @@
             --category-old-price-color: @php echo ($color->selectedCategoryOldPrice) ?? 'blue'; @endphp ;
             --category-card-background-color: @php echo ($color->selectedCategoryCardBackground) ?? 'blue'; @endphp ;
             --category-shadow-color: @php echo ($color->selectedCategoryShabow) ?? 'blue'; @endphp ;
+            --category-button-text-color: @php echo ($color->selectedCategoryButtonText) ?? 'blue'; @endphp ;
+            --category-button-background-color: @php echo ($color->selectedCategoryButtonBackground) ?? 'blue'; @endphp ;
             
         }
     </style>

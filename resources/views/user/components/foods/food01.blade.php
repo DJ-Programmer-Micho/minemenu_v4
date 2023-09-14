@@ -35,35 +35,20 @@
                         <span class="ml-2 old-price-01"
                             style="text-decoration: line-through;font-size:17px;font-weight:bolder;padding-right: 10px">{{($item->old_price) ? $item->old_price : ''}}</span>
                         </div>
-                        <span><a href="{{url()->current().'/'.$item->id}}" class="btn btn-info">See More Details</a></span>
+                        <span><a href="{{url()->current().'/'.$item->id}}" class="btn btn-see-more">See More Details</a></span>
                     <div>
                        
                     </div>
                     @else
                     @foreach ($currentOptions as $option)
-                    {{-- <span class="font-weight-bold h5">{{ $option['value'] . ' ' . $settings->currency }}</span> --}}
-                    <!-- Add more elements as needed -->
                     <div class="food-price-01">
                         <span class="font-weight-bold h5">{{$option['key'].': '. $option['value'] . ' ' . $settings->currency }}</span>
-                        <span class="ml-2 old-price-01"
-                        style="text-decoration: line-through;font-size:17px;font-weight:bolder;padding-right: 10px">{{($item->old_price) ? $item->old_price : ''}}</span>
+                        {{-- <span class="ml-2 old-price-01"
+                        style="text-decoration: line-through;font-size:17px;font-weight:bolder;padding-right: 10px">{{($item->old_price) ? $item->old_price : ''}}</span> --}}
                     </div>
                     @endforeach
+                    <span><a href="{{url()->current().'/'.$item->id}}" class="btn btn-see-more">See More Details</a></span>
                     @endif
-                    {{-- <div class="add">
-                        @if ($item->options)
-                        <button type="button" data-toggle="modal" data-target="#addlist_modal_Id"
-                            class="btn addItem addToList" data-name="{{ $item->name }}" data-id="{{ $item->id }}"
-                            data-options="{{ $item->options }}" data-img="{{app('cloudfront') . $item->img }}"
-                            data-price="{{ $item->price }}">
-                            <i class="fa-solid fa-plus-minus"></i></button>
-                        @else
-                        <button type="button" data-toggle="modal" data-target="#addlist_modal_Id"
-                            class="btn addItem addToList" data-name="{{ $item->name }}" data-id="{{ $item->id }}"
-                            data-img="{{ app('cloudfront') . $item->img }}" data-price="{{ $item->price }}"><i
-                                class="fa-solid fa-plus-minus"></i></button>
-                        @endif
-                    </div> --}}
                 </div>
             </div>
         </div>

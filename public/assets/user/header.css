@@ -27,12 +27,12 @@ Place Header UI/UX-01
     height: 240px;
     background-size: cover;
     background-position: 50%;
-    background-color: var(--logo-background);
+    background-color: var(--utl-icon-background);
 }
 .back-butt-01 {
-    background-color: var(--back-button);
+    background-color: var(--utl-icon-background);
     position: absolute;
-    color: var(--backicon-button);
+    color: var(--utl-icon-color);
     border: none;
     border-radius: 50%;
     height: 40px;
@@ -47,13 +47,13 @@ Place Header UI/UX-01
 }
 
 .back-butt-01:hover {
-    color: var(--backicon-button);
+    color: var(--utl-icon-color);
 }
 
 .home-butt-01 {
-    background-color: var(--back-button);
+    background-color: var(--utl-icon-background);
     position: absolute;
-    color: var(--backicon-button);
+    color: var(--utl-icon-color);
     border: none;
     border-radius: 50%;
     height: 40px;
@@ -68,5 +68,5 @@ Place Header UI/UX-01
 }
 
 .home-butt-01:hover {
-    color: var(--backicon-button);
+    color: var(--utl-icon-color);
 }

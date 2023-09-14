@@ -4,6 +4,7 @@ namespace App\Http\Livewire\dashboard;
 
 use App\Models\Setting;
 use Livewire\Component;
+use Illuminate\Support\Facades\Storage;
  
 class DesignCustomizeLivewire extends Component
 {
@@ -50,6 +51,8 @@ class DesignCustomizeLivewire extends Component
     public $selected_category_old_price;
     public $selected_category_card_background;
     public $selected_category_shabow;
+    public $selected_category_button_text;
+    public $selected_category_button_background;
     //Food Detail Group
     public $selected_food_background;
     public $selected_food_title;
@@ -74,6 +77,18 @@ class DesignCustomizeLivewire extends Component
         $this->user_color = $settings->user_ui_color ?? [];
         $colors = $settings->ui_color ?? [];
         // Check if the colors data exists and assign them to Livewire properties
+        $imgExsistHeader = $settings->background_img;
+        $imgExsistLogo = $settings->background_vid;
+
+        if($imgExsistHeader){
+            $this->imgReader = $imgExsistHeader;
+            $this->tempImg = app('cloudfront').$imgExsistHeader;
+        }
+        if($imgExsistLogo){
+            $this->imgReaderLogo = $imgExsistLogo;
+            $this->tempImgLogo = app('cloudfront').$imgExsistLogo;
+        }
+
         if ($colors) {
             $color = json_decode($colors);
             // dd($color->selectedNavbarTitle);
@@ -178,6 +193,8 @@ class DesignCustomizeLivewire extends Component
             'selectedCategoryOldPrice' => $this->selected_category_old_price ?? '#ffff00',
             'selectedCategoryCardBackground' => $this->selected_category_card_background ?? '#ffff00',
             'selectedCategoryShabow' => $this->selected_category_shabow ?? '#ffff00',
+            'selectedCategoryButtonText' => $this->selected_category_button_text ?? '#ffff00',
+            'selectedCategoryButtonBackground' => $this->selected_category_button_background ?? '#ffff00',
             //Food Detail Group
             'selectedFoodBackground' => $this->selected_food_background ?? '#ffff00',
             'selectedFoodTitle' => $this->selected_food_title ?? '#ffff00',
@@ -244,6 +261,8 @@ class DesignCustomizeLivewire extends Component
             'selectedCategoryOldPrice' => $this->selected_category_old_price ?? '#ffff00',
             'selectedCategoryCardBackground' => $this->selected_category_card_background ?? '#ffff00',
             'selectedCategoryShabow' => $this->selected_category_shabow ?? '#ffff00',
+            'selectedCategoryButtonText' => $this->selected_category_button_text ?? '#ffff00',
+            'selectedCategoryButtonBackground' => $this->selected_category_button_background ?? '#ffff00',
             //Food Detail Group
             'selectedFoodBackground' => $this->selected_food_background ?? '#ffff00',
             'selectedFoodTitle' => $this->selected_food_title ?? '#ffff00',
@@ -314,6 +333,8 @@ class DesignCustomizeLivewire extends Component
             'selectedCategoryOldPrice' => $this->selected_category_old_price ?? '#ffff00',
             'selectedCategoryCardBackground' => $this->selected_category_card_background ?? '#ffff00',
             'selectedCategoryShabow' => $this->selected_category_shabow ?? '#ffff00',
+            'selectedCategoryButtonText' => $this->selected_category_button_text ?? '#ffff00',
+            'selectedCategoryButtonBackground' => $this->selected_category_button_background ?? '#ffff00',
             //Food Detail Group
             'selectedFoodBackground' => $this->selected_food_background ?? '#ffff00',
             'selectedFoodTitle' => $this->selected_food_title ?? '#ffff00',
@@ -387,6 +408,8 @@ class DesignCustomizeLivewire extends Component
             $this->selected_category_old_price = $user_color['selectedCategoryOldPrice'] ?? '#ffff00';
             $this->selected_category_card_background = $user_color['selectedCategoryCardBackground'] ?? '#ffff00';
             $this->selected_category_shabow = $user_color['selectedCategoryShabow'] ?? '#ffff00';
+            $this->selected_category_button_text = $user_color['selectedCategoryButtonText'] ?? '#ffff00';
+            $this->selected_category_button_background = $user_color['selectedCategoryButtonBackground'] ?? '#ffff00';
             //Food Detail Group
             $this->selected_food_background = $user_color['selectedFoodBackground'] ?? '#ffff00';
             $this->selected_food_title = $user_color['selectedFoodTitle'] ?? '#ffff00';
@@ -456,6 +479,8 @@ class DesignCustomizeLivewire extends Component
                 'categoryOldPrice' => '#cc0022',
                 'categoryCardBackground' => '#cc0022',
                 'categoryShabow' => '#cc0022',
+                'categoryButtonText' => '#cc0022',
+                'categoryButtonBackground' => '#cc0022',
                 'foodBackground' => '#cc0022',
                 'foodTitle' => '#cc0022',
                 'foodDescription' => '#cc0022',
@@ -503,6 +528,8 @@ class DesignCustomizeLivewire extends Component
                 'categoryOldPrice' => '#cc0aaa',
                 'categoryCardBackground' => '#cc0aaa',
                 'categoryShabow' => '#cc0aaa',
+                'categoryButtonText' => '#ff0022',
+                'categoryButtonBackground' => '#ff0022',
                 'foodBackground' => '#cc0aaa',
                 'foodTitle' => '#cc0aaa',
                 'foodDescription' => '#cc0aaa',
@@ -560,6 +587,8 @@ class DesignCustomizeLivewire extends Component
             $this->selected_category_old_price = $this->presetData['categoryOldPrice'] ?? '#ffff00';
             $this->selected_category_card_background = $this->presetData['categoryCardBackground'] ?? '#ffff00';
             $this->selected_category_shabow = $this->presetData['categoryShabow'] ?? '#ffff00';
+            $this->selected_category_button_text = $this->presetData['categoryButtonText'] ?? '#ffff00';
+            $this->selected_category_button_background = $this->presetData['categoryButtonBackground'] ?? '#ffff00';
             //Food Detail Group
             $this->selected_food_background = $this->presetData['foodBackground'] ?? '#ffff00';
             $this->selected_food_title = $this->presetData['foodTitle'] ?? '#ffff00';
@@ -583,6 +612,73 @@ class DesignCustomizeLivewire extends Component
         $this->dispatchBrowserEvent('fixedPreset', $this->presetData);
         $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Preset Set successfully')]);
 
+    }
+
+
+    public $objectName; 
+    public $tempImg;
+    public $imgReader;
+    public $objectNameLogo; 
+    public $tempImgLogo;
+    public $imgReaderLogo;
+
+    protected $listeners = [
+        'updateCroppedHeaderImg' => 'handleCroppedImage',
+        'updateCroppedLogoImg' => 'handleCroppedImageLogo',
+    ];
+
+    public function handleCroppedImage($base64data)
+    {
+
+        if ($base64data){
+            $microtime = str_replace('.', '', microtime(true));
+            $this->objectName = 'rest/menu/header_' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
+            $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64data));
+            $this->tempImg = $base64data;
+            if( $this->imgReader){
+                Storage::disk('s3')->delete($this->imgReader);
+                Storage::disk('s3')->put($this->objectName, $croppedImage);
+                $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
+                $settings->background_img = $this->objectName;
+                $settings->save();
+            } else {
+                Storage::disk('s3')->put($this->objectName, $croppedImage);
+                $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
+                $settings->background_img = $this->objectName;
+                $settings->save();
+            }
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Image Uploaded Successfully')]);
+        } else {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Image did not crop!!!')]);
+            return 'failed to crop image code...425';
+        }
+    }
+
+    public function handleCroppedImageLogo($base64data)
+    {
+ 
+        if ($base64data){
+            $microtime = str_replace('.', '', microtime(true));
+            $this->objectNameLogo = 'rest/menu/logo_' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
+            $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64data));
+            $this->tempImgLogo = $base64data;
+            if( $this->imgReaderLogo){
+                Storage::disk('s3')->delete($this->imgReaderLogo);
+                Storage::disk('s3')->put($this->objectNameLogo, $croppedImage);
+                $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
+                $settings->background_vid = $this->objectNameLogo;
+                $settings->save();
+            } else {
+                Storage::disk('s3')->put($this->objectNameLogo, $croppedImage);
+                $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
+                $settings->background_vid = $this->objectNameLogo;
+                $settings->save();
+            }
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Image Uploaded Successfully')]);
+        } else {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Image did not crop!!!')]);
+            return 'failed to crop image code...425';
+        }
     }
 }
 

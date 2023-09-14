@@ -14,6 +14,7 @@ class Header01Component extends Component
      */
     //var
     public $user_id;
+    public $rest_name;
     public $ui;
     public $cartcount;
     public $setting;
@@ -21,6 +22,7 @@ class Header01Component extends Component
     public function __construct($user, $ui, $setting)
     {
         $this->setting = $setting;
+        $this->rest_name = $user->name;
         $this->user_id = $user->id;
         $this->ui = $ui[1];
         $this->cartcount = Cart::content()->count();
@@ -31,7 +33,7 @@ class Header01Component extends Component
     public function render(): View|Closure|string
     {
         if ($this->ui == '01') {
-            return view('user.components.headers.Header01',['cart_count' => $this->cartcount, 'setting' => $this->setting]);
+            return view('user.components.headers.Header01',['cart_count' => $this->cartcount, 'setting' => $this->setting,'restName'=> $this->rest_name]);
         } else if ($this->ui == '02') {
             return view('user.components.headers.Header02',['cart_count' => $this->cartcount, 'setting' => $this->setting]);
         } else {

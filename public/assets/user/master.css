@@ -40,6 +40,8 @@ GENERAL
     --category-old-price-color: initial;
     --category-card-background-color: initial;
     --category-shadow-color: initial;
+    --category-button-text-color: initial;
+    --category-button-background-color: initial;
     /* Food Detail */
     --food-background: initial;
     --food-title: initial;

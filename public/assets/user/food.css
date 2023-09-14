@@ -71,3 +71,8 @@ Food UI/UX-01
     -webkit-box-shadow: -1px 8px 6px 0px var(--category-shadow-color);
     -moz-box-shadow: -1px 8px 6px 0px var(--category-shadow-color);
 }
+
+.btn-see-more {
+    color: var(--category-button-text-color);
+    background-color: var(--category-button-background-color);
+}

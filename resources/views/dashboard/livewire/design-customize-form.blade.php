@@ -1,4 +1,25 @@
 <div class="my-4">
+<!-- Image Crop -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.5/cropper.min.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.5/cropper.min.js"></script>
+{{-- inline style for modal --}}
+<style>
+    .image_area { position: relative; }
+    img { display: block; max-width: 100%; }
+    .preview { overflow: hidden; width: 260px;  height: 260px; margin: 10px; border: 1px solid red;}
+    .modal-lg{max-width: 1000px !important;}
+    .overlay { position: absolute; bottom: 10px; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5); overflow: hidden; height: 0; transition: .5s ease; width: 100%;}
+    .image_area:hover .overlay { height: 50%; cursor: pointer; }
+    .text { color: #333; font-size: 20px; position: absolute; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%); text-align: center;}
+    .switch input { display:none; }
+    .switch { display:inline-block; width:60px; height:20px; margin:8px; position:relative; }
+    .slider { position:absolute; top:0; bottom:0; left:0; right:0; border-radius:30px; box-shadow:0 0 0 2px #cc0022, 0 0 4px #cc0022; cursor:pointer; border:4px solid transparent; overflow:hidden; transition:.4s; }
+    .slider:before { position:absolute; content:""; width:100%; height:100%; background:#cc0022; border-radius:30px; transform:translateX(-30px); transition:.4s; }
+    input:checked + .slider:before { transform:translateX(30px); background:limeGreen; }
+    input:checked + .slider { box-shadow:0 0 0 2px limeGreen,0 0 2px limeGreen; }
+</style>
+
 
 {{-- MODAL 1--}}
 <div wire:ignore.self class="modal fade" id="presetNameModal0" tabindex="-1" aria-labelledby="presetNameModalLabel"
@@ -129,7 +150,76 @@
     
                             
                             </div> 
+                    <h3 class="text-white">
+                        {{__('Logo And Image')}}
+                    </h3>
+                    <div class="accordion mb-3" id="accordionImage">
+                        <div class="card bg-dark text-white">
+                            <div class="card-header bg-dark text-white" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-primary btn-block text-center" type="button"
+                                        data-toggle="collapse" data-target="#collapseHeadImage" aria-expanded="true"
+                                        aria-controls="collapseHeadImage">
+                                        <i class="far fa-images"></i> {{__('Image Control')}}
+                                    </button>
+                                </h2>
+                            </div>
 
+                            <div id="collapseHeadImage" class="collapse" aria-labelledby="headingOne" data-parent="#accordionImage" wire:ignore.self>
+                                <div class="card-body">
+                                    <h4 class="text-white">{{__('Header Image')}}</h4>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="img">Upload Image</label>
+                                            <input type="file" name="headerImg" id="headerImg" class="form-control" style="height: auto">
+                                            <small class="text-info">The Image Size Should be <b>(640px X 360px)</b> or <b>(1280px X 720px)</b></small>
+                                            @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
+                                            <input type="file" name="croppedHeaderImg" id="croppedHeaderImg" style="display: none;">
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="mb-3 d-flex justify-content-center mt-1">
+                                                <img id="showheaderImg" class="img-thumbnail rounded" src="{{$tempImg ?? app('fixedimage_640x360')}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card bg-dark text-white">
+                            <div class="card-header bg-dark text-white" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-danger btn-block text-center" type="button"
+                                        data-toggle="collapse" data-target="#collapseLogoImage" aria-expanded="true"
+                                        aria-controls="collapseLogoImage">
+                                        <i class="far fa-images"></i> {{__('Logo Control')}}
+                                    </button>
+                                </h2>
+                            </div>
+
+                            <div id="collapseLogoImage" class="collapse" aria-labelledby="headingOne" data-parent="#accordionImage" wire:ignore.self>
+                                <div class="card-body">
+                                    <h4 class="text-white">{{__('Logo/Avatar')}}</h4>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="img">Upload Image</label>
+                                            <input type="file" name="logoImg" id="logoImg" class="form-control" style="height: auto">
+                                            <small class="text-info">The Image Size Should be <b>(64px X 64px)</b> or <b>(128px X 128px)</b></small>
+                                            @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
+                                            <input type="file" name="croppedLogoImg" id="croppedLogoImg" style="display: none;">
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="mb-3 d-flex justify-content-center mt-1">
+                                                <img id="showLogoImg" class="img-thumbnail rounded" src="{{$tempImgLogo ?? app('fixedimage_640x360')}}" style="width: 256px; height: 256px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="text-white">
+                        {{__('Color Control')}}
+                    </h3>
                     <form wire:submit.prevent="saveColors">
                         <div class="accordion " id="accordionExample">
                             <div class="card bg-dark text-white">
@@ -143,9 +233,41 @@
                                     </h2>
                                 </div>
 
-                                <div id="collapseNavbar" class="collapse" aria-labelledby="headingOne"
-                                    data-parent="#accordionExample" wire:ignore>
+                                <div id="collapseNavbar" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" wire:ignore>
                                     <div class="card-body">
+                                        <h4 class="text-white">{{__('Navbar Background Color')}}</h4>
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="selected_navbar_top">{{__('Top Background')}}</label>
+                                                    <br>
+                                                    <input type="color" id="navbar_top"
+                                                        class="form-control color-control p-1"
+                                                        wire:model="selected_navbar_top">
+                                                    <small class="text-info">(Ui 3)</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="selected_navbar_top_ground">{{__('Top Ground')}}</label>
+                                                    <br>
+                                                    <input type="color" id="navbar_top_ground"
+                                                        class="form-control color-control p-1"
+                                                        wire:model="selected_navbar_top_ground">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <label
+                                                        for="selected_navbar_bottom_ground">{{__('Bottom Ground')}}</label>
+                                                    <br>
+                                                    <input type="color" id="navbar_bottom_ground"
+                                                        class="form-control color-control p-1"
+                                                        wire:model="selected_navbar_bottom_ground">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h4 class="text-white">{{__('Navbar Text Color')}}</h4>
                                         <div class="row">
                                             <div class="col-md-4 col-sm-6 col-12">
                                                 <div class="form-group">
@@ -169,16 +291,6 @@
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="selected_navbar_top">{{__('Top Background')}}</label>
-                                                    <br>
-                                                    <input type="color" id="navbar_top"
-                                                        class="form-control color-control p-1"
-                                                        wire:model="selected_navbar_top">
-                                                    <small class="text-info">(Ui 3)</small>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 col-12">
-                                                <div class="form-group">
                                                     <label for="selected_navbar_sub_title">{{__('Sub Title')}}</label>
                                                     <br>
                                                     <input type="color" id="navbar_sub_title"
@@ -194,25 +306,6 @@
                                                     <input type="color" id="navbar_text"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_navbar_text">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="selected_navbar_top_ground">{{__('Top Ground')}}</label>
-                                                    <br>
-                                                    <input type="color" id="navbar_top_ground"
-                                                        class="form-control color-control p-1"
-                                                        wire:model="selected_navbar_top_ground">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 col-12">
-                                                <div class="form-group">
-                                                    <label
-                                                        for="selected_navbar_bottom_ground">{{__('Bottom Ground')}}</label>
-                                                    <br>
-                                                    <input type="color" id="navbar_bottom_ground"
-                                                        class="form-control color-control p-1"
-                                                        wire:model="selected_navbar_bottom_ground">
                                                 </div>
                                             </div>
                                         </div>
@@ -233,6 +326,7 @@
                                 <div id="collapseMain" class="collapse" aria-labelledby="headingOne"
                                     data-parent="#accordionExample" wire:ignore>
                                     <div class="card-body">
+                                        <h4 class="text-white">{{__('Main Background Color')}}</h4>
                                         <div class="row">
                                             <div class="col-md-4 col-sm-6 col-12">
                                                 <div class="form-group">
@@ -256,10 +350,13 @@
                                                     <small class="text-info">(Ui 1, Ui 2)</small>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <h4 class="text-white">{{__('Main Theme')}}</h4>
+                                        <div class="row">
                                             <div class="col-md-4 col-sm-6 col-12">
                                                 <div class="form-group">
                                                     <label
-                                                        for="selected_main_theme_text">{{__('Theme Text')}}</label>
+                                                        for="selected_main_theme_text">{{__('Text')}}</label>
                                                     <br>
                                                     <input type="color" id="main_theme_text"
                                                         class="form-control color-control p-1"
@@ -270,7 +367,7 @@
                                             <div class="col-md-4 col-sm-6 col-12">
                                                 <div class="form-group">
                                                     <label
-                                                        for="selected_main_theme_background">{{__('Theme Background')}}</label>
+                                                        for="selected_main_theme_background">{{__('Background')}}</label>
                                                     <br>
                                                     <input type="color" id="main_theme_background"
                                                         class="form-control color-control p-1"
@@ -281,7 +378,7 @@
                                             <div class="col-md-4 col-sm-6 col-12">
                                                 <div class="form-group">
                                                     <label
-                                                        for="selected_main_theme_text_active">{{__('Theme Text Active')}}</label>
+                                                        for="selected_main_theme_text_active">{{__('Text Active')}}</label>
                                                     <br>
                                                     <input type="color" id="main_theme_text_active"
                                                         class="form-control color-control p-1"
@@ -292,7 +389,7 @@
                                             <div class="col-md-4 col-sm-6 col-12">
                                                 <div class="form-group">
                                                     <label
-                                                        for="selected_main_theme_background_active">{{__('Theme Background Active')}}</label>
+                                                        for="selected_main_theme_background_active">{{__('Background Active')}}</label>
                                                     <br>
                                                     <input type="color" id="main_theme_background_active"
                                                         class="form-control color-control p-1"
@@ -303,7 +400,7 @@
                                             <div class="col-md-4 col-sm-6 col-12">
                                                 <div class="form-group">
                                                     <label
-                                                        for="selected_main_theme_border">{{__('Theme Border')}}</label>
+                                                        for="selected_main_theme_border">{{__('Border')}}</label>
                                                     <br>
                                                     <input type="color" id="main_theme_border"
                                                         class="form-control color-control p-1"
@@ -311,6 +408,9 @@
                                                     <small class="text-info">(All UI's)</small>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <h4 class="text-white">{{__('Main Category Card')}}</h4>
+                                        <div class="row">
                                             <div class="col-md-4 col-sm-6 col-12">
                                                 <div class="form-group">
                                                     <label for="selected_main_card_text">{{__('Card Text')}}</label>
@@ -348,6 +448,7 @@
 
                                 <div id="collapseCart" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" wire:ignore>
                                     <div class="card-body">
+                                        <h4 class="text-white">{{__('Cart Main')}}</h4>
                                         <div class="row">
                                             <div class="col-md-4 col-sm-6 col-12">
                                                 <div class="form-group">
@@ -392,6 +493,9 @@
                                                     <small class="text-info">(All UI's)</small>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <h4 class="text-white">{{__('Cart List')}}</h4>
+                                        <div class="row">
                                             <div class="col-md-4 col-sm-6 col-12">
                                                 <div class="form-group">
                                                     <label for="selected_cart_text">{{__('Cart List Text')}}</label>
@@ -476,6 +580,7 @@
                                 <div id="collapseList" class="collapse" aria-labelledby="headingOne"
                                     data-parent="#accordionExample" wire:ignore>
                                     <div class="card-body">
+                                        <h4 class="text-white">{{__('Food Card')}}</h4>
                                         <div class="row">
                                             <div class="col-md-4 col-sm-6 col-12">
                                                 <div class="form-group">
@@ -543,8 +648,31 @@
                                                     <small class="text-info">(All UI's)</small>
                                                 </div>
                                             </div>
-
-
+                                        </div>
+                                        <h4 class="text-white">{{__('See More Button')}}</h4>
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <label
+                                                        for="selected_category_button_text">{{__('Button Text')}}</label>
+                                                    <br>
+                                                    <input type="color" id="category_button_text"
+                                                        class="form-control color-control p-1"
+                                                        wire:model="selected_category_button_text">
+                                                    <small class="text-info">(All UI's)</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <label
+                                                        for="selected_category_button_background">{{__('Button Background')}}</label>
+                                                    <br>
+                                                    <input type="color" id="category_button_background"
+                                                        class="form-control color-control p-1"
+                                                        wire:model="selected_category_button_background">
+                                                    <small class="text-info">(All UI's)</small>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -752,18 +880,40 @@
                 </div>
             </div>
     </div>
+
+
+{{-- IMAGE CROP MODAL --}}
+<div class="modal fade" id="modal_header_image" tabindex="-2" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg text-white" role="document">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title">Crop Image Before Upload</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="img-container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <img src="" id="sample_image_header_image" />
+                        </div>
+                        <div class="col-md-4">
+                            <div class="preview"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                {{-- <button type="button" id="crop" class="btn btn-primary">Crop</button> --}}
+                <button type="button" class="btn btn-primary crop-btn" data-index="">Crop</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div> 
 </div>
-
 @push('color')
-{{-- <script>
-    $('.asd').on('input', function() {
-            var bodyColor = document.getElementById("qwe").value;
-            console.log(bodyColor);
-            var myframe = document.querySelector("iframe").contentWindow.document;
-            myframe.documentElement.style.setProperty('--body-color', bodyColor);
-});
-</script> --}}
-
 <script>
     // Function to apply the color to the iframe's content
     function applyColorToIframe() {
@@ -803,6 +953,8 @@
         var categoryOldPrice = document.getElementById("category_old_price").value;
         var categoryCardBackground = document.getElementById("category_card_background").value;
         var categoryShabow = document.getElementById("category_shabow").value;
+        var categoryButtonText = document.getElementById("category_button_text").value;
+        var categoryButtonBackground = document.getElementById("category_button_background").value;
         //Food Detail Group   
         var foodBackground = document.getElementById("food_background").value;
         var foodTitle = document.getElementById("food_title").value;
@@ -859,6 +1011,8 @@
         myframe.documentElement.style.setProperty('--category-old-price-color', categoryOldPrice);
         myframe.documentElement.style.setProperty('--category-card-background-color', categoryCardBackground);   
         myframe.documentElement.style.setProperty('--category-shadow-color', categoryShabow);
+        myframe.documentElement.style.setProperty('--category-button-text-color', categoryButtonText);
+        myframe.documentElement.style.setProperty('--category-button-background-color', categoryButtonBackground);
         //Food Detail Group   
         myframe.documentElement.style.setProperty('--food-background', foodBackground);
         myframe.documentElement.style.setProperty('--food-title', foodTitle);
@@ -909,6 +1063,8 @@
         categoryOldPrice: '--category-old-price-color',
         categoryCardBackground: '--category-card-background-color',
         categoryShabow: '--category-shadow-color',
+        categoryButtonText: '--category-button-text-color',
+        categoryButtonBackground: '--category-button-background-color',
         foodBackground: '--food-background',
         foodTitle: '--food-title',
         foodDescription: '--food-description',
@@ -973,5 +1129,154 @@
         location.reload();
     });
 
+</script>
+@endpush
+
+@push('cropper')
+{{-- Add Image Header--}}
+<script>
+    document.addEventListener('livewire:load', function () {
+        var modal = new bootstrap.Modal(document.getElementById('modal_header_image'));
+        var cropper;
+    
+        $('#headerImg').change(function (event) {
+            console.log(document.getElementById('headerImg').value)
+            var image = document.getElementById('sample_image_header_image');
+            var files = event.target.files;
+            var done = function (url) {
+                image.src = url;
+                modal.show();
+            };
+            if (files && files.length > 0) {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    done(reader.result);
+                };
+                reader.readAsDataURL(files[0]);
+            }
+            handleCropButtonClick(image);
+        });
+        
+        function handleCropButtonClick(image) {
+            $('#modal_header_image').on('shown.bs.modal', function () {
+                if (cropper) {
+                    cropper.destroy();
+                }
+                cropper = new Cropper(image, {
+                    aspectRatio: 1030 / 480,
+                    viewMode: 1,
+                    preview: '.preview'
+                });
+            });
+    
+            $('.crop-btn').off('click').on('click', function () {
+                var canvas = cropper.getCroppedCanvas({
+                    width: 640,
+                    height: 360
+                });
+    
+                canvas.toBlob(function (blob) {
+                    var url = URL.createObjectURL(blob);
+    
+                    var reader = new FileReader();
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        modal.hide();
+                        Livewire.emit('updateCroppedHeaderImg', base64data); // Emit Livewire event
+
+                        if (cropper) {
+                            cropper.destroy();
+                            document.getElementById('headerImg').value = null;
+                        }
+                    };
+                    reader.readAsDataURL(blob);
+    
+                    var file = new File([blob], 'met_about.jpg', { type: 'image/jpeg' });
+                    var fileInput = document.getElementById('croppedHeaderImg');
+                    var dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    fileInput.files = dataTransfer.files;
+    
+                    modal.hide();
+                }, 'image/jpeg');
+                setTimeout(function () {
+                    document.getElementById('myform').contentWindow.location.reload();
+                }, 5000); 
+            });
+        }
+    });
+</script>
+{{-- Add Logo OR Avatar--}}
+<script>
+    document.addEventListener('livewire:load', function () {
+        var modal = new bootstrap.Modal(document.getElementById('modal_header_image'));
+        var cropper;
+    
+        $('#logoImg').change(function (event) {
+            console.log(document.getElementById('logoImg').value)
+            var image = document.getElementById('sample_image_header_image');
+            var files = event.target.files;
+            var done = function (url) {
+                image.src = url;
+                modal.show();
+            };
+            if (files && files.length > 0) {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    done(reader.result);
+                };
+                reader.readAsDataURL(files[0]);
+            }
+            handleCropButtonClick(image);
+        });
+    
+        function handleCropButtonClick(image) {
+            $('#modal_header_image').on('shown.bs.modal', function () {
+                if (cropper) {
+                    cropper.destroy();
+                }
+                cropper = new Cropper(image, {
+                    aspectRatio: 1 / 1,
+                    viewMode: 1,
+                    preview: '.preview'
+                });
+            });
+    
+            $('.crop-btn').off('click').on('click', function () {
+                var canvas = cropper.getCroppedCanvas({
+                    width: 256,
+                    height: 256
+                });
+    
+                canvas.toBlob(function (blob) {
+                    var url = URL.createObjectURL(blob);
+    
+                    var reader = new FileReader();
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        modal.hide();
+                        Livewire.emit('updateCroppedLogoImg', base64data); // Emit Livewire event
+
+                        if (cropper) {
+                            cropper.destroy();
+                            document.getElementById('logoImg').value = null;
+                        }
+                    };
+                    reader.readAsDataURL(blob);
+
+                    var file = new File([blob], 'met_about.jpg', { type: 'image/jpeg' });
+                    var fileInput = document.getElementById('croppedLogoImg');
+                    var dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    fileInput.files = dataTransfer.files;
+    
+                    modal.hide();
+                }, 'image/jpeg');
+                setTimeout(function () {
+                    document.getElementById('myform').contentWindow.location.reload();
+                }, 5000); 
+            });
+        }
+    });
 </script>
 @endpush
