@@ -90,13 +90,14 @@ class CategoryLivewire extends Component
 
     public $objectNameCover;
     public $imgReaderCover;
+    public $tempImgCover;
     public function handleCroppedImageCover($base64dataCover)
     {
         if ($base64dataCover){
             $microtime = str_replace('.', '', microtime(true));
             $this->objectNameCover = 'rest/menu/cover_' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
             $croppedImageCover = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64dataCover));
-            $this->tempImg = $base64dataCover;
+            $this->tempImgCover = $base64dataCover;
             if( $this->imgReaderCover){
                 Storage::disk('s3')->delete($this->imgReaderCover);
                 Storage::disk('s3')->put($this->objectNameCover, $croppedImageCover);
@@ -121,7 +122,7 @@ class CategoryLivewire extends Component
             'priority' => $validatedData['priority'],
             'status' => $validatedData['status'],
             'img' => $this->objectName,
-            'cover' => $this->objectNameCover,
+            'cover' => $this->objectNameCover ?? null,
         ]);
     
         foreach ($this->filteredLocales as $locale) {
@@ -139,6 +140,8 @@ class CategoryLivewire extends Component
     public $imgReader;
     public function editCategory(int $menu_selected)
     {
+        $this->tempImgCover = null;
+        $this->imgReaderCover = null;
         $menu_edit = Categories::find($menu_selected);
         $this->category_update = $menu_edit;
 
@@ -159,6 +162,7 @@ class CategoryLivewire extends Component
             $this->status = $menu_edit->status;
             $this->priority = $menu_edit->priority;
             $this->imgReader = $menu_edit->img;
+            $this->imgReaderCover = $menu_edit->cover;
         } else {
             return redirect()->to('/rest');
         }
@@ -180,7 +184,7 @@ class CategoryLivewire extends Component
             'priority' => $validatedData['priority'],
             'status' => $validatedData['status'],
             'img' => isset($this->objectName) ? $this->objectName : $this->imgReader,
-            'cover' => null,
+            'cover' =>isset($this->objectNameCover) ? $this->objectNameCover : $this->imgReaderCover,
         ]);
     
         // Create or update the Categories_Translator records
@@ -199,6 +203,15 @@ class CategoryLivewire extends Component
         $this->dispatchBrowserEvent('close-modal');
         $this->resetInput();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Updated Successfully')]);
+    }
+    public function deleteCoverCategory()
+    {
+        Categories::where('id', $this->category_update->id)->update([
+            'cover' => null,
+        ]);
+    
+        $this->dispatchBrowserEvent('close-modal');
+        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Cover Image Deleted Successfully')]);
     }
 
     public function updateStatus(int $category_id)
@@ -272,8 +285,8 @@ class CategoryLivewire extends Component
         // END GET THE MENU NAMES
 
         $colspan = 5;
-        $cols_th = ['#','Menu','Name','Image','Status','Priority','Actions'];
-        $cols_td = ['id','mainmenu.translation.name', 'translation.name','img','status','priority'];
+        $cols_th = ['#','Menu','Name','Image','Cover','Status','Priority','Actions'];
+        $cols_td = ['id','mainmenu.translation.name', 'translation.name','img','cover','status','priority'];
 
         $data = Categories::with(['mainmenu', 'translation', 'mainmenu.translation' => function ($query) {
             $query->where('lang', $this->glang);
@@ -304,6 +317,7 @@ class CategoryLivewire extends Component
             'cols_td' => $cols_td,
             'colspan' => $colspan,
             'menu_select' => $this->menu_select,
+            'emptyImg' => app('fixedimage_640x360'),
             //asdsad
             'fl' => $this->imgReader
         ])->with('alert', ['type' => 'info',  'message' => __('Category Table Loaded')]);

@@ -1,5 +1,4 @@
 <div>
-
     @include('dashboard.livewire.category-form')
     <div class="my-4">
         <div class="d-flex justidy-content-between mb-4">
@@ -70,7 +69,13 @@
                                    <b>{{ $item->status == 1 ? __('Active') : __('Non-Active') }}</b>
                                 </span>
                             @elseif ($col === 'img') <!-- Add this condition -->
-                                <img src="{{ app('cloudfront').$item->img }}" alt="{{ $item->translation->name }}" width="150">
+                                <img src="{{ app('cloudfront').$item->img }}" alt="{{ $item->translation->name }}" width="150" style="border-radius: 10px;">
+                            @elseif ($col === 'cover') <!-- Add this condition -->
+                                @if ($item->cover)
+                                <img src="{{ app('cloudfront').$item->cover}}" alt="{{ $item->translation->name }}" width="150" style="border-radius: 10px;">
+                                @else
+                                <img src="{{ $emptyImg }}" alt="{{ $item->translation->name }}" width="150" style="border-radius: 10px;">
+                                @endif
                             @elseif ($col === 'priority')        
                                 <input type="number" id="priority_{{ $item->id }}" value="{{ $item->priority }}" class="form-control bg-dark text-white">
                             @else

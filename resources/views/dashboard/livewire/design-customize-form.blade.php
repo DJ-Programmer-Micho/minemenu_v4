@@ -1213,7 +1213,7 @@
         var cropper;
     
         $('#logoImg').change(function (event) {
-            console.log(document.getElementById('logoImg').value)
+            // console.log(document.getElementById('logoImg').value)
             var image = document.getElementById('sample_image_header_image');
             var files = event.target.files;
             var done = function (url) {
