@@ -193,9 +193,6 @@ nav-pills UI/UX-01
 .cart-butt-detail-01:hover {
     color: var(--cart-back-icon-color);
 }
-.price-detail-01 {
-    color: var(--title-color);
-}
 
 .badge-notification[data-count]:after {
     position: absolute;

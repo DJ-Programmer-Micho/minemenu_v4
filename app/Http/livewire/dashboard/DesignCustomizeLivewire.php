@@ -128,6 +128,8 @@ class DesignCustomizeLivewire extends Component
             $this->selected_category_old_price = $color->selectedCategoryOldPrice ?? '#ffff00';
             $this->selected_category_card_background = $color->selectedCategoryCardBackground ?? '#ffff00';
             $this->selected_category_shabow = $color->selectedCategoryShabow ?? '#ffff00';
+            $this->selected_category_button_text = $color->selectedCategoryButtonText ?? '#ffff00';
+            $this->selected_category_button_background = $color->selectedCategoryButtonBackground ?? '#ffff00';
             //Food Detail Group
             $this->selected_food_background = $color->selectedFoodBackground ?? '#ffff00';
             $this->selected_food_title = $color->selectedFoodTitle ?? '#ffff00';

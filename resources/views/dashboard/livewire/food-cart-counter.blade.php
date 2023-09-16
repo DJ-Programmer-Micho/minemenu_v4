@@ -30,6 +30,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <p class="text-white">{{$cart}}</p>
                         @foreach ($cart as $item) 
                              @if($item->options['size'] != 'offer')
                                 @if ($item->options['sorm'] == 0)

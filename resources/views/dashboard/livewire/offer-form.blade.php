@@ -208,14 +208,7 @@
                         </div>
                         @endforeach
                     </div>
-                    <div class="row mt-5">
-                        <div class="col-12 d-flex justify-content-center align-items-center">
-                            Single Price
-                            <label class="switch"> <input type="checkbox" wire:model="showTextarea"
-                                    id="customSwitch1"><span class="slider"></span></label>
-                            Multi Price
-                        </div>
-                        
+                    <div class="row mt-5">  
                         <div class="d-flex justidy-content-between mb-4 col-12">
                             <h2 class="text-lg font-medium mr-auto">
                                 <b class="text-uppercase text-white">{{__('Single Price')}}</b>
@@ -244,8 +237,6 @@
                             <h2 class="text-lg font-medium mr-auto">
                                 <b class="text-uppercase text-white">{{__('Upload Offer Image')}}</b>
                             </h2>
-                            <div class="">
-                            </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <label for="img">Upload Image</label>

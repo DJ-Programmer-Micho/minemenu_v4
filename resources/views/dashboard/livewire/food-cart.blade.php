@@ -6,7 +6,7 @@ $currentOptions = $options[$glang] ?? []; // Get options for the current languag
 <div class="col-md-12">
     <div class="row">
         <div class="col-6 mt-2">
-            <h6 class="old-price-detail-01">{{$foodAction->price . ' ' .  $settings->currency}}</h6>
+            <h6 class="old-price-detail-01" style="text-decoration: line-through;">{{$foodAction->old_price . ' ' .  $settings->currency}}</h6>
             <h6 class="price-detail-01">{{$foodAction->price . ' ' .  $settings->currency}}</h6>
         </div>
         <div class="col-6">

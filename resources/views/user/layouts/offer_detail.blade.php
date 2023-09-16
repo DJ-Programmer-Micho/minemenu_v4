@@ -31,6 +31,61 @@
     <link rel="stylesheet" href="{{asset('/assets/user/category.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/food.css')}}">
     @livewireStyles
+    <style>
+        :root{
+            /* Navbar */
+            --navbar-title-color: @php echo ($color->selectedNavbarTitle) ?? 'blue'; @endphp ;
+            --navbar-toggle-color: @php echo ($color->selectedNavbarToggle) ?? 'blue'; @endphp ;
+            --navbar-top-color: @php echo ($color->selectedNavbarTop) ?? 'blue'; @endphp ;
+            --navbar-sub-title-color: @php echo ($color->selectedNavbarSubTitle) ?? 'blue'; @endphp ;
+            --navbar-text-color: @php echo ($color->selectedNavbarText) ?? 'blue'; @endphp ;
+            --navbar-top-ground-color: @php echo ($color->selectedNavbarTopGround) ?? 'blue'; @endphp ;
+            --navbar-bottom-ground-color: @php echo ($color->selectedNavbarBottomGround) ?? 'blue'; @endphp ;
+            /* Main Group */
+            --main-background-color: @php echo ($color->selectedMainBackground) ?? 'blue'; @endphp ;
+            --main-body-color: @php echo ($color->selectedMainBody) ?? 'blue'; @endphp ;
+            --main-theme-text-color: @php echo ($color->selectedMainThemeText) ?? 'blue'; @endphp ;
+            --main-theme-backgroud-color: @php echo ($color->selectedMainThemeBackgroud) ?? 'blue'; @endphp ;
+            --main-theme-text-active-color: @php echo ($color->selectedMainThemeTextActive) ?? 'blue'; @endphp ;
+            --main-theme-background-active-color: @php echo ($color->selectedMainThemeBackgroudActive) ?? 'blue'; @endphp ;
+            --main-theme-border-active-color: @php echo ($color->selectedMainThemeBorder) ?? 'blue'; @endphp ;
+            --main-card-text-color: @php echo ($color->selectedMainCardText) ?? 'blue'; @endphp ;
+            --main-card-opacity-color: @php echo ($color->selectedMainCardOpacity) ?? 'blue'; @endphp ;
+            /* Cart Group */
+            --cart-icon-color: @php echo ($color->selectedCartIcon) ?? 'blue'; @endphp ;
+            --cart-back-icon-color: @php echo ($color->selectedCartBackIcon) ?? 'blue'; @endphp ;
+            --cart-noti-color: @php echo ($color->selectedCartNoti) ?? 'blue'; @endphp ;
+            --cart-back-noti-color: @php echo ($color->selectedCartBackNoti) ?? 'blue'; @endphp ;
+            --cart-text-color: @php echo ($color->selectedCartText) ?? 'blue'; @endphp ;
+            --cart-background-color: @php echo ($color->selectedCartBackground) ?? 'blue'; @endphp ;
+            --cart-reset-text-color: @php echo ($color->selectedCartResetText) ?? 'blue'; @endphp ;
+            --cart-reset-backgound-color: @php echo ($color->selectedCartResetBackgound) ?? 'blue'; @endphp ;
+            --cart-close-text-color: @php echo ($color->selectedCartCloseText) ?? 'blue'; @endphp ;
+            --cart-close-backgound-color : @php echo ($color->selectedCartCloseBackgound) ?? 'blue'; @endphp ;
+            /* Category Group */
+            --category-title-color: @php echo ($color->selectedCategoryTitle) ?? 'red'; @endphp ;
+            --category-description-color: @php echo ($color->selectedCategoryDescription) ?? 'blue'; @endphp ;
+            --category-price-color: @php echo ($color->selectedCategoryPrice) ?? 'blue'; @endphp ;
+            --category-old-price-color: @php echo ($color->selectedCategoryOldPrice) ?? 'blue'; @endphp ;
+            --category-card-background-color: @php echo ($color->selectedCategoryCardBackground) ?? 'blue'; @endphp ;
+            --category-shadow-color: @php echo ($color->selectedCategoryShabow) ?? 'blue'; @endphp ;
+            /* Food Detail Group */
+            --food-background:  @php echo ($color->selectedFoodBackground) ?? 'red'; @endphp ;
+            --food-title:  @php echo ($color->selectedFoodTitle) ?? 'red'; @endphp ;
+            --food-description:  @php echo ($color->selectedFoodDescription) ?? 'red'; @endphp ;
+            --food-price:  @php echo ($color->selectedFoodPrice) ?? 'red'; @endphp ;
+            --food-price-key:  @php echo ($color->selectedFoodPriceKey) ?? 'red'; @endphp ;
+            --food-price-value:  @php echo ($color->selectedFoodPriceValue) ?? 'red'; @endphp ;
+            --food-old-price:  @php echo ($color->selectedFoodOldPrice) ?? 'red'; @endphp ;
+            --food-button-text:  @php echo ($color->selectedFoodButtonText) ?? 'red'; @endphp ;
+            --food-button-background:  @php echo ($color->selectedFoodButtonBackground) ?? 'red'; @endphp ;
+            --food-image-shadow:  @php echo ($color->selectedFoodImageShadow) ?? 'red'; @endphp ;
+            --food-image-shadow-opacity:  @php echo ($color->selectedFoodImageShadowOpacity) ?? '0.25'; @endphp ;
+            /* Utilities Group */
+            --utl-icon-color: @php echo ($color->selectedUtlIconColor) ?? 'blue'; @endphp ;
+            --utl-icon-background: @php echo ($color->selectedUtlIconBackground) ?? 'blue'; @endphp ;
+        }
+    </style>
     @stack('business_style')
 </head>
 <body>

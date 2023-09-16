@@ -35,7 +35,7 @@ class OfferCartLivewire extends Component
     private function mountSingle($offercartdata)
     {
         $existingCartItem = Cart::search(function ($cartItem) use ($offercartdata) {
-            return $cartItem->id == $offercartdata->id;
+            return $cartItem->id === $offercartdata->id;
         })->first();
 
         if ($existingCartItem) {
@@ -54,9 +54,10 @@ class OfferCartLivewire extends Component
     // ******************************* STEP #B.1
     private function addToCartSingle($offer_id)
     {
+        // dd($offer_id);
         $existingCartItem = null;
         foreach (Cart::content() as $cartItem) {
-            if ($cartItem->id == $offer_id) {
+            if ($cartItem->id == intval($offer_id)) {
                 $existingCartItem = $cartItem;
                 break;
             }
@@ -66,6 +67,7 @@ class OfferCartLivewire extends Component
             // update the quantity
             $rowId = $existingCartItem->rowId;
             Cart::update($rowId, ['qty' => $this->quantity[$offer_id]]);
+            // dd($this->quantity[$offer_id],$rowId);
             $this->emit('cart_updated');
             // $this->emit('check-offer-go', $offer_id);
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Offer Quantity Updated')]);
@@ -107,6 +109,7 @@ class OfferCartLivewire extends Component
         if (isset($this->quantity[$offer_id])) {
             $this->quantity[$offer_id]++;
             $this->addToCartSingle($offer_id); // Call the addToCartSingle method with the updated quantity
+            // dd($this->quantity[$offer_id]);
         }
     }
 
@@ -125,7 +128,7 @@ class OfferCartLivewire extends Component
     public function refreshOfferQuantityA($offer_id)
     {
         $existingCartItem = Cart::search(function ($cartItem) use ($offer_id) {
-            return $cartItem->id == $offer_id;
+            return $cartItem->id == intval($offer_id);
         })->first();
 
         if ($existingCartItem) {

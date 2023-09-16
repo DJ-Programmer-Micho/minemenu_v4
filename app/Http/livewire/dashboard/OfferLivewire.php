@@ -95,7 +95,7 @@ class OfferLivewire extends Component
             'user_id' => auth()->id(),
             'priority' => $validatedData['priority'],
             'price' => $this->price ? $this->price : null,
-            // 'old_price' => $this->oldPrice ? $this->oldPrice : null,
+            'old_price' => $this->oldPrice ? $this->oldPrice : null,
             'status' => $validatedData['status'],
             'img' => $this->objectName,
         ]);
@@ -134,7 +134,7 @@ class OfferLivewire extends Component
                 }
                 $this->lang = $locale;
             }
-            // $this->oldPrice = $menu_edit->old_price ? $menu_edit->old_price : null;
+            $this->oldPrice = $offer_edit->old_price ? $offer_edit->old_price : null;
             $this->price = $offer_edit->price ? $offer_edit->price : null;
             $this->priority = $offer_edit->priority;
             $this->status = $offer_edit->status;
@@ -157,8 +157,8 @@ class OfferLivewire extends Component
         Offer::where('id', $this->offer_update->id)->update([
             'priority' => $validatedData['priority'],
             'status' => $validatedData['status'],
-            // 'old_price' => isset($validatedData['oldPrice']) ? $validatedData['oldPrice'] : null,
-            'price' => isset($validatedData['price']) ? $validatedData['price'] : null,
+            'price' => $this->price ? $this->price : null,
+            'old_price' => $this->oldPrice ? $this->oldPrice : null,
             'img' => isset($this->objectName) ? $this->objectName : $this->imgReader,
         ]);
     
@@ -235,7 +235,7 @@ class OfferLivewire extends Component
         $this->showTextTemp = '';
         $this->offerNameToDelete = '';
         $this->price = '';
-        // $this->oldPrice = '';
+        $this->oldPrice = '';
         $this->confirmDelete = false;
         $this->imgFlag = false;
     }
