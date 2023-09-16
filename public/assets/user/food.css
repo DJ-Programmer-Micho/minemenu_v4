@@ -76,3 +76,10 @@ Food UI/UX-01
     color: var(--category-button-text-color);
     background-color: var(--category-button-background-color);
 }
+.special_card {
+    width: 70px;
+    position: absolute;
+    z-index: 9999;
+    top: 10px;
+    left: 10px;
+}

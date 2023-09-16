@@ -21,6 +21,7 @@ class Food extends Model
         'description',
         'img',
         'status',
+        'special',
         'sorm',
         'price',
         'old_price',

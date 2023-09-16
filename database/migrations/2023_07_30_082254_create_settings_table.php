@@ -29,6 +29,8 @@ return new class extends Migration
             $table->string('tiktok')->nullable();
             $table->string('background_img')->nullable();
             $table->string('background_vid')->nullable();
+            $table->string('background_img_header')->nullable();
+            $table->string('background_img_avatar')->nullable();
             $table->string('intro_page')->nullable();
             $table->string('currency')->nullable();
             $table->string('fees')->nullable();

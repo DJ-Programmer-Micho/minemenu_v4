@@ -41,6 +41,7 @@ class FoodLivewire extends Component
     public $description = [];
     public $options = [];
     public $status;
+    public $special;
     public $priority;
     public $showTextarea = false;
     public $price = '';
@@ -88,6 +89,7 @@ class FoodLivewire extends Component
         // $rules['price'] = ['required'];
         // $rules['oldPrice'] = ['required'];
         $rules['status'] = ['required'];
+        $rules['special'] = ['required'];
         $rules['objectName'] = ['required'];
         return $rules;
     }
@@ -131,6 +133,7 @@ class FoodLivewire extends Component
             'options' =>  $optionsData,
             'sorm' => $sorm,
             'status' => $validatedData['status'],
+            'special' => $validatedData['special'],
             'img' => $this->objectName,
         ]);
 
@@ -182,6 +185,7 @@ class FoodLivewire extends Component
             $this->showTextarea = $menu_edit->sorm == 0 ? false : true ;
             $this->priority = $menu_edit->priority;
             $this->status = $menu_edit->status;
+            $this->special = $menu_edit->special;
             $this->imgReader = $menu_edit->img;
         } else {
             return redirect()->to('/rest');
@@ -203,6 +207,7 @@ class FoodLivewire extends Component
             'cat_id' => $validatedData['cat_id'],
             'priority' => $validatedData['priority'],
             'status' => $validatedData['status'],
+            'special' => $validatedData['special'],
             'sorm' => $sorm,
             'options' => $optionsData,
             'price' => isset($validatedData['price']) ? $validatedData['price'] : null,
@@ -277,6 +282,7 @@ class FoodLivewire extends Component
         }
         $this->cat_id = '';
         $this->status = '';
+        $this->special = '';
         $this->priority = '';
         $this->imgReader = '';
         $this->food_selected_id_delete = '';

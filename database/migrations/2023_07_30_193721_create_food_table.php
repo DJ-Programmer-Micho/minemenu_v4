@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('priority')->default(0);
             $table->json('options')->nullable();
             $table->integer('status')->default(1);
+            $table->integer('special')->default(0);
             $table->timestamps();
         });
     }

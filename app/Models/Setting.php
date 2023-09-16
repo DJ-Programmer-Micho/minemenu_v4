@@ -25,6 +25,8 @@ class Setting extends Model
         'tiktok',
         'background_img',
         'background_vid',
+        'background_img_header',
+        'background_img_avatar',
         'intro_page',
         'currency',
         'fees',

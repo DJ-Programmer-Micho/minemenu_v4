@@ -40,7 +40,7 @@ class FoodCartLivewire extends Component
     private function mountSingle($foodcartdata)
     {
         $existingCartItem = Cart::search(function ($cartItem) use ($foodcartdata) {
-            return $cartItem->id == $foodcartdata->id;
+            return $cartItem->id == $foodcartdata->id && $cartItem->options['size'] != 'offer';
         })->first();
 
         if ($existingCartItem) {
@@ -63,7 +63,7 @@ class FoodCartLivewire extends Component
         
         foreach (Cart::content() as $index => $cartItem) {
             $i = 0;
-            if ($cartItem->id == $foodcartdata->id) {
+            if ($cartItem->id == $foodcartdata->id && $cartItem->options['size'] != 'offer') {
                 $existingCartItem = $cartItem;
                 foreach ($options[$this->glang] as $option) {
                     if ($existingCartItem->options->has('size') && $existingCartItem->options->get('size') === $option['key']) {
@@ -98,7 +98,7 @@ class FoodCartLivewire extends Component
     {
         $existingCartItem = null;
         foreach (Cart::content() as $cartItem) {
-            if ($cartItem->id == $food_id) {
+            if ($cartItem->id == $food_id && $cartItem->options['size'] !== 'offer') {
                 $existingCartItem = $cartItem;
                 break;
             }
@@ -134,7 +134,7 @@ class FoodCartLivewire extends Component
     {
         $existingCartItem = null;
         foreach (Cart::content() as $cartItem) {
-            if ($cartItem->id == $food_id && $cartItem->options->get('size') === $option_key) {
+            if ($cartItem->id == $food_id && $cartItem->options->get('size') == $option_key && $cartItem->options['size'] != 'offer') {
                 $existingCartItem = $cartItem;
                 break;
             }

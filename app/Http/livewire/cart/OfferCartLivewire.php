@@ -46,7 +46,7 @@ class OfferCartLivewire extends Component
     }
 
     // ******************************* STEP #A
-    public function addToCart($offer_id)
+    public function addToCartOffer($offer_id)
     {
         $this->addToCartSingle($offer_id);
     }
@@ -57,7 +57,7 @@ class OfferCartLivewire extends Component
         // dd($offer_id);
         $existingCartItem = null;
         foreach (Cart::content() as $cartItem) {
-            if ($cartItem->id == intval($offer_id)) {
+            if ($cartItem->id == intval($offer_id) && $cartItem->options['size'] == 'offer') {
                 $existingCartItem = $cartItem;
                 break;
             }
@@ -67,15 +67,13 @@ class OfferCartLivewire extends Component
             // update the quantity
             $rowId = $existingCartItem->rowId;
             Cart::update($rowId, ['qty' => $this->quantity[$offer_id]]);
-            // dd($this->quantity[$offer_id],$rowId);
             $this->emit('cart_updated');
-            // $this->emit('check-offer-go', $offer_id);
+            $this->emit('check-offer-go', $offer_id);
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Offer Quantity Updated')]);
         } else {
             $offer = Offer::findOrFail($offer_id);
             $allOfferTranslations = $offer->translation()->pluck('name', 'lang')->toArray();
             // add new food
-            
             Cart::add(
                 $offer->id,
                 $allOfferTranslations,
@@ -106,6 +104,7 @@ class OfferCartLivewire extends Component
 
     public function increaseQuantity($offer_id)
     {
+
         if (isset($this->quantity[$offer_id])) {
             $this->quantity[$offer_id]++;
             $this->addToCartSingle($offer_id); // Call the addToCartSingle method with the updated quantity

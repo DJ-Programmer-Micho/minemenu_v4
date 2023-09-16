@@ -18,6 +18,9 @@
         @endphp
         <div class="col-12 col-sm-6 p-1">
             <div class="card-01 shd-01 h-100">
+                @if ($item->special == 1)
+                <img class="special_card" src="{{asset('assets/main/img/special.gif')}}" alt="minemenu_special">
+                @endif
                 <div class="food-img-01 {{($item->old_price) ? 'offer' : ''}}">
                     <a href="{{url()->current().'/'.$item->id}}"><img src="{{app('cloudfront'). $item->img}}"></a>
                 </div>

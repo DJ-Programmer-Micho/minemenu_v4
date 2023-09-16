@@ -96,14 +96,14 @@ class FoodCartCounterLivewire extends Component
         $existingCartItem = null;
     
         foreach (Cart::content() as $cartItem) {
-            if ($cartItem->id == $food_id && $cartItem->options->get('size') === $option_key || $cartItem->id == $food_id) {
+            if ($cartItem->id == $food_id && $cartItem->options['size'] === $option_key || $cartItem->id == $food_id && $cartItem->options['size'] != 'offer') {
                 $existingCartItem = $cartItem;
                 break;
             }
         }
 
         if ($existingCartItem) {
-        if ($existingCartItem->options['size'] != 'offer') {
+        // if ($existingCartItem->options['size'] != 'offer') {
             
 
 
@@ -168,7 +168,7 @@ class FoodCartCounterLivewire extends Component
 
 
 
-    }
+    // }
     }
 }
 //End Main Function
@@ -220,56 +220,10 @@ class FoodCartCounterLivewire extends Component
         }
     }
 
-
-
-    public function increaseOfferQuantity($offer_id)
-    {
-        if (isset($this->quantityOffer[$offer_id])) {
-            $this->quantityOffer[$offer_id]++;
-            $this->addOfferToCartSingle($offer_id); // Call the addToCartSingle method with the updated quantity
-        }
-    }
-
-    public function decreaseOfferQuantity($offer_id)
-    {
-        if (isset($this->quantityOffer[$offer_id]) && $this->quantityOffer[$offer_id] == 0) {
-            return;
-        } else {
-            if (isset($this->quantityOffer[$offer_id]) && $this->quantityOffer[$offer_id] > 0) {
-                $this->quantityOffer[$offer_id]--;
-                $this->addOfferToCartSingle($offer_id); // Call the addToCartSingle method with the updated quantity
-            }
-        }
-    }
-
-    public function addOfferToCartSingle($offer_id)
-    {
-        $existingCartItem = null;
-        foreach (Cart::content() as $cartItem) {
-            if ($cartItem->id == $offer_id && $cartItem->options->get('size') === 'offer') {
-                $existingCartItem = $cartItem;
-                // dd($existingCartItem);
-                break;
-            }
-        }
-
-        if ($existingCartItem) {
-            // update the quantity
-            $rowId = $existingCartItem->rowId;
-            Cart::update($rowId, ['qty' => $this->quantityOffer[$offer_id]]);
-            $this->emit('cart_updated');
-            $this->emit('refreshOfferQuantityA', $offer_id);
-            $this->refreshOfferQuantity($offer_id);
-            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Offer Quantity Updated')]);
-        } 
-    }
-
-
-
     public function refreshQuantity($food_id,$option_key, $option_index)
     {
         $existingCartItem = Cart::search(function ($cartItem) use ($food_id) {
-            return $cartItem->id == $food_id;
+            return $cartItem->id == $food_id && $cartItem->options['size'] != 'offer';
         })->first();
 
         if ($existingCartItem) {
@@ -303,26 +257,27 @@ class FoodCartCounterLivewire extends Component
                 }
             }
         } else {
-            $this->dispatchBrowserEvent('alert', ['type' => 'info', 'message' => __('Cart Processing')]);
+            // $this->dispatchBrowserEvent('alert', ['type' => 'info', 'message' => __('Cart Processing')]);
         }
     }
     }
 
     public function refreshOfferQuantity($offer_id)
     {
+        // dd('ASD');
         $existingCartItem = Cart::search(function ($cartItem) use ($offer_id) {
-            return $cartItem->id == $offer_id;
+            return $cartItem->id == $offer_id && $cartItem->options['size'] == 'offer';
         })->first();
 
         if ($existingCartItem) {
             $rowId = $existingCartItem->id;
-            if ($existingCartItem->options['size'] == 'offer') {
+            // if ($existingCartItem->options['size'] == 'offer') {
                 if ($rowId) {
                     $this->quantityOffer[$rowId] = $existingCartItem->qty;
                 } else {
                     $this->quantityOffer[$rowId] = 0;
                 }
-            } 
+            // } 
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'info', 'message' => __('Cart Processing')]);
         }
@@ -343,5 +298,48 @@ class FoodCartCounterLivewire extends Component
             $this->emit('cart_updated');
             $this->render();
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Cart Removed, New Cart :)')]);
+    }
+
+    // OFFER ADD LIST
+    public function addOfferToCartSingle($offer_id)
+    {
+        $existingCartItem = null;
+        foreach (Cart::content() as $cartItem) {
+            if ($cartItem->id == $offer_id && $cartItem->options->get('size') === 'offer') {
+                $existingCartItem = $cartItem;
+                // dd($existingCartItem);
+                break;
+            }
+        }
+
+        if ($existingCartItem) {
+            // update the quantity
+            $rowId = $existingCartItem->rowId;
+            Cart::update($rowId, ['qty' => $this->quantityOffer[$offer_id]]);
+            $this->emit('cart_updated');
+            $this->emit('refreshOfferQuantityA', $offer_id);
+            $this->refreshOfferQuantity($offer_id);
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Offer Quantity Updated')]);
+        } 
+    }
+
+    public function increaseOfferQuantity($offer_id)
+    {
+        if (isset($this->quantityOffer[$offer_id])) {
+            $this->quantityOffer[$offer_id]++;
+            $this->addOfferToCartSingle($offer_id); // Call the addToCartSingle method with the updated quantity
+        }
+    }
+
+    public function decreaseOfferQuantity($offer_id)
+    {
+        if (isset($this->quantityOffer[$offer_id]) && $this->quantityOffer[$offer_id] == 0) {
+            return;
+        } else {
+            if (isset($this->quantityOffer[$offer_id]) && $this->quantityOffer[$offer_id] > 0) {
+                $this->quantityOffer[$offer_id]--;
+                $this->addOfferToCartSingle($offer_id); // Call the addToCartSingle method with the updated quantity
+            }
+        }
     }
 } 

@@ -75,6 +75,19 @@
                                 @error('Priority') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
+                        <div class="col-12 col-sm-4">
+                            <div class="mb-3">
+                                <label>{{__('Special')}}</label>
+                                <select wire:model="special" name="special" id="" class="form-control">
+                                    <option value="">Choose Special On/Off</option>
+                                    <option value="1">{{__('Special')}}</option>
+                                    <option value="0">{{__('Non Special')}}</option>
+                                    <small class="tetx-info">{{__('Show or Hide')}}</small>
+                                </select>
+                                @error('special') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+
+                        </div>
                     </div>
                     <div class="row mt-5">
                         <div class="d-flex justidy-content-between mb-4 col-12">
@@ -254,6 +267,19 @@
                                 <small class="text-info">{{__('The less The Higher')}}</small>
                                 @error('Priority') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
+                        </div>
+                        <div class="col-12 col-sm-4">
+                            <div class="mb-3">
+                                <label>{{__('Special')}}</label>
+                                <select wire:model="special" name="special" id="" class="form-control">
+                                    <option value="">Choose Special On/Off</option>
+                                    <option value="1">{{__('Special')}}</option>
+                                    <option value="0">{{__('Non Special')}}</option>
+                                    <small class="tetx-info">{{__('Show or Hide')}}</small>
+                                </select>
+                                @error('special') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+
                         </div>
                     </div>
                     <div class="row mt-5">

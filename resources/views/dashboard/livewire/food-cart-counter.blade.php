@@ -30,7 +30,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <p class="text-white">{{$cart}}</p>
+                                {{-- <p class="text-white">{{$cart}}</p> --}}
                         @foreach ($cart as $item) 
                              @if($item->options['size'] != 'offer')
                                 @if ($item->options['sorm'] == 0)
@@ -119,7 +119,7 @@
                                         <input class="form-control mx-2 text-center" type="number" min="1" max="10" style="background-color: transparent;"
                                         wire:model="quantityOffer.{{ $item->id }}"
                                         value="{{ isset($quantityOffer[$item->id]) ? $quantityOffer[$item->id] : '0' }}"
-                                        wire:change="addToCart('{{ $item->id }}','null','null')"
+                                        wire:change="addToCartOffer('{{ $item->id }}','null','null')"
                                     />
                                         <button class="btn btn-sm plus-minus-color" wire:click="increaseOfferQuantity('{{ $item->id }}', 'null', 'null', 'null')">
                                             <i class="fas fa-plus"></i>

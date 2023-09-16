@@ -77,8 +77,8 @@ class DesignCustomizeLivewire extends Component
         $this->user_color = $settings->user_ui_color ?? [];
         $colors = $settings->ui_color ?? [];
         // Check if the colors data exists and assign them to Livewire properties
-        $imgExsistHeader = $settings->background_img;
-        $imgExsistLogo = $settings->background_vid;
+        $imgExsistHeader = $settings->background_img_header;
+        $imgExsistLogo = $settings->background_img_avatar;
 
         if($imgExsistHeader){
             $this->imgReader = $imgExsistHeader;
@@ -639,12 +639,12 @@ class DesignCustomizeLivewire extends Component
                 Storage::disk('s3')->delete($this->imgReader);
                 Storage::disk('s3')->put($this->objectName, $croppedImage);
                 $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
-                $settings->background_img = $this->objectName;
+                $settings->background_img_header = $this->objectName;
                 $settings->save();
             } else {
                 Storage::disk('s3')->put($this->objectName, $croppedImage);
                 $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
-                $settings->background_img = $this->objectName;
+                $settings->background_img_header = $this->objectName;
                 $settings->save();
             }
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Image Uploaded Successfully')]);
@@ -666,12 +666,12 @@ class DesignCustomizeLivewire extends Component
                 Storage::disk('s3')->delete($this->imgReaderLogo);
                 Storage::disk('s3')->put($this->objectNameLogo, $croppedImage);
                 $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
-                $settings->background_vid = $this->objectNameLogo;
+                $settings->background_img_avatar = $this->objectNameLogo;
                 $settings->save();
             } else {
                 Storage::disk('s3')->put($this->objectNameLogo, $croppedImage);
                 $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
-                $settings->background_vid = $this->objectNameLogo;
+                $settings->background_img_avatar = $this->objectNameLogo;
                 $settings->save();
             }
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Image Uploaded Successfully')]);
