@@ -58,7 +58,7 @@ class BusinessController extends Controller
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
         $color = json_decode($setting->ui_color);
-
+        $cover_id = $foodId;
         $ui = ['01','01','01','01'];
         return view('user.layouts.food_list', [
             'user' => $user,
@@ -67,6 +67,7 @@ class BusinessController extends Controller
             'foodId' => $foodId,
             'color' => $color,
             'ui' => $ui,
+            'cover_id' => $cover_id
         ]);
     }
 

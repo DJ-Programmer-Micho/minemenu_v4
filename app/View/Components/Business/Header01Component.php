@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Business;
 
+use App\Models\Categories;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -18,14 +19,17 @@ class Header01Component extends Component
     public $ui;
     public $cartcount;
     public $setting;
+    public $coverid;
 
-    public function __construct($user, $ui, $setting)
+    public function __construct($user, $ui, $setting, $coverid)
     {
         $this->setting = $setting;
         $this->rest_name = $user->name;
         $this->user_id = $user->id;
         $this->ui = $ui[1];
         $this->cartcount = Cart::content()->count();
+        $this->coverid = Categories::where('id', $coverid)->first()->cover ?? null;
+        // dd($this->coverid);
     }
     /**
      * Get the view / contents that represent the component.
@@ -33,7 +37,7 @@ class Header01Component extends Component
     public function render(): View|Closure|string
     {
         if ($this->ui == '01') {
-            return view('user.components.headers.Header01',['cart_count' => $this->cartcount, 'setting' => $this->setting,'restName'=> $this->rest_name]);
+            return view('user.components.headers.Header01',['cart_count' => $this->cartcount, 'setting' => $this->setting,'restName'=> $this->rest_name, 'cover_id' => $this->coverid]);
         } else if ($this->ui == '02') {
             return view('user.components.headers.Header02',['cart_count' => $this->cartcount, 'setting' => $this->setting]);
         } else {
