@@ -25,7 +25,7 @@ class Category01Component extends Component
         $this->user = $user;
         $this->glang = $glang;
         $this->ui = $ui;
-        $this->ui_select = $ui[0];
+        $this->ui_select = $ui[4] ?? 01;
         // Initialize the categoryData based on menuId
         $this->initializeCategoryData();
     }
@@ -40,6 +40,7 @@ class Category01Component extends Component
             $query->where('locale', $this->glang);
         }])
         ->where('user_id', $this->user)
+        ->where('status', 1)
         ->where('menu_id', $this->menuId)
         ->orderBy('priority', 'ASC')
         ->get();
@@ -54,8 +55,16 @@ class Category01Component extends Component
             return view('user.components.categories.category01',['categoryData' => $this->categoryData]);
         } else if ($this->ui_select == '02') {
             return view('user.components.categories.category02',['categoryData' => $this->categoryData]);
-        } else {
+        } else if ($this->ui_select == '03') {
             return view('user.components.categories.category03',['categoryData' => $this->categoryData]);
+        } else if ($this->ui_select == '04') {
+            return view('user.components.categories.category04',['categoryData' => $this->categoryData]);
+        } else if ($this->ui_select == '05') {
+            return view('user.components.categories.category05',['categoryData' => $this->categoryData]);
+        } else if ($this->ui_select == '06') {
+            return view('user.components.categories.category06',['categoryData' => $this->categoryData]);
+        } else {
+            return view('user.components.categories.category07',['categoryData' => $this->categoryData]);
         }
     }
 }

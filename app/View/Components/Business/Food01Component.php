@@ -26,7 +26,7 @@ class Food01Component extends Component
         $this->user = $user;
         $this->glang = app('glang');
         $this->ui = $ui;
-        $this->ui_select = $ui[0];
+        $this->ui_select = $ui[5] ?? 01;
         $this->settings = $settings;
         // Initialize the categoryData based on menuId
         $this->initializeFoodData();
@@ -55,8 +55,10 @@ class Food01Component extends Component
             return view('user.components.foods.food01',['foodData' => $this->foodData, 'settings' => $this->settings]);
         } else if ($this->ui_select == '02') {
             return view('user.components.foods.food02',['foodData' => $this->foodData, 'settings' => $this->settings]);
-        } else {
+        } else if ($this->ui_select == '03') {
             return view('user.components.foods.food03',['foodData' => $this->foodData, 'settings' => $this->settings]);
+        } else {
+            return view('user.components.foods.food04',['foodData' => $this->foodData, 'settings' => $this->settings]);
         }
     }
 }

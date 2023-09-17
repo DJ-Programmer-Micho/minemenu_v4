@@ -4,17 +4,17 @@
         @php
         $options = json_decode($item->options, true); // Decode the JSON options for the current item
         $currentOptions = $options[$glang] ?? []; // Get options for the current language or default to an empty array
-        $itemDescription = $item->translation->description; 
-        if (strlen($itemDescription) > 120) {
-            $trimmedDescription = substr($itemDescription, 0, 120);
-            $lastLineBreak = strrpos($trimmedDescription, "\n");
-            if ($lastLineBreak !== false) {
-                $trimmedDescription = substr($trimmedDescription, 0, $lastLineBreak);
-            }
-            $trimmedDescription .= '...';
-        } else {
-            $trimmedDescription = $itemDescription;
-        }
+        // $itemDescription = $item->translation->description; 
+        // if (strlen($itemDescription) > 120) {
+        //     $trimmedDescription = substr($itemDescription, 0, 120);
+        //     $lastLineBreak = strrpos($trimmedDescription, "\n");
+        //     if ($lastLineBreak !== false) {
+        //         $trimmedDescription = substr($trimmedDescription, 0, $lastLineBreak);
+        //     }
+        //     $trimmedDescription .= '...';
+        // } else {
+        //     $trimmedDescription = $itemDescription;
+        // }
         @endphp
         <div class="col-12 col-sm-6 p-1">
             <div class="card-01 shd-01 h-100">
@@ -29,23 +29,22 @@
                         <h5>{{$item->translation->name}}</h5>
                     </div>
 
-                    <div class="food-desc-01">
+                    {{-- <div class="food-desc-01">
                         <p class="m-0">{!! nl2br($trimmedDescription) !!}</p>
-                    </div>
+                    </div> --}}
                     @if ($item->sorm == 0)
-                    <div class="food-price-01">
-                        <span class="font-weight-bold h6">{{number_format($item->price) . ' ' .  $settings->currency}}</span>
-                        <span class="ml-2 old-price-01"
-                            style="text-decoration: line-through;font-size:17px;font-weight:bolder;padding-right: 10px">{{($item->old_price) ? $item->old_price : ''}}</span>
-                        </div>
+                    <div class="food-price-01 d-flex">
+                        <div class="font-weight-bold h6">{{number_format($item->price) . ' ' .  $settings->currency}}</div>
+                        <div class="ml-2 old-price-01" style="text-decoration: line-through;font-size:17px;font-weight:bolder;padding-right: 10px">{{($item->old_price) ? $item->old_price : ''}}</div>
+                    </div>
                         <span><a href="{{url()->current().'/'.$item->id}}" class="btn btn-see-more">See More Details</a></span>
                     <div>
                        
                     </div>
                     @else
                     @foreach ($currentOptions as $option)
-                    <div class="food-price-01">
-                        <span class="font-weight-bold h6">{{$option['key']}}: {{ number_format($option['value']) }} {{$settings->currency}}</span>
+                    <div class="food-price-01 options-price">
+                        <div class="font-weight-bold h6"> {{$option['key']}}: {{ number_format($option['value']) }} {{$settings->currency}}</div>
                         {{-- <span class="ml-2 old-price-01"
                         style="text-decoration: line-through;font-size:17px;font-weight:bolder;padding-right: 10px">{{($item->old_price) ? $item->old_price : ''}}</span> --}}
                     </div>

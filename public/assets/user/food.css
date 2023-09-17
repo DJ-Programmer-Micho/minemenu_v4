@@ -13,7 +13,8 @@ Food UI/UX-01
     position: relative;
 }
 
-[lang="ar"] .food_item-01 {
+[lang="ar"] .food_item-01,
+[lang="ku"] .food_item-01 {
     text-align: right;
     direction: rtl;
 }
@@ -31,8 +32,14 @@ Food UI/UX-01
 
 .food-desc-01 {
     color: var(--category-description-color);
+    text-decoration: none;
 }
-[lang="ar"] .food-text-01 {
+.food-desc-01 p {
+    color: var(--category-description-color);
+    text-decoration: none;
+}
+[lang="ar"] .food-text-01,
+[lang="ku"] .food-text-01 {
     margin-right: 10px;
 }
 
@@ -48,6 +55,7 @@ Food UI/UX-01
 .food-img-01 img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 
 .food-price-01 {
@@ -57,7 +65,15 @@ Food UI/UX-01
 .old-price-01 {
     color: var(--category-old-price-color);
 }
-
+[lang="ar"] .food-price-01,
+[lang="ku"] .food-price-01 {
+    direction: ltr;
+}
+[lang="ar"] .options-price,
+[lang="ku"] .options-price {
+    text-align: right;
+    direction: rtl;
+}
 .card-01 {
     background-color: var(--category-card-background-color);
     border-radius: 24px 24px 6px 6px;
@@ -79,7 +95,30 @@ Food UI/UX-01
 .special_card {
     width: 70px;
     position: absolute;
-    z-index: 9999;
+    z-index: 997;
+    top: 10px;
+    left: 10px;
+}
+
+/************
+Food UI/UX-03
+************/
+.food-img-03 {
+    width: 100%;
+    background-position: 50%;
+    overflow: hidden;
+    position: relative;
+}
+.food-img-03 img {
+    border-radius: 20px;
+    width: 100%;
+    min-height: 140px;
+    object-fit: cover;
+}
+.special_card-03 {
+    width: 50px;
+    position: absolute;
+    z-index: 997;
     top: 10px;
     left: 10px;
 }

@@ -37,11 +37,26 @@ class Header01Component extends Component
     public function render(): View|Closure|string
     {
         if ($this->ui == '01') {
-            return view('user.components.headers.Header01',['cart_count' => $this->cartcount, 'setting' => $this->setting,'restName'=> $this->rest_name, 'cover_id' => $this->coverid]);
+            return view('user.components.headers.Header01',[
+                'cart_count' => $this->cartcount, 
+                'setting' => $this->setting,
+                'restName'=> $this->rest_name, 
+                'cover_id' => $this->coverid
+            ]);
         } else if ($this->ui == '02') {
-            return view('user.components.headers.Header02',['cart_count' => $this->cartcount, 'setting' => $this->setting]);
+            return view('user.components.headers.Header02',[
+                'cart_count' => $this->cartcount, 
+                'setting' => $this->setting,
+                'restName'=> $this->rest_name, 
+                'cover_id' => $this->coverid
+            ]);
         } else {
-            return view('user.components.headers.Header03',['cart_count' => $this->cartcount, 'setting' => $this->setting]);
+            return view('user.components.headers.Header03',[
+                'cart_count' => $this->cartcount, 
+                'setting' => $this->setting,
+                'restName'=> $this->rest_name, 
+                'cover_id' => $this->coverid
+            ]);
         }
     }
 }

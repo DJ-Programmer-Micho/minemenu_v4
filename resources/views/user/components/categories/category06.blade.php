@@ -1,6 +1,6 @@
 <div class="row py-0 my-0">
-    @forelse ($categoryData as $item)
-    <div class="col-md-6 col-md-4 px-1 py-0">
+    @forelse ($categoryData as  $index => $item)
+    <div class="col-{{ ($index % 4) === 0 ? '12' : '4' }} px-1 py-0">
         <a href="{{url()->current()}}/cat/{{$item->id}}">
             <div class="cat_item-01" style=" background-image: url('{{app('cloudfront').$item->img}}')">
                 <div class="overlay-01">

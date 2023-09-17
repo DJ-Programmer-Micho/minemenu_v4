@@ -1,15 +1,14 @@
 @php
 $currentOptions = $options[$glang] ?? []; // Get options for the current language or default to an empty array
 @endphp
-
 <div class="col-md-12">
     <div class="row">
         <div class="col-6 mt-2">
-            <h6 class="old-price-detail-01" style="text-decoration: line-through;">{{$offerAction->old_price . ' ' .  $settings->currency}}</h6>
+            <h6 class="old-price-detail-01" style="text-decoration: line-through;">{{($offerAction->old_price) ? $offerAction->old_price .' '.$settings->currency : ''}}</h6>
             <h6 class="price-detail-01">{{$offerAction->price . ' ' .  $settings->currency}}</h6>
         </div>
         <div class="col-6">
-            <div class="d-flex align-items-center justify-content-end">
+            <div class="d-flex align-items-center justify-content-end price-box">
                 <button class="btn btn-sm btn-dark" wire:click="decreaseQuantity('{{ $offerAction->id }}', 'null', 'null')">
                     <i class="fas fa-minus"></i>
                 </button>
@@ -25,6 +24,5 @@ $currentOptions = $options[$glang] ?? []; // Get options for the current languag
         </div>
     </div>
 </div>
-    </div> {{-- Parent div --}}
 
 

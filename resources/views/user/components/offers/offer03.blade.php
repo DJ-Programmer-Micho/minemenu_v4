@@ -1,7 +1,12 @@
 <div>
 @if ($offerData)
-<h4 class="offer-title-text">{{__('Offers')}}</h4>
-<div class="offer-slider py-0 mb-4">
+<style>
+    .place-body {
+    margin-top: -30px;
+    border-radius: 15px 15px 0px 0px;
+}
+</style>
+<div class="offer-slider py-0 mb-4" style="margin-top: -20px">
         @forelse ($offerData as $item)
         <div class="py-0"
             <a href="{{url()->current()}}/offer/{{$item->id}}">

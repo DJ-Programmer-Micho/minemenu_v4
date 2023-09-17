@@ -1,22 +1,10 @@
 /************
-GENERAL
-************/
-#rest-title {
-    color: var(--title-color);
-}
-/************
-title UI/UX-01
-************/
-[lang="ar"] .title-lang-01 {
-    padding-right: 5px;
-}
-
-/************
 facilities UI/UX-01
 ************/
-[lang="ar"] .facilities-01 {
-    text-align: right;
-    direction: rtl;
+[lang="ar"] .title-lang-01,
+[lang="ku"] .title-lang-01 {
+    padding-right: 5px;
+    /* direction: ltr; */
 }
 
 .facilities-01 {
@@ -60,4 +48,47 @@ facilities UI/UX-01
 .phone-number-01:hover {
     color: var(--theme-color);
     text-decoration: none !important;
+}
+
+/************
+facilities UI/UX 02
+************/
+.facilities-02 {
+    padding: 15px;
+    background-color: var(--navbar-top-color);
+}
+#rest-title-02 {
+    color: var(--navbar-title-color);
+}
+.info-02 {
+    margin-top: 15px;
+    color: var(--navbar-text-color) !important;
+}
+.info-02 a {
+    color: var(--navbar-text-color) !important;
+}
+/************
+facilities UI/UX 03
+************/
+.facilities-03 {
+    padding: 15px;
+    background-color: var(--navbar-top-color);
+    margin-bottom: -45px;
+}
+.toggle-icon-03 {
+    color: var(--navbar-toggle-color);
+}
+/* margin-bottom: -45px; */
+#rest-title-02 {
+    color: var(--navbar-title-color);
+}
+.info-02 {
+    margin-top: 15px;
+    color: var(--navbar-text-color) !important;
+}
+.info-02 a {
+    color: var(--navbar-text-color) !important;
+}
+.place-body {
+    margin-bottom: 50px;
 }

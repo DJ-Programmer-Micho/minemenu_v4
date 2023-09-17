@@ -10,25 +10,26 @@
                 </div>
                 <div class="img-head-01">
                     <div class="content-01">
-                        <img src="{{app('cloudfront').$foodData->img}}" alt="slide image" class="img-top-01">
+                        <img src="{{app('cloudfront').$offerData->img}}" alt="slide image" class="img-top-01">
                     </div>
                 </div>
             </div>
             <div class="content-section">
                 <div class="row">
                     <div class="col-md-12">
-                        <h2 class="title mb-5">{{$foodData->translation->name}}</h2>
+                        <h2 class="title mb-5">{{$offerData->translation->name}}</h2>
                     </div>
-                    <livewire:cart.food-cart-livewire :foodcartdata="$foodData" :setting="$settings" :glang="$glang" />
-                    <div class="description mt-5">
+                    <div class="description mb-5">
                         <div class="tab">
-                            <a>{{__('Description')}}</a>
+                            <a>Description</a>
                         </div>
                         <p class="text">
-                            {{$foodData->translation->description}}
+                            {{$offerData->translation->description}}
                         </p>
                     </div>
+                    <livewire:cart.offer-cart-livewire :offercartdata="$offerData" :setting="$settings" :glang="$glang" />
                 </div>
+                <div class="mb-5"></div>
             </div>
         </div>
     </div>

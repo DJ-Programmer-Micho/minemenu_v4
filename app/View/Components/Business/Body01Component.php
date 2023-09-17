@@ -28,7 +28,7 @@ class Body01Component extends Component
         $this->rest_name = $user->name;
         $this->setting = $setting;
         $this->ui = $ui;
-        $this->ui_select = $ui[0];
+        $this->ui_select = $ui[10] ?? 01;
     }
 
     /**

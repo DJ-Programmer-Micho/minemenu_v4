@@ -25,7 +25,7 @@ class Offer01Component extends Component
         $this->glang = app('glang');
         $this->user_id = $user;
         $this->ui = $ui;
-        $this->ui_select = $ui[0];
+        $this->ui_select = $ui[2] ?? 01;
 
     }
     /**
@@ -37,6 +37,7 @@ class Offer01Component extends Component
             $query->where('lang', $this->glang);
         }])
         ->where('user_id', $this->user_id )
+        ->where('status', 1)
         ->orderBy('priority', 'ASC')
         ->get();
         // ->paginate(10);
@@ -44,9 +45,11 @@ class Offer01Component extends Component
         if ($this->ui_select == '01') {
             return view('user.components.offers.offer01',['offerData' => $offerData]);
         } else if ($this->ui_select == '02') {
-            return view('user.components.offers.offer02');
+            return view('user.components.offers.offer02',['offerData' => $offerData]);
+        } else if ($this->ui_select == '03'){
+            return view('user.components.offers.offer03',['offerData' => $offerData]);
         } else {
-            return view('user.components.offers.offer03');
+            return view('user.components.offers.offer04',['offerData' => $offerData]);
         }
         
     }

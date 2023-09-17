@@ -52,3 +52,20 @@ Category UI/UX-01
 .slick-list {
     margin: 0 -5px;
 }
+.offer-title-text {
+    text-align: center;
+    color: var(--main-theme-text-color);
+    margin: 0;
+}
+/************
+Category UI/UX-02
+************/
+.offer-cat-item-02 {
+    height: 180px;
+    width: 100%;
+    border-radius: 18px;
+    margin-top: 10px;
+    background-position: 50%;
+    background-size: cover;
+    overflow: hidden;
+}

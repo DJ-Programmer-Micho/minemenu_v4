@@ -18,7 +18,7 @@ nav-pills UI/UX-01
 }
 .container-fluid .box2 .box .top-image-container {
     width: 100%;
-    height: 340px;
+    height: 320px;
     border-radius: 30px;
     position: relative;
     margin-top: -0.65rem;
@@ -72,6 +72,7 @@ nav-pills UI/UX-01
     color: var(--food-price-value);
 }
 .price-detail-01 {
+    font-size: 20px;
     color: var(--food-price);
 }
 .old-price-detail-01 {
@@ -209,7 +210,7 @@ nav-pills UI/UX-01
     height: 20px;
     width: 20px;
     font-weight: bold;
-    z-index: 1050;
+    z-index: 998;
 }
 
 .plus-minus {
@@ -292,4 +293,50 @@ input[type="number"] {
     color: var(--food-button-text);
     background-color: var(--food-button-background);
     border-color: var(--food-button-text);
+}
+
+[lang="ar"] .container-fluid .box2 .box .content-section .title,
+[lang="ku"] .container-fluid .box2 .box .content-section .title {
+    text-align: right;
+    direction: rtl;
+}
+[lang="ar"] .price-box,
+[lang="ku"] .price-box {
+    text-align: right;
+    direction: rtl;
+}
+[lang="ar"] .price-detail-01,
+[lang="ku"] .price-detail-01 {
+    text-align: right;
+    direction: ltr;
+}
+[lang="ar"] .old-price-detail-01,
+[lang="ku"] .old-price-detail-01 {
+    text-align: right;
+    direction: ltr;
+}
+
+[lang="ar"] .description,
+[lang="ku"] .description {
+    text-align: right;
+    direction: rtl;
+}
+[lang="ar"]
+    .container-fluid
+    .box2
+    .box
+    .content-section
+    .description
+    .tab
+    a:first-child::before,
+[lang="ku"]
+    .container-fluid
+    .box2
+    .box
+    .content-section
+    .description
+    .tab
+    a:first-child::before {
+    right: 0;
+    left: auto;
 }

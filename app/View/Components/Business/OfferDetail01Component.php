@@ -31,7 +31,7 @@ class OfferDetail01Component extends Component
         $this->user_id = $user;
         $this->glang = app('glang');
         $this->ui = $ui;
-        $this->ui_select = $ui[0];
+        $this->ui_select = $ui[7] ?? 01;
         $this->settings = $settings;
         $this->setting_name = $settingname;
         // Initialize the categoryData based on menuId
@@ -42,8 +42,12 @@ class OfferDetail01Component extends Component
 
     private function initializeFoodData()
     {
-        // Implement your data fetching logic using the provided $menuId
-        $this->offerData = Offer::where('id', $this->detail)->with('translation')->first();
+        $this->offerData = Offer::with(['translation' => function ($query) {
+            $query->where('lang', $this->glang);
+        }])
+        ->where('id', $this->detail)
+        ->where('status', 1)
+        ->first();
     }
     /**
      * Get the view / contents that represent the component.
@@ -53,9 +57,11 @@ class OfferDetail01Component extends Component
         if ($this->ui_select == '01') {
             return view('user.components.offerDetails.offerDetail01',['offerData' => $this->offerData]);
         } else if ($this->ui_select == '02') {
-            return view('user.components.offers.offer02');
+            return view('user.components.offerDetails.offerDetail02',['offerData' => $this->offerData]);
+        } else if ($this->ui_select == '03') {
+            return view('user.components.offerDetails.offerDetail03',['offerData' => $this->offerData]);
         } else {
-            return view('user.components.offers.offer03');
+            return view('user.components.offerDetails.offerDetail04',['offerData' => $this->offerData]);
         }
         
     }

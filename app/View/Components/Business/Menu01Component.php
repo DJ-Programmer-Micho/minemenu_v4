@@ -24,7 +24,7 @@ class Menu01Component extends Component
         $this->glang = app('glang');
         $this->user_id = $user;
         $this->ui = $ui;
-        $this->ui_select = $ui[0];
+        $this->ui_select = $ui[3] ?? 01;
 
     }
     /**
@@ -36,6 +36,7 @@ class Menu01Component extends Component
             $query->where('lang', $this->glang);
         }])
         ->where('user_id', $this->user_id )
+        ->where('status', 1)
         ->get();
         // ->orderBy('priority', 'ASC')
         // ->paginate(10);

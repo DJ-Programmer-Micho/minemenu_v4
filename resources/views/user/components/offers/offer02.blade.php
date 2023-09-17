@@ -1,0 +1,32 @@
+<div>
+@if ($offerData)
+<h4 class="offer-title-text">{{__('Offers')}}</h4>
+<div class="offer-slider py-0 mb-4">
+    @if (count($offerData) > 1)
+        @foreach ($offerData as $item)
+        <div class="col-6 col-lg-6 px-1">
+            <a href="{{url()->current()}}/offer/{{$item->id}}">
+                <div class="offer-cat-item-02" style=" background-image: url('{{app('cloudfront').$item->img}}')">
+                    <div class="offer-overlay-01">
+                        <h4>{{$item->translation->name}}</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+        @endforeach
+    @else
+        @foreach ($offerData as $item)
+        <div class="col-12 px-1">
+            <a href="{{url()->current()}}/offer/{{$item->id}}">
+                <div class="offer-cat-item-02" style=" background-image: url('{{app('cloudfront').$item->img}}')">
+                    <div class="offer-overlay-01">
+                        <h4>{{$item->translation->name}}</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+        @endforeach
+    @endif
+</div>
+@endif
+</div>

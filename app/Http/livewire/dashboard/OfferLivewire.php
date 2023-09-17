@@ -275,7 +275,7 @@ class OfferLivewire extends Component
                 where(function ($query) {
                     $query->where('name', 'like', '%' . $this->search . '%')
                         ->orWhere('offer_id', 'like', '%' . $this->search . '%');
-                });
+            });
         })
         ->orderBy('priority', 'ASC')
         ->paginate(10);

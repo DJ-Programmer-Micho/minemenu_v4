@@ -95,3 +95,98 @@ nav-pills UI/UX-01
     user-select: none;
     pointer-events: none;
 }
+
+/************
+nav-pills UI/UX-02
+************/
+.nav-pills-02 .nav-link-02 {
+    margin-left: 5px;
+    /* height: 50px; */
+    font-weight: bold;
+    color: var(--main-theme-text-color);
+    background-color: var(--main-theme-backgroud-color);
+}
+
+[lang="ar"],
+[lang="ku"] .nav-pills-02 {
+    text-align: right;
+    direction: rtl;
+    padding-inline-start: 4px !important;
+}
+
+.nav-pills-02 .nav-link-02.active {
+    color: var(--main-theme-text-active-color);
+    background-color: var(--main-theme-background-active-color);
+}
+.wrapper-02 {
+    position: relative;
+    overflow-x: hidden;
+    max-width: 770px;
+    border-radius: 13px;
+}
+[lang="ar"],
+[lang="ku"] .wrapper-02 {
+    text-align: right;
+    direction: rtl;
+}
+
+[lang="ar"],
+[lang="ku"] .tabs-box-02 .tab-02 {
+    text-align: right;
+    direction: rtl;
+}
+
+.wrapper-02 .tabs-box-02 {
+    display: flex;
+    list-style: none;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+}
+.wrapper-02 .tabs-box-02::-webkit-scrollbar {
+    display: none;
+}
+.wrapper-02 .tabs-box-02 {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.tabs-box-02.dragging {
+    scroll-behavior: auto;
+    cursor: grab;
+}
+.tabs-box-02 .tab-02 {
+    cursor: pointer;
+    font-size: 1.18rem;
+    white-space: nowrap;
+    /* padding: 8px 10px; */
+    border-radius: 30px;
+}
+.tabs-box-02 .tab-02 .nav-link-02 {
+    margin-left: 5px;
+    padding: 5px;
+    font-weight: bold;
+    color: var(--main-theme-text-color);
+    background-color: var(--main-theme-backgroud-color);
+}
+[lang="ar"],
+[lang="ku"].wrapper-02 {
+    text-align: right;
+    direction: rtl;
+}
+
+[lang="ar"],
+[lang="ku"] .tabs-box-02 .tab-02 {
+    text-align: right;
+    direction: rtl;
+}
+
+.tabs-box-02 .tab-02 .nav-link-02.active {
+    color: var(--main-theme-text-active-color);
+    background-color: var(--main-theme-background-active-color);
+    border-bottom: 1px solid var(--main-theme-text-color);
+}
+
+.tabs-box-02.dragging .tab-02 {
+    user-select: none;
+    pointer-events: none;
+}

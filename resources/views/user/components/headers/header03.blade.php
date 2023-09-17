@@ -2,14 +2,18 @@
     @if(request()->is($restName.'/*'))
     <style>
         .cart-butt-detail-01 {
-            top: 15px!important;
-            left: 108px!important;
+            top: 120px!important;
+            left: 12px!important;
             right: auto!important;
         }
         .badge-notification[data-count]:after {
-            top: 6px!important;
-            left: 130px!important;
+            top: 114px!important;
+            left: 32px!important;
             right: auto!important;
+        }
+        .home-butt-01 {
+            top: 68px;
+            left: 12px;
         }
     </style>
     @else
@@ -21,7 +25,7 @@
         }
         .badge-notification[data-count]:after {
             top: 6px!important;
-            left: 34px!important;
+            left: 12px!important;
             right: auto!important;
         }
     </style>
@@ -33,7 +37,7 @@
     @endif
 
     @if(request()->is($restName.'/*'))
-    <a class="back-butt-01" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
+    <a class="back-butt-01" href="{{ route('business.home', ['business_name' => $restName])}}"><i class="fas fa-arrow-left"></i></a>
     <a class="home-butt-01" href="{{ route('business.home', ['business_name' => $restName])}}"><i class="fas fa-home"></i></a>
     @endif
     <livewire:cart.food-cart-counter-livewire :glang="app()->getLocale()" :setting="$setting"/>

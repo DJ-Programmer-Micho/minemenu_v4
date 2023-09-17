@@ -113,7 +113,7 @@
 <div class="master-container">
 
     {{-- @if (count(request()->segments()) <= 3) --}}
-    <x-business.Facilities01Component :settingname="$setting_name" :setting="$setting" :filteredlocales="$filteredLocales" :ui="$ui"/>
+    <x-business.Facilities01Component :settingname="$setting_name" :settingaddress="$setting_address" :setting="$setting" :filteredlocales="$filteredLocales" :ui="$ui"/>
     {{-- @endif --}}
     <div class="place-header">
         <x-business.header01component :user="$user" :ui="$ui" :setting="$setting" :coverid="$cover_id ?? null"/>

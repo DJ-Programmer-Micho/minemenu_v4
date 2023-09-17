@@ -36,8 +36,9 @@ class BusinessController extends Controller
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $color = json_decode($setting->ui_color);
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
-        $ui = ['01','01','01','01'];
-        // $ui = [Header, Menu, Category, Food]
+        $setting_address = $setting->translations->where('locale', app('glang'))->first()->address;
+        $ui = ['01','03','04','02','07','03','02'];
+        // $ui = [Navbar, Header, Offer, Menu, Caegory, Food, Details]
 
         if (!$user) {
             return response('User not found', 404);
@@ -48,6 +49,7 @@ class BusinessController extends Controller
             'user' => $user,
             'setting' => $setting,
             'setting_name' => $setting_name,
+            'setting_address' => $setting_address,
             'color' => $color,
             'ui' => $ui,
         ]);
@@ -57,13 +59,15 @@ class BusinessController extends Controller
         $user = User::where('name', $business_name)->first();
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
+        $setting_address = $setting->translations->where('locale', app('glang'))->first()->address;
         $color = json_decode($setting->ui_color);
         $cover_id = $foodId;
-        $ui = ['01','01','01','01'];
+        $ui = ['01','03','04','02','07','03','02'];
         return view('user.layouts.food_list', [
             'user' => $user,
             'setting' => $setting,
             'setting_name' => $setting_name,
+            'setting_address' => $setting_address,
             'foodId' => $foodId,
             'color' => $color,
             'ui' => $ui,
@@ -75,12 +79,14 @@ class BusinessController extends Controller
         $user = User::where('name', $business_name)->first();
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
+        $setting_address = $setting->translations->where('locale', app('glang'))->first()->address;
         $color = json_decode($setting->ui_color);
-        $ui = ['01','01','01','01'];
+        $ui = ['01','03','04','02','07','03','04'];
         return view('user.layouts.food_detail', [
             'user' => $user,
             'setting' => $setting,
             'setting_name' => $setting_name,
+            'setting_address' => $setting_address,
             'detail' => $detail,
             'color' => $color,
             'ui' => $ui,
@@ -91,13 +97,15 @@ class BusinessController extends Controller
         $user = User::where('name', $business_name)->first();
         $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name;
+        $setting_address = $setting->translations->where('locale', app('glang'))->first()->address;
         $color = json_decode($setting->ui_color);
-        $ui = ['01','01','01','01'];
+        $ui = ['01','03','04','02','07','03','04','04'];
 
         return view('user.layouts.offer_detail', [
             'user' => $user,
             'setting' => $setting,
             'setting_name' => $setting_name,
+            'setting_address' => $setting_address,
             'detail' => $detail,
             'color' => $color,
             'ui' => $ui,
