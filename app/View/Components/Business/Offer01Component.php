@@ -24,8 +24,8 @@ class Offer01Component extends Component
     {
         $this->glang = app('glang');
         $this->user_id = $user;
-        $this->ui = $ui;
-        $this->ui_select = $ui[2] ?? 01;
+        $this->ui = json_decode($ui);
+        $this->ui_select = $this->ui[3] ?? 01;
 
     }
     /**

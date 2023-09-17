@@ -21,11 +21,11 @@ class Menu01Component extends Component
 
     public function __construct($user, $ui)
     {
+  
         $this->glang = app('glang');
         $this->user_id = $user;
-        $this->ui = $ui;
-        $this->ui_select = $ui[3] ?? 01;
-
+        $this->ui = json_decode($ui);
+        $this->ui_select = $this->ui[3] ?? 01;
     }
     /**
      * Get the view / contents that represent the component.
@@ -43,10 +43,8 @@ class Menu01Component extends Component
 
         if ($this->ui_select == '01') {
             return view('user.components.menus.menu01',['menuData' => $menuData]);
-        } else if ($this->ui_select == '02') {
-            return view('user.components.menus.menu02',['menuData' => $menuData]);
         } else {
-            return view('user.components.menus.menu03',['menuData' => $menuData]);
+            return view('user.components.menus.menu02',['menuData' => $menuData]);
         }
         
     }

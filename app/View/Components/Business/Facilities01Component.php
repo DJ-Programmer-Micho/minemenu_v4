@@ -27,8 +27,8 @@ class Facilities01Component extends Component
         $this->settingname = $settingname;
         $this->settingaddress = $settingaddress;
         $this->setting = $setting;
-        $this->ui = $ui;
-        $this->ui_select = $ui[0];
+        $this->ui = json_decode($ui);
+        $this->ui_select = $this->ui[0] ?? 01;
     }
 
     /**

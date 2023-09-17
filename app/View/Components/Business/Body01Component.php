@@ -28,7 +28,7 @@ class Body01Component extends Component
         $this->rest_name = $user->name;
         $this->setting = $setting;
         $this->ui = $ui;
-        $this->ui_select = $ui[10] ?? 01;
+        $this->ui_select =  01;
     }
 
     /**
@@ -43,22 +43,6 @@ class Body01Component extends Component
                 'user_id' => $this->user_id,
                 'glang' => $this->glang,
                 'ui' => $this->ui
-            ]);
-        } else if ($this->ui_select == '02') {
-            return view('user.components.bodies.body02',[
-                'settings' => $this->setting,
-                'name' => $this->rest_name,
-                'user_id' => $this->user_id,
-                'glang' => $this->glang,
-                'ui' => $this->ui
-            ]);
-        } else {
-            return view('user.components.bodies.body03',[
-                'settings' => $this->setting,
-                'name' => $this->rest_name,
-                'user_id' => $this->user_id,
-                'glang' => $this->glang,
-                'ui' => $this->ui,
             ]);
         }
     }
