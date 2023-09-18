@@ -34,57 +34,59 @@
     @livewireStyles
     <style>
         :root{
-            /* Navbar */
-            --navbar-title-color: @php echo ($color->selectedNavbarTitle) ?? 'blue'; @endphp ;
-            --navbar-toggle-color: @php echo ($color->selectedNavbarToggle) ?? 'blue'; @endphp ;
-            --navbar-top-color: @php echo ($color->selectedNavbarTop) ?? 'blue'; @endphp ;
-            --navbar-sub-title-color: @php echo ($color->selectedNavbarSubTitle) ?? 'blue'; @endphp ;
-            --navbar-text-color: @php echo ($color->selectedNavbarText) ?? 'blue'; @endphp ;
-            --navbar-top-ground-color: @php echo ($color->selectedNavbarTopGround) ?? 'blue'; @endphp ;
-            --navbar-bottom-ground-color: @php echo ($color->selectedNavbarBottomGround) ?? 'blue'; @endphp ;
-            /* Main Group */
-            --main-background-color: @php echo ($color->selectedMainBackground) ?? 'blue'; @endphp ;
-            --main-body-color: @php echo ($color->selectedMainBody) ?? 'blue'; @endphp ;
-            --main-theme-text-color: @php echo ($color->selectedMainThemeText) ?? 'blue'; @endphp ;
-            --main-theme-backgroud-color: @php echo ($color->selectedMainThemeBackgroud) ?? 'blue'; @endphp ;
-            --main-theme-text-active-color: @php echo ($color->selectedMainThemeTextActive) ?? 'blue'; @endphp ;
-            --main-theme-background-active-color: @php echo ($color->selectedMainThemeBackgroudActive) ?? 'blue'; @endphp ;
-            --main-theme-border-active-color: @php echo ($color->selectedMainThemeBorder) ?? 'blue'; @endphp ;
-            --main-card-text-color: @php echo ($color->selectedMainCardText) ?? 'blue'; @endphp ;
-            --main-card-opacity-color: @php echo ($color->selectedMainCardOpacity) ?? 'blue'; @endphp ;
-            /* Cart Group */
-            --cart-icon-color: @php echo ($color->selectedCartIcon) ?? 'blue'; @endphp ;
-            --cart-back-icon-color: @php echo ($color->selectedCartBackIcon) ?? 'blue'; @endphp ;
-            --cart-noti-color: @php echo ($color->selectedCartNoti) ?? 'blue'; @endphp ;
-            --cart-back-noti-color: @php echo ($color->selectedCartBackNoti) ?? 'blue'; @endphp ;
-            --cart-text-color: @php echo ($color->selectedCartText) ?? 'blue'; @endphp ;
-            --cart-background-color: @php echo ($color->selectedCartBackground) ?? 'blue'; @endphp ;
-            --cart-reset-text-color: @php echo ($color->selectedCartResetText) ?? 'blue'; @endphp ;
-            --cart-reset-backgound-color: @php echo ($color->selectedCartResetBackgound) ?? 'blue'; @endphp ;
-            --cart-close-text-color: @php echo ($color->selectedCartCloseText) ?? 'blue'; @endphp ;
-            --cart-close-backgound-color : @php echo ($color->selectedCartCloseBackgound) ?? 'blue'; @endphp ;
-            /* Category Group */
-            --category-title-color: @php echo ($color->selectedCategoryTitle) ?? 'red'; @endphp ;
-            --category-description-color: @php echo ($color->selectedCategoryDescription) ?? 'blue'; @endphp ;
-            --category-price-color: @php echo ($color->selectedCategoryPrice) ?? 'blue'; @endphp ;
-            --category-old-price-color: @php echo ($color->selectedCategoryOldPrice) ?? 'blue'; @endphp ;
-            --category-card-background-color: @php echo ($color->selectedCategoryCardBackground) ?? 'blue'; @endphp ;
-            --category-shadow-color: @php echo ($color->selectedCategoryShabow) ?? 'blue'; @endphp ;
-            /* Food Detail Group */
-            --food-background:  @php echo ($color->selectedFoodBackground) ?? 'red'; @endphp ;
-            --food-title:  @php echo ($color->selectedFoodTitle) ?? 'red'; @endphp ;
-            --food-description:  @php echo ($color->selectedFoodDescription) ?? 'red'; @endphp ;
-            --food-price:  @php echo ($color->selectedFoodPrice) ?? 'red'; @endphp ;
-            --food-price-key:  @php echo ($color->selectedFoodPriceKey) ?? 'red'; @endphp ;
-            --food-price-value:  @php echo ($color->selectedFoodPriceValue) ?? 'red'; @endphp ;
-            --food-old-price:  @php echo ($color->selectedFoodOldPrice) ?? 'red'; @endphp ;
-            --food-button-text:  @php echo ($color->selectedFoodButtonText) ?? 'red'; @endphp ;
-            --food-button-background:  @php echo ($color->selectedFoodButtonBackground) ?? 'red'; @endphp ;
-            --food-image-shadow:  @php echo ($color->selectedFoodImageShadow) ?? 'red'; @endphp ;
-            --food-image-shadow-opacity:  @php echo ($color->selectedFoodImageShadowOpacity) ?? '0.25'; @endphp ;
-            /* Utilities Group */
-            --utl-icon-color: @php echo ($color->selectedUtlIconColor) ?? 'blue'; @endphp ;
-            --utl-icon-background: @php echo ($color->selectedUtlIconBackground) ?? 'blue'; @endphp ;
+        /* Navbar */
+        --navbar-title-color: {{ $color->selectedNavbarTitle ?? '#cc0022' }};
+        --navbar-toggle-color: {{ $color->selectedNavbarToggle ?? '#000000' }};
+        --navbar-top-color: {{ $color->selectedNavbarTop ?? '#ffffff' }};
+        --navbar-sub-title-color: {{ $color->selectedNavbarSubTitle ?? '#b97e87' }};
+        --navbar-text-color: {{ $color->selectedNavbarText ?? '#766fa8' }};
+        --navbar-top-ground-color: {{ $color->selectedNavbarTopGround ?? '#766fa8' }};
+        --navbar-bottom-ground-color: {{ $color->selectedNavbarBottomGround ?? '#766fa8' }};
+        /* Main Group */
+        --main-background-color: {{ $color->selectedMainBackground ?? '#ffffff' }};
+        --main-body-color: {{ $color->selectedMainBody ?? '#b8b8b8' }};
+        --main-theme-text-color: {{ $color->selectedMainThemeText ?? '#cc0022' }};
+        --main-theme-background-color: {{ $color->selectedMainThemeBackgroud ?? '#ffffff' }};
+        --main-theme-text-active-color: {{ $color->selectedMainThemeTextActive ?? '#cc0022' }};
+        --main-theme-background-active-color: {{ $color->selectedMainThemeBackgroundActive ?? '#ffffff' }};
+        --main-theme-border-active-color: {{ $color->selectedMainThemeBorder ?? '#cc0022' }};
+        --main-card-text-color: {{ $color->selectedMainCardText ?? '#ffffff' }};
+        --main-card-opacity-color: {{ $color->selectedMainCardOpacity ?? '0.3' }};
+        /* Cart Group */
+        --cart-icon-color: {{ $color->selectedCartIcon ?? '#ffffff' }};
+        --cart-back-icon-color: {{ $color->selectedCartBackIcon ?? '#333234' }};
+        --cart-noti-color: {{ $color->selectedCartNoti ?? '#ffffff' }};
+        --cart-back-noti-color: {{ $color->selectedCartBackNoti ?? '#cc0022' }};
+        --cart-text-color: {{ $color->selectedCartText ?? '#000000' }};
+        --cart-background-color: {{ $color->selectedCartBackground ?? '#ffffff' }};
+        --cart-reset-text-color: {{ $color->selectedCartResetText ?? '#ffffff' }};
+        --cart-reset-backgound-color: {{ $color->selectedCartResetBackgound ?? '#cc0022' }};
+        --cart-close-text-color: {{ $color->selectedCartCloseText ?? '#ffffff' }};
+        --cart-close-backgound-color: {{ $color->selectedCartCloseBackgound ?? '#cc0022' }};
+        /* Category Group */
+        --category-title-color: {{ $color->selectedCategoryTitle ?? '#cc0022' }};
+        --category-description-color: {{ $color->selectedCategoryDescription ?? '#000000' }};
+        --category-price-color: {{ $color->selectedCategoryPrice ?? '#000000' }};
+        --category-old-price-color: {{ $color->selectedCategoryOldPrice ?? '#cc0022' }};
+        --category-card-background-color: {{ $color->selectedCategoryCardBackground ?? '#ffffff' }};
+        --category-shadow-color: {{ $color->selectedCategoryShabow ?? '#dedede' }};
+        --category-button-text-color: {{ $color->selectedCategoryButtonText ?? '#ffffff' }};
+        --category-button-background-color: {{ $color->selectedCategoryButtonBackground ?? '#cc0022' }};
+        /* Food Detail Group */
+        --food-background:  {{ ($color->selectedFoodBackground) ?? '#ffffff'}};
+        --food-title:  {{ ($color->selectedFoodTitle) ?? '#cc0022'}};
+        --food-description:  {{ ($color->selectedFoodDescription) ?? '#000000'}};
+        --food-price:  {{ ($color->selectedFoodPrice) ?? '#000000'}};
+        --food-price-key:  {{ ($color->selectedFoodPriceKey) ?? '#cc0022'}};
+        --food-price-value:  {{ ($color->selectedFoodPriceValue) ?? '#000000'}};
+        --food-old-price:  {{ ($color->selectedFoodOldPrice) ?? '#000000'}};
+        --food-button-text:  {{ ($color->selectedFoodButtonText) ?? '#ffffff'}};
+        --food-button-background:  {{ ($color->selectedFoodButtonBackground) ?? '#cc0022'}};
+        --food-image-shadow:  {{ ($color->selectedFoodImageShadow) ?? '#cc0022'}};
+        --food-image-shadow-opacity:  {{ ($color->selectedFoodImageShadowOpacity) ?? '0.1'}};
+        /* Utilities Group */
+        --utl-icon-color: {{ $color->selectedUtlIconColor ?? '#ffffff' }};
+        --utl-icon-background: {{ $color->selectedUtlIconBackground ?? '#323334' }};
         }
     </style>
     @stack('business_style')

@@ -125,8 +125,12 @@
                             {{__('Presets')}}
                         </h3>
                         <div class="mb-3 P">
-                            <button type="button" class="btn btn-danger mb-1" wire:click="fixedPreset('p1')">CLASSIC</button>
-                            <button type="button" class="btn btn-dark mb-1" wire:click="fixedPreset('p2')">DARK</button>
+                            <button type="button" class="btn mb-1" style="color:#ffffff; background-color: #cc0022; border-color: #ffffff;" wire:click="fixedPreset('p1')">CLASSIC</button>
+                            <button type="button" class="btn mb-1" style="color:#b0dcf6; background-color: #1b3165; border-color: #b0dcf6;" wire:click="fixedPreset('p2')">AQUA</button>
+                            <button type="button" class="btn mb-1" style="color:#f6f5e5; background-color: #cb4ccf; border-color: #f6f5e5;" wire:click="fixedPreset('p3')">NEON DARK</button>
+                            <button type="button" class="btn mb-1" style="color:#cba449; background-color: #004a40; border-color: #cba449;" wire:click="fixedPreset('p4')">NATURE</button>
+                            <button type="button" class="btn mb-1" style="color:#efeeef; background-color: #b22320; border-color: #efeeef;" wire:click="fixedPreset('p5')">RED MOON</button>
+                            <button type="button" class="btn mb-1" style="color:#ffffff; background-color: #0b983a; border-color: #ffffff;" wire:click="fixedPreset('p6')">ITALIANO</button>
                         </div>
                         <h3 class="text-white mt-3">
                             {{__('User Presets')}}
@@ -987,7 +991,7 @@
         myframe.documentElement.style.setProperty('--main-background-color', mainBackground);
         myframe.documentElement.style.setProperty('--main-body-color', mainBody);
         myframe.documentElement.style.setProperty('--main-theme-text-color', mainThemeText);   
-        myframe.documentElement.style.setProperty('--main-theme-backgroud-color', mainThemeBackground);
+        myframe.documentElement.style.setProperty('--main-theme-background-color', mainThemeBackground);
         myframe.documentElement.style.setProperty('--main-theme-text-active-color', mainThemeTextActive);   
         myframe.documentElement.style.setProperty('--main-theme-background-active-color', mainThemeBackgroundActive);
         myframe.documentElement.style.setProperty('--main-theme-border-active-color', mainThemeBorder);
@@ -1083,6 +1087,7 @@
     // Event listener for input changes
     $('.color-control').on('input', function() {
         applyColorToIframe();
+
     });
 
     // Event listener for iframe content load
@@ -1163,7 +1168,7 @@
                     cropper.destroy();
                 }
                 cropper = new Cropper(image, {
-                    aspectRatio: 1030 / 480,
+                    aspectRatio: 800 / 240,
                     viewMode: 1,
                     preview: '.preview'
                 });
@@ -1171,8 +1176,8 @@
     
             $('.crop-btn').off('click').on('click', function () {
                 var canvas = cropper.getCroppedCanvas({
-                    width: 640,
-                    height: 360
+                    width: 800,
+                    height: 240
                 });
     
                 canvas.toBlob(function (blob) {

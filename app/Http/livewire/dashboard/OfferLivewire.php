@@ -196,13 +196,14 @@ class OfferLivewire extends Component
 
     public function deleteOffer(int $offer_selected_id)
     {
+
         $this->offer_selected_id_delete = Offer::find($offer_selected_id);
         $this->offer_selected_name_delete = Offer_Translator::where('offer_id', $offer_selected_id)->where('lang', $this->glang)->first();
-        $this->showTextTemp = $this->food_selected_name_delete->name;
+        $this->showTextTemp = $this->offer_selected_name_delete->name;
         $this->confirmDelete = true;
     }
 
-    public function destroyfood()
+    public function destroyOffer()
     {
         if ($this->confirmDelete && $this->offerNameToDelete === $this->showTextTemp) {
             Offer::find($this->offer_selected_id_delete->id)->delete();

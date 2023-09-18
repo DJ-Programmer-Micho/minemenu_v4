@@ -183,7 +183,7 @@ nav-pills UI/UX-02
 .tabs-box-02 .tab-02 .nav-link-02.active {
     color: var(--main-theme-text-active-color);
     background-color: var(--main-theme-background-active-color);
-    border-bottom: 1px solid var(--main-theme-text-color);
+    border-bottom: 1px solid var(--main-theme-border-active-color);
 }
 
 .tabs-box-02.dragging .tab-02 {

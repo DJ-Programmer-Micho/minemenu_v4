@@ -25,8 +25,8 @@ class Food01Component extends Component
         $this->foodId = $foodId;
         $this->user = $user;
         $this->glang = app('glang');
-        $this->ui = $ui;
-        $this->ui_select = $ui[5] ?? 01;
+        $this->ui = json_decode($ui);
+        $this->ui_select = $this->ui[5] ?? 01;
         $this->settings = $settings;
         // Initialize the categoryData based on menuId
         $this->initializeFoodData();

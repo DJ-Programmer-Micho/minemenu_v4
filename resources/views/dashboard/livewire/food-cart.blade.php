@@ -35,16 +35,16 @@ $currentOptions = $options[$glang] ?? []; // Get options for the current languag
             <hr>
             @foreach ($currentOptions as $index => $option)
             <div class="row mb-3" wire:key="{{ $index }}">
-                <div class="col-6 my-auto">
+                <div class="col-6 my-auto price-box">
                     <h6 class="food-price-value-01"><span class="font-weight-bold food-price-key-01">{{$option['key']}}</span> : {{$option['value'] . ' ' . $settings->currency}}</h6>
                 </div>
                 <div class="col-6">
-                    <section class="text-white text-right ">
+                    <section class="d-flex align-items-center justify-content-end price-box">
                         <div class="plus-minus border border-white">
                             <button class="btn btn-sm btn-plus-minus" wire:click="decreaseQuantity('{{ $foodAction->id }}', '{{ $option['key'] }}', '{{$index}}')">
                                 <i class="fas fa-minus"></i>
                             </button>
-                            <input class="form-control mx-2 text-center" type="number" min="1" max="10"
+                            <input class="form-control mx-2 text-center" type="number" min="1" max="10" style="color: var(--food-title);"
                                 wire:model="quantity.{{ $foodAction->id . '.' . $index .'.' . $option['key'] }}" 
                                 value="{{ isset($previewQuantity[$foodAction->id][$index][$option['key']]) ? $previewQuantity[$foodAction->id][$index][$option['key']] : '0' }}"
                                 wire:change="addToCart('{{ $foodAction->id }}','{{$option['key']}}','{{$index}}')"

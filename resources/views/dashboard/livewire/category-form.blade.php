@@ -528,7 +528,7 @@
                     cropperCover.destroy();
                 }
                 cropperCover = new Cropper(image, {
-                    aspectRatio: 640 / 360,
+                    aspectRatio: 800 / 240,
                     viewMode: 1,
                     preview: '.preview-cover'
                 });
@@ -536,8 +536,8 @@
     
             $('.crop-btn-cover').off('click').on('click', function () {
                 var canvas = cropperCover.getCroppedCanvas({
-                    width: 640,
-                    height: 360
+                    width: 800,
+                    height: 240
                 });
     
                 canvas.toBlob(function (blob) {
