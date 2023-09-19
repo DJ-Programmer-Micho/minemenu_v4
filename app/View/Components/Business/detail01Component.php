@@ -15,6 +15,7 @@ class Detail01Component extends Component
      */
     public $detail;
     public $user;
+    public $restName;
     public $glang;
     public $foodData;
     public $settings;
@@ -28,6 +29,7 @@ class Detail01Component extends Component
     {
         $this->detail = $detail;
         $this->user = $user;
+        $this->restName = $user->name;
         $this->glang = app('glang');
         $this->ui = $ui;
         $this->ui_select = $ui[6] ?? 01;
@@ -57,28 +59,32 @@ class Detail01Component extends Component
                 'foodData' => $this->foodData, 
                 'settings' => $this->settings, 
                 'setting_name' => $this->setting_name, 
-                'cart_count' => $this->cartcount
+                'cart_count' => $this->cartcount,
+                'restName' => $this->restName
             ]);
         } else if ($this->ui_select == '02') {
             return view('user.components.details.detail02',[
                 'foodData' => $this->foodData, 
                 'settings' => $this->settings, 
                 'setting_name' => $this->setting_name, 
-                'cart_count' => $this->cartcount
+                'cart_count' => $this->cartcount,
+                'restName' => $this->restName
             ]);
         } else if ($this->ui_select == '03') {
             return view('user.components.details.detail03',[
                 'foodData' => $this->foodData, 
                 'settings' => $this->settings, 
                 'setting_name' => $this->setting_name, 
-                'cart_count' => $this->cartcount
+                'cart_count' => $this->cartcount,
+                'restName' => $this->restName
             ]);
         } else {
             return view('user.components.details.detail04',[
                 'foodData' => $this->foodData, 
                 'settings' => $this->settings, 
                 'setting_name' => $this->setting_name, 
-                'cart_count' => $this->cartcount
+                'cart_count' => $this->cartcount,
+                'restName' => $this->restName
             ]);
         }
     }

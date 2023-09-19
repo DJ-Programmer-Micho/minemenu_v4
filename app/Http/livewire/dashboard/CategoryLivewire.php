@@ -17,8 +17,7 @@ class CategoryLivewire extends Component
     use WithFileUploads;
  
     protected $paginationTheme = 'bootstrap';
- 
-    //general
+    //General
     public $lang;
     public $glang;
     public $category_id;
@@ -26,31 +25,41 @@ class CategoryLivewire extends Component
     public $category_selected_id_delete;
     public $category_selected_name_delete;
     public $category_update;
-    //utility
-    public $search = '';
-    public $mainmenuFilter = '';
-    public $statusFilter = '';
-    public $filteredLocales;
     //Form Data
-    public $imgFlag = false; 
-    public $objectName;
     public $menu_select;
     public $menu_id;
     public $names = [];
     public $status;
     public $priority;
-
+    //IMG INFO
+    public $imgReader;
+    public $objectName;
+    public $tempImg; 
+    public $objectNameCover;
+    public $imgReaderCover;
+    public $tempImgCover;
+    //utility
+    public $search = '';
+    public $mainmenuFilter = '';
+    public $statusFilter = '';
+    public $filteredLocales;
+    public $confirmDelete = false;
+    public $categoryNameToDelete = '';
+    public $showTextTemp = '';
+    // LISTENERS
     protected $listeners = [
         'updateCroppedCategoryImg' => 'handleCroppedImage',
-        'updateCroppedCategoryImgCover' => 'handleCroppedImageCover'
+        'updateCroppedCategoryImgCover' => 'handleCroppedImageCover',
+        'simulationCompleteImg' => 'handlesimulationCompleteImg',
+        'simulationCompleteCover' => 'handlesimulationCompleteCover'
     ];
 
+    //// ON LOAD
     public function mount()
     {
         $this->glang = app('glang');
         $this->filteredLocales = app('userlanguage');
-        // dd($this->filteredLocales);
-    }
+    } //END FUNCTION OF MOUNT
 
     protected function rules()
     {
@@ -63,58 +72,72 @@ class CategoryLivewire extends Component
         $rules['status'] = ['required'];
         $rules['objectName'] = ['required'];
         return $rules;
-    }
+    } // END FUNCTION OF RULES & VALIDATION
 
-    public $tempImg;
+    //// MAIN ENGIN
     public function handleCroppedImage($base64data)
     {
         if ($base64data){
             $microtime = str_replace('.', '', microtime(true));
             $this->objectName = 'rest/menu/1' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
-            $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64data));
             $this->tempImg = $base64data;
-            $this->imgFlag = true;
-            if( $this->imgReader){
-                Storage::disk('s3')->delete($this->imgReader);
-                Storage::disk('s3')->put($this->objectName, $croppedImage);
-            } else {
-                Storage::disk('s3')->put($this->objectName, $croppedImage);
-            }
-            
-            $this->emit('imageUploaded', $this->objectName);
+            $this->dispatchBrowserEvent('fakeProgressBarImg');
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Image did not crop!!!')]);
             return 'failed to crop image code...405';
         }
-    }
+    } // END FUNCTION OF HANDLING THE CROPPED IMG
 
-    public $objectNameCover;
-    public $imgReaderCover;
-    public $tempImgCover;
     public function handleCroppedImageCover($base64dataCover)
     {
         if ($base64dataCover){
             $microtime = str_replace('.', '', microtime(true));
             $this->objectNameCover = 'rest/menu/cover_' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
-            $croppedImageCover = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64dataCover));
             $this->tempImgCover = $base64dataCover;
-            if( $this->imgReaderCover){
-                Storage::disk('s3')->delete($this->imgReaderCover);
-                Storage::disk('s3')->put($this->objectNameCover, $croppedImageCover);
-            } else {
-                Storage::disk('s3')->put($this->objectNameCover, $croppedImageCover);
-            }
-            
-            $this->emit('imageUploaded', $this->objectNameCover);
+            $this->dispatchBrowserEvent('fakeProgressBarCover');
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Image did not crop!!!')]);
             return 'failed to crop image code...405';
         }
-    }
+    } // END FUNCTION OF HANDLING THE CROPPED COVER
 
     public function saveCategory()
     {
+        //Validate The Neccessary Data
         $validatedData = $this->validate();
+
+        if($validatedData){
+            try {
+                if($this->tempImg) {
+                    $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
+
+                    if( $this->imgReader){
+                        Storage::disk('s3')->delete($this->imgReader);
+                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+                    } else {
+                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+                    }
+                } else {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
+                    return;
+                }
+            } catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred during image upload: ' . $e->getMessage())]);
+            }
+
+            if($this->tempImgCover) {
+                $croppedImageCover = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '',  $this->tempImgCover));
+                try {
+                    if( $this->imgReaderCover){
+                        Storage::disk('s3')->delete($this->imgReaderCover);
+                        Storage::disk('s3')->put($this->objectNameCover, $croppedImageCover);
+                    } else {
+                        Storage::disk('s3')->put($this->objectNameCover, $croppedImageCover);
+                    }
+                } catch (\Exception $e) {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred during image upload: ' . $e->getMessage())]);
+                }
+            } 
 
         $menu = Categories::create([
             'user_id' => auth()->id(),
@@ -135,13 +158,17 @@ class CategoryLivewire extends Component
         $this->resetInput();
         $this->dispatchBrowserEvent('close-modal');
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('New Category Inserted')]);
-    }
+        } else {
+        $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please refreash The Page CODE...CAT-ADD')]);
+        }
+    } // END FUNCTION OF SAVING CATEGORY
     
-    public $imgReader;
+
     public function editCategory(int $menu_selected)
     {
         $this->tempImgCover = null;
         $this->imgReaderCover = null;
+
         $menu_edit = Categories::find($menu_selected);
         $this->category_update = $menu_edit;
 
@@ -164,20 +191,52 @@ class CategoryLivewire extends Component
             $this->imgReader = $menu_edit->img;
             $this->imgReaderCover = $menu_edit->cover;
         } else {
-            return redirect()->to('/rest');
+            return redirect()->to('/rest/category');
         }
-           
-    }
+    } // END OF FUNCTION SELECTING ITEM TO EDIT
  
     public function updateCategory()
     {
-          
         if($this->objectName == null){
             $this->objectName = $this->imgReader;
         } 
 
-        // $this->objectName = $this->imgReader;
         $validatedData = $this->validate();
+
+
+        if($validatedData){
+            try {
+                if($this->tempImg) {
+                    $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
+
+                    if( $this->imgReader){
+                        Storage::disk('s3')->delete($this->imgReader);
+                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+                    } else {
+                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+                    }
+                } else {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
+                    return;
+                }
+            } catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred during image upload: ' . $e->getMessage())]);
+            }
+
+            if($this->tempImgCover) {
+                $croppedImageCover = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '',  $this->tempImgCover));
+                try {
+                    if( $this->imgReaderCover){
+                        Storage::disk('s3')->delete($this->imgReaderCover);
+                        Storage::disk('s3')->put($this->objectNameCover, $croppedImageCover);
+                    } else {
+                        Storage::disk('s3')->put($this->objectNameCover, $croppedImageCover);
+                    }
+                } catch (\Exception $e) {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred during image upload: ' . $e->getMessage())]);
+                }
+            } 
+
         // Update the Categories record
         Categories::where('id', $this->category_update->id)->update([
             'menu_id' => $validatedData['menu_id'],
@@ -203,16 +262,22 @@ class CategoryLivewire extends Component
         $this->dispatchBrowserEvent('close-modal');
         $this->resetInput();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Updated Successfully')]);
+    } else {
+        $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please Relaod The Page CODE...CAT-UPT')]);
     }
-    public function deleteCoverCategory()
-    {
-        Categories::where('id', $this->category_update->id)->update([
-            'cover' => null,
-        ]);
-    
-        $this->dispatchBrowserEvent('close-modal');
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Cover Image Deleted Successfully')]);
-    }
+    } // END OF FUNCTION UPDATE ITEM
+
+    ////QUICK ACTIONS
+    public function updatePriority(int $p_id, $updatedPriority){
+        $varr = Categories::find($p_id);
+        if ($varr) {
+            $varr->priority = $updatedPriority;
+            $varr->save();
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Priority Updated Successfully')]);
+        } else {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Priority Did Not Update')]);
+        }
+    } // END FUNCTION OF UPDATING PRIOEITY
 
     public function updateStatus(int $category_id)
     {
@@ -221,38 +286,60 @@ class CategoryLivewire extends Component
         $menuState->status = $menuState->status == 0 ? 1 : 0;
         $menuState->save();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Status Updated Successfully')]);
-    }
-     
-    public $confirmDelete = false;
-    public $categoryNameToDelete = '';
-    public $showTextTemp = '';
+    } // END OF FUNCTION UPDATING STATUS
+
+    public function resetFilter(){
+        $this->search = '';
+        $this->mainmenuFilter = '';
+        $this->statusFilter = '';
+    } // END OF FUNCTION RESETING FILTER
 
     public function deleteCategory(int $category_selected_id)
     {
         $this->category_selected_id_delete = Categories::find($category_selected_id);
-        $this->category_selected_name_delete = Categories_Translator::where('cat_id', $category_selected_id)->where('lang', $this->glang)->first();
-        $this->showTextTemp = $this->category_selected_name_delete->name;
+        $this->category_selected_name_delete = Categories_Translator::where('cat_id', $category_selected_id)->where('locale', $this->glang)->first()->name ?? "DELETE";
+        $this->showTextTemp = $this->category_selected_name_delete;
         $this->confirmDelete = true;
-    }
+    } // END OF FUNCTION SELECTING ITEM TO DELETE
 
     public function destroycategory()
     {
-        if ($this->confirmDelete && $this->categoryNameToDelete === $this->showTextTemp) {
-            Categories::find($this->category_selected_id_delete->id)->delete();
-            Storage::disk('s3')->delete($this->category_selected_id_delete->img);
-            $this->dispatchBrowserEvent('close-modal');
-            $this->resetInput();
-            $this->dispatchBrowserEvent('fixx');
-            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Deleted Successfully')]);
-        } else {
-            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Operaiton Faild del-303')]);
+        try{
+            if ($this->confirmDelete && $this->categoryNameToDelete === $this->showTextTemp) {
+                Categories::find($this->category_selected_id_delete->id)->delete();
+                Storage::disk('s3')->delete($this->category_selected_id_delete->img);
+                $this->category_selected_id_delete = null;
+                $this->category_selected_name_delete = null;
+                $this->dispatchBrowserEvent('close-modal');
+                $this->resetInput();
+                // $this->dispatchBrowserEvent('fixx');
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Deleted Successfully')]);
+            } else {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error',      'message' => __('Operation Failed, Make sure of the name CODE...DEL-NAME, The name:') . ' ' . $this->showTextTemp]);
+            }
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Try Reload the Page: ' . $e->getMessage())]);
         }
-    }
- 
+    } // END OF FUNCTION DELETING ITEM
+
+    public function deleteCoverCategory()
+    {
+        try{
+            Categories::where('id', $this->category_update->id)->update([
+                'cover' => null,
+            ]);
+            $this->dispatchBrowserEvent('close-modal');
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Cover Image Deleted Successfully')]);
+        } catch (\Exception) {
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Something Went Wrong, CODE...DEL-CVR')]);
+        }
+    } //END OF DELETING COVER
+
+    ////AFTER PROCEESS FUNCTIONS
     public function closeModal()
     {
         $this->resetInput();
-    }
+    } // END FUNCTION OF CLOSE MODAL
  
     public function resetInput()
     {
@@ -268,11 +355,22 @@ class CategoryLivewire extends Component
         $this->showTextTemp = '';
         $this->categoryNameToDelete = '';
         $this->confirmDelete = false;
-        $this->imgFlag = false;
         $this->objectName = '';
-        $this->tempImg = '';
-    }
- 
+        $this->objectNameCover = '';
+        $this->tempImg = null;
+        $this->tempImgCover = null;
+    } // END FUNCTION OF RESET INPUT
+
+    ////DISPATCH OR VIEW FUNCTIONS
+    public function handlesimulationCompleteImg(){
+        $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Image is Ready To Upload')]);
+    } //END OF HANDLES SIMULATION OF IMG
+
+    public function handlesimulationCompleteCover(){
+        $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Cover is Ready To Upload')]);
+    } //END OF HANDLES SIMULATION OF COVER
+
+    ////RENDER
     public function render()
     {
         // START GET THE MENU NAMES
@@ -318,25 +416,7 @@ class CategoryLivewire extends Component
             'colspan' => $colspan,
             'menu_select' => $this->menu_select,
             'emptyImg' => app('fixedimage_640x360'),
-            //asdsad
             'fl' => $this->imgReader
         ])->with('alert', ['type' => 'info',  'message' => __('Category Table Loaded')]);
-    }
-
-    public function resetFilter(){
-        $this->search = '';
-        $this->mainmenuFilter = '';
-        $this->statusFilter = '';
-    }
-
-    public function updatePriority(int $p_id, $updatedPriority){
-        $varr = Categories::find($p_id);
-        if ($varr) {
-            $varr->priority = $updatedPriority;
-            $varr->save();
-            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Priority Updated Successfully')]);
-        } else {
-            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Priority Did Not Update')]);
-        }
-    }
+    } // END OF FUNCTION RENDER
 }

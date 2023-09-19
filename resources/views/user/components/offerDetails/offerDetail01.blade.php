@@ -4,7 +4,7 @@
             <div class="top-image-container">
                 <div class="icon-row">
                     <a class="back-butt-detail-01" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
-                    <a class="home-butt-detail-01" href="{{ route('business.home', ['business_name' => 'red'])}}"><i
+                    <a class="home-butt-detail-01" href="{{ route('business.zzz', ['business_name' => $restName])}}"><i
                             class="fas fa-home"></i></a>
                     <livewire:cart.food-cart-counter-livewire :glang="$glang" :setting="$settings" />
                 </div>

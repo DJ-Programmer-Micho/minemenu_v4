@@ -67,7 +67,9 @@
                             <input type="file" name="categoryImg" id="categoryImg" class="form-control" style="height: auto">
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                             <input type="file" name="croppedCategoryImg" id="croppedCategoryImg" style="display: none;">
-                           
+                            <div class="progress my-1">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated pImg" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
                         <hr>
                             <div class="mb-3 d-flex justify-content-center mt-1">
                                 <img id="showCategoryImg" class="img-thumbnail rounded" src="{{$tempImg ?? $emptyImg}}">
@@ -77,7 +79,9 @@
                             <input type="file" name="categoryImgCover" id="categoryImgCover" class="form-control" style="height: auto">
                             @error('objectNameCover') <span class="text-danger">{{ $message }}</span> @enderror
                             <input type="file" name="croppedCategoryImgCover" id="croppedCategoryImgCover" style="display: none;">
-                           
+                            <div class="progress my-1">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated pCvr" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
                             <hr>
                             <div class="mb-3 d-flex justify-content-center mt-1">
                                 <img id="showCategoryImgCover" class="img-thumbnail rounded" src="{{$tempImgCover ?? $emptyImg}}">
@@ -90,7 +94,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
                         data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary submitJs">Save</button>
                 </div>
             </form>
         </div>
@@ -149,7 +153,9 @@
                             <input type="file" name="editCategoryImg" id="editCategoryImg" class="form-control" style="height: auto">
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                             <input type="file" name="editCroppedCategoryImg" id="editCroppedCategoryImg" style="display: none;">
-                           
+                            <div class="progress my-1">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated pImgEdit" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
                         <hr>
                             <div class="mb-3 mt-1">
                                 <img id="showEditCategoryImg" class="img-thumbnail rounded" src="{{ $tempImg ? $tempImg : app('cloudfront').$imgReader}}">
@@ -159,7 +165,9 @@
                             <input type="file" name="editCategoryImgCover" id="editCategoryImgCover" class="form-control" style="height: auto">
                             @error('objectNameCover') <span class="text-danger">{{ $message }}</span> @enderror
                             <input type="file" name="editCroppedCategoryImgCover" id="editCroppedCategoryImgCover" style="display: none;">
-                           
+                                                       <div class="progress my-1">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated pCvrEdit" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
                             <hr>
                             <div class="mb-3 justify-content-center mt-1">
                                 @if ($tempImgCover)
@@ -181,7 +189,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
                         data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-primary submitJs">Update</button>
                 </div>
             </form>
         </div>
@@ -571,6 +579,120 @@
         }
     });
 </script>
+<script>
+    window.addEventListener('fakeProgressBarImg', (e) => {
+        document.querySelector('#categoryImgCover').disabled = true;
+        document.querySelector('.submitJs').disabled = true;
+        let currentProgress = 0;
+                const progressBar = document.querySelector('.pImg');
+                // const increment = 50; // Increase this value to control the simulation speed
+                var randomIncrement = 0;
+                const interval = setInterval(function () {
+                    randomIncrement = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
+                    currentProgress += randomIncrement;
+                    if (currentProgress <= 100) {
+                        progressBar.style.width = currentProgress + '%';
+                        progressBar.setAttribute('aria-valuenow', currentProgress);
+                    } else {
+                         // Notify Livewire when the simulation is complete
+                        clearInterval(interval);
+                        progressBar.style.width = '100%';
+                        if(currentProgress >= 100){
+                            Livewire.emit('simulationCompleteImg');
+                            currentProgress = 0;
+                            document.querySelector('#categoryImgCover').disabled = false;
+                            document.querySelector('.submitJs').disabled = false;
+                        }
+                        progressBar.setAttribute('aria-valuenow', '0');
+
+                    }
+                }, 1000); // Adjust the interval timing as needed
+    });
+    window.addEventListener('fakeProgressBarCover', (e) => {
+        document.querySelector('#categoryImg').disabled = true;
+        document.querySelector('.submitJs').disabled = true;
+        let currentProgress = 0;
+                const progressBar = document.querySelector('.pCvr');
+                // const increment = 50; // Increase this value to control the simulation speed
+                var randomIncrement = 0;
+                const interval = setInterval(function () {
+                    randomIncrement = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
+                    currentProgress += randomIncrement;
+                    if (currentProgress <= 100) {
+                        progressBar.style.width = currentProgress + '%';
+                        progressBar.setAttribute('aria-valuenow', currentProgress);
+                    } else {
+                         // Notify Livewire when the simulation is complete
+                        clearInterval(interval);
+                        progressBar.style.width = '100%';
+                        if(currentProgress >= 100){
+                            Livewire.emit('simulationCompleteCover');
+                            currentProgress = 0;
+                            document.querySelector('#categoryImg').disabled = false;
+                            document.querySelector('.submitJs').disabled = false;
+                        }
+                        progressBar.setAttribute('aria-valuenow', '0');
+                    }
+                }, 1000); // Adjust the interval timing as needed
+    });
+    </script>
+<script>
+    window.addEventListener('fakeProgressBarImg', (e) => {
+        document.querySelector('#editCategoryImgCover').disabled = true;
+        document.querySelector('.submitJs').disabled = true;
+        let currentProgress = 0;
+                const progressBar = document.querySelector('.pImgEdit');
+                // const increment = 50; // Increase this value to control the simulation speed
+                var randomIncrement = 0;
+                const interval = setInterval(function () {
+                    randomIncrement = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
+                    currentProgress += randomIncrement;
+                    if (currentProgress <= 100) {
+                        progressBar.style.width = currentProgress + '%';
+                        progressBar.setAttribute('aria-valuenow', currentProgress);
+                    } else {
+                         // Notify Livewire when the simulation is complete
+                        clearInterval(interval);
+                        progressBar.style.width = '100%';
+                        if(currentProgress >= 100){
+                            Livewire.emit('simulationCompleteImg');
+                            currentProgress = 0;
+                            document.querySelector('#editCategoryImgCover').disabled = false;
+                            document.querySelector('.submitJs').disabled = false;
+                        }
+                        progressBar.setAttribute('aria-valuenow', '0');
+
+                    }
+                }, 1000); // Adjust the interval timing as needed
+    });
+    window.addEventListener('fakeProgressBarCover', (e) => {
+        document.querySelector('#editCategoryImg').disabled = true;
+        document.querySelector('.submitJs').disabled = true;
+        let currentProgress = 0;
+                const progressBar = document.querySelector('.pCvrEdit');
+                // const increment = 50; // Increase this value to control the simulation speed
+                var randomIncrement = 0;
+                const interval = setInterval(function () {
+                    randomIncrement = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
+                    currentProgress += randomIncrement;
+                    if (currentProgress <= 100) {
+                        progressBar.style.width = currentProgress + '%';
+                        progressBar.setAttribute('aria-valuenow', currentProgress);
+                    } else {
+                         // Notify Livewire when the simulation is complete
+                        clearInterval(interval);
+                        progressBar.style.width = '100%';
+                        if(currentProgress >= 100){
+                            Livewire.emit('simulationCompleteCover');
+                            currentProgress = 0;
+                            document.querySelector('#editCategoryImg').disabled = false;
+                            document.querySelector('.submitJs').disabled = false;
+                        }
+                        progressBar.setAttribute('aria-valuenow', '0');
+                    }
+                }, 1000); // Adjust the interval timing as needed
+    });
+    </script>
 @endpush
 
 

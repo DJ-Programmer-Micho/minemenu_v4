@@ -17,6 +17,7 @@ class Header01Component extends Component
     public $user_id;
     public $rest_name;
     public $ui;
+    public $selected_ui;
     public $cartcount;
     public $setting;
     public $coverid;
@@ -26,7 +27,8 @@ class Header01Component extends Component
         $this->setting = $setting;
         $this->rest_name = $user->name;
         $this->user_id = $user->id;
-        $this->ui = $ui[1];
+        $this->ui = json_decode($ui);
+        $this->selected_ui =  $this->ui[1] ?? 01;
         $this->cartcount = Cart::content()->count();
         $this->coverid = Categories::where('id', $coverid)->first()->cover ?? null;
         // dd($this->coverid);
@@ -36,14 +38,14 @@ class Header01Component extends Component
      */
     public function render(): View|Closure|string
     {
-        if ($this->ui == '01') {
+        if ($this->selected_ui == '01') {
             return view('user.components.headers.Header01',[
                 'cart_count' => $this->cartcount, 
                 'setting' => $this->setting,
                 'restName'=> $this->rest_name, 
                 'cover_id' => $this->coverid
             ]);
-        } else if ($this->ui == '02') {
+        } else if ($this->selected_ui == '02') {
             return view('user.components.headers.Header02',[
                 'cart_count' => $this->cartcount, 
                 'setting' => $this->setting,

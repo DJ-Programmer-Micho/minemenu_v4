@@ -32,6 +32,9 @@ class FoodLivewire extends Component
     public $statusFilter = '';
     public $optionFilter = '';
     public $filteredLocales;
+    public $confirmDelete = false;
+    public $foodNameToDelete = '';
+    public $showTextTemp = '';
     //Form Data
     public $imgFlag = false; 
     public $objectName; 
@@ -47,14 +50,19 @@ class FoodLivewire extends Component
     public $price = '';
     public $oldPrice = '';
 
-    protected $listeners = ['updateCroppedFoodImg' => 'handleCroppedImage'];
+    protected $listeners = [
+        'updateCroppedFoodImg' => 'handleCroppedImage',
+        'simulationCompleteImgFood' => 'handlesimulationCompleteImg',
+    ];
 
+    //// ON LOAD
     public function mount()
     {
         $this->glang = app('glang');
         $this->filteredLocales = app('userlanguage');
         $this->initializeOptions();
-    }
+    } //END FUNCTION OF MOUNT
+
     public function initializeOptions()
     {
         foreach ($this->filteredLocales as $locale) {
@@ -63,20 +71,8 @@ class FoodLivewire extends Component
                 $this->options[$locale][] = ['key' => '', 'value' => ''];
             }
         }
-    }
+    } //END FUNCTION OF INITIALIZE OPTION OF FOOD
 
-    public function addOption()
-    {
-        foreach ($this->filteredLocales as $locale) {
-            $this->options[$locale][] = ['key' => '', 'value' => ''];
-        }
-    }
-
-    public function removeOption($locale, $index)
-    {
-        unset($this->options[$locale][$index]);
-        $this->options[$locale] = array_values($this->options[$locale]);
-    }
     protected function rules()
     {
         $rules = [];
@@ -86,13 +82,11 @@ class FoodLivewire extends Component
         }
         $rules['cat_id'] = ['required'];
         $rules['priority'] = ['required'];
-        // $rules['price'] = ['required'];
-        // $rules['oldPrice'] = ['required'];
         $rules['status'] = ['required'];
         $rules['special'] = ['required'];
         $rules['objectName'] = ['required'];
         return $rules;
-    }
+    } // END FUNCTION OF RULES & VALIDATION
 
     public $tempImg;
     public function handleCroppedImage($base64data)
@@ -100,17 +94,8 @@ class FoodLivewire extends Component
         if ($base64data){
             $microtime = str_replace('.', '', microtime(true));
             $this->objectName = 'rest/menu/1' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
-            $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64data));
             $this->tempImg = $base64data;
-            $this->imgFlag = true;
-            if( $this->imgReader){
-                Storage::disk('s3')->delete($this->imgReader);
-                Storage::disk('s3')->put($this->objectName, $croppedImage);
-            } else {
-                Storage::disk('s3')->put($this->objectName, $croppedImage);
-            }
-            
-            // $this->emit('imageUploaded', $this->objectName);
+            $this->dispatchBrowserEvent('fakeProgressBarFood');
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Image did not crop!!!')]);
             return 'failed to crop image code...405';
@@ -119,36 +104,58 @@ class FoodLivewire extends Component
 
     public function saveFood()
     {
-
         $validatedData = $this->validate();
-        $sorm = $this->showTextarea ? 1 : 0;
-        $optionsData = $this->showTextarea == false ? null : json_encode($this->options);
+        if($validatedData){
 
-        $menu = Food::create([
-            'user_id' => auth()->id(),
-            'cat_id' => $validatedData['cat_id'],
-            'priority' => $validatedData['priority'],
-            'price' => $this->price ? $this->price : null,
-            'old_price' => $this->oldPrice ? $this->oldPrice : null,
-            'options' =>  $optionsData,
-            'sorm' => $sorm,
-            'status' => $validatedData['status'],
-            'special' => $validatedData['special'],
-            'img' => $this->objectName,
-        ]);
+            $sorm = $this->showTextarea ? 1 : 0;
+            $optionsData = $this->showTextarea == false ? null : json_encode($this->options);
 
-        foreach ($this->filteredLocales as $locale) {
-            Food_Translator::create([
-                'food_id' => $menu->id,
-                'name' => $this->names[$locale],
-                'description' => $this->description[$locale],
-                'lang' => $locale,
+            try {
+                if($this->tempImg) {
+                    $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
+
+                    if($this->imgReader){
+                        Storage::disk('s3')->delete($this->imgReader);
+                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+                    } else {
+                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+                    }
+                } else {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
+                    return;
+                }
+            } catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Try Reload the Page: ' . $e->getMessage())]);
+            }
+
+            $menu = Food::create([
+                'user_id' => auth()->id(),
+                'cat_id' => $validatedData['cat_id'],
+                'priority' => $validatedData['priority'],
+                'price' => $this->price ? $this->price : null,
+                'old_price' => $this->oldPrice ? $this->oldPrice : null,
+                'options' =>  $optionsData,
+                'sorm' => $sorm,
+                'status' => $validatedData['status'],
+                'special' => $validatedData['special'],
+                'img' => $this->objectName,
             ]);
+    
+            foreach ($this->filteredLocales as $locale) {
+                Food_Translator::create([
+                    'food_id' => $menu->id,
+                    'name' => $this->names[$locale],
+                    'description' => $this->description[$locale],
+                    'lang' => $locale,
+                ]);
+            }
+            $this->resetInput();
+            $this->dispatchBrowserEvent('close-modal');
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('New Food Inserted')]);
+        } else {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please refreash The Page CODE...FOD-ADD')]);
         }
-        $this->resetInput();
-        $this->dispatchBrowserEvent('close-modal');
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('New Food Inserted')]);
-    }
+    } // END FUNCTION OF SAVING FOOD
     
     public $imgReader;
     public function editFood(int $menu_selected)
@@ -188,7 +195,7 @@ class FoodLivewire extends Component
             $this->special = $menu_edit->special;
             $this->imgReader = $menu_edit->img;
         } else {
-            return redirect()->to('/rest');
+            return redirect()->to('/rest/food');
         }
     }
  
@@ -200,79 +207,70 @@ class FoodLivewire extends Component
         
         $validatedData = $this->validate();
 
-        $sorm = $this->showTextarea ? 1 : 0;
-        $optionsData = $this->showTextarea ? json_encode(json_encode($this->options)) : null;
-        // Update the Food record
-        Food::where('id', $this->food_update->id)->update([
-            'cat_id' => $validatedData['cat_id'],
-            'priority' => $validatedData['priority'],
-            'status' => $validatedData['status'],
-            'special' => $validatedData['special'],
-            'sorm' => $sorm,
-            'options' => $optionsData,
-            'price' => isset($validatedData['price']) ? $validatedData['price'] : null,
-            'old_price' => isset($validatedData['oldPrice']) ? $validatedData['oldPrice'] : null,
-            'img' => isset($this->objectName) ? $this->objectName : $this->imgReader,
-        ]);
-    
-        // Create or update the Foods_Translator records
-        $menu = Food::find($this->food_update->id);
-        foreach ($this->filteredLocales as $locale) {
-            Food_Translator::updateOrCreate(
-                [
-                    'food_id' => $menu->id, 
-                    'lang' => $locale
-                ],
-                [
-                    'name' => $this->names[$locale],
-                    'description' => $this->description[$locale],
-                ]
-            );
-        }
-        $this->dispatchBrowserEvent('close-modal');
-        $this->resetInput();
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Food Updated Successfully')]);
-    }
+        if($validatedData){
 
-    public function updateStatus(int $food_id)
-    {
-        $menuState = Food::find($food_id);
-        // Toggle the status (0 to 1 and 1 to 0)
-        $menuState->status = $menuState->status == 0 ? 1 : 0;
-        $menuState->save();
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Menu Status Updated Successfully')]);
-    }
-     
-    public $confirmDelete = false;
-    public $foodNameToDelete = '';
-    public $showTextTemp = '';
+            $sorm = $this->showTextarea ? 1 : 0;
+            $optionsData = $this->showTextarea ? json_encode(json_encode($this->options)) : null;
 
-    public function deleteFood(int $food_selected_id)
-    {
-        $this->food_selected_id_delete = Food::find($food_selected_id);
-        $this->food_selected_name_delete = Food_Translator::where('food_id', $food_selected_id)->where('lang', $this->glang)->first();
-        $this->showTextTemp = $this->food_selected_name_delete->name;
-        $this->confirmDelete = true;
-    }
 
-    public function destroyfood()
-    {
-        if ($this->confirmDelete && $this->foodNameToDelete === $this->showTextTemp) {
-            Food::find($this->food_selected_id_delete->id)->delete();
-            Storage::disk('s3')->delete($this->food_selected_id_delete->img);
+            try {
+                if($this->tempImg) {
+                    $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
+
+                    if( $this->imgReader){
+                        Storage::disk('s3')->delete($this->imgReader);
+                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+                    } else {
+                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+                    }
+                } else {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
+                    return;
+                }
+            } catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Try Reload the Page: ' . $e->getMessage())]);
+            }
+
+            // Update the Food record
+            Food::where('id', $this->food_update->id)->update([
+                'cat_id' => $validatedData['cat_id'],
+                'priority' => $validatedData['priority'],
+                'status' => $validatedData['status'],
+                'special' => $validatedData['special'],
+                'sorm' => $sorm,
+                'options' => $optionsData,
+                'price' => isset($validatedData['price']) ? $validatedData['price'] : null,
+                'old_price' => isset($validatedData['oldPrice']) ? $validatedData['oldPrice'] : null,
+                'img' => isset($this->objectName) ? $this->objectName : $this->imgReader,
+            ]);
+        
+            // Create or update the Foods_Translator records
+            $menu = Food::find($this->food_update->id);
+            foreach ($this->filteredLocales as $locale) {
+                Food_Translator::updateOrCreate(
+                    [
+                        'food_id' => $menu->id, 
+                        'lang' => $locale
+                    ],
+                    [
+                        'name' => $this->names[$locale],
+                        'description' => $this->description[$locale],
+                    ]
+                );
+            }
             $this->dispatchBrowserEvent('close-modal');
             $this->resetInput();
-            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Food Deleted Successfully')]);
-            $this->dispatchBrowserEvent('fixx');
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Food Updated Successfully')]);
         } else {
-            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Operaiton Faild')]);
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please Relaod The Page CODE...-UPT')]);
         }
-    }
- 
+    } // END OF FUNCTION UPDATE ITEM
+
+    ////QUICK ACTIONS
     public function closeModal()
     {
         $this->resetInput();
-    }
+    } // END FUNCTION OF CLOSE MODAL
  
     public function resetInput()
     {
@@ -293,17 +291,58 @@ class FoodLivewire extends Component
         $this->oldPrice = '';
         $this->confirmDelete = false;
         $this->initializeOptions();
-        $this->imgFlag = false;
-    }
- 
-
+        $this->objectName = '';
+        $this->tempImg = null;
+    } // END FUNCTION OF RESET INPUT
 
     public function resetFilter(){
         $this->search = '';
         $this->categorieFilter = '';
         $this->statusFilter = '';
         $this->optionFilter = '';
-    }
+    } // END OF FUNCTION RESETING FILTER
+
+    public function toggleTextarea()
+    {
+        $this->showTextarea = !$this->showTextarea;
+        $this->emit('toggleTextarea');
+    } // END FUNCTION OF SWITCHING BETWEEN SINGLE PRICE & MULTI PRICE
+
+    public function addOption()
+    {
+        try{
+            foreach ($this->filteredLocales as $locale) {
+                $this->options[$locale][] = ['key' => '', 'value' => ''];
+            }
+            $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('New Option Added')]);
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Something Went Wrong With Adding Option CODE...OPT-ADD')]);
+        } 
+
+    } // ADDING NEW OPTION
+
+    public function removeOption($locale, $index)
+    {
+        try{
+            unset($this->options[$locale][$index]);
+            $this->options[$locale] = array_values($this->options[$locale]);
+            $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Option Removed')]);
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Something Went Wrong With Removing Option CODE...OPT-REM')]);
+        } 
+    } // REMOVING SELECTED OPTION
+
+    public function setSamePriceForAllLocales($locale, $index)
+    {
+        try{
+            $price = $this->options[$locale][$index]['value'];
+            foreach ($this->filteredLocales as $otherLocale) {
+                $this->options[$otherLocale][$index]['value'] = $price;
+            }
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Something Went Wrong With Price Parity CODE...OPT-E=P')]);
+        } 
+    } // END FUNCTION OF MAKING SAME VALUE FOR EACH LOCALE
 
     public function updatePriority(int $p_id, $updatedPriority){
         $varr = Food::find($p_id);
@@ -314,15 +353,51 @@ class FoodLivewire extends Component
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Priority Did Not Update')]);
         }
-    }
+    } // END FUNCTION OF UPDATING PRIOEITY
 
-    // ... Other component logic ...
-    public function toggleTextarea()
+    public function updateStatus(int $food_id)
     {
-        $this->showTextarea = !$this->showTextarea;
-        $this->emit('toggleTextarea');
-    }
+        $menuState = Food::find($food_id);
+        // Toggle the status (0 to 1 and 1 to 0)
+        $menuState->status = $menuState->status == 0 ? 1 : 0;
+        $menuState->save();
+        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Menu Status Updated Successfully')]);
+    } // END FUNCTION OF UPDATING PRIOEITY
 
+    public function deleteFood(int $food_selected_id)
+    {
+        $this->food_selected_id_delete = Food::find($food_selected_id);
+        $this->food_selected_name_delete = Food_Translator::where('food_id', $food_selected_id)->where('lang', $this->glang)->first()->name ?? "DELETE";
+        $this->showTextTemp = $this->food_selected_name_delete;
+        $this->confirmDelete = true;
+    } // END OF FUNCTION SELECTING ITEM TO DELETE
+
+    public function destroyfood()
+    {
+        try {
+            if ($this->confirmDelete && $this->foodNameToDelete === $this->showTextTemp) {
+                Food::find($this->food_selected_id_delete->id)->delete();
+                Storage::disk('s3')->delete($this->food_selected_id_delete->img);
+                $this->dispatchBrowserEvent('close-modal');
+                $this->resetInput();
+                $this->food_selected_name_delete = null;
+                $this->showTextTemp = null;
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Food Deleted Successfully')]);
+                // $this->dispatchBrowserEvent('fixx');
+            } else {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Operaiton Faild')]);
+            }
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Try Reload the Page: ' . $e->getMessage())]);
+        }
+    } // END OF FUNCTION DELETING ITEM
+
+    ////DISPATCH OR VIEW FUNCTIONS
+    public function handlesimulationCompleteImg(){
+        $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Image is Ready To Upload')]);
+    } //END OF HANDLES SIMULATION OF IMG
+
+    ////RENDER
     public function render()
     {
         // START GET THE Category NAMES
@@ -372,8 +447,9 @@ class FoodLivewire extends Component
             'cols_td' => $cols_td,
             'colspan' => $colspan,
             'menu_select' => $this->menu_select,
+            'emptyImg' => app('fixedimage_640x360'),
             //asdsad
             'imgReader' => $this->imgReader
         ])->with('alert', ['type' => 'info', 'message' => __('Menu Table Loaded')]);
-    }
+    } // END OF FUNCTION RENDER
 }

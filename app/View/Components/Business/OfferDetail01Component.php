@@ -17,6 +17,7 @@ class OfferDetail01Component extends Component
     public $glang;
     // var
     public $user_id;
+    public $restName;
     public $ui;
     public $ui_select;
     public $offerData;
@@ -29,6 +30,7 @@ class OfferDetail01Component extends Component
     {
         $this->detail = $detail;
         $this->user_id = $user;
+        $this->restName = $user->name;
         $this->glang = app('glang');
         $this->ui = $ui;
         $this->ui_select = $ui[7] ?? 01;
@@ -55,13 +57,16 @@ class OfferDetail01Component extends Component
     public function render(): View|Closure|string
     {
         if ($this->ui_select == '01') {
-            return view('user.components.offerDetails.offerDetail01',['offerData' => $this->offerData]);
+            return view('user.components.offerDetails.offerDetail01',[
+                'offerData' => $this->offerData,
+                'restName' => $this->restName
+            ]);
         } else if ($this->ui_select == '02') {
-            return view('user.components.offerDetails.offerDetail02',['offerData' => $this->offerData]);
+            return view('user.components.offerDetails.offerDetail02',['offerData' => $this->offerData, 'restName' => $this->restName]);
         } else if ($this->ui_select == '03') {
-            return view('user.components.offerDetails.offerDetail03',['offerData' => $this->offerData]);
+            return view('user.components.offerDetails.offerDetail03',['offerData' => $this->offerData, 'restName' => $this->restName]);
         } else {
-            return view('user.components.offerDetails.offerDetail04',['offerData' => $this->offerData]);
+            return view('user.components.offerDetails.offerDetail04',['offerData' => $this->offerData, 'restName' => $this->restName]);
         }
         
     }

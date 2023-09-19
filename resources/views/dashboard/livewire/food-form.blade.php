@@ -126,6 +126,7 @@
                             <h2 class="text-lg font-medium mr-auto">
                                 <b class="text-uppercase text-white">{{__('Multiple Prices')}}</b>
                             </h2>
+                            
                             <div class="">
                                 <button type="button" class="btn btn-primary" wire:click="addOption">Add New Option</button>
                             </div>
@@ -139,19 +140,20 @@
                                 <div class="form-group col-12 col-md-6 col-lg-5">
                                     <label>Option Description</label>
                                     <input type="text" wire:model="options.{{ $locale }}.{{ $index }}.key"
-                                        class="form-control">
-                                        <small class="text-info">{{__('exp:(Small, Medium and Large)')}}</small>
+                                    class="form-control">
+                                    <small class="text-info">{{__('exp:(Small, Medium and Large)')}}</small>
                                 </div>
                                 <div class="form-group col-12 col-md-6 col-lg-5">
                                     <label>Price</label>
                                     <input type="number" wire:model="options.{{ $locale }}.{{ $index }}.value"
-                                        class="form-control">
-                                        <small class="text-info">{{__('(Original Price)')}}</small>
+                                    class="form-control">
+                                    <small class="text-info">{{__('(Original Price)')}}</small>
+                                    <button type="button" class="btn btn-warning text-dark" wire:click="setSamePriceForAllLocales('{{ $locale }}', {{ $index }})">Set Same Price for All</button>
                                 </div>
                                 <div class="col-12 col-lg-2">
                                     <label class="d-lg-block d-none">Remove</label>
                                     <button type="button" class="btn btn-danger "
-                                        wire:click="removeOption('{{ $locale }}', {{ $index }})"><i
+                                    wire:click="removeOption('{{ $locale }}', {{ $index }})"><i
                                             class="fas fa-minus-square"></i></button>
                                 </div>
                             </div>
@@ -198,10 +200,13 @@
                             <small class="text-info">The Image Size Should be <b>(640px X 360px)</b> or <b>(1280px X 720px)</b></small>
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                             <input type="file" name="croppedFoodImg" id="croppedFoodImg" style="display: none;">
+                            <div class="progress my-1">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated fImg" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="mb-3 d-flex justify-content-center mt-1">
-                                <img id="showFoodImg" class="img-thumbnail rounded" src="{{$imgFlag ? $tempImg : app('fixedimage_640x360')}}">
+                                <img id="showFoodImg" class="img-thumbnail rounded" src="{{$tempImg ?? $emptyImg}}">
                             </div>
                         </div>
                     </div>
@@ -209,7 +214,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
                         data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary submitJs">Save</button>
                 </div>
             </form>
         </div>
@@ -340,6 +345,7 @@
                                     <input type="number" wire:model="options.{{ $locale }}.{{ $index }}.value"
                                         class="form-control">
                                         <small class="text-info">{{__('(Original Price)')}}</small>
+                                        <button type="button" class="btn btn-warning text-dark" wire:click="setSamePriceForAllLocales('{{ $locale }}', {{ $index }})">Set Same Price for All</button>
                                 </div>
                                 <div class="col-12 col-lg-2">
                                     <label class="d-lg-block d-none">Remove</label>
@@ -389,10 +395,13 @@
                             <label for="img">Upload Image</label>
                             <input type="file" name="editFoodImg" id="editFoodImg" class="form-control" style="height: auto">
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
+                            <div class="progress my-1">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated fImgEdit" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="mb-3 d-flex justify-content-center mt-1">
-                                <img id="showEditFoodImg" class="img-thumbnail rounded" src="{{ $tempImg ? $tempImg : (app('cloudfront').$imgReader  ?: app('fixedimage_640x360'))}}">
+                                <img id="showEditFoodImg" class="img-thumbnail rounded" src="{{ $tempImg ? $tempImg : (app('cloudfront').$imgReader  ?: $emptyImg)}}">
                             </div>
                         </div>
                     </div>
@@ -400,7 +409,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
                         data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-primary submitJs">Update</button>
                 </div>
             </form>
         </div>
@@ -631,12 +640,56 @@
         });
     });
 </script>
-{{-- Delete Puoposes --}}
 <script>
-    document.addEventListener('livewire:load', function () {
-        Livewire.on('fixx', () => {
-            window.location.reload(); 
-        });
+    window.addEventListener('fakeProgressBarFood', (e) => {
+    document.querySelector('.submitJs').disabled = true;
+    let currentProgress = 0;
+            const progressBar = document.querySelector('.fImg');
+            // const increment = 50; // Increase this value to control the simulation speed
+            var randomIncrement = 0;
+            const interval = setInterval(function () {
+                randomIncrement = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
+                currentProgress += randomIncrement;
+                if (currentProgress <= 100) {
+                    progressBar.style.width = currentProgress + '%';
+                    progressBar.setAttribute('aria-valuenow', currentProgress);
+                } else {
+                        // Notify Livewire when the simulation is complete
+                    clearInterval(interval);
+                    progressBar.style.width = '100%';
+                    if(currentProgress >= 100){
+                        Livewire.emit('simulationCompleteImgFood');
+                        currentProgress = 0;
+                        document.querySelector('.submitJs').disabled = false;
+                    }
+                    progressBar.setAttribute('aria-valuenow', '0');
+                }
+            }, 1000); // Adjust the interval timing as needed
+    });
+    window.addEventListener('fakeProgressBarFood', (e) => {
+    document.querySelector('.submitJs').disabled = true;
+    let currentProgress = 0;
+            const progressBar = document.querySelector('.fImgEdit');
+            // const increment = 50; // Increase this value to control the simulation speed
+            var randomIncrement = 0;
+            const interval = setInterval(function () {
+                randomIncrement = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
+                currentProgress += randomIncrement;
+                if (currentProgress <= 100) {
+                    progressBar.style.width = currentProgress + '%';
+                    progressBar.setAttribute('aria-valuenow', currentProgress);
+                } else {
+                        // Notify Livewire when the simulation is complete
+                    clearInterval(interval);
+                    progressBar.style.width = '100%';
+                    if(currentProgress >= 100){
+                        Livewire.emit('simulationCompleteImgFood');
+                        currentProgress = 0;
+                        document.querySelector('.submitJs').disabled = false;
+                    }
+                    progressBar.setAttribute('aria-valuenow', '0');
+                }
+            }, 1000); // Adjust the interval timing as needed
     });
 </script>
 @endpush

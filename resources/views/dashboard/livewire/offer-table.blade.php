@@ -46,10 +46,10 @@
                     </select>
                 </h6>
            
-                {{-- <h6 class=" font-medium col-12 col-lg-2">
+                <h6 class=" font-medium col-12 col-lg-2">
                     <label class="text-white">{{__('Reset Filter')}}</label>
                     <button class="btn btn-dark form-control py-0" wire:click="resetFilter()">Reset</button>
-                </h6> --}}
+                </h6>
 
  
         </div>

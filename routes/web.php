@@ -16,6 +16,7 @@ use App\Http\Middleware\LocalizationMiddleware;
 |--------------------------------------------------------------------------
 */
 Route::post('/set-locale', [LocalizationMiddleware::class, 'setLocale'])->name('setLocale');
+Route::post('/set-locale-start-up', [LocalizationMiddleware::class, 'setLocaleStartUp'])->name('setLocaleStartUp');
 
 
 /*
@@ -23,7 +24,7 @@ Route::post('/set-locale', [LocalizationMiddleware::class, 'setLocale'])->name('
 | Main Pages for Guests
 |--------------------------------------------------------------------------
 */
-Route::middleware([LocalizationMiddleware::class])->group(function () {
+Route::middleware([LocalizationMainMiddleware::class])->group(function () {
 /*
 |--------------------------------------------------------------------------
 | Auth Route
@@ -108,6 +109,7 @@ Route::prefix('/emp')->middleware(['checkStatus', 'LocalizationMiddleware', 'emp
 */
 Route::prefix('/{business_name}')->middleware(['LocalizationMiddleware','TrackerVisit'])->group(function () {
     Route::get('/', [BusinessController::class, 'category'])->name('business.home');
+    Route::get('/start', [BusinessController::class, 'startUp'])->name('business.zzz');
     Route::get('/cat/{food}', [BusinessController::class, 'food'])->name('business.food')->middleware('track-clicks:business_name');
     Route::get('/cat/{food}/{detail}', [BusinessController::class, 'foodDetail'])->name('business.food_detail')->middleware('track-clicks:business_name');
     Route::get('/offer/{detail}', [BusinessController::class, 'offerDetail'])->name('business.offer_detail');

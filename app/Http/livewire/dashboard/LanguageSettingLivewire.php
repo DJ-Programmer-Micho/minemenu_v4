@@ -43,6 +43,7 @@ class LanguageSettingLivewire extends Component
     
     public function saveLanguages()
     {
+        // dd($this->selectedLanguages);
         $settings = auth()->user()->settings;
         $settings->languages = $this->selectedLanguages;
         $settings->save();

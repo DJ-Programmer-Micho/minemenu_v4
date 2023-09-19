@@ -125,10 +125,13 @@
                             <small class="text-info">The Image Size Should be <b>(640px X 360px)</b> or <b>(1280px X 720px)</b></small>
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                             <input type="file" name="croppedOfferImg" id="croppedOfferImg" style="display: none;">
+                            <div class="progress my-1">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated oImg" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="mb-3 d-flex justify-content-center mt-1">
-                                <img id="showOfferImg" class="img-thumbnail rounded" src="{{$imgFlag ? $tempImg : app('fixedimage_640x360')}}">
+                                <img id="showOfferImg" class="img-thumbnail rounded" src="{{$tempImg ?? $emptyImg}}">
                             </div>
                         </div>
                     </div>
@@ -136,14 +139,14 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
                         data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary submitJs">Save</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div wire:ignore.self class="modal fade" id="updateOfferModal" tabindex="-1" aria-labelledby="updateOfferModalLabel"
+<div wire:ignore.self class="modal fade overflow-auto" id="updateOfferModal" tabindex="-1" aria-labelledby="updateOfferModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-xl text-white">
         <div class="modal-content bg-dark">
@@ -242,10 +245,13 @@
                             <label for="img">Upload Image</label>
                             <input type="file" name="editOfferImg" id="editOfferImg" class="form-control" style="height: auto">
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
+                            <div class="progress my-1">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated oImgEdit" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="mb-3 d-flex justify-content-center mt-1">
-                                <img id="showEditOfferImg" class="img-thumbnail rounded" src="{{ $tempImg ? $tempImg : app('cloudfront').$imgReader}}">
+                                <img id="showEditOfferImg" class="img-thumbnail rounded" src="{{ $tempImg ? $tempImg : (app('cloudfront').$imgReader  ?: $emptyImg)}}">
                             </div>
                         </div>
                     </div>
@@ -253,7 +259,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
                         data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-primary submitJs">Update</button>
                 </div>
             </form>
         </div>
@@ -490,6 +496,58 @@
         Livewire.on('fixx', () => {
             window.location.reload(); 
         });
+    });
+</script>
+<script>
+    window.addEventListener('fakeProgressBarOffer', (e) => {
+    document.querySelector('.submitJs').disabled = true;
+    let currentProgress = 0;
+            const progressBar = document.querySelector('.oImg');
+            // const increment = 50; // Increase this value to control the simulation speed
+            var randomIncrement = 0;
+            const interval = setInterval(function () {
+                randomIncrement = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
+                currentProgress += randomIncrement;
+                if (currentProgress <= 100) {
+                    progressBar.style.width = currentProgress + '%';
+                    progressBar.setAttribute('aria-valuenow', currentProgress);
+                } else {
+                        // Notify Livewire when the simulation is complete
+                    clearInterval(interval);
+                    progressBar.style.width = '100%';
+                    if(currentProgress >= 100){
+                        Livewire.emit('simulationCompleteImgOffer');
+                        currentProgress = 0;
+                        document.querySelector('.submitJs').disabled = false;
+                    }
+                    progressBar.setAttribute('aria-valuenow', '0');
+                }
+            }, 1000); // Adjust the interval timing as needed
+    });
+    window.addEventListener('fakeProgressBarOffer', (e) => {
+    document.querySelector('.submitJs').disabled = true;
+    let currentProgress = 0;
+            const progressBar = document.querySelector('.oImgEdit');
+            // const increment = 50; // Increase this value to control the simulation speed
+            var randomIncrement = 0;
+            const interval = setInterval(function () {
+                randomIncrement = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
+                currentProgress += randomIncrement;
+                if (currentProgress <= 100) {
+                    progressBar.style.width = currentProgress + '%';
+                    progressBar.setAttribute('aria-valuenow', currentProgress);
+                } else {
+                        // Notify Livewire when the simulation is complete
+                    clearInterval(interval);
+                    progressBar.style.width = '100%';
+                    if(currentProgress >= 100){
+                        Livewire.emit('simulationCompleteImgOffer');
+                        currentProgress = 0;
+                        document.querySelector('.submitJs').disabled = false;
+                    }
+                    progressBar.setAttribute('aria-valuenow', '0');
+                }
+            }, 1000); // Adjust the interval timing as needed
     });
 </script>
 @endpush

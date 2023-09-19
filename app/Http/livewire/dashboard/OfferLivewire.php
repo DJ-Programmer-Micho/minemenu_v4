@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Models\Offer;
 use App\Models\Offer_Translator;
+use Exception;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,15 +42,22 @@ class OfferLivewire extends Component
     public $priority;
     public $price = '';
     public $oldPrice = '';
+    public $tempImg;
 
-    protected $listeners = ['updateCroppedOfferImg' => 'handleCroppedImage'];
+    public $confirmDelete = false;
+    public $foodNameToDelete = '';
+    public $showTextTemp = '';
+
+    protected $listeners = [
+        'updateCroppedOfferImg' => 'handleCroppedImage',
+        'simulationCompleteImgOffer' => 'handlesimulationCompleteImg',
+    ];
 
     public function mount()
     {
         $this->glang = app('glang');
         $this->filteredLocales = app('userlanguage');
-    }
-
+    } //END FUNCTION OF MOUNT
 
     protected function rules()
     {
@@ -62,56 +70,69 @@ class OfferLivewire extends Component
         $rules['status'] = ['required'];
         $rules['objectName'] = ['required'];
         return $rules;
-    }
+    } // END FUNCTION OF RULES & VALIDATION
 
-    public $tempImg;
     public function handleCroppedImage($base64data)
     {
         if ($base64data){
             $microtime = str_replace('.', '', microtime(true));
             $this->objectName = 'rest/menu/1' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
-            $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64data));
             $this->tempImg = $base64data;
-            $this->imgFlag = true;
-            if( $this->imgReader){
-                Storage::disk('s3')->delete($this->imgReader);
-                Storage::disk('s3')->put($this->objectName, $croppedImage);
-            } else {
-                Storage::disk('s3')->put($this->objectName, $croppedImage);
-            }
-            
-            // $this->emit('imageUploaded', $this->objectName);
+            $this->dispatchBrowserEvent('fakeProgressBarOffer');
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Image did not crop!!!')]);
             return 'failed to crop image code...405';
         }
-    }
+    } // END FUNCTION OF HANDLING THE CROPPED COVER
 
     public function saveOffer()
     {
         $validatedData = $this->validate();
 
-        $menu = Offer::create([
-            'user_id' => auth()->id(),
-            'priority' => $validatedData['priority'],
-            'price' => $this->price ? $this->price : null,
-            'old_price' => $this->oldPrice ? $this->oldPrice : null,
-            'status' => $validatedData['status'],
-            'img' => $this->objectName,
-        ]);
+        if($validatedData){
+            try {
+                if($this->tempImg) {
+                    $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
 
-        foreach ($this->filteredLocales as $locale) {
-            Offer_Translator::create([
-                'offer_id' => $menu->id,
-                'name' => $this->names[$locale],
-                'description' => $this->description[$locale],
-                'lang' => $locale,
+                    if( $this->imgReader){
+                        Storage::disk('s3')->delete($this->imgReader);
+                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+                    } else {
+                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+                    }
+                } else {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
+                    return;
+                }
+            } catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred during image upload: ' . $e->getMessage())]);
+            }
+
+
+            $menu = Offer::create([
+                'user_id' => auth()->id(),
+                'priority' => $validatedData['priority'],
+                'price' => $this->price ? $this->price : null,
+                'old_price' => $this->oldPrice ? $this->oldPrice : null,
+                'status' => $validatedData['status'],
+                'img' => $this->objectName,
             ]);
+    
+            foreach ($this->filteredLocales as $locale) {
+                Offer_Translator::create([
+                    'offer_id' => $menu->id,
+                    'name' => $this->names[$locale],
+                    'description' => $this->description[$locale],
+                    'lang' => $locale,
+                ]);
+            }
+            $this->resetInput();
+            $this->dispatchBrowserEvent('close-modal');
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('New Offer Inserted')]);
+        } else {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please refreash The Page CODE...OFF-ADD')]);
         }
-        $this->resetInput();
-        $this->dispatchBrowserEvent('close-modal');
-        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('New Offer Inserted')]);
-    }
+    } // END FUNCTION OF SAVING OFFER
     
     public $imgReader;
     public function editOffer(int $offer_selected)
@@ -140,9 +161,9 @@ class OfferLivewire extends Component
             $this->status = $offer_edit->status;
             $this->imgReader = $offer_edit->img;
         } else {
-            return redirect()->to('/rest');
+            return redirect()->to('/rest/offer');
         }
-    }
+    } // END FUNCTION OF SELECTING ITEM TO EDIT
  
     public function updateOffer()
     {
@@ -152,6 +173,26 @@ class OfferLivewire extends Component
         } 
 
         $validatedData = $this->validate();
+
+        
+        if($validatedData){
+            try {
+                if($this->tempImg) {
+                    $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
+
+                    if( $this->imgReader){
+                        Storage::disk('s3')->delete($this->imgReader);
+                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+                    } else {
+                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+                    }
+                } else {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
+                    return;
+                }
+            } catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred during image upload: ' . $e->getMessage())]);
+            }
 
         // Update the Food record
         Offer::where('id', $this->offer_update->id)->update([
@@ -179,8 +220,12 @@ class OfferLivewire extends Component
         $this->dispatchBrowserEvent('close-modal');
         $this->resetInput();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Offer Updated Successfully')]);
+    } else {
+        $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please Relaod The Page CODE...OFF-UPT')]);
     }
+}
 
+    //// QUICK ACTIONS
     public function updateStatus(int $offer_id)
     {
         $menuState = Offer::find($offer_id);
@@ -188,39 +233,51 @@ class OfferLivewire extends Component
         $menuState->status = $menuState->status == 0 ? 1 : 0;
         $menuState->save();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Offer Status Updated Successfully')]);
-    }
-     
-    public $confirmDelete = false;
-    public $foodNameToDelete = '';
-    public $showTextTemp = '';
+    } // END OF FUNCTION UPDATING STATUS
 
+    public function updatePriority(int $p_id, $updatedPriority){
+        $varr = Offer::find($p_id);
+        if ($varr) {
+            $varr->priority = $updatedPriority;
+            $varr->save();
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Priority Updated Successfully')]);
+        } else {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Priority Did Not Update')]);
+        }
+    } // END FUNCTION OF UPDATING PRIOEITY
+     
     public function deleteOffer(int $offer_selected_id)
     {
-
         $this->offer_selected_id_delete = Offer::find($offer_selected_id);
-        $this->offer_selected_name_delete = Offer_Translator::where('offer_id', $offer_selected_id)->where('lang', $this->glang)->first();
-        $this->showTextTemp = $this->offer_selected_name_delete->name;
+        $this->offer_selected_name_delete = Offer_Translator::where('offer_id', $offer_selected_id)->where('lang', $this->glang)->first()->name ?? "DELETE";
+        $this->showTextTemp = $this->offer_selected_name_delete;
         $this->confirmDelete = true;
-    }
+    } // END OF FUNCTION SELECTING ITEM TO DELETE
 
     public function destroyOffer()
     {
-        if ($this->confirmDelete && $this->offerNameToDelete === $this->showTextTemp) {
-            Offer::find($this->offer_selected_id_delete->id)->delete();
-            Storage::disk('s3')->delete($this->offer_selected_id_delete->img);
-            $this->dispatchBrowserEvent('close-modal');
-            $this->resetInput();
-            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Food Deleted Successfully')]);
-            $this->dispatchBrowserEvent('fixx');
-        } else {
-            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Operaiton Faild')]);
+        try{
+            if ($this->confirmDelete && $this->offerNameToDelete === $this->showTextTemp) {
+                Offer::find($this->offer_selected_id_delete->id)->delete();
+                Storage::disk('s3')->delete($this->offer_selected_id_delete->img);
+                $this->offer_selected_id_delete = null;
+                $this->offer_selected_name_delete = null;
+                $this->dispatchBrowserEvent('close-modal');
+                $this->resetInput();
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Offer Deleted Successfully')]);
+            } else {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Operaiton Faild')]);
+            }
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Try Reload the Page: ' . $e->getMessage())]);
         }
-    }
+    } // END OF FUNCTION DELETING ITEM
  
+    ////AFTER PROCEESS FUNCTIONS
     public function closeModal()
     {
         $this->resetInput();
-    }
+    } // END FUNCTION OF CLOSE MODAL
  
     public function resetInput()
     {
@@ -239,28 +296,21 @@ class OfferLivewire extends Component
         $this->oldPrice = '';
         $this->confirmDelete = false;
         $this->imgFlag = false;
-    }
+    } // END FUNCTION OF RESET INPUT
  
-
-
     public function resetFilter(){
         $this->search = '';
         $this->categorieFilter = '';
         $this->statusFilter = '';
         $this->optionFilter = '';
-    }
+    } // END FUNCTION OF RESET FILTERS
 
-    public function updatePriority(int $p_id, $updatedPriority){
-        $varr = Offer::find($p_id);
-        if ($varr) {
-            $varr->priority = $updatedPriority;
-            $varr->save();
-            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Priority Updated Successfully')]);
-        } else {
-            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Priority Did Not Update')]);
-        }
-    }
-
+    ////DISPATCH OR VIEW FUNCTIONS
+    public function handlesimulationCompleteImg(){
+        $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Image is Ready To Upload')]);
+    } //END OF HANDLES SIMULATION OF IMG
+    
+    ////RENDER
     public function render()
     {
         $colspan = 5;
@@ -287,6 +337,7 @@ class OfferLivewire extends Component
             'cols_th' => $cols_th, 
             'cols_td' => $cols_td,
             'colspan' => $colspan,
+            'emptyImg' => app('fixedimage_640x360'),
             'imgReader' => $this->imgReader
         ])->with('alert', ['type' => 'info', 'message' => __('Menu Table Loaded')]);
     }
