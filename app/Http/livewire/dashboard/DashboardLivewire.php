@@ -131,28 +131,39 @@ class DashboardLivewire extends Component
         
     }
     private function topCategories($businessName){
-        $topCategories = TrackFoods::selectRaw('category_id, COUNT(*) as click_count')
-        ->where('business_name_id', $businessName)
-        ->where('food_id', null)
-        ->groupBy('category_id')
-        ->orderByDesc('click_count')
-        ->limit(5)
-        ->get();
-
-        $maxClickCount = TrackFoods::where('business_name_id', $businessName)
-        ->where('food_id', null)
-        ->count();
-
-        $topCategoryIds = $topCategories->pluck('category_id')->toArray();
-
-        $this->categoriesWithNames = Categories::whereIn('id', $topCategoryIds)
-        ->with(['translation' => function ($query) {
-            $query->where('locale', $this->glang);
-        }])
-        ->get();
-
-        $this->sumCategoryClick = $maxClickCount;
-        $this->topCategories = $topCategories;
+        try {
+            $topCategories = TrackFoods::selectRaw('category_id, COUNT(*) as click_count')
+                ->where('business_name_id', $businessName)
+                ->where('food_id', null)
+                ->groupBy('category_id')
+                ->orderByDesc('click_count')
+                ->limit(6)
+                ->get();
+    
+            $maxClickCount = TrackFoods::where('business_name_id', $businessName)
+                ->where('food_id', null)
+                ->count();
+    
+            $topCategoryIds = $topCategories->pluck('category_id')->toArray();
+    
+            $this->categoriesWithNames = Categories::whereIn('id', $topCategoryIds)
+            ->with(['translation' => function ($query) {
+                $query->where('locale', $this->glang);
+            }])
+            ->get()
+            ->sortByDesc(function ($category) use ($topCategories) {
+                // Sort the categories by click_count from $topCategories
+                $clickCount = $topCategories->where('category_id', $category->id)->first()->click_count ?? 0;
+                return $clickCount;
+            });
+                $this->sumCategoryClick = $maxClickCount;
+                $this->topCategories = $topCategories;
+                // dd($topCategoryIds,$this->categoriesWithNames,$this->sumCategoryClick,$this->topCategories);
+        } catch (\Exception $e) {
+            // Handle the exception, log the error, or return an error response as needed.
+            // You can also rethrow the exception if you want it to propagate up the call stack.
+            // Example: throw $e;
+        }
     }
     private function topFoods($businessName){
         $topFood = TrackFoods::selectRaw('food_id, COUNT(*) as click_count')
@@ -160,7 +171,7 @@ class DashboardLivewire extends Component
         ->whereNotNull('food_id')
         ->groupBy('food_id')
         ->orderByDesc('click_count')
-        ->limit(5)
+        ->limit(6)
         ->get();
 
         $maxClickCount = TrackFoods::where('business_name_id', $businessName)
@@ -173,7 +184,12 @@ class DashboardLivewire extends Component
         ->with(['translation' => function ($query) {
             $query->where('lang', $this->glang);
         }])
-        ->get();
+        ->get()
+        ->sortByDesc(function ($food) use ($topFood) {
+            // Sort the foods by click_count from $topFood
+            $clickCount = $topFood->where('food_id', $food->id)->first()->click_count ?? 0;
+            return $clickCount;
+        });
 
         $this->sumFoodClick = $maxClickCount;
         $this->topFood = $topFood;

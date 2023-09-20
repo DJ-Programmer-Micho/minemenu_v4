@@ -113,4 +113,6 @@ Route::prefix('/{business_name}')->middleware(['LocalizationMiddleware','Tracker
     Route::get('/cat/{food}', [BusinessController::class, 'food'])->name('business.food')->middleware('track-clicks:business_name');
     Route::get('/cat/{food}/{detail}', [BusinessController::class, 'foodDetail'])->name('business.food_detail')->middleware('track-clicks:business_name');
     Route::get('/offer/{detail}', [BusinessController::class, 'offerDetail'])->name('business.offer_detail');
+    // PWA DYNAMIC
+    Route::get('/manifest', [BusinessController::class, 'generateManifest'])->name('generateManifest');
 });
