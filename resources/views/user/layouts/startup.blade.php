@@ -4,51 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="publisher" content="Michel Shabo">
-    {{-- <meta name="mobile-web-app-title" content="{{request('rest')}}"> --}}
-    <meta name="author" content="MET iraq">
-    <meta name="copyright" content="MET Iraq">
+    <meta name="publisher" content="MET IRAQ">
+    <meta name="author" content="MINEMENU">
+    <meta name="copyright" content="MINEMENU">
     <meta name="page-topic" content="Media">
     <meta name="page-type" content="website">
     <meta name="audience" content="Everyone">
     <meta name="robots" content="index, follow"> 
-    <script src="{{asset('/assets/general/lib/jquery/jquery.min.js')}}"></script>
+    <meta name='keywords' content='minemenu, mine menu, ماين منيو, menu iraq, menu erbil, menu resturant, qr code, resturant qr code, finedine, finedinemenu, mine menu iraq, food, drinks, food menu, menu scan, scan menu, منيو, menu generator, food menu generator, قائمة الطعام, food'>
+    <meta name="news_keywords" content="minemenu, mine menu, ماين منيو, menu iraq, menu erbil, menu resturant, qr code, resturant qr code, finedine, finedinemenu, mine menu iraq, food, drinks, food menu, menu scan, scan menu, منيو, menu generator, food menu generator, قائمة الطعام, food">
+    <meta name="language" content="{{app()->getLocale()}}">
+    <title>Mine Menu | {{$setting_name}}</title>
     {{-- PWA --}}
-    {{-- <meta name="HandheldFriendly" content="True"/>
+    <link rel="manifest" href="{{ route('generateManifest', ['business_name' => $setting_name]) }}">
+    <meta name="robots" content="index, follow">
+    <meta name="HandheldFriendly" content="True"/>
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="{{ ($user_ui->theme_color) ?: 'orange'}}">
-    <meta name="theme-color" content="{{ ($user_ui->theme_color) ?: 'orange'}}">
+    <meta name="apple-mobile-web-app-status-bar-style" content="{{$color->selectedNavbarTop ?? '#ffffff'}}">
+    <meta name="theme-color" content="{{$color->selectedNavbarTop ?? '#ffffff'}}">
     <meta name='owner' content='{{request('rest')}}'>
     <meta name='url' content='{{url()->current()}}'>
     <meta name='identifier-URL' content='{{url()->current()}}'>
-    <meta name='og:title' content='{{request('rest')}}'>
+    <meta name='og:title' content='{{request('business_name')}}'>
     <meta name='og:type' content='website'>
     <meta name='og:url' content={{url()->current()}}>
-    <meta name='og:image' content='assets/main/img/main/Head1.png'>
-    <meta name='og:site_name' content='{{request('rest')}}'>
+    <meta name='og:image' content='{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/144.png') }}'>
+    <meta name='og:site_name' content='{{request('business_name')}}'>
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="{{($user_ui->theme_color) ?: 'orange'}}">
-    <meta name="apple-mobile-web-app-title" content="{{request('rest')}}">
-    <link rel="apple-touch-icon" href="/assets/main/img/logo/1024.png"> --}}
-    <!-- Tile for Win8 -->
-    {{-- <meta name="msapplication-TileColor" content="{{($user_ui->theme_color) ?: 'white'}}">
-    <meta name="msapplication-TileImage" content="/assets/main/img/logo/1024.png">
-    <link rel="shortcut icon" href="/assets/main/img/logo/72.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="/assets/main/img/logo/57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/assets/main/img/logo/72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/assets/main/img/logo/114.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/assets/main/img/logo/144.png">
-    <link rel="apple-touch-icon" sizes="1000x1000" href="/assets/main/img/logo/logo.png">
-    <link rel="apple-touch-icon" sizes="1024x1024" href="/assets/main/img/logo/1024.png"> --}}
+    <meta name="apple-mobile-web-app-status-bar-style" content="{{$color->selectedNavbarTop ?? '#ffffff'}}">
+    <meta name="apple-mobile-web-app-title" content="{{request('business_name')}}">
+    <link rel="apple-touch-icon" href="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/1024.png')}}">
     {{-- META TAGS --}}
-    <meta name='keywords' content='minemenu, mine menu, ماين منيو, menu iraq, menu erbil, menu resturant, qr code, resturant qr code, finedine, finedinemenu, mine menu iraq, food, drinks, food menu, menu scan, scan menu, منيو, menu generator, food menu generator, قائمة الطعام, food'>
-    <meta name="news_keywords" content="minemenu, mine menu, ماين منيو, menu iraq, menu erbil, menu resturant, qr code, resturant qr code, finedine, finedinemenu, mine menu iraq, food, drinks, food menu, menu scan, scan menu, منيو, menu generator, food menu generator, قائمة الطعام, food">
-    <title>Mine Menu | {{$setting_name}}</title>
+    <!-- Tile for Win8 -->
+    <meta name="msapplication-TileColor" content="{{ $color->selectedNavbarTop ?? '#ffffff' }}">
+    <meta name="msapplication-TileImage" content="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/1024.png')}}">
+    <link rel="shortcut icon" href="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/72.png')}}">
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/57.png')}}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/72.png')}}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/114.png')}}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/144.png')}}">
+    <link rel="apple-touch-icon" sizes="1024x1024" href="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/1024.png')}}"> 
+    <link rel="apple-touch-startup-image" sizes="57x57" href="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/57.png')}}">
+    <link rel="apple-touch-startup-image" sizes="72x72" href="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/72.png')}}">
+    <link rel="apple-touch-startup-image" sizes="114x114" href="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/114.png')}}">
+    <link rel="apple-touch-startup-image" sizes="144x144" href="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/144.png')}}">
+    <link rel="apple-touch-startup-image" sizes="1024x1024" href="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/1024.png')}}"> 
+    {{-- Style & JS --}}
+    <script src="{{asset('/assets/general/lib/jquery/jquery.min.js')}}"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link rel="stylesheet" href="{{asset('/assets/general/lib/fontawesome-free/css/all.min.css')}}">
-    {{-- <link rel="stylesheet" href="{{asset('/assets/user/ui-01/style.css')}}"> --}}
+    <link href="{{asset('assets/general/css/toaster.css')}}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{asset('/assets/user/master.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/header.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/sidenav.css')}}">

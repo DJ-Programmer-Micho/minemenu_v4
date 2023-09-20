@@ -42,6 +42,7 @@ class Food01Component extends Component
         }])
         ->where('user_id', $this->user->id)
         ->where('cat_id', $this->foodId)
+        ->where('status', 1)
         ->orderBy('priority', 'ASC')
         ->get();
         // ->paginate(10);

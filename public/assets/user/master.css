@@ -70,7 +70,8 @@ body {
     /* font-family: "Bebas Neue", sans-serif !important; */
 }
 
-[lang="ar"] .place-body {
+[lang="ar"] .place-body,
+[lang="ku"] .place-body {
     text-align: right;
     direction: rtl;
 }
@@ -84,4 +85,15 @@ body {
     max-width: 800px;
     margin: auto;
     position: relative;
+}
+
+.copy-right-footer {
+    color: var(--navbar-title-color);
+    background-color: var(--navbar-top-color);
+}
+.copy-right-footer a {
+    color: var(--navbar-title-color);
+    background-color: var(--navbar-top-color);
+    text-decoration: underline;
+    border-bottom: 1px solid transparent;
 }

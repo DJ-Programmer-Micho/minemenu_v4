@@ -308,18 +308,51 @@ class FoodLivewire extends Component
         $this->emit('toggleTextarea');
     } // END FUNCTION OF SWITCHING BETWEEN SINGLE PRICE & MULTI PRICE
 
-    public function addOption()
+    // public function addOption()
+    // {
+    //     try{
+    //         foreach ($this->filteredLocales as $locale) {
+    //             $this->options[$locale][] = ['key' => '', 'value' => ''];
+    //         }
+    //         $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('New Option Added')]);
+    //     } catch (\Exception $e) {
+    //         $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Something Went Wrong With Adding Option CODE...OPT-ADD')]);
+    //     } 
+
+    // } // ADDING NEW OPTION
+    public $flag = false;
+    public function addOptionForAllAndLocale($locale)
     {
-        try{
+        try {
+            if ($locale == 'all') {
             foreach ($this->filteredLocales as $locale) {
                 $this->options[$locale][] = ['key' => '', 'value' => ''];
             }
             $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('New Option Added')]);
+
+            } else {
+            // Check if the specified locale is in the filtered locales
+            if (in_array($locale, $this->filteredLocales)) {
+                $this->options[$locale][] = ['key' => '', 'value' => ''];
+                if($this->flag == false) {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'warning', 'message' => __('If Did Not Add You May Need To Click Again')]);
+                    $this->flag = true;
+                } else {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('New Option For Specific Locale Added')]);
+                }
+            }
+
+            }
+    
         } catch (\Exception $e) {
             $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Something Went Wrong With Adding Option CODE...OPT-ADD')]);
-        } 
+        }
+    }
+    
+    
+    
+    
 
-    } // ADDING NEW OPTION
 
     public function removeOption($locale, $index)
     {

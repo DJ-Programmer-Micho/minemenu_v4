@@ -89,6 +89,6 @@ facilities UI/UX 03
 .info-02 a {
     color: var(--navbar-text-color) !important;
 }
-.place-body {
+/* .place-body {
     margin-bottom: 50px;
-}
+} */

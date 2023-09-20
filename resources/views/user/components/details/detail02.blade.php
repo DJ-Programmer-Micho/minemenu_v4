@@ -34,4 +34,5 @@
         </div>
     </div>
 </div>
+<x-business.copyright01component/>
 </div>

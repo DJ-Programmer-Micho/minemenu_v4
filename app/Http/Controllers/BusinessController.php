@@ -159,7 +159,7 @@ class BusinessController extends Controller
         }
         // Generate the dynamic manifest data based on $businessInfo
         $manifestData = [
-            'name' => $setting_name,
+            'name' => "Mine Menu |" . $setting_name,
             'short_name' => $setting_name,
             'icons' => [
                 [
@@ -168,9 +168,9 @@ class BusinessController extends Controller
                     "sizes" => "256x256"
                 ]
                 ],
-            "id"=> "http://" . $business_name . "?source=pwa",
-            "start_url"=> "http://" . $business_name . "?source=pwa",
-            "background_color"=> app('cloudfront').$color->selectedMainBackground ?? '#ffffff',
+            "id"=> "http://" . $business_name,
+            "start_url"=> "http://" . $business_name,
+            "background_color"=> $color->selectedMainBackground ?? '#ffffff',
             "display"=> "fullscreen",
             // "display"=> "standalone",
             "scope"=> "/",
@@ -180,14 +180,14 @@ class BusinessController extends Controller
                   "name"=> "Check The New Update",
                   "short_name"=> "Update",
                   "description"=> "Join To Mine Mneu NOW!",
-                  "url"=> "http://192.168.0.80:8000?source=pwa",
+                  "url"=> "http://192.168.0.80:8000",
                   "icons"=> [[ "src"=> app('cloudfront').$setting->background_img_header, "sizes"=> "192x192" ]]
                 ],
                 [
                   "name"=> "Get Menu For 14 Days Free Trial",
                   "short_name"=> "FREE MENU",
                   "description"=> "Register to the free menu",
-                  "url"=> "http://192.168.0.80:8000/pricing?source=pwa",
+                  "url"=> "http://192.168.0.80:8000/pricing",
                   "icons"=> [[ "src"=> app('cloudfront').$setting->background_img_header, "sizes"=> "192x192" ]]
                 ]
               ],

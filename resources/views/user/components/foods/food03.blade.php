@@ -43,6 +43,7 @@
         @empty
         <div class="text-center">Nothing To Show</div>
         @endforelse
+        <x-business.copyright01component/>
     </div>
 </div>
 </div>
