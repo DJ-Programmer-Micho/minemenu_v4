@@ -13,9 +13,9 @@
         <div class="col-12 mb-3">
             <div class="row m-0 p-0 dash-card">
                 <div class="col-12 col-xl-2 m-0 p-0">
-                    <div class="card-profile text-center">
+                    <div class="card--profile text-center">
                         <img src="{{app('cloudfront').auth()->user()->settings->background_img_avatar}}"
-                            alt="Responsive Image" class="img-fluid rounded-circle p-3" style="max-width: 150px">
+                            alt="Responsive Image" class="img-fluid p-3" style="max-width: 150px">
                     </div>
                 </div>
                 <div class="col-md-10 m-0 p-0">
