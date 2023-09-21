@@ -110,8 +110,12 @@ Route::prefix('/emp')->middleware(['checkStatus', 'LocalizationMiddleware', 'emp
 Route::prefix('/{business_name}')->middleware(['LocalizationMiddleware','TrackerVisit'])->group(function () {
     Route::get('/', [BusinessController::class, 'category'])->name('business.home');
     Route::get('/start', [BusinessController::class, 'startUp'])->name('business.zzz');
-    Route::get('/cat/{food}', [BusinessController::class, 'food'])->name('business.food')->middleware('track-clicks:business_name');
-    Route::get('/cat/{food}/{detail}', [BusinessController::class, 'foodDetail'])->name('business.food_detail')->middleware('track-clicks:business_name');
+
+    Route::middleware('track-clicks:business_name')->group(function () {
+        Route::get('/cat/{food}', [BusinessController::class, 'food'])->name('business.food');
+        Route::get('/cat/{food}/{detail}', [BusinessController::class, 'foodDetail'])->name('business.food_detail');
+    });
+    
     Route::get('/offer/{detail}', [BusinessController::class, 'offerDetail'])->name('business.offer_detail');
     // PWA DYNAMIC
     Route::get('/manifest', [BusinessController::class, 'generateManifest'])->name('generateManifest');

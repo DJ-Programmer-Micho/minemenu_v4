@@ -15,6 +15,10 @@ class DesignCustomizeLivewire extends Component
     public $presetNameToSave;
     public $user_color;
 
+    //START GROUP
+    public $selected_start_button_text;
+    public $selected_start_button_background;
+    public $selected_start_opacity;
     //NAVBAR GROUP
     public $selected_navbar_title;
     public $selected_navbar_toggle;
@@ -92,6 +96,10 @@ class DesignCustomizeLivewire extends Component
         if ($colors) {
             $color = json_decode($colors);
             // dd($color->selectedNavbarTitle);
+            //START GROUP
+            $this->selected_start_button_text = $color->selectedStartButtonText ?? '#ffffff';
+            $this->selected_start_button_background = $color->selectedStartButtonBackground ?? '#cc0022';
+            $this->selected_start_opacity = $color->selectedStartOpacity ?? '0.3';
             //NAVBAR GROUP
             $this->selected_navbar_title = $color->selectedNavbarTitle ?? '#cc0022';
             $this->selected_navbar_toggle = $color->selectedNavbarToggle ?? '#000000';
@@ -159,6 +167,10 @@ class DesignCustomizeLivewire extends Component
 
         $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
         $settings->ui_color = [
+             //START GROUP
+            'selectedStartButtonText' => $this->selected_start_button_text ?? '#ffffff',
+            'selectedStartButtonBackground' => $this->selected_start_button_background ?? '#cc0022',
+            'selectedStartOpacity' => $this->selected_start_opacity ?? '0.3',
              //NAVBAR GROUP
             'selectedNavbarTitle' => $this->selected_navbar_title ?? '#cc0022',
             'selectedNavbarToggle' => $this->selected_navbar_toggle ?? '#000000',
@@ -227,6 +239,10 @@ class DesignCustomizeLivewire extends Component
         $userPresetHandler = $settings->user_ui_color ?? [];
         $aa = [
             'name' => $presetName,
+            //START GROUP
+            'selectedStartButtonText' => $this->selected_start_button_text ?? '#ffffff',
+            'selectedStartButtonBackground' => $this->selected_start_button_background ?? '#cc0022',
+            'selectedStartOpacity' => $this->selected_start_opacity ?? '0.3',
             //NAVBAR GROUP
             'selectedNavbarTitle' => $this->selected_navbar_title ?? '#cc0022',
             'selectedNavbarToggle' => $this->selected_navbar_toggle ?? '#000000',
@@ -299,6 +315,10 @@ class DesignCustomizeLivewire extends Component
         $userPresetHandler = $settings->user_ui_color ?? [];
         $aa = [
             'name' => $name,
+            //START GROUP
+            'selectedStartButtonText' => $this->selected_start_button_text ?? '#ffffff',
+            'selectedStartButtonBackground' => $this->selected_start_button_background ?? '#cc0022',
+            'selectedStartOpacity' => $this->selected_start_opacity ?? '0.3',
             //NAVBAR GROUP
             'selectedNavbarTitle' => $this->selected_navbar_title ?? '#cc0022',
             'selectedNavbarToggle' => $this->selected_navbar_toggle ?? '#000000',
@@ -374,6 +394,10 @@ class DesignCustomizeLivewire extends Component
         if ($user_color_load[$index]) {
     
             $user_color = $user_color_load[$index];
+            //START GROUP
+            $this->selected_start_button_text = $user_color['selectedStartButtonText'] ?? '#ffffff';
+            $this->selected_start_button_background = $user_color['selectedStartButtonBackground'] ?? '#cc0022';
+            $this->selected_start_opacity = $user_color['selectedStartOpacity'] ?? '0.3';
             //NAVBAR GROUP
             $this->selected_navbar_title = $user_color['selectedNavbarTitle'] ?? '#cc0022';
             $this->selected_navbar_toggle = $user_color['selectedNavbarToggle'] ?? '#000000';
@@ -449,6 +473,9 @@ class DesignCustomizeLivewire extends Component
     public function fixedPreset($px){
         $presets = [
             'p1' => [
+                'startButtonText' => '#ffffff',
+                'startButtonBackground' => '#cc0022',
+                'startOpacity' => '0.3',
                 'navbarTitle' => '#cc0022',
                 'navbarToggle' => '#cc0022',
                 'navbarTop' => '#ffffff',
@@ -498,6 +525,9 @@ class DesignCustomizeLivewire extends Component
                 'utlIconBackground' => '#323334',
             ],
             'p2' => [
+                'startButtonText' => '#ffffff',
+                'startButtonBackground' => '#1b3165',
+                'startOpacity' => '0.3',
                 'navbarTitle' => '#1b3165',
                 'navbarToggle' => '#1b3165',
                 'navbarTop' => '#ffffff',
@@ -547,6 +577,9 @@ class DesignCustomizeLivewire extends Component
                 'utlIconBackground' => '#323334',
             ],
             'p3' => [
+                'startButtonText' => '#ffffff',
+                'startButtonBackground' => '#131816',
+                'startOpacity' => '0.3',
                 'navbarTitle' => '#f6f5e5',
                 'navbarToggle' => '#f6f5e5',
                 'navbarTop' => '#131816',
@@ -596,6 +629,9 @@ class DesignCustomizeLivewire extends Component
                 'utlIconBackground' => '#131816',
             ],
             'p4' => [
+                'startButtonText' => '#ffffff',
+                'startButtonBackground' => '#004a40',
+                'startOpacity' => '0.3',
                 'navbarTitle'	=> '#cba449',
                 'navbarToggle'	=> '#cba449',
                 'navbarTop'	=> '#004a40',
@@ -645,6 +681,9 @@ class DesignCustomizeLivewire extends Component
                 'utlIconBackground'	=> '#004a40',
             ],
             'p5' => [
+                'startButtonText' => '#ffffff',
+                'startButtonBackground' => '#090908',
+                'startOpacity' => '0.3',
                 'navbarTitle' => '#b22320',
                 'navbarToggle' => '#b22320',
                 'navbarTop' => '#090908',
@@ -694,6 +733,9 @@ class DesignCustomizeLivewire extends Component
                 'utlIconBackground' => '#090908',
             ],
             'p6' => [
+                'startButtonText' => '#ffffff',
+                'startButtonBackground' => '#0b983a',
+                'startOpacity' => '0.3',
                 'navbarTitle' => '#cc0022',
                 'navbarToggle' => '#0b983a',
                 'navbarTop' => '#ffffff',
@@ -750,6 +792,11 @@ class DesignCustomizeLivewire extends Component
             $this->presetData = $presets[$px];
 
 
+            //start group
+            $this->selected_start_button_text = $this->presetData['startButtonText'] ?? '#ffffff';
+            $this->selected_start_button_background = $this->presetData['startButtonBackground'] ?? '#cc0022';
+            $this->selected_start_opacity = $this->presetData['startOpacity'] ?? '0.3';
+            //navbar group
             $this->selected_navbar_title = $this->presetData['navbarTitle'] ?? '#cc0022';
             $this->selected_navbar_toggle = $this->presetData['navbarToggle'] ?? '#000000';
             $this->selected_navbar_top = $this->presetData['navbarTop'] ?? '#ffffff';

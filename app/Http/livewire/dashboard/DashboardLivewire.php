@@ -70,7 +70,6 @@ class DashboardLivewire extends Component
     private function getTotalVisitsPerMonth($businessName)
     {
         $currentMonth = now()->format('Y-m');
-        
         return Tracker::selectRaw('DATE_FORMAT(visit_date, "%Y-%m") as month, COUNT(*) as total_visits')
             ->where('business_name', $businessName)
             ->whereRaw('DATE_FORMAT(visit_date, "%Y-%m") = ?', [$currentMonth])
@@ -137,7 +136,7 @@ class DashboardLivewire extends Component
                 ->where('food_id', null)
                 ->groupBy('category_id')
                 ->orderByDesc('click_count')
-                ->limit(6)
+                ->limit(5)
                 ->get();
     
             $maxClickCount = TrackFoods::where('business_name_id', $businessName)
@@ -171,7 +170,7 @@ class DashboardLivewire extends Component
         ->whereNotNull('food_id')
         ->groupBy('food_id')
         ->orderByDesc('click_count')
-        ->limit(6)
+        ->limit(5)
         ->get();
 
         $maxClickCount = TrackFoods::where('business_name_id', $businessName)

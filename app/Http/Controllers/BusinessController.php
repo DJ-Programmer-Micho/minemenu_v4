@@ -5,19 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Setting;
 use Illuminate\Http\Request; 
+use Illuminate\Support\Facades\App;
 
 class BusinessController extends Controller
 {
 
     public function startUp(Request $request, $business_name){
+        
         $request->session()->put('ShutDown', false);
-        // return $this->category($business_name); 
         return redirect($business_name);
     }
 
     public function category($business_name){
-        $user = User::where('name', $business_name)->first();
-        $setting = Setting::where('user_id', $user->id)->with('translations')->first();
+        // $user = User::where('name', $business_name)->first();
+        $user = App::make('userProfile');
+        // $setting = Setting::where('user_id', $user->id)->with('translations')->first();
+        $setting = App::make('userSettings');
         $home_redirect = $setting->intro_page;
 
         $shutdown = session()->get('ShutDown');
@@ -89,8 +92,10 @@ class BusinessController extends Controller
     }
 
     public function food($business_name, $foodId){
-        $user = User::where('name', $business_name)->first();
-        $setting = Setting::where('user_id', $user->id)->with('translations')->first();
+        // $user = User::where('name', $business_name)->first();
+        // $setting = Setting::where('user_id', $user->id)->with('translations')->first();
+        $user = App::make('userProfile');
+        $setting = App::make('userSettings');
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name ?? 'Restutant';
         $setting_address = $setting->translations->where('locale', app('glang'))->first()->address ?? 'Restutant';
         $color = json_decode($setting->ui_color);
@@ -109,8 +114,10 @@ class BusinessController extends Controller
     }
 
     public function foodDetail($business_name, $foodId,$detail){
-        $user = User::where('name', $business_name)->first();
-        $setting = Setting::where('user_id', $user->id)->with('translations')->first();
+        // $user = User::where('name', $business_name)->first();
+        // $setting = Setting::where('user_id', $user->id)->with('translations')->first();
+        $user = App::make('userProfile');
+        $setting = App::make('userSettings');
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name ?? 'Restutant';
         $setting_address = $setting->translations->where('locale', app('glang'))->first()->address ?? 'Restutant';
         $color = json_decode($setting->ui_color);
@@ -127,8 +134,10 @@ class BusinessController extends Controller
     }
 
     public function offerDetail($business_name ,$detail){
-        $user = User::where('name', $business_name)->first();
-        $setting = Setting::where('user_id', $user->id)->with('translations')->first();
+        // $user = User::where('name', $business_name)->first();
+        // $setting = Setting::where('user_id', $user->id)->with('translations')->first();
+        $user = App::make('userProfile');
+        $setting = App::make('userSettings');
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name ?? 'Restutant';
         $setting_address = $setting->translations->where('locale', app('glang'))->first()->address ?? 'Restutant';
         $color = json_decode($setting->ui_color);
@@ -149,8 +158,10 @@ class BusinessController extends Controller
     public function generateManifest($business_name)
     {
         // Fetch business-specific information (e.g., from your database)
-        $user = User::where('name', $business_name)->first();
-        $setting = Setting::where('user_id', $user->id)->with('translations')->first();
+        // $user = User::where('name', $business_name)->first();
+        // $setting = Setting::where('user_id', $user->id)->with('translations')->first();
+        $user = App::make('userProfile');
+        $setting = App::make('userSettings');
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name ?? 'Restutant';
         $color = json_decode($setting->ui_color);
 
@@ -194,6 +205,6 @@ class BusinessController extends Controller
         ];
 
         // Return the manifest data as JSON
-        return response()->json($manifestData); 
+        return response()->json($manifestData)->header('Content-Type', 'application/json'); 
     }
 }

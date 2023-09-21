@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{(app()->getLocale() != 'kr') ? app()->getLocale() : 'ar'}}">
 <head>
+    @stack('meta_seo')
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -16,7 +17,7 @@
     <meta name="language" content="{{app()->getLocale()}}">
     <title>{{$setting_name}} | {{__('Food')}}</title>
     {{-- PWA --}}
-    <link rel="manifest" href="{{ route('generateManifest', ['business_name' => $setting_name]) }}">
+    <link rel="manifest" href="{{ route('generateManifest', ['business_name' => request('business_name')]) }}">
     <meta name="robots" content="index, follow">
     <meta name="HandheldFriendly" content="True"/>
     <meta name="mobile-web-app-capable" content="yes">
@@ -25,11 +26,11 @@
     <meta name='owner' content='{{request('rest')}}'>
     <meta name='url' content='{{url()->current()}}'>
     <meta name='identifier-URL' content='{{url()->current()}}'>
-    <meta name='og:title' content='{{request('business_name')}}'>
-    <meta name='og:type' content='website'>
-    <meta name='og:url' content={{url()->current()}}>
-    <meta name='og:image' content='{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/144.png') }}'>
-    <meta name='og:site_name' content='{{request('business_name')}}'>
+    <meta property='og:title' content='{{request('business_name')}}'>
+    <meta property='og:type' content='website'>
+    <meta property='og:url' content={{url()->current()}}>
+    <meta property='og:image' content='{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/144.png') }}'>
+    <meta property='og:site_name' content='{{request('business_name')}}'>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="{{$color->selectedNavbarTop ?? '#ffffff'}}">
     <meta name="apple-mobile-web-app-title" content="{{request('business_name')}}">
@@ -67,6 +68,10 @@
     @livewireStyles
     <style>
         :root{
+        /* Start */
+        --start-button-text: {{ $color->selectedStartButtonText ?? '#ffffff' }};
+        --start-button-background: {{ $color->selectedStartButtonBackground ?? '#cc0022' }};
+        --start-opacity: {{ $color->selectedStartOpacity ?? '0.3' }};
         /* Navbar */
         --navbar-title-color: {{ $color->selectedNavbarTitle ?? '#cc0022' }};
         --navbar-toggle-color: {{ $color->selectedNavbarToggle ?? '#000000' }};
@@ -155,8 +160,6 @@
                         "closeButton": true,
                         "progressBar": true,
                         "hideDuration": 100,
-                        "positionClass": 'toast-top-center',
-                        
                     }
                 });
     </script>

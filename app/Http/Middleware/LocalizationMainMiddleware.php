@@ -3,15 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Models\User;
-use App\Models\Setting;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
-use Illuminate\Http\RedirectResponse;
-use App\Http\Controllers\BusinessController;
+
 
 class LocalizationMainMiddleware
 {

@@ -1,4 +1,11 @@
 <div class="container-fluid m-0 p-0">
+    {{-- @push('meta_seo')
+    <meta property="og:url"                content='{{url()->current()}}'>
+    <meta property="og:type"               content="article" />
+    <meta property="og:title"              content='{{request('business_name')}}'>
+    <meta property="og:description"        content="{{$foodData->translation->name}}" />
+    <meta property="og:image"              content="{{app('cloudfront').$foodData->img}}" />
+    @endpush --}}
     <div class="box2">
         <div class="box">
             <div class="top-image-container">
@@ -28,9 +35,9 @@
                             {{$foodData->translation->description}}
                         </p>
                     </div>
+                    <x-business.copyright01component/>
                 </div>
             </div>
         </div>
     </div>
-    <x-business.copyright01component/>
 </div>

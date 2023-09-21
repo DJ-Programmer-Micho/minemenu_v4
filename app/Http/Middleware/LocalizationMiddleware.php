@@ -15,13 +15,7 @@ use App\Http\Controllers\BusinessController;
 
 class LocalizationMiddleware
 {
-    public $selectedLanguages = [        'en',
-    'ar',
-    'ku',
-    'de',
-    'it',
-    'fr',
-    'es'];
+    public $selectedLanguages = ['en','ar','ku','de','it','fr','es'];
     
     public function handle($request, Closure $next)
     {
@@ -30,7 +24,9 @@ class LocalizationMiddleware
             // Get the user's filtered languages based on the "business_name"
             $businessName = $request->route('business_name');
             // Find the user based on the "business_name"
+            // GENERAL DATA
             $userProfile = User::where('name', $businessName)->first();
+            App::instance('userProfile', $userProfile);
     
             // If the user does not exist, redirect to the home page
             if (!$businessName) {
@@ -39,7 +35,7 @@ class LocalizationMiddleware
     
             // Get the user settings based on the "user_id"
             $userSettings = Setting::where('user_id', $userProfile->id)->first();
-            
+            App::instance('userSettings', $userSettings);
             // If the user has settings, retrieve the languages
             if ($userSettings) {
                 $this->selectedLanguages = $userSettings->languages;

@@ -16,7 +16,7 @@
     <meta name="language" content="{{app()->getLocale()}}">
     <title>{{$setting_name}} | {{__('Offer')}}</title>
     {{-- PWA --}}
-    <link rel="manifest" href="{{ route('generateManifest', ['business_name' => $setting_name]) }}">
+    <link rel="manifest" href="{{ route('generateManifest', ['business_name' => request('business_name')]) }}">
     <meta name="robots" content="index, follow">
     <meta name="HandheldFriendly" content="True"/>
     <meta name="mobile-web-app-capable" content="yes">
@@ -67,6 +67,10 @@
     @livewireStyles
     <style>
         :root{
+        /* Start */
+        --start-button-text: {{ $color->selectedStartButtonText ?? '#ffffff' }};
+        --start-button-background: {{ $color->selectedStartButtonBackground ?? '#cc0022' }};
+        --start-opacity: {{ $color->selectedStartOpacity ?? '0.3' }};
         /* Navbar */
         --navbar-title-color: {{ $color->selectedNavbarTitle ?? '#cc0022' }};
         --navbar-toggle-color: {{ $color->selectedNavbarToggle ?? '#000000' }};

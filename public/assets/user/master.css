@@ -4,6 +4,10 @@ GENERAL
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 
 :root {
+    /* START */
+    --start-button-text: initial;
+    --start-button-background: initial;
+    --start-opacity: initial;
     /* NAVBAR */
     --navbar-title-color: initial;
     --navbar-toggle-color: initial;

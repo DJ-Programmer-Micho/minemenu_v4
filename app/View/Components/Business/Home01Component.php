@@ -25,6 +25,7 @@ class Home01Component extends Component
     {
         $this->glang = app('glang');
         $this->user_id = $user->id;
+        $this->user_id = $user->id;
         $this->rest_name = $user->name;
         $this->setting = $settings;
         $this->ui = $ui;

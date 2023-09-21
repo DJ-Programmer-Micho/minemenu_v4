@@ -1,5 +1,7 @@
 @php
-$options = json_decode($foodAction->options, true); // Decode the JSON options for the current item
+if($foodAction->options) {
+    $options = json_decode($foodAction->options, true); // Decode the JSON options for the current item
+}
 $currentOptions = $options[$glang] ?? []; // Get options for the current language or default to an empty array
 @endphp
 @if ($foodAction->sorm == 0)

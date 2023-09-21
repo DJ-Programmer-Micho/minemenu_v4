@@ -2,9 +2,13 @@
 @section('tail','Food')
 @section('rest_content')
 
+@php
+    $categorieFilter = ''; // Initialize $categorieFilter with a default value
+@endphp
 <div>
-    @livewire('dashboard.food-livewire')
+    @livewire('dashboard.food-livewire', ['key' => $categorieFilter])
 </div>
+
 
 
 @endsection

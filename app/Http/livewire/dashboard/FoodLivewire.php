@@ -9,6 +9,7 @@ use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Food_Translator;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 
 class FoodLivewire extends Component
@@ -308,17 +309,6 @@ class FoodLivewire extends Component
         $this->emit('toggleTextarea');
     } // END FUNCTION OF SWITCHING BETWEEN SINGLE PRICE & MULTI PRICE
 
-    // public function addOption()
-    // {
-    //     try{
-    //         foreach ($this->filteredLocales as $locale) {
-    //             $this->options[$locale][] = ['key' => '', 'value' => ''];
-    //         }
-    //         $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('New Option Added')]);
-    //     } catch (\Exception $e) {
-    //         $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Something Went Wrong With Adding Option CODE...OPT-ADD')]);
-    //     } 
-
     // } // ADDING NEW OPTION
     public $flag = false;
     public function addOptionForAllAndLocale($locale)
@@ -328,6 +318,7 @@ class FoodLivewire extends Component
             foreach ($this->filteredLocales as $locale) {
                 $this->options[$locale][] = ['key' => '', 'value' => ''];
             }
+            $this->flag = true;
             $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('New Option Added')]);
 
             } else {
@@ -411,12 +402,9 @@ class FoodLivewire extends Component
             if ($this->confirmDelete && $this->foodNameToDelete === $this->showTextTemp) {
                 Food::find($this->food_selected_id_delete->id)->delete();
                 Storage::disk('s3')->delete($this->food_selected_id_delete->img);
-                $this->dispatchBrowserEvent('close-modal');
                 $this->resetInput();
-                $this->food_selected_name_delete = null;
-                $this->showTextTemp = null;
+                $this->dispatchBrowserEvent('close-modal');
                 $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Food Deleted Successfully')]);
-                // $this->dispatchBrowserEvent('fixx');
             } else {
                 $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Operaiton Faild')]);
             }

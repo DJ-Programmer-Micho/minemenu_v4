@@ -46,9 +46,9 @@
                             </p>
                         </div>
                     </div>
+                    <x-business.copyright01component/>
                 </div>
             </div>
         </div>
     </div>
-    <x-business.copyright01component/>
 </div>

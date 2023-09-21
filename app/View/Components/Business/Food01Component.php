@@ -46,6 +46,8 @@ class Food01Component extends Component
         ->orderBy('priority', 'ASC')
         ->get();
         // ->paginate(10);
+
+        
     }
     /**
      * Get the view / contents that represent the component.

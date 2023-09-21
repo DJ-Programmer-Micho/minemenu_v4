@@ -37,9 +37,12 @@ class Detail01Component extends Component
         $this->setting_name = $settingname;
         // Initialize the categoryData based on menuId
         $this->cartcount = Cart::content()->count();
-        $this->initializeFoodData();
-    }
 
+        $this->initializeFoodData();
+        
+        // Render the tags in your view
+        
+    }
     private function initializeFoodData()
     {
         $this->foodData = Food::with(['translation' => function ($query) {

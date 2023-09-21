@@ -26,7 +26,7 @@
             }
             .effect {
                 position: absolute;
-                background-color: rgba(0,0,0,0.3);
+                background-color: rgba(0,0,0,var(--start-opacity));
                 top: 0;
                 left: 0;
                 width: 100%;
@@ -41,6 +41,11 @@
                 top: 50%;
                 transform: translate(-50%, 200%);
                 -webkit-transform: translate(-50%, 200%);
+            }
+            .startbtn{
+               color:var(--start-button-text); 
+               background-color: var(--start-button-background); 
+               border-color:var(--start-button-text);
             }
     </style>
     @if ($setting->intro_page == 1)
@@ -57,7 +62,7 @@
                     @foreach ($filteredLocales as $locale)
                     <div class="col-4 col-md-3 mb-3">
                         <a href="#" onclick="changeLanguage('{{ $locale }}')">
-                            <button class="btn btn-danger w-100">{{ __(strtoupper($locale)) }}</button>
+                            <button class="btn w-100 startbtn" >{{ __(strtoupper($locale)) }}</button>
                         </a>
                     </div>
                     @endforeach

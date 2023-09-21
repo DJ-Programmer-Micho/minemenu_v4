@@ -229,6 +229,56 @@
                             <div class="card bg-dark text-white">
                                 <div class="card-header bg-dark text-white" id="headingOne">
                                     <h2 class="mb-0">
+                                        <button class="btn btn-secondary btn-block text-center" type="button"
+                                            data-toggle="collapse" data-target="#collapseStart" aria-expanded="true"
+                                            aria-controls="collapseStart">
+                                            <i class="fas fa-power-off"></i> {{__('Start Up Page Controll')}}
+                                        </button>
+                                    </h2>
+                                </div>
+
+                                <div id="collapseStart" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" wire:ignore>
+                                    <div class="card-body">
+                                        <h4 class="text-white">{{__('Start Page Buttom Color')}}</h4>
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="selected_start_button_text">{{__('Button Text')}}</label>
+                                                    <br>
+                                                    <input type="color" id="start_button_text"
+                                                        class="form-control color-control p-1"
+                                                        wire:model="selected_start_button_text">
+                                                    <small class="text-info">(All)</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="selected_start_button_background">{{__('Button Background')}}</label>
+                                                    <br>
+                                                    <input type="color" id="start_button_background"
+                                                        class="form-control color-control p-1"
+                                                        wire:model="selected_start_button_background">
+                                                    <small class="text-info">(All)</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <label
+                                                        for="selected_start_opacity">{{__('Background Opacity')}}</label>
+                                                    <br>
+                                                    <input type="number" id="start_opacity"
+                                                        class="form-control color-control p-1"
+                                                        wire:model="selected_start_opacity" min="0.00"
+                                                        max="1.00" step="0.01">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card bg-dark text-white">
+                                <div class="card-header bg-dark text-white" id="headingOne">
+                                    <h2 class="mb-0">
                                         <button class="btn btn-primary btn-block text-center" type="button"
                                             data-toggle="collapse" data-target="#collapseNavbar" aria-expanded="true"
                                             aria-controls="collapseNavbar">
@@ -921,6 +971,10 @@
 <script>
     // Function to apply the color to the iframe's content
     function applyColorToIframe() {
+        //START GROUP
+        var startButtonText = document.getElementById("start_button_text").value;
+        var startButtonBackground = document.getElementById("start_button_background").value;
+        var startOpacity = document.getElementById("start_opacity").value;
         //NAVBAR GROUP
         var navbarTitle = document.getElementById("navbar_title").value;
         var navbarToggle = document.getElementById("navbar_toggle").value;
@@ -979,6 +1033,10 @@
         //Form
         var myframe = document.querySelector("iframe").contentWindow.document;
 
+        //START GROUP
+        myframe.documentElement.style.setProperty('--start-button-text', startButtonText);
+        myframe.documentElement.style.setProperty('--start-button-background', startButtonBackground);
+        myframe.documentElement.style.setProperty('--start-opacity', startOpacity);
         //NAVBAR GROUP
         myframe.documentElement.style.setProperty('--navbar-title-color', navbarTitle);
         myframe.documentElement.style.setProperty('--navbar-toggle-color', navbarToggle);
@@ -1035,6 +1093,9 @@
     }
 
     const cssVariableMapping = {
+        startButtonText: '--start-button-text',
+        startButtonBackground: '--start-button-background',
+        startOpacity: '--start-opacity',
         navbarTitle: '--navbar-title-color',
         navbarToggle: '--navbar-toggle-color',
         navbarTop: '--navbar-top-color',
