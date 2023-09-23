@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\BusinessController;
+use App\Models\Subscription;
 
 class LocalizationMiddleware
 {
@@ -26,6 +27,10 @@ class LocalizationMiddleware
             // Find the user based on the "business_name"
             // GENERAL DATA
             $userProfile = User::where('name', $businessName)->first();
+            $activation = Subscription::where('user_id', $userProfile->id)->where('expire_at', '>=', now())->count() > 0;
+            if(!$activation){
+                dd('expire');
+            }
             App::instance('userProfile', $userProfile);
     
             // If the user does not exist, redirect to the home page
@@ -42,18 +47,19 @@ class LocalizationMiddleware
             }
         }
 
-        if (Str::startsWith($request->route()->uri(), 'rest/')) {
+        if (Str::startsWith($request->route()->uri(), 'rest')) {
   
-            $userProfile = User::where('id', Auth::id())->first();
+            // $userProfile = User::where('id', Auth::id())->first();
+            // dd( Auth::id());
+            $userProfile = Auth::id();
     
             // If the user does not exist, redirect to the home page
             if (!$userProfile) {
                 return new RedirectResponse('/'); // Replace '/' with the URL of your home page
             }
-    
             // Get the user settings based on the "user_id"
-            $userSettings = Setting::where('user_id', $userProfile->id)->first();
-            
+            $userSettings = Setting::where('user_id', $userProfile)->first();
+
             // If the user has settings, retrieve the languages
             if ($userSettings) {
                 $this->selectedLanguages = $userSettings->languages;

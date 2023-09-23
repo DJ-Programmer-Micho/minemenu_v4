@@ -46,6 +46,26 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function subscribe($plan_id, $exp){
+
+        if($plan_id){
+            $plan = Plan::findOrFail($plan_id);
+            $this->subscription()->updateOrCreate(
+                 ['user_id'=>$this->id,'status'=>'1']
+                ,[
+                'status' => '1',
+                'plan_id' => $plan_id,
+                'start_at' => now(),
+                'expire_at' => !$exp ? now()->addDays($plan->duration) : $exp,
+            ]);
+        }else{
+            $this->subscription()->create([
+                'status' => 1,
+            ]);
+        }
+
+    }
+
     public function profile()
     {
         return $this->hasOne(Profile::class, 'user_id');
@@ -54,5 +74,10 @@ class User extends Authenticatable
     public function settings()
     {
         return $this->hasOne(Setting::class, 'user_id');
+    }
+
+    public function subscription()
+    {
+        return $this->hasOne(Subscription::class,'user_id')->where('status',1);
     }
 }

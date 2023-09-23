@@ -45,6 +45,7 @@
     {{-- <link rel="stylesheet" href="{{asset('/assets/main/css/bootstrap.min.css')}}"> --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{asset('/assets/main/css/style.css')}}">
+    <link href="{{asset('assets/general/css/toaster.css')}}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @livewireStyles
     @yield('main_style')
@@ -123,6 +124,16 @@
         {{-- <script src="/assets/main/js/bootstrap.min.js"></script> --}}
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
         <script src="{{asset('/assets/main/js/custom.js')}}"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script>
+            window.addEventListener('alert', event => { 
+                         toastr[event.detail.type](event.detail.message, 
+                         event.detail.title ?? ''), toastr.options = {
+                                "closeButton": true,
+                                "progressBar": true,
+                            }
+                        });
+            </script>
         @livewireScripts
         @yield('main_script')
         <form id="languageForm" action="{{ route('setLocale') }}" method="post">

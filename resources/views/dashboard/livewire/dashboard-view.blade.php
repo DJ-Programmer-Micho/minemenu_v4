@@ -2,19 +2,24 @@
 <div>
 
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="d-sm-flex align-items-center justify-content-between my-4">
         <h1 class="h3 mb-0 text-white">Dashboard</h1>
         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
     </div>
 
+    @if($profile['plan_id'] == 1)
+    <div class="alert alert-danger" role="alert">
+        You Are In {{$profile['plan_name']}} To Upgrade Click here<a href="#" class="alert-link"> Upgrade</a>
+      </div>
+    @endif
     <!-- Content Row -->
     <div class="row">
         <div class="col-12 mb-3">
             <div class="row m-0 p-0 dash-card">
                 <div class="col-12 col-xl-2 m-0 p-0">
                     <div class="card--profile text-center">
-                        <img src="{{app('cloudfront').auth()->user()->settings->background_img_avatar}}"
+                        <img src="{{$profile['avatar']}}"
                             alt="Responsive Image" class="img-fluid p-3" style="max-width: 150px">
                     </div>
                 </div>
@@ -36,7 +41,11 @@
                                 {{-- <h5>Menu Active Time</h3> --}}
                                 <p class="card-title text-success">Start: {{$profile['create']}}</p>
                                 <p class="card-title text-danger">Expire: {{$profile['expire']}}</p>
-                                <p class="card-title text-info">Subsuription: 1 Year</p>
+                                @if($profile['plan_id'] == 1)
+                                    <p class="card-title text-info">Subscription: <span class="text-danger">{{$profile['plan_name']}}</span></p>
+                                @else
+                                    <p class="card-title text-info">Subscription: {{$profile['plan_name']}}</p>
+                                @endif
                             </div>
                         </div>
                     </div>

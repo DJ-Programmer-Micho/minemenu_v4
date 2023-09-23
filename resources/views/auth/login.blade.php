@@ -8,6 +8,8 @@
     <title>MET Iraq</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700">
     <script src="https://www.google.com/recaptcha/api.js?render={{ env('GOOGLE_RECAPTCHA_KEY') }}"></script>
+    <link href="{{asset('assets/general/css/toaster.css')}}" rel="stylesheet" type="text/css">
+
     <style>
         @import "https://fonts.googleapis.com/css?family=Quicksand";
 
@@ -222,6 +224,7 @@
             <div class="form-content">
                 <input id="user-name" name="email" placeholder="Email" type="email" />
                 <input id="password" name="password" placeholder="password" type="password" /><br />
+
                 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                 <div class="g-recaptcha" id="feedback-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}"></div>
                 @error('g-recaptcha-response')
@@ -245,18 +248,5 @@
         </form>
     </div>
 </body>
-<script type="text/javascript">
-    $('#loginForm').submit(function(event) {
-        event.preventDefault();
-
-    
-
-        grecaptcha.ready(function() {
-            grecaptcha.execute("{{ env('GOOGLE_RECAPTCHA_KEY') }}", {action: 'subscribe_newsletter'}).then(function(token) {
-                $('#loginForm').prepend('<input type="hidden" name="g-recaptcha-response" value="' + token + '">');
-                $('#loginForm').unbind('submit').submit();
-            });;
-        });
-    });
-</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 </html>

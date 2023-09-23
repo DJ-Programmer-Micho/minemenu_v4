@@ -84,6 +84,7 @@ Route::prefix('/rest')->middleware(['checkStatus', 'LocalizationMiddleware', 're
     Route::get('/setting/name', [RestController::class, 'nameSetting'])->name('nameSetting');
     Route::get('/setting/menu', [RestController::class, 'menuSetting'])->name('menuSetting');
     Route::get('/setting/startup', [RestController::class, 'startSetting'])->name('startSetting');
+    Route::get('/plan', [RestController::class, 'plan'])->name('plan');
     Route::get('/design/uiux', [RestController::class, 'designUiUx'])->name('designUiUx');
     Route::get('/design/customize', [RestController::class, 'designCustomize'])->name('designCustomize');
     Route::get('/design/qr', [RestController::class, 'designQr'])->name('designQr');

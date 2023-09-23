@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 class CheckUserStatus
 {
@@ -11,10 +12,15 @@ class CheckUserStatus
     {
         if (Auth::check()) {
             $user = Auth::user();
-
+            // dd('Inside middleware', Route::currentRouteName());
             if ($user->status == 0) {
                 Auth::logout();
-                return redirect('/login')->with('error', 'Your account is inactive. Please contact the administrator.');
+
+                return redirect('/login')->with('alert', 'This is an alert message.');
+            }
+
+            if (Route::currentRouteName() !== 'mainmenu' && $user->subscription->expire_at <= now()) {
+                return redirect()->route('mainmenu');
             }
         }
 

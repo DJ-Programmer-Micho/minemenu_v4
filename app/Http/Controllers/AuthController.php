@@ -40,6 +40,15 @@ class AuthController extends Controller
         return view('auth.login');
     } // END Function (Login View)
 
+public function asd(){
+    dd('asd');
+    $notification = array(
+        "message" => "Admin Logout Successfully",
+        "alert-type" => "success"
+    );
+    return $notification;
+}
+
     public function login(Request $request){
         $credentials = $request->validate([
             'email' => 'required|email',
@@ -114,6 +123,7 @@ class AuthController extends Controller
         $user = User::create($formFeilds->only('name','email','password','role','status')->toArray());
         $user->profile()->create($formFeilds->only('fullname','state','country','address','phone','brand_type')->toArray());
         $user->settings()->create($formFeilds->only('default_lang','languages','ui_ux')->toArray());
+        $user->subscribe(1, null);
         auth()->login($user);
         return redirect('/rest');
     } // END Function (Register)

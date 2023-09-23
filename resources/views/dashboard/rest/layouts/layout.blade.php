@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{(app()->getLocale() != 'kr') ? app()->getLocale() : 'ar'}}">
+
 <head>
     {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.5/cropper.min.css" rel="stylesheet"/> --}}
     <meta charset="utf-8">
@@ -209,7 +210,7 @@
             </div>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item ">
-                <a class="nav-link" href="{{route('dashboard')}}">
+                <a class="nav-link {{(str_contains(request()->path(), 'rest/plan/')) ? 'active' : ''}}" href="{{route('plan')}}">
                     <lord-icon
                     src="https://cdn.lordicon.com/huwchbks.json"
                     trigger="loop"
@@ -575,7 +576,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{auth()->user()->name}}</span>
                                 <img class="img-profile rounded-circle"
-                                    src="{{app('cloudfront').auth()->user()->settings->background_img_avatar}}">
+                                    src="{{ app('cloudfront') . (auth()->user()->settings->background_img_avatar ?? 'mine-setting/user.png')}}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

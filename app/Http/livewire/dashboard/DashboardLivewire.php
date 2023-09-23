@@ -3,10 +3,11 @@
 namespace App\Http\Livewire\dashboard;
 
 use App\Models\Food;
+use App\Models\Plan;
 use App\Models\Tracker;
 use Livewire\Component;
-use App\Models\Categories;
 // use Livewire\WithPagination;
+use App\Models\Categories;
 use App\Models\TrackFoods;
 use Illuminate\Support\Facades\Auth;
  
@@ -40,24 +41,24 @@ class DashboardLivewire extends Component
         $this->filteredLocales = app('userlanguage');
 
         if (Auth::check()) {
-            $this->totalVisitsLifetime = $this->getTotalVisitsLifetime(auth()->user()->name);
-            $this->totalVisitsPerMonth = $this->getTotalVisitsPerMonth(auth()->user()->name);
-            $this->totalCategories = $this->getTotalCategories(auth()->user()->id);
-            $this->totalFoods = $this->getTotalFoods(auth()->user()->id);
-            $this->topCategories(auth()->user()->name);
-            $this->topFoods(auth()->user()->name);
             $this->availableYears = $this->getAvailableYears();
             $this->selectedYear = now()->year; // Initialize with the current year
             $this->loadChartData($this->selectedYear, auth()->user()->name);
 
             // dd(auth()->user()->profile);
+            $this->profile['avatar'] = app('cloudfront') . (auth()->user()->settings->background_img_avatar ?? 'mine-setting/user.png');
             $this->profile['restName'] = auth()->user()->name;
             $this->profile['name'] = auth()->user()->profile->fullname;
             $this->profile['email'] = auth()->user()->email;
             $this->profile['phone'] = auth()->user()->profile->phone;
             $this->profile['country'] = auth()->user()->profile->country;
-            $this->profile['create'] = '2023-9-13';
-            $this->profile['expire'] = '2024-9-13';
+            $this->profile['create'] = auth()->user()->subscription->start_at;
+            $this->profile['expire'] = auth()->user()->subscription->expire_at;
+            $this->profile['plan_id'] = auth()->user()->subscription->plan_id;
+            $plan_name = Plan::where('id',  auth()->user()->subscription->plan_id)
+            ->first();
+
+            $this->profile['plan_name'] = $plan_name->name[$this->glang];
         }
     }
 
