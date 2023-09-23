@@ -9,6 +9,7 @@ class LanguageSettingLivewire extends Component
     public $lang;
     public $filteredLocales;
     // FormLocal
+    public $startUpLanguage;
     public $allLanguages = [];
     public $selectedLanguages = [];
     protected $listeners = ['updateSort' => 'handleCroppedImage'];
@@ -46,6 +47,16 @@ class LanguageSettingLivewire extends Component
         // dd($this->selectedLanguages);
         $settings = auth()->user()->settings;
         $settings->languages = $this->selectedLanguages;
+        $settings->save();
+
+        $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Settings Updated successfully')]);
+    }
+ 
+    public function startUpLanguage()
+    {
+        // dd($this->selectedLanguages);
+        $settings = auth()->user()->settings;
+        $settings->default_lang = $this->startUpLanguage;
         $settings->save();
 
         $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Settings Updated successfully')]);

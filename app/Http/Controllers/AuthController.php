@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Rules\ReCaptcha;
+
 
 class AuthController extends Controller
 {
@@ -41,10 +43,13 @@ class AuthController extends Controller
     public function login(Request $request){
         $credentials = $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
+            'g-recaptcha-response' => ['required', new ReCaptcha]
         ]);
-        $user = User::where('email', $credentials['email'])->first();
+        
 
+        $credentials = $request->only('email', 'password');
+        $user = User::where('email', $credentials['email'])->first();
         if ($user && $user->status == 1 && Auth::attempt($credentials)) {
             $user_role = Auth::user()->role;
     
@@ -80,8 +85,7 @@ class AuthController extends Controller
             'email'=> 'required|string|email|unique:users',
             'password'=> 'required|min:6',
             
-            // 'g-recaptcha-response' =>
-            // ['required', new Recaptcha()],
+            'g-recaptcha-response' => ['required', new ReCaptcha],
 
             'fullname' => 'required|string',
             'phone'=> 'required|string|unique:profiles',
@@ -102,13 +106,14 @@ class AuthController extends Controller
         $formFeilds['status'] = '1';
         $formFeilds['role'] = 3;
         $formFeilds['default_lang'] = 'en';
-        $formFeilds['languages'] = ["en", "de", "es"];
+        $formFeilds['languages'] = ["en", "ar", "ku"];
+        $formFeilds['ui_ux'] = "[\"03\",\"01\",\"03\",\"02\",\"07\",\"03\",\"01\",\"03\"]";
 
         $formFeilds = collect($formFeilds);
         
         $user = User::create($formFeilds->only('name','email','password','role','status')->toArray());
         $user->profile()->create($formFeilds->only('fullname','state','country','address','phone','brand_type')->toArray());
-        $user->settings()->create($formFeilds->only('default_lang','languages')->toArray());
+        $user->settings()->create($formFeilds->only('default_lang','languages','ui_ux')->toArray());
         auth()->login($user);
         return redirect('/rest');
     } // END Function (Register)

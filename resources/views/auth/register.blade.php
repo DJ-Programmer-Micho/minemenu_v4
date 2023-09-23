@@ -2,11 +2,11 @@
 @extends('main.layouts.master')
 
 @section('main_style')
-<link rel="stylesheet" href="{{asset('assets/general/libs/teleSelect/intlTelInput.min.css')}}">
-<link rel="stylesheet" href="{{asset('assets/general/libs/teleSelect/demo.css')}}">
-<link rel="stylesheet" href="{{asset('assets/general/libs/country_select/countrySelect.min.css')}}">
-<link rel="stylesheet" href="{{asset('assets/general/libs/country_select/country_select.css')}}">
-
+{{-- <link rel="stylesheet" href="{{asset('assets/general/lib/teleSelect/intlTelInput.min.css')}}"> --}}
+<link rel="stylesheet" href="{{asset('assets/general/lib/teleSelect/demo.css')}}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
+{{-- <link rel="stylesheet" href="{{asset('assets/general/lib/country_select/countrySelect.min.css')}}"> --}}
+<link rel="stylesheet" href="{{asset('assets/general/lib/country_select/country_select.css')}}">
 <style>
      .modal {
 	display: none;
@@ -73,7 +73,7 @@
   <h2 class="text-center mb-5">{{__("Reserve Demo Menu")}}</h2>
 
   <div class="my-text mb-5">
-    <p style="font-size: 14px">{{__("Already have an account?")}}<a href="/admin"> {{__("Sign in now")}}</a></p>
+    <p style="font-size: 14px">{{__("Already have an account?")}}<a href="/rest"> {{__("Sign in now")}}</a></p>
   </div>
 
   @if (session('success'))
@@ -310,7 +310,8 @@ jQuery(function($) {
 </script>
 
 
-<script src="/assets/dashboard/assets/libs/teleSelect/intlTelInput.min.js"></script>
+{{-- <script src="{{asset('assets/general/lib/teleSelect/intlTelInput.min.js')}}"></script> --}}
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
 
 <script>
   var input = document.querySelector("#inputPhone");
@@ -327,23 +328,25 @@ jQuery(function($) {
     //     callback(countryCode);
     //   });
     // },
-    hiddenInput: "phone",
+    // hiddenInput: "phone",
     // initialCountry: "auto",
     // localizedCountries: { 'de': 'Deutschland' },
     // nationalMode: false,
     // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do','sa','iq'],
-    // placeholderNumberType: "MOBILE",
-    preferredCountries: ['iq', 'sa','kw','ae','lb','eg'],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['iq','sa','kw','ae','lb','eg'],
     // separateDialCode: true,
-    utilsScript: "/assets/dashboard/assets/libs/teleSelect/utils.js",
+    // utilsScript: "{{asset('assets/general/lib/teleSelect/utils.js')}}",
+    utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
   });
 </script>
 
 
-<script src="/assets/dashboard/assets/libs/country_select/countrySelect.min.js"></script>
+{{-- <script src="/assets/dashboard/assets/libs/country_select/countrySelect.min.js"></script> --}}
+<script src="{{asset('assets/general/lib/country_select/countrySelect.min.js')}}"></script>
 <script>
   $("#country_selector").countrySelect({
-    // defaultCountry: "jp",
+    // defaultCountry: "iq",
     // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
     // responsiveDropdown: true,
     preferredCountries: ['iq', 'sa', 'ae']

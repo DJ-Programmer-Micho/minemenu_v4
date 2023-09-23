@@ -368,7 +368,7 @@
             </div>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item ">
-                <a class="nav-link" href="{{route('dashboard')}}">
+                <a class="nav-link" target="_blank" href="{{url(auth()->user()->name)}}">
                     <div class="side-menu__icon"> <lord-icon
                         src="https://cdn.lordicon.com/udwhdpod.json"
                         trigger="loop"

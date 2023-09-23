@@ -30,7 +30,6 @@
 @endpush
 
 <div>
-    <h2 class="text-white mt-1">Language Settings</h2>
     <div class="container mt-4">
         <h5 class="text-white text-center">{{__('Enable the language by checking the checkbox and then arrange the sorting as needed.')}}</h5>
         <hr class="bg-white">

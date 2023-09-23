@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{(app()->getLocale() != 'kr') ? app()->getLocale() : 'ar'}}">
+<html lang="{{ (app()->getLocale() != 'kr') ? app()->getLocale() : 'ar'}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -37,7 +37,7 @@
     <!-- Tile for Win8 -->
     <meta name="msapplication-TileColor" content="{{ $color->selectedNavbarTop ?? '#ffffff' }}">
     <meta name="msapplication-TileImage" content="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/1024.png')}}">
-    <link rel="shortcut icon" href="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/72.png')}}">
+    <link rel="shortcut icon" href="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/72.pngla')}}">
     <link rel="apple-touch-icon" sizes="57x57" href="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/57.png')}}">
     <link rel="apple-touch-icon" sizes="72x72" href="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/72.png')}}">
     <link rel="apple-touch-icon" sizes="114x114" href="{{ app('cloudfront').$setting->background_img_avatar ?? asset('assets/general/logo/114.png')}}">

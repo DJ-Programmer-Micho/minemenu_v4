@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MET Iraq</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700">
+    <script src="https://www.google.com/recaptcha/api.js?render={{ env('GOOGLE_RECAPTCHA_KEY') }}"></script>
     <style>
         @import "https://fonts.googleapis.com/css?family=Quicksand";
 
@@ -213,7 +214,7 @@
 
 
     <div class="container">
-        <form action="{{route('logging')}}" method="post">
+        <form id="loginForm" action="{{route('login')}}" method="post">
             @csrf
             <h1>
                 Sign in
@@ -229,7 +230,7 @@
                 <br>
                 {{-- <span style="font-size: 14px"><a href="{{ route('forget.password.get') }}">Forgot Password
                 ?</a></span> --}}
-                <p style="font-size: 14px">Don't have an account?<a href="/register"> Create an account!</a></p>
+                <p style="font-size: 16px;">Don't have an account?<a href="/register" style="color: #cc0022;"><b> Create an account!</b></a></p>
                 <button type="submit" class="button">
                     Log in
                 </button>
@@ -244,5 +245,18 @@
         </form>
     </div>
 </body>
+<script type="text/javascript">
+    $('#loginForm').submit(function(event) {
+        event.preventDefault();
 
+    
+
+        grecaptcha.ready(function() {
+            grecaptcha.execute("{{ env('GOOGLE_RECAPTCHA_KEY') }}", {action: 'subscribe_newsletter'}).then(function(token) {
+                $('#loginForm').prepend('<input type="hidden" name="g-recaptcha-response" value="' + token + '">');
+                $('#loginForm').unbind('submit').submit();
+            });;
+        });
+    });
+</script>
 </html>
