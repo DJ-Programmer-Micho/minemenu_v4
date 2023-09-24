@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('role'); //SuperAdmin (OWN) - 1, man (MineMenu Dashboard) - 2, Rest (//Emp Resturant Owner) - 3, Emp (Resturant Employee) - 4
             $table->integer('status'); //Active - 1,DeActive - 0
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('otp_code', 6); // Assumes a 6-digit OTP code
             $table->rememberToken();
             $table->timestamps();
         });

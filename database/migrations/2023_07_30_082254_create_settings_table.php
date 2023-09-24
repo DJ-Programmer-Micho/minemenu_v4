@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('intro_page')->nullable();
             $table->string('currency')->nullable();
             $table->string('fees')->nullable();
+            $table->string('ui_ux');
             $table->longText('ui_color')->nullable();
             $table->longText('user_ui_color')->nullable();
             $table->timestamps();

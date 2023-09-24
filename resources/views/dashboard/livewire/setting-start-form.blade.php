@@ -26,7 +26,7 @@
                     <label class="text-white">{{__('Status')}}</label>
                     <select wire:model="status" name="status" class="form-control">
                         <option value="">Choose Start up</option>
-                            <option value="0">{{__('none')}}</option>
+                            <option value="null">{{__('none')}}</option>
                             <option value="1">{{__('Photo')}}</option>
                             <option value="2">{{__('Video')}}</option>
                     </select>

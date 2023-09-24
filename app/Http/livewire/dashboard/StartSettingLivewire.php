@@ -97,6 +97,9 @@ class StartSettingLivewire extends Component
     {
         if($this->status){
             $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
+            if($this->status == 'null'){
+                $this->status = null;
+            }
             $settings->intro_page = $this->status;
             $settings->save();
             $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Status Updated successfully')]);
