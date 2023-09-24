@@ -8,7 +8,7 @@
 </style>
 <div class="offer-slider py-0 mb-4" style="margin-top: -20px">
         @forelse ($offerData as $item)
-        <div class="py-0"
+        <div class="py-0">
             <a href="{{url()->current()}}/offer/{{$item->id}}">
                 <div class="offer-cat-item-01" style=" background-image: url('{{app('cloudfront').$item->img}}')">
                     <div class="offer-overlay-01">

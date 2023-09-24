@@ -79,8 +79,8 @@ class SupportMenuFixLivewire extends Component
             if (!empty($food->translation->name) && mb_strlen($food->translation->name) > 30) {
                 $this->messages['name'][] = "Food name '{$food->translation->name}' is longer than 30 characters.";
             }
-            if (!empty($food->translation->description) && mb_strlen($food->translation->description) > 150) {
-                $this->messages['description'][] = "Food description '{$food->translation->description}' is longer than 150 characters.";
+            if (!empty($food->translation->description) && mb_strlen($food->translation->description) > 250) {
+                $this->messages['description'][] = "Food description '{$food->translation->description}' is longer than 250 characters.";
             }
             if ($food->sorm == 1) {
                 $optionsData = json_decode($food->options, true);

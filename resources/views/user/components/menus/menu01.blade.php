@@ -23,8 +23,8 @@
         @endforeach
         <div class="tab-pane fade" id="pills-social" role="tabpanel"
             aria-labelledby="pills-social-tab">
-            <h1>{{__('Join With Us')}}</h1>
-           <div class="row">
+            <h3 class="text-center mt-3" style="color: var(--main-theme-text-color)">{{__('Join With Us')}}</h3>
+            <div class="row">
             @if ($setting->facebook)                
             <div class="col-4 col-md-3 p-1">
                 <a href="{{$setting->facebook}}" target="_blank" rel="noopener noreferrer">

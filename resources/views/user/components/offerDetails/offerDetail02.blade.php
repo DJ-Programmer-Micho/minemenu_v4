@@ -31,7 +31,7 @@
                 </div>
                 <div class="mb-5"></div>
             </div>
+            <x-business.copyright01component/>
         </div>
     </div>
-    <x-business.copyright01component/>
 </div>

@@ -21,6 +21,59 @@
             <x-business.category01component :menuid="$menu->translation->menu_id" :user="$user_id" :glang="$glang" :ui="$ui" />
         </div>
         @endforeach
+        <div class="tab-pane fade" id="pills-social" role="tabpanel"
+        aria-labelledby="pills-social-tab">
+        <h3 class="text-center mt-3" style="color: var(--main-theme-text-color)">{{__('Join With Us')}}</h3>
+       <div class="row">
+        @if ($setting->facebook)                
+        <div class="col-4 col-md-3 p-1">
+            <a href="{{$setting->facebook}}" target="_blank" rel="noopener noreferrer">
+                <img src="{{asset('assets/main/img/socialicon/face.png')}}" alt="" srcset="" width="100%">
+            </a>
+        </div>
+        @endif
+        @if ($setting->instagram)                
+        <div class="col-4 col-md-3 p-1">
+            <a href="{{$setting->instagram}}" target="_blank" rel="noopener noreferrer">
+                <img src="{{asset('assets/main/img/socialicon/insta.png')}}" alt="" srcset="" width="100%">
+            </a>
+        </div>
+        @endif
+        @if ($setting->telegram)                
+        <div class="col-4 col-md-3 p-1">
+            <a href="{{$setting->telegram}}" target="_blank" rel="noopener noreferrer">
+                <img src="{{asset('assets/main/img/socialicon/tele.png')}}" alt="" srcset="" width="100%">
+            </a>
+        </div>
+        @endif
+        @if ($setting->snapchat)                
+        <div class="col-4 col-md-3 p-1">
+            <a href="{{$setting->snapchat}}" target="_blank" rel="noopener noreferrer">
+                <img src="{{asset('assets/main/img/socialicon/snap.png')}}" alt="" srcset="" width="100%">
+            </a>
+        </div>
+        @endif
+        @if ($setting->tiktok)                
+        <div class="col-4 col-md-3 p-1">
+            <a href="{{$setting->tiktok}}" target="_blank" rel="noopener noreferrer">
+                <img src="{{asset('assets/main/img/socialicon/tik.png')}}" alt="" srcset="" width="100%">
+            </a>
+        </div>
+        @endif
+        @if ($setting->website)                
+        <div class="col-4 col-md-3 p-1">
+            <a href="{{$setting->website}}" target="_blank" rel="noopener noreferrer">
+                <img src="{{asset('assets/main/img/socialicon/globe.png')}}" alt="" srcset="" width="100%">
+            </a>
+        </div>
+        @endif
+        @if ($setting->website)                
+        <div class="col-12 p-1">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6843700.223358107!2d38.42699792131716!3d33.11827106518673!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1557823d54f54a11%3A0x6da561bba2061602!2sIraq!5e0!3m2!1sen!2siq!4v1695229906131!5m2!1sen!2siq" width="100%" height="180%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        @endif
+       </div>
+    </div>
     </div>
 </div>
 
