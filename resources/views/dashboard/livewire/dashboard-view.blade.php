@@ -1,12 +1,29 @@
 <!-- Begin Page Content -->
 <div>
-
+    <style>
+        .dropdown-menu{
+            transform: translate3d(-84px, 29px, 0px)!important;
+        }
+    </style>
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between my-4">
-        <h1 class="h3 mb-0 text-white">Dashboard</h1>
-        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-    </div>
+    {{-- <button wire:click="export" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+            class="fas fa-download fa-sm text-white-50"></i> </button> --}}
+            <div class="d-sm-flex align-items-center justify-content-between my-4">
+                <h1 class="h3 mb-0 text-white">Dashboard</h1>
+                
+                <div class="dropdown mr-1">
+                    <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" data-offset="10,20">
+                        {{ __('Generate Report') }}
+                    </button>
+                    <div class="dropdown-menu" style="background-color: #00000000; border: 0;">                        
+                        @foreach ($filteredLocales as $locale)
+                        <button wire:click="export('{{ $locale }}')" class="btn btn-primary w-100 my-1" style="color: #ffffff; background-color: #4e73df; border-color: #ffffff;">
+                            <i class="fas fa-language fa-sm fa-fw mr-2"></i> {{ __(strtoupper($locale)) }}
+                        </button>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
 
     @if($profile['plan_id'] == 1)
     <div class="alert alert-danger" role="alert">

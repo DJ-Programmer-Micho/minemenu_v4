@@ -9,7 +9,9 @@ use Livewire\Component;
 // use Livewire\WithPagination;
 use App\Models\Categories;
 use App\Models\TrackFoods;
+use App\Exports\UsersExport;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
  
 class DashboardLivewire extends Component
 {
@@ -35,6 +37,10 @@ class DashboardLivewire extends Component
     public $topFood;
     public $profile = [];
 
+    
+    public function export($locale){
+        return Excel::download(new UsersExport($locale), 'users.xlsx');
+    }
     public function mount()
     {
         $this->glang = app('glang');

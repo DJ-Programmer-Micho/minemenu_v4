@@ -26,4 +26,10 @@ class Mainmenu extends Model
     {
         return $this->hasOne(Mainmenu_Translator::class,'menu_id')->withDefault(); 
     }
+
+    //For the report
+    public function categories()
+    {
+        return $this->hasMany(Categories::class, 'menu_id');
+    }
 }
