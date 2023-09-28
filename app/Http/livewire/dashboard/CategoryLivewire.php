@@ -199,7 +199,9 @@ class CategoryLivewire extends Component
     {
         if($this->objectName == null){
             $this->objectName = $this->imgReader;
+            $this->tempImg = $this->imgReader;
         } 
+        $this->tempImg =  $this->objectName;
 
         $validatedData = $this->validate();
 

@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    // 'sinch' => [
+    //     'key' => env('SINCH_APP_KEY'),
+    //     'secret' => env('SINCH_APP_SECRET'),
+    // ],    
+
 ];

@@ -165,6 +165,31 @@
             font-weight: bold;
             text-align: center
         }
+
+        .hide {
+            display: none;
+        }
+
+        /* Customize the alert colors */
+        .alert-success {
+            background-color: #4CAF50;
+            color: white;
+            border: 2px solid #218525;
+        }
+
+        /* Customize the alert colors */
+        .alert-error {
+            background-color: #f44336;
+            color: white;
+            border: 2px solid #942018;
+        }
+
+        /* Add padding and margin for better spacing */
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
     </style>
 </head>
 
@@ -209,45 +234,170 @@
                     d="M74.52,595.89c1.24-100,35.87-198.48,102.43-285.71,13.8-18.09,29.76-34.54,44.89-51.6,4.41-5,10.26-6.54,16.73-4.79a15.35,15.35,0,0,1,11.59,11.93c1.44,6.14-1.06,10.92-5.11,15.49C230.5,297.66,215.22,313.6,201.92,331c-46.66,61.1-76.71,129.69-88.91,205.7-11.82,73.72-5.25,145.81,21.14,215.87,3.69,9.8.16,18.52-8.82,22s-18.19-1-21.94-10.82C84.05,712.92,74.77,660.23,74.52,595.89Z"
                     transform="translate(-7.51 -11.03)" /></svg>
 
-            <span class="logo-text danger"> MINE MENU</span>
+            <span class="logo-text danger">MINE MENU</span>
         </a>
     </div>
 
 
 
     <div class="container">
-        <form id="loginForm" action="{{route('login')}}" method="post">
+        <form id="loginForm" action="{{route('verifyResetLinkEmail')}}" method="post">
             @csrf
+            @if(session('message'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('message') }}
+            </div>
+            @endif
+            @if(session('error'))
+            <div class="alert alert-error alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+            </div>
+            @endif
             <h1>
-                Sign in
+                {{__('Enter OTP Email')}}
             </h1>
             <div class="form-content">
-                <input id="user-name" name="email" placeholder="Email" type="email" />
-                <input id="password" name="password" placeholder="password" type="password" /><br />
+                <div class="form-group">
+                    <label for="attention">{{__('OTP Code:')}}</label>
+                    <input type="text" name="entered_email_otp_code">
 
-                <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                <div class="g-recaptcha" id="feedback-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}"></div>
-                @error('g-recaptcha-response')
-                <span class="danger" style="font-size: 12px">Please Check reCaptcha</span><br>
-                @enderror
-                <br>
-                {{-- <span style="font-size: 14px"><a href="{{ route('forget.password.get') }}">Forgot Password
-                ?</a></span> --}}
-                <p style="font-size: 16px;"><a href="{{ route('passwordRequestEmail') }}" style="color: #cc0022;"><b>Forget Password?</b></a></p>
-                <p style="font-size: 16px;">Don't have an account?<a href="/register" style="color: #cc0022;"><b> Create an account!</b></a></p>
+                    <div class="signup-message">
+                        <a class="danger">@error('email')
+                            {{$message}}
+                            @enderror</a>
+                    </div>
+                    <input type="hidden" name="email" value="{{urldecode($email)}}">
+                    <span>{{__('Please Check Your Email')}}</span><br>
+                </div>
+
+                <p style="font-size: 16px;">
+                    <span id="countdown">{{__('Wait for 1 minute before clicking again.')}}</span>
+                    <br>
+                    <span id="resendLink" style="display:none;">
+                        {{__('Not received the code?')}} <a
+                            href="{{ route('sendResetLinkEmail',['email' => urlencode($email)]) }}"
+                            style="color: #cc0022;"><b>{{__('Send Code Again')}}</b></a>
+                    </span>
+                </p>
                 <button type="submit" class="button">
-                    Log in
+                    {{__('Submit')}}
                 </button>
+
                 <br />
 
-                <div class="signup-message">
-                    <a class="danger">@error('email')
-                        {{$message}}
-                        @enderror</a>
-                </div>
             </div>
         </form>
     </div>
 </body>
+<script src="{{asset('assets/dashboard/vendor/jquery/jquery.min.js')}}"></script>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    $(function () {
+        // Check if countdown data is stored in localStorage
+        var countdownData = localStorage.getItem('countdownData');
+
+        if (!countdownData) {
+            // If no countdown data exists, start a new countdown with an initial time of 5 seconds
+            startCountdown(5);
+        } else {
+            countdownData = JSON.parse(countdownData);
+
+            if (countdownData.remainingTime <= 0) {
+                $("#countdown").hide();
+                $("#resendLink").show();
+            } else {
+                startCountdown(countdownData.remainingTime);
+            }
+        }
+
+        function startCountdown(initialTime) {
+            var countdown = initialTime;
+            var countdownInterval = setInterval(function () {
+                countdown--;
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    $("#countdown").hide();
+                    $("#resendLink").show();
+                } else {
+                    $("#countdown").text("Wait for " + countdown + " seconds before clicking again.");
+                    // Store countdown data in localStorage
+                    var countdownData = {
+                        remainingTime: countdown,
+                        timestamp: Date.now()
+                    };
+                    localStorage.setItem('countdownData', JSON.stringify(countdownData));
+                }
+            }, 1000);
+        }
+
+        if (localStorage.getItem('once') == 'true') {
+            document.getElementById('resendLink').innerHTML = `
+        <p>{{__('If Not Received, Please Contact us via')}}
+            <span>
+                <a href='#' style='color: #25d366;'><b>
+                    <i class='fab fa-whatsapp' style='color: #25d366;'> What's up</i>
+                </b></a>
+            </span>
+        </p>`
+        } else {
+            $("#resendLink").on('click', function () {
+                localStorage.setItem('once', 'true');
+                document.getElementById('resendLink').innerHTML = `
+            <p>{{__('If Not Received, Please Contact us via')}}
+                <span>
+                    <a href='#' style='color: #25d366;'><b>
+                        <i class='fab fa-whatsapp' style='color: #25d366;'> What's up</i>
+                    </b></a>
+                </span>
+            </p>`
+            });
+        }
+
+
+    });
+
+</script>
+<script>
+    @if(Session::has('message'))
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true
+    }
+    toastr.success("{{ session('message') }}");
+    @endif
+
+    @if(Session::has('error'))
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true
+    }
+    toastr.error("{{ session('error') }}");
+    @endif
+
+    @if(Session::has('info'))
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true
+    }
+    toastr.info("{{ session('info') }}");
+    @endif
+
+    @if(Session::has('warning'))
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true
+    }
+    toastr.warning("{{ session('warning') }}");
+    @endif
+
+</script>
+<script>
+    //Automatically close Bootstrap alerts after 5 seconds
+    $(".alert").fadeTo(5000, 0).slideUp(500, function () {
+        $(this).remove();
+    });
+
+</script>
+
 </html>

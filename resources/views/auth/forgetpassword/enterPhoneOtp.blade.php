@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MET Iraq</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700">
+    <link href="{{asset('assets/general/lib/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+
     <script src="https://www.google.com/recaptcha/api.js?render={{ env('GOOGLE_RECAPTCHA_KEY') }}"></script>
     <link href="{{asset('assets/general/css/toaster.css')}}" rel="stylesheet" type="text/css">
 
@@ -165,6 +167,9 @@
             font-weight: bold;
             text-align: center
         }
+        .hide{
+            display: none;
+        }
     </style>
 </head>
 
@@ -216,28 +221,30 @@
 
 
     <div class="container">
-        <form id="loginForm" action="{{route('login')}}" method="post">
+        <form id="loginForm" action="{{route('verifyResetLinkPhone')}}" method="post">
             @csrf
             <h1>
-                Sign in
+                Enter OTP Phone
             </h1>
             <div class="form-content">
-                <input id="user-name" name="email" placeholder="Email" type="email" />
-                <input id="password" name="password" placeholder="password" type="password" /><br />
+                <div class="form-group">
+                    <label for="attention">OTP Code:</label>
+                    <input type="text" name="entered_email_otp_code">
+                    <input type="hidden" name="id" value="{{$id}}">
+                    <span>Please Check Your SMS</span><br>
+                </div>
 
-                <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                <div class="g-recaptcha" id="feedback-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}"></div>
-                @error('g-recaptcha-response')
-                <span class="danger" style="font-size: 12px">Please Check reCaptcha</span><br>
-                @enderror
-                <br>
-                {{-- <span style="font-size: 14px"><a href="{{ route('forget.password.get') }}">Forgot Password
-                ?</a></span> --}}
-                <p style="font-size: 16px;"><a href="{{ route('passwordRequestEmail') }}" style="color: #cc0022;"><b>Forget Password?</b></a></p>
-                <p style="font-size: 16px;">Don't have an account?<a href="/register" style="color: #cc0022;"><b> Create an account!</b></a></p>
-                <button type="submit" class="button">
-                    Log in
-                </button>
+                    <p style="font-size: 16px;">
+                        <span id="countdown">{{__('Wait for 1 minute before clicking again.')}}</span>
+                        <br>
+                        <span id="resendLink" style="display:none;">
+                            Not received the code? <a href="{{ route('sendResetLinkPhone',['id' => $id]) }}" style="color: #cc0022;"><b>Send Code Again</b></a>
+                        </span>
+                    </p>
+                    <button type="submit" class="button">
+                        Submit
+                    </button>
+
                 <br />
 
                 <div class="signup-message">
@@ -249,5 +256,74 @@
         </form>
     </div>
 </body>
+<script src="{{asset('assets/dashboard/vendor/jquery/jquery.min.js')}}"></script>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+$(function () {
+    // Check if countdown data is stored in localStorage
+    var countdownData = localStorage.getItem('countdownData');
+
+    if (!countdownData) {
+        // If no countdown data exists, start a new countdown with an initial time of 5 seconds
+        startCountdown(5);
+    } else {
+        countdownData = JSON.parse(countdownData);
+
+        if (countdownData.remainingTime <= 0) {
+            $("#countdown").hide();
+            $("#resendLink").show();
+        } else {
+            startCountdown(countdownData.remainingTime);
+        }
+    }
+
+    function startCountdown(initialTime) {
+        var countdown = initialTime;
+        var countdownInterval = setInterval(function () {
+            countdown--;
+            if (countdown <= 0) {
+                clearInterval(countdownInterval);
+                $("#countdown").hide();
+                $("#resendLink").show();
+            } else {
+                $("#countdown").text("Wait for " + countdown + " seconds before clicking again.");
+                // Store countdown data in localStorage
+                var countdownData = {
+                    remainingTime: countdown,
+                    timestamp: Date.now()
+                };
+                localStorage.setItem('countdownData', JSON.stringify(countdownData));
+            }
+        }, 1000);
+    }
+
+if(localStorage.getItem('once') == 'true'){
+    document.getElementById('resendLink').innerHTML = `
+    <p>{{__('If Not Received, Please Contact us via')}}
+        <span>
+            <a href='#' style='color: #25d366;'><b>
+                <i class='fab fa-whatsapp' style='color: #25d366;'> What's up</i>
+            </b></a>
+        </span>
+    </p>`
+} else {
+    $("#resendLink").on('click', function () {
+        localStorage.setItem('once', 'true');
+        document.getElementById('resendLink').innerHTML = `
+        <p>{{__('If Not Received, Please Contact us via')}}
+            <span>
+                <a href='#' style='color: #25d366;'><b>
+                    <i class='fab fa-whatsapp' style='color: #25d366;'> What's up</i>
+                </b></a>
+            </span>
+        </p>`
+        });
+}
+
+
+});
+
+</script>
+
 </html>

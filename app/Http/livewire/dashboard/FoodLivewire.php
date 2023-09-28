@@ -204,7 +204,9 @@ class FoodLivewire extends Component
     {
         if($this->objectName == null){
             $this->objectName = $this->imgReader;
+            $this->tempImg = $this->imgReader;
         } 
+        $this->tempImg =  $this->objectName;
         
         $validatedData = $this->validate();
 
@@ -240,8 +242,8 @@ class FoodLivewire extends Component
                 'special' => $validatedData['special'],
                 'sorm' => $sorm,
                 'options' => $optionsData,
-                'price' => isset($validatedData['price']) ? $validatedData['price'] : null,
-                'old_price' => isset($validatedData['oldPrice']) ? $validatedData['oldPrice'] : null,
+                'price' => isset($this->price) ? $this->price : null,
+                'old_price' => isset($this->oldPrice) ? $this->oldPrice : null,
                 'img' => isset($this->objectName) ? $this->objectName : $this->imgReader,
             ]);
         

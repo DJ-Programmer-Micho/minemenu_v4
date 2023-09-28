@@ -167,11 +167,12 @@ class OfferLivewire extends Component
  
     public function updateOffer()
     {
-  
         if($this->objectName == null){
             $this->objectName = $this->imgReader;
+            $this->tempImg = $this->imgReader;
         } 
-
+        $this->tempImg =  $this->objectName;
+        
         $validatedData = $this->validate();
 
         

@@ -165,6 +165,26 @@
             font-weight: bold;
             text-align: center
         }
+        .hide{
+            display: none;
+        }
+        /* Customize the alert colors */
+        .alert-success {
+            background-color: #4CAF50;
+            color: white;
+            border: 2px solid #218525;
+        }
+        /* Customize the alert colors */
+        .alert-error {
+            background-color: #f44336;
+            color: white;
+            border: 2px solid #942018;
+        }
+        /* Add padding and margin for better spacing */
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 
@@ -209,45 +229,88 @@
                     d="M74.52,595.89c1.24-100,35.87-198.48,102.43-285.71,13.8-18.09,29.76-34.54,44.89-51.6,4.41-5,10.26-6.54,16.73-4.79a15.35,15.35,0,0,1,11.59,11.93c1.44,6.14-1.06,10.92-5.11,15.49C230.5,297.66,215.22,313.6,201.92,331c-46.66,61.1-76.71,129.69-88.91,205.7-11.82,73.72-5.25,145.81,21.14,215.87,3.69,9.8.16,18.52-8.82,22s-18.19-1-21.94-10.82C84.05,712.92,74.77,660.23,74.52,595.89Z"
                     transform="translate(-7.51 -11.03)" /></svg>
 
-            <span class="logo-text danger"> MINE MENU</span>
+            <span class="logo-text danger">MINE MENU</span>
         </a>
     </div>
 
 
 
     <div class="container">
-        <form id="loginForm" action="{{route('login')}}" method="post">
+        <form id="loginForm" action="{{route('checkResetLinkEmail')}}" method="post">
             @csrf
+            @if(session('message'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('message') }}
+                </div>
+            @endif
+            @if(session('error'))
+                <div class="alert alert-error alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
+                </div>
+            @endif
             <h1>
-                Sign in
+                {{__('Enter Email')}}
             </h1>
             <div class="form-content">
-                <input id="user-name" name="email" placeholder="Email" type="email" />
-                <input id="password" name="password" placeholder="password" type="password" /><br />
-
-                <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                <div class="g-recaptcha" id="feedback-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}"></div>
-                @error('g-recaptcha-response')
-                <span class="danger" style="font-size: 12px">Please Check reCaptcha</span><br>
-                @enderror
-                <br>
-                {{-- <span style="font-size: 14px"><a href="{{ route('forget.password.get') }}">Forgot Password
-                ?</a></span> --}}
-                <p style="font-size: 16px;"><a href="{{ route('passwordRequestEmail') }}" style="color: #cc0022;"><b>Forget Password?</b></a></p>
-                <p style="font-size: 16px;">Don't have an account?<a href="/register" style="color: #cc0022;"><b> Create an account!</b></a></p>
-                <button type="submit" class="button">
-                    Log in
-                </button>
-                <br />
-
-                <div class="signup-message">
-                    <a class="danger">@error('email')
-                        {{$message}}
-                        @enderror</a>
+                <div class="form-group">
+                    <label for="attention">{{__('Email Address:')}}</label>
+                    <input type="email" name="email">
+                    <div class="signup-message">
+                        <a class="danger">@error('email'){{$message}}@enderror</a>
+                    </div>
+                    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                    <div class="g-recaptcha" id="feedback-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}"></div>
+                    @error('g-recaptcha-response')
+                    <span class="danger" style="font-size: 12px">{{__('Please Check reCaptcha')}}</span><br>
+                    @enderror
                 </div>
+                <br>
+                <button type="submit" class="button">{{__('Send Code!')}}</button>
+                <br/>
+                
             </div>
         </form>
     </div>
 </body>
+<script src="{{asset('assets/dashboard/vendor/jquery/jquery.min.js')}}"></script>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    @if(Session::has('message'))
+    toastr.options =
+    {
+        "closeButton" : true,
+        "progressBar" : true
+    }
+            toastr.success("{{ session('message') }}");
+    @endif
+  
+    @if(Session::has('error'))
+    toastr.options =
+    {
+        "closeButton" : true,
+        "progressBar" : true
+    }
+            toastr.error("{{ session('error') }}");
+    @endif
+  
+    @if(Session::has('info'))
+    toastr.options =
+    {
+        "closeButton" : true,
+        "progressBar" : true
+    }
+            toastr.info("{{ session('info') }}");
+    @endif
+  
+    @if(Session::has('warning'))
+    toastr.options =
+    {
+        "closeButton" : true,
+        "progressBar" : true
+    }
+            toastr.warning("{{ session('warning') }}");
+    @endif
+  </script>
+
 </html>

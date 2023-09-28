@@ -304,7 +304,7 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="py-2 collapse-inner rounded" style="background-color: #1f2535">
                         <h6 class="collapse-header">{{__('Self Support:')}}</h6>
-                        <a class="collapse-item"  href="{{route('supportVideo')}}">
+                        <a class="collapse-item" href="{{route('supportVideo')}}">
                             <lord-icon
                             src="https://cdn.lordicon.com/tdxypxgp.json"
                             trigger="loop"
@@ -581,7 +581,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{route('profile')}}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>

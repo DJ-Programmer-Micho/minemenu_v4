@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Storage;
 class RestController extends Controller
 {
     // PAGE VIEW
+    public function profile(){
+        return view('dashboard.rest.pages.profile.index');
+    } // END FUNCTION (DASHBOARD)
     public function dashboard(){
         return view('dashboard.rest.pages.dashboard.index');
     } // END FUNCTION (DASHBOARD)

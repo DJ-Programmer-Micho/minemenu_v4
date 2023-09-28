@@ -8,7 +8,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RestController;
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Middleware\LocalizationMiddleware;
+use App\Http\Middleware\LocalizationMainMiddleware;
 // use App\Http\Livewire\User\Components\Header01Livewire;
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +36,15 @@ Route::middleware([LocalizationMainMiddleware::class])->group(function () {
     Route::post('/login', [AuthController::class,'login'])->name('logging');
     Route::get('/register',[AuthController::class,'register'])->name('register');
     Route::post('/register',[AuthController::class,'signup'])->name('signup');
+    // Email Verification
+    Route::get('/email-verify-otp/{email}', [AuthController::class,'goEmailOTP'])->name('goEmailOTP');
+    Route::get('/resend-verify-otp/{email}', [AuthController::class,'resendEmailOTP'])->name('resendEmailOTP');
+    Route::post('/email-verify-otp', [AuthController::class,'verifyEmailOTP'])->name('verifyEmailOTP');
+    // Phone Verification
+    Route::get('/verify-otp/{id}/{phone}', [AuthController::class,'goOTP'])->name('goOTP');
+    Route::get('/phone-resend-verify-otp/{id}/{phone}', [AuthController::class,'resendPhoneOTP'])->name('resendPhoneOTP');
+    Route::post('/verify-otp', [AuthController::class,'verifyOTP'])->name('verifyOTP');
+
     Route::get('/logout', [AuthController::class,'logout'])->name('logout');
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +54,27 @@ Route::middleware([LocalizationMainMiddleware::class])->group(function () {
     Route::get('/', [HomeController::class, 'home'])->name('home');
     Route::get('/pricing', [HomeController::class, 'pricing'])->name('pricing');
     Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+/*
+|--------------------------------------------------------------------------
+| Forget Password Route
+|--------------------------------------------------------------------------
+*/
+    //Email
+    Route::get('/password/forget',[ForgotPasswordController::class, 'showLinkRequestEmail'])->name('passwordRequestEmail');
+    Route::post('/password/forget', [ForgotPasswordController::class, 'checkResetLinkEmail'])->name('checkResetLinkEmail');
+    Route::get('/password/e/forget/{email}', [ForgotPasswordController::class, 'showLinkRequestEmailOtp'])->name('showLinkRequestEmailOtp');
+    Route::post('/password/e/s/forget/{email}', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('sendResetLinkEmail');
+    Route::post('/password/z/forget', [ForgotPasswordController::class, 'verifyResetLinkEmail'])->name('verifyResetLinkEmail');
+    // Route::get('/password/c/forget', [ForgotPasswordController::class, 'checkResetLinkEmail'])->name('checkResetLinkEmail');
+    //Phone
+    Route::get('/password/p/forget/{id}',[ForgotPasswordController::class, 'showLinkRequestPhone'])->name('passwordRequestPhone');
+    Route::post('/password/p/forget/{id}', [ForgotPasswordController::class, 'checkResetLinkPhone'])->name('checkResetLinkPhone');
+    Route::get('/password/c/p/forget/{id}', [ForgotPasswordController::class, 'showLinkRequestPhoneOtp'])->name('showLinkRequestPhoneOtp');
+    Route::post('/password/c/p/forget/{id}', [ForgotPasswordController::class, 'sendResetLinkPhone'])->name('sendResetLinkPhone');
+    Route::post('/password/z/p/forget/', [ForgotPasswordController::class, 'verifyResetLinkPhone'])->name('verifyResetLinkPhone');
+    //Reset Password
+    Route::get('/password/forget/ver/{id}', [ForgotPasswordController::class, 'passwordNewPassword'])->name('passwordNewPassword');
+    Route::post('/password/forget/ver', [ForgotPasswordController::class, 'passwordSendPassword'])->name('passwordSendPassword');
 });
 
 
@@ -76,6 +108,7 @@ Route::prefix('/man')->middleware(['checkStatus', 'LocalizationMiddleware', 'adm
 */
 Route::prefix('/rest')->middleware(['checkStatus', 'LocalizationMiddleware', 'rest'])->group(function () {
     Route::get('/', [RestController::class, 'dashboard'])->name('dashboard');
+    Route::get('/profile', [RestController::class, 'profile'])->name('profile');
     Route::get('/mainmenu', [RestController::class, 'mainmenu'])->name('mainmenu');
     Route::get('/category', [RestController::class, 'category'])->name('category');
     Route::get('/food', [RestController::class, 'food'])->name('food');

@@ -165,6 +165,9 @@
             font-weight: bold;
             text-align: center
         }
+        .hide{
+            display: none;
+        }
     </style>
 </head>
 
@@ -216,28 +219,47 @@
 
 
     <div class="container">
-        <form id="loginForm" action="{{route('login')}}" method="post">
+        <form id="loginForm" action="{{route('verifyEmailOTP')}}" method="post">
             @csrf
             <h1>
-                Sign in
+                Email OTP Code
             </h1>
             <div class="form-content">
-                <input id="user-name" name="email" placeholder="Email" type="email" />
-                <input id="password" name="password" placeholder="password" type="password" /><br />
+                <div class="form-group">
+                    <label for="attention">Is That Your Email?</label>
+                    <input type="email" name="email" value="{{ $email }}" readonly>
+                </div>
+                <div id="choice" class="form-group">
+                    <button id="no" type="button" class="button" style="margin-top: 3px; width: 49%;">
+                        No!
+                    </button>
+                    <a href="{{ route('resendEmailOTP', ['email' => $email]) }}">
+                        <button id="yes" type="button"  class="button" style="margin-top: 3px; width: 49%; color: #ffffff;">
+                            Yes!
+                        </button>
+                    </a>
+                </div>
 
-                <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                <div class="g-recaptcha" id="feedback-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}"></div>
-                @error('g-recaptcha-response')
-                <span class="danger" style="font-size: 12px">Please Check reCaptcha</span><br>
-                @enderror
-                <br>
-                {{-- <span style="font-size: 14px"><a href="{{ route('forget.password.get') }}">Forgot Password
-                ?</a></span> --}}
-                <p style="font-size: 16px;"><a href="{{ route('passwordRequestEmail') }}" style="color: #cc0022;"><b>Forget Password?</b></a></p>
-                <p style="font-size: 16px;">Don't have an account?<a href="/register" style="color: #cc0022;"><b> Create an account!</b></a></p>
-                <button type="submit" class="button">
-                    Log in
-                </button>
+                <div id="otp-show" class="hide">
+
+                    <div class="form-group">
+                        <label for="entered_otp_code">Enter OTP Code:</label>
+                        <input id="entered_email_otp_code" type="text" class="form-control" name="entered_email_otp_code" required>
+                    </div>
+                    
+                    <br>
+                    <p style="font-size: 16px;">
+                        <span>Please Check Your Email</span><br>
+                        <span id="countdown">Wait for 1 minute before clicking again.</span>
+                        <br>
+                        <span id="resendLink" style="display:none;">
+                            Not received the code? <a href="{{ route('resendEmailOTP', ['email' => $email]) }}" style="color: #cc0022;"><b>Send Code Again</b></a>
+                        </span>
+                    </p>
+                    <button type="submit" class="button">
+                        Submit
+                    </button>
+                </div>
                 <br />
 
                 <div class="signup-message">
@@ -249,5 +271,59 @@
         </form>
     </div>
 </body>
+<script src="{{asset('assets/dashboard/vendor/jquery/jquery.min.js')}}"></script>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    $(function () {
+        if(localStorage.getItem('clock')){
+            if(localStorage.getItem('clock') === 'true') {
+                $("#otp-show").show();
+                $("#choice").hide();
+            }
+        } 
+        console.log(localStorage.getItem('clock'),localStorage.getItem('resend'))
+        // Check if countdown data is stored in localStorage
+        var countdownData = localStorage.getItem('countdownData');
+        if (countdownData) {
+            if (countdownData.remainingTime <= 0){
+                $("#countdown").hide();
+                $("#resendLink").show();
+            } else {
+                // Resume the countdown if data exists
+                countdownData = JSON.parse(countdownData);
+                startCountdown(countdownData.remainingTime);
+            }
+
+        } 
+
+        $("#yes").on('click', function () {
+            $("#otp-show").show();
+            $("#choice").hide();
+            localStorage.setItem('clock', 'true');
+            startCountdown(60); // Start a new countdown (60 seconds)
+        });
+
+        function startCountdown(initialTime) {
+            var countdown = initialTime;
+            var countdownInterval = setInterval(function () {
+                countdown--;
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    $("#countdown").hide();
+                    $("#resendLink").show();
+                } else {
+                    $("#countdown").text("Wait for " + countdown + " seconds before clicking again.");
+                    // Store countdown data in localStorage
+                    var countdownData = {
+                        remainingTime: countdown,
+                        timestamp: Date.now()
+                    };
+                    localStorage.setItem('countdownData', JSON.stringify(countdownData));
+                }
+            }, 1000);
+        }
+    });
+</script>
+
 </html>
