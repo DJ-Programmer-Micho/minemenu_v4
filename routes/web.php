@@ -88,7 +88,7 @@ Route::middleware([LocalizationMainMiddleware::class])->group(function () {
 | MET ROUTE SUPER ADMIN
 |--------------------------------------------------------------------------
 */  
-Route::prefix('/own')->middleware(['checkStatus', 'LocalizationMiddleware', 'superadmin'])->group(function () {
+Route::prefix('/own')->middleware(['LocalizationMiddleware', 'superadmin'])->group(function () {
     Route::get('/', [OwnController::class, 'dashboard'])->name('dashboard');
 });
 

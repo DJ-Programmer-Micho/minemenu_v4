@@ -50,8 +50,8 @@ class UsersExport implements FromCollection, WithHeadings
             'categories.food.translation' => function ($query) {
                 $query->where('lang', $this->locale); // English translations of foods
             },
-        ])->where('user_id', auth()->id())->get();
-    
+        ])->get();
+        // ->where('user_id', auth()->id())->
         $exportData = [];
     
         foreach ($menus as $menu) {
@@ -61,16 +61,16 @@ class UsersExport implements FromCollection, WithHeadings
                 // If there are no categories, add menuName, '-' for category, and '--' for food
                 $exportData[] = [
                     'Menu ID' => $menu->id,
-                    'Menu Name (en)' => $menuName,
+                    'Menu Name ' . '(' . $this->locale . ')' => $menuName,
                     'Category ID' => '-',
-                    'Category Name (en)' => '-',
+                    'Category Name ' . '(' . $this->locale . ')' => '-',
                     'Food ID' => '--',
-                    'Food Name (en)' => '--',
-                    'Food Description (en)' => '-',
+                    'Food Name ' . '(' . $this->locale . ')' => '--',
+                    'Food Description ' . '(' . $this->locale . ')' => '-',
                     'Food Price' => '-',
                     'Food Old Price' => '-',
-                    'Food Option Key (en)' => '-',
-                    'Food Option Value (en)' => '-',
+                    'Food Option Key ' . '(' . $this->locale . ')' => '-',
+                    'Food Option Value ' . '(' . $this->locale . ')' => '-',
                 ];
             } else {
                 foreach ($menu->categories as $category) {
@@ -80,16 +80,16 @@ class UsersExport implements FromCollection, WithHeadings
                         // If there are no food, add menuName, categoryName, '-' for food
                         $exportData[] = [
                             'Menu ID' => $menu->id,
-                            'Menu Name (en)' => $menuName,
+                            'Menu Name ' . '(' . $this->locale . ')' => $menuName,
                             'Category ID' => $category->id,
-                            'Category Name (en)' => $categoryName,
+                            'Category Name ' . '(' . $this->locale . ')' => $categoryName,
                             'Food ID' => '-',
-                            'Food Name (en)' => '--',
-                            'Food Description (en)' => '-',
+                            'Food Name ' . '(' . $this->locale . ')' => '--',
+                            'Food Description ' . '(' . $this->locale . ')' => '-',
                             'Food Price' => '-',
                             'Food Old Price' => '-',
-                            'Food Option Key (en)' => '-',
-                            'Food Option Value (en)' => '-',
+                            'Food Option Key ' . '(' . $this->locale . ')' => '-',
+                            'Food Option Value ' . '(' . $this->locale . ')' => '-',
                         ];
                     } else {
                         foreach ($category->food as $food) {
@@ -106,32 +106,32 @@ class UsersExport implements FromCollection, WithHeadings
                                     // Add a row for each food option key and value
                                     $exportData[] = [
                                         'Menu ID' => $menu->id,
-                                        'Menu Name (en)' => $menuName,
+                                        'Menu Name ' . '(' . $this->locale . ')' => $menuName,
                                         'Category ID' => $category->id,
-                                        'Category Name (en)' => $categoryName,
+                                        'Category Name ' . '(' . $this->locale . ')' => $categoryName,
                                         'Food ID' => $food->id,
-                                        'Food Name (en)' => $foodName,
-                                        'Food Description (en)' => $foodDescription,
+                                        'Food Name ' . '(' . $this->locale . ')' => $foodName,
+                                        'Food Description ' . '(' . $this->locale . ')' => $foodDescription,
                                         'Food Price' => $foodPrice,
                                         'Food Old Price' => $foodOldPrice,
-                                        'Food Option Key (en)' => $option['key'],
-                                        'Food Option Value (en)' => $option['value'],
+                                        'Food Option Key ' . '(' . $this->locale . ')' => $option['key'],
+                                        'Food Option Value ' . '(' . $this->locale . ')' => $option['value'],
                                     ];
                                 }
                             } else {
                                 // If food options are missing, add placeholders
                                 $exportData[] = [
                                     'Menu ID' => $menu->id,
-                                    'Menu Name (en)' => $menuName,
+                                    'Menu Name ' . '(' . $this->locale . ')' => $menuName,
                                     'Category ID' => $category->id,
-                                    'Category Name (en)' => $categoryName,
+                                    'Category Name ' . '(' . $this->locale . ')' => $categoryName,
                                     'Food ID' => $food->id,
-                                    'Food Name (en)' => $foodName,
-                                    'Food Description (en)' => $foodDescription,
+                                    'Food Name ' . '(' . $this->locale . ')' => $foodName,
+                                    'Food Description ' . '(' . $this->locale . ')' => $foodDescription,
                                     'Food Price' => $foodPrice,
                                     'Food Old Price' => $foodOldPrice,
-                                    'Food Option Key (en)' => '-',
-                                    'Food Option Value (en)' => '-',
+                                    'Food Option Key ' . '(' . $this->locale . ')' => '-',
+                                    'Food Option Value ' . '(' . $this->locale . ')' => '-',
                                 ];
                             }
                         }

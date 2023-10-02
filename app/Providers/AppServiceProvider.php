@@ -25,7 +25,11 @@ class AppServiceProvider extends ServiceProvider
             return app()->getLocale(); // Replace "abc" with your desired value or logic to fetch the data.
         });
         $this->app->singleton('userlanguage', function () {
-            return Auth::user()->settings->languages; // Replace "abc" with your desired value or logic to fetch the data.
+            if (Auth::user()->role == 1) {
+                return ['en']; // Replace "abc" with your desired value or logic to fetch the data.
+            } else {
+                return Auth::user()->settings->languages; // Replace "abc" with your desired value or logic to fetch the data.
+            }
         });
         $this->app->singleton('cloudfront', function () {
             return 'https://d3jel9g9x3oq59.cloudfront.net/'; // Replace "abc" with your desired value or logic to fetch the data.
