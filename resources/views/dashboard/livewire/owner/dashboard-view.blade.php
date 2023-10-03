@@ -4,6 +4,7 @@
         .dropdown-menu{
             transform: translate3d(-84px, 29px, 0px)!important;
         }
+        
     </style>
     <!-- Page Heading -->
     {{-- <button wire:click="export" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
@@ -31,7 +32,62 @@
     {{-- </div> --}}
     <div class="row">
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
+       
+        <div class="col-md-6">
+            <div class="card shadow mb-4 dash-card">
+                <div class="card-header py-3 dash-card">
+                    <h6 class="m-0 font-weight-bold text-white">Top 5 Registers Actions</h6>
+                </div>
+                <div class="card-body ">
+                    <div class="table-responsive mt-1">
+                        <table class="table table-striped table-hover table-sm text-white">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Profile</th>
+                                    <th>Resturant Name</th>
+                                    <th>Old Status</th>
+                                    <th>New Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-white"  wire:ignore>
+                                @forelse ($sortedTopUsersInfo as $item)
+                                <tr>
+                                    <td class="align-middle">
+                                        {{$item['user_id']}}
+                                    </td>
+                                    <td class="align-middle">
+                                        <img src="{{$item['background_avatar_img'] }}" alt="{{ $item['background_avatar_img'] }}" width="50" style="border-radius: 50%;">
+                                    </td>
+                                    <td class="align-middle">
+                                        {{$item['user_name']}}
+                                    </td>
+                                    <td class="align-middle">
+                                        <span class="text-danger">
+                                            <b>{{$item['old_plan_id'][1]}}</b>
+                                         </span>
+                                    </td>
+                                    <td class="align-middle">
+                                        <span class="text-success">
+                                            <b>{{$item["new_plan_id"][1]}}</b>
+                                         </span>
+                                    </td>
+                                    <td class="align-middle">{{$item['date_time']}}</td>
+                                </tr>
+                                @empty
+                                NO DATA
+                                @endforelse
+                            </tbody>
+                        </table>
+            
+                    </div>
+                </div>
+            </div>
+        </div>
+  <div class="col-md-6">
+    <div class="row">
+        <div class="col-xl-4 col-md-6 mb-2">
             <div class="card border-left-primary shadow h-100 py-2 dash-card">
                 <div class="card-body ">
                     <div class="row no-gutters align-items-center">
@@ -57,7 +113,7 @@
             </div>
         </div>
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
+        <div class="col-xl-4 col-md-6 mb-2">
             <div class="card border-left-success shadow h-100 py-2 dash-card">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -83,7 +139,7 @@
             </div>
         </div>
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
+        <div class="col-xl-4 col-md-6 mb-2">
             <div class="card border-left-warning shadow h-100 py-2 dash-card">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -108,7 +164,7 @@
             </div>
         </div>
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
+        <div class="col-xl-4 col-md-6 mb-2">
             <div class="card border-left-danger shadow h-100 py-2 dash-card">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -133,7 +189,7 @@
             </div>
         </div>
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
+        <div class="col-xl-4 col-md-6 mb-2">
             <div class="card border-left-success shadow h-100 py-2 dash-card">
                 <div class="card-body ">
                     <div class="row no-gutters align-items-center">
@@ -157,7 +213,7 @@
             </div>
         </div>
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
+        <div class="col-xl-4 col-md-6 mb-2">
             <div class="card border-left-danger shadow h-100 py-2 dash-card">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -181,7 +237,7 @@
             </div>
         </div>
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
+        <div class="col-xl-4 col-md-6 mb-2">
             <div class="card border-left-danger shadow h-100 py-2 dash-card">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -204,7 +260,7 @@
             </div>
         </div>
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
+        <div class="col-xl-4 col-md-6 mb-2">
             <div class="card border-left-info shadow h-100 py-2 dash-card">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -227,6 +283,8 @@
                 </div>
             </div>
         </div>
+    </div>
+  </div>
     </div>
    
     <!-- Content Row -->
@@ -263,11 +321,49 @@
                 </div>
             </div>
         </div>
+        <div class="col-12">
+            <div class="card shadow mb-4 dash-card">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between dash-card">
+                    <h6 class="m-0 font-weight-bold text-white">
+                        {{__('Overview Statistic')}}
+                    </h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="combinedCountryChart"></canvas>
+                        {{-- <canvas id="myAreaChart"></canvas> --}}
+                    </div>
+                    <div class="my-4">
+                        <label for="yearSelect">{{__('Select Year:')}}</label>
+                        <select id="yearSelect" class="form-control" 
+                        wire:model="selectedYear" 
+                        style="background-color: #303541; color: #fff;">
+                        @if ($availableYears)
+                            
+                        @forelse ($availableYears as $year)
+                        <option value="{{ $year }}">{{ $year }}</option>
+                        @empty
+                        <option value="">NO DATA</option>
+                        @endforelse
+                        @endif
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Content Row -->
     <div class="row">
 
+        <!-- Content Column -->
+        <div class="col-lg-12">
+
+            <!-- Project Card Example -->
+
+        </div>
         <!-- Content Column -->
         <div class="col-lg-6">
 
@@ -438,7 +534,7 @@
             } else {
                 var chartData = {!! json_encode($chartData) !!}
             }
-console.log(chartData);
+console.log({!! json_encode($chartData) !!});
             var labels = Object.keys(chartData.timePlan);
             var demoData = labels.map(month => chartData.demoPlan[month]?.count || 0);
             var planOneData = labels.map(month => chartData.planOne[month]?.count || 0);
@@ -499,6 +595,200 @@ console.log(chartData);
             createOrUpdateChart($asd.detail); // Update the chart when data changes
         });
     });
-    </script>
+</script>
+    <script>
+        document.addEventListener('livewire:load', function () {
+           console.log('Initial');
+   
+           var combinedCountryChart;
+   
+           // Define chart options
+           var chartCountryOptions = {
+               maintainAspectRatio: false,
+               layout: {
+                   padding: {
+                       left: 10,
+                       right: 25,
+                       top: 25,
+                       bottom: 0,
+                   },
+               },
+               showLines: true,
+               scales: {
+                   xAxes: [{
+                       gridLines: {
+                           display: true,
+                           drawBorder: true,
+                       },
+                       ticks: {
+                           fontColor: "#ffffff",
+                           maxTicksLimit: 12,
+                       },
+                   }],
+                   yAxes: [{
+                       maxTicksLimit: 5,
+                       padding: 10,
+                       color: "white",
+                       ticks: {
+                           fontColor: "#ffffff",
+                           maxTicksLimit: 12,
+                           callback: function (value, index, values) {
+                               return value.toFixed(1);
+                               // return "$" + value.toFixed(2);
+                           },
+                       },
+                       gridLines: {
+                           color: "rgb(234, 236, 244)",
+                           borderColor: "rgb(234, 236, 244)",
+                           drawBorder: true,
+                           borderDash: [2],
+                           borderDashOffset: [2],
+                       },
+                   }],
+               },
+               legend: {
+                   labels: {
+                       fontColor: "#fff",
+                   }
+               },
+               plugins: {
+   
+                   colors: {
+                       forceOverride: true
+                   },
+                   tooltip: {
+                       backgroundColor: "#333",
+                       bodyFontColor: "#eee",
+                       titleFontColor: "#eee",
+                       borderColor: "#eee",
+                       borderWidth: 1,
+                       xPadding: 15,
+                       yPadding: 15,
+                       displayColors: true,
+                       intersect: true,
+                       mode: "index",
+                       caretPadding: 10,
+                       callbacks: {
+                           label: function (context) {
+                               var label = context.dataset.label || "";
+                               if (label) {
+                                   label += ": ";
+                               }
+                               if (context.parsed.y !== null) {
+                                   label += "$" + context.parsed.y.toFixed(2);
+                               }
+                               return label;
+                           },
+                       },
+                   },
+               },
+           };
+   
+           function createOrUpdateChart(countyAsd) {
+    if (combinedCountryChart) {
+        combinedCountryChart.destroy();
+    }
+
+    var chartCountryData;
+
+    if (countyAsd) {
+        chartCountryData = countyAsd;
+    } else {
+        chartCountryData = {!! json_encode($chartCountryData['timeCountry']) !!};
+    }
+
+    // Initialize arrays to store data for each country
+    var dates = Object.keys(chartCountryData);
+    var countries = [];
+    var colors = [];
+    // Iterate through labels (months)
+    for (var date in chartCountryData) {
+        if (chartCountryData.hasOwnProperty(date)) {
+            var dateData = chartCountryData[date];
+
+            // Handle empty data (set to 0)
+            if (Object.keys(dateData).length === 0) {
+                dateData = {};
+            }
+
+            // Extract countries and add them to the list if not already present
+            for (var country in dateData) {
+                if (dateData.hasOwnProperty(country) && countries.indexOf(country) === -1) {
+                    countries.push(country);
+                    colors.push(getRandomColor());
+                }
+            }
+        }
+    }
+
+    // Sort countries alphabetically
+    countries.sort();
+
+    // Create datasets
+    var datasets = countries.map(function (country, index) {
+        var data = dates.map(function (date) {
+            return chartCountryData[date][country] || 0;
+        });
+
+        return {
+            label: country,
+            data: data,
+            // backgroundColor: 'rgba(75, 192, 192, 0.7)', // Adjust the background color as needed
+            backgroundColor: colors[index], // Adjust the background color as needed
+            borderWidth: 2,
+            fill: true,
+        };
+    });
+
+    // Create the chart
+    var ctx = document.getElementById("combinedCountryChart").getContext('2d');
+    combinedCountryChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: dates,
+            datasets: datasets,
+        },
+        options: chartCountryOptions, // Reuse chart options
+    });
+}
+
+
+
+   
+           // Initial chart creation
+           createOrUpdateChart(null);
+   
+           document.addEventListener('chartDataCountryUpdated', function ($countyAsd) {
+               console.log('Updated',$countyAsd.detail);
+               createOrUpdateChart($countyAsd.detail); // Update the chart when data changes
+           });
+       });
+
+//        function getRandomColor() {
+//     var letters = '0123456789ABCDEF';
+//     var color = '#';
+//     for (var i = 0; i < 8; i++) {
+//         color += letters[Math.floor(Math.random() * 16)];
+//     }
+//     return color;
+// }
+var customHexColors = [
+    '#4e73dfaa',
+    '#6f42c1aa',
+    '#e83e8caa',
+    '#e74a3baa',
+    '#fd7e14aa',
+    '#f6c23eaa',
+    '#1cc88aaa',
+    '#36b9ccaa',
+    // Add more colors as needed
+];
+
+function getRandomColor() {
+    // Pick a random color from the customHexColors array
+    var randomIndex = Math.floor(Math.random() * customHexColors.length);
+    return customHexColors[randomIndex];
+}
+       </script>
 @endpush
 </div>
