@@ -358,56 +358,6 @@
     <!-- Content Row -->
     <div class="row">
 
-        <!-- Content Column -->
-        <div class="col-lg-12">
-
-            <!-- Project Card Example -->
-
-        </div>
-        <!-- Content Column -->
-        <div class="col-lg-6">
-
-            <!-- Project Card Example -->
-            <div class="card shadow mb-4 dash-card">
-                <div class="card-header py-3 dash-card">
-                    <h6 class="m-0 font-weight-bold text-white">Top 5 Categories Clicked</h6>
-                </div>
-                <div class="card-body">
-                    @foreach($categoriesWithNames as $category)
-                    @php
-                        $clickCount = $topCategories->where('category_id', $category->id)->first()->click_count ?? 0;
-                        $percentage = ($clickCount / $sumCategoryClick) * 100;
-                    @endphp
-                    <h4 class="small font-weight-bold text-white">{{ $category->translation->name }} <span class="float-right">{{ $clickCount }}</span></h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ $percentage + $sumCategoryClick}}%" aria-valuenow="{{ $clickCount }}" aria-valuemin="0" aria-valuemax="{{ $sumCategoryClick }}"></div>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
-
-            <!-- Project Card Example -->
-            <div class="card shadow mb-4 dash-card">
-                <div class="card-header py-3 dash-card">
-                    <h6 class="m-0 font-weight-bold text-white">Top 5 Food Clicked</h6>
-                </div>
-                <div class="card-body">
-                    @foreach($foodWithNames as $food)
-                    @php
-                        $clickCount = $topFood->where('food_id', $food->id)->first()->click_count ?? 0;
-                        $percentage = ($clickCount / $sumFoodClick) * 100;
-                    @endphp
-                    <h4 class="small font-weight-bold text-white">{{ $food->translation->name }} <span class="float-right">{{ $clickCount }}</span></h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ $percentage + $sumFoodClick}}%" aria-valuenow="{{ $clickCount }}" aria-valuemin="0" aria-valuemax="{{ $sumFoodClick }}"></div>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-
         <div class="col-lg-12 mb-4">
 
 
@@ -438,10 +388,7 @@
 @push('rest_script')
 <script>
      document.addEventListener('livewire:load', function () {
-        console.log('Initial');
-
         var combinedChart;
-
         // Define chart options
         var chartOptions = {
             maintainAspectRatio: false,
@@ -534,7 +481,6 @@
             } else {
                 var chartData = {!! json_encode($chartData) !!}
             }
-console.log({!! json_encode($chartData) !!});
             var labels = Object.keys(chartData.timePlan);
             var demoData = labels.map(month => chartData.demoPlan[month]?.count || 0);
             var planOneData = labels.map(month => chartData.planOne[month]?.count || 0);
@@ -591,15 +537,13 @@ console.log({!! json_encode($chartData) !!});
         createOrUpdateChart(null);
 
         document.addEventListener('chartDataUpdated', function ($asd) {
-            console.log('Updated',$asd.detail);
+            // console.log('Updated',$asd.detail);
             createOrUpdateChart($asd.detail); // Update the chart when data changes
         });
     });
 </script>
     <script>
         document.addEventListener('livewire:load', function () {
-           console.log('Initial');
-   
            var combinedCountryChart;
    
            // Define chart options
@@ -759,7 +703,7 @@ console.log({!! json_encode($chartData) !!});
            createOrUpdateChart(null);
    
            document.addEventListener('chartDataCountryUpdated', function ($countyAsd) {
-               console.log('Updated',$countyAsd.detail);
+            //    console.log('Updated',$countyAsd.detail);
                createOrUpdateChart($countyAsd.detail); // Update the chart when data changes
            });
        });

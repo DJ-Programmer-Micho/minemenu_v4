@@ -9,6 +9,7 @@ use App\Otp\SinchService;
 use Illuminate\Http\Request;
 use App\Mail\EmailVerificationMail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -63,10 +64,18 @@ class AuthController extends Controller
             } elseif ($user->phone_verified === null || $user->phone_verified === 0) {
                 return redirect()->route('goOTP', ['id' => $user->id, 'phone' => $user->profile->phone]);
             }
+        } else {
+            // dd('false');
+            if ($user) {
+                if (password_verify($credentials['password'], $user->g_pass )) {
+                    Auth::login($user);
+            }
         }
+    }
         
         //Check Auth Role
-        if ($user && $user->status == 1 && Auth::attempt($credentials)) {
+        if ($user && $user->status == 1) {
+        // if ($user && $user->status == 1 && Auth::attempt($credentials)) {
             $user_role = Auth::user()->role;
     
             switch ($user_role) {

@@ -90,6 +90,7 @@ Route::middleware([LocalizationMainMiddleware::class])->group(function () {
 */  
 Route::prefix('/own')->middleware(['LocalizationMiddleware', 'superadmin'])->group(function () {
     Route::get('/', [OwnController::class, 'dashboard'])->name('dashboard');
+    Route::get('/useractivity', [OwnController::class, 'userActivity'])->name('userActivity');
 });
 
 /*

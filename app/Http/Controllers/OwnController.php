@@ -13,6 +13,9 @@ class OwnController extends Controller
     public function dashboard(){
         return view('dashboard.own.pages.dashboard.index');
     } // END FUNCTION (DASHBOARD)
+    public function userActivity(){
+        return view('dashboard.own.pages.userActivity.index');
+    } // END FUNCTION (DASHBOARD)
     public function mainmenu(){
         return view('dashboard.own.pages.menu.index');
     } // END FUNCTION (MENU)

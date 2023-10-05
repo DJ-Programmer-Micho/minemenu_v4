@@ -27,6 +27,7 @@
     @stack('cropper_links')
     @stack('style_tag')
     @stack('support')
+ 
     <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
     <link href="{{asset('assets/general/css/toaster.css')}}" rel="stylesheet" type="text/css">
     @yield('rest_css')
@@ -79,7 +80,7 @@
                 {{__('Statistics')}}
             </div>
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item {{(request()->path() == 'rest') ? 'active' : ''}}">
+            <li class="nav-item {{(request()->path() == 'own') ? 'active' : ''}}">
                 <a class="nav-link" href="{{route('dashboard')}}">
                     <lord-icon
                     src="https://cdn.lordicon.com/gqdnbnwt.json"
@@ -96,10 +97,22 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                {{__('Food Group')}}
+                {{__('User Group')}}
             </div>
 
             <!-- Nav Item - Main Menu -->
+            <li class="nav-item {{(request()->path() == 'own/useractivity') ? 'active' : ''}}">
+                <a class="nav-link" href="{{route('userActivity')}}">
+                    <lord-icon
+                    src="https://cdn.lordicon.com/soseozvi.json"
+                    trigger="loop"
+                    delay="2000"
+                    colors="primary:#cc0022,secondary:#eee"
+                    style="width:48px;height:48px">
+                </lord-icon>
+                    <span>{{__('User Activity')}}</span></a>
+            </li>
+
             <li class="nav-item {{(request()->path() == 'rest/mainmenu') ? 'active' : ''}}">
                 <a class="nav-link" href="{{route('mainmenu')}}">
                     <lord-icon
@@ -690,6 +703,7 @@
     @stack('color');
     @stack('rest_script')
     @yield('rest_script')
+    @stack('datePicker')
     <form id="languageForm" action="{{ route('setLocale') }}" method="post">
         @csrf
         <input type="hidden" name="locale" id="selectedLocale" value="{{ app()->getLocale() }}">

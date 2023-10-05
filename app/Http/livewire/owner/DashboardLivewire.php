@@ -2,16 +2,10 @@
  
 namespace App\Http\Livewire\owner;
 
-use App\Models\Food;
 use App\Models\Plan;
 use App\Models\User;
-use App\Models\Profile;
-// use Livewire\WithPagination;
-use App\Models\Tracker;
 use Livewire\Component;
-use App\Models\Categories;
 use App\Models\PlanChange;
-use App\Models\TrackFoods;
 use App\Exports\UsersExport;
 use App\Models\Subscription;
 use Illuminate\Support\Facades\Auth;
@@ -21,26 +15,10 @@ class DashboardLivewire extends Component
 {
     public $glang;
     public $filteredLocales;
-    public $totalVisitsLifetime;
-    public $totalVisitsPerMonth;
-    public $totalCategories;
-    public $totalFoods;
     public $currentYear;
     public $selectedYear;
-    public $categoryClicksData;
-    public $foodClicksData;
     public $availableYears;
     public $chartData;
-    public $categoriesWithNames;
-    public $sumCategoryClick;
-    public $topCategoriesStore;
-    public $topCategories;
-    public $foodWithNames;
-    public $sumFoodClick;
-    public $topFoodStore;
-    public $topFood;
-    public $profile = [];
-    //new
     public $totalDemoUsers;
     public $totalOneMonthUsers;
     public $totalSixMonthUsers;
@@ -73,21 +51,6 @@ class DashboardLivewire extends Component
             $this->selectedYear = now()->year; // Initialize with the current year
             $this->loadChartData($this->selectedYear);
             $this->loadChartCountryData(2023);
-
-        //     // dd(auth()->user()->profile);
-        //     $this->profile['avatar'] = app('cloudfront') . (auth()->user()->settings->background_img_avatar ?? 'mine-setting/user.png');
-        //     $this->profile['restName'] = auth()->user()->name;
-        //     $this->profile['name'] = auth()->user()->profile->fullname;
-        //     $this->profile['email'] = auth()->user()->email;
-        //     $this->profile['phone'] = auth()->user()->profile->phone;
-        //     $this->profile['country'] = auth()->user()->profile->country;
-        //     $this->profile['create'] = auth()->user()->subscription->start_at;
-        //     $this->profile['expire'] = auth()->user()->subscription->expire_at;
-        //     $this->profile['plan_id'] = auth()->user()->subscription->plan_id;
-        //     $plan_name = Plan::where('id',  auth()->user()->subscription->plan_id)
-        //     ->first();
-
-        //     $this->profile['plan_name'] = $plan_name->name[$this->glang];
         }
     }
     //NEW
@@ -119,28 +82,6 @@ class DashboardLivewire extends Component
         ->count() ?? 0;
     }
 
-    // SOME TRACKING FUNCTIONS TO COUNT
-    private function getTotalVisitsLifetime()
-    {
-        return Tracker::count();
-    }
-
-    private function getTotalVisitsPerMonth()
-    {
-        $currentMonth = now()->format('Y-m');
-        return Tracker::selectRaw('DATE_FORMAT(visit_date, "%Y-%m") as month, COUNT(*) as total_visits')
-            ->whereRaw('DATE_FORMAT(visit_date, "%Y-%m") = ?', [$currentMonth])
-            ->groupBy('month')
-            ->get();
-    }
-    private function getTotalCategories($id)
-    {
-        return Categories::count();
-    }
-    private function getTotalFoods($id)
-    {
-        return Food::count();
-    }
     private function getAvailableYears()
     {
         // Fetch unique years from the Tracker table
@@ -232,11 +173,6 @@ class DashboardLivewire extends Component
             // Sort data by month and store it in the result array
             $sortedChartData[$formattedMonth] = $monthlyCountryCounts[$formattedMonth];
         }
-    
-        // Sort the array by keys to arrange the data by month
-        // ksort($sortedChartData);
-    
-        // dd($this->chartCountryData,ksort($sortedChartData),$sortedChartData);
         return $sortedChartData;
     }
 
@@ -296,98 +232,7 @@ class DashboardLivewire extends Component
             // Handle exceptions here
         }
     }
-    
-    // public function checkUser($id){
-    //     // try {
-    //         $userData = User::select('id', 'name', 'email','status','email_verified','email_verified')->find($id);
-    //         if (!$userData) {
-    //             return response()->json(['error' => 'User not found'], 404);
-    //         }
-    //         $profileData = Profile::select('*')->where('user_id', $id)->first();
-    //         $subscriptionData = Subscription::select('start_at', 'start_at')->where('user_id', $id)->first();
-    
-    //         if (!$profileData) {
-    //             $profileData = [];
-    //         }
-        
-    //         if (!$subscriptionData) {
-    //             $subscriptionData = [];
-    //         }
-        
-    //         $userData['profile'] = $profileData;
-    //         $userData['subscription'] = $subscriptionData;
-    //         $this->tempDataModal = $userData;
-    //         // dd( $this->tempDataModal);
-    //         // Return the combined data
-    //         return response()->json(200);
-    //     // } catch (\Exception $e) {
-    //     //     // Handle exceptions here, such as database errors
-    //     //     return response()->json(['error' => 'An error occurred'], 500);
-    //     // }
-        
-    // }
-    private function topCategories(){
-        try {
-            $topCategories = TrackFoods::selectRaw('category_id, COUNT(*) as click_count')
-                ->where('food_id', null)
-                ->groupBy('category_id')
-                ->orderByDesc('click_count')
-                ->limit(5)
-                ->get();
-    
-            $maxClickCount = TrackFoods::where('food_id', null)
-                ->count();
-    
-            $topCategoryIds = $topCategories->pluck('category_id')->toArray();
-    
-            $this->categoriesWithNames = Categories::whereIn('id', $topCategoryIds)
-            ->with(['translation' => function ($query) {
-                $query->where('locale', $this->glang);
-            }])
-            ->get()
-            ->sortByDesc(function ($category) use ($topCategories) {
-                // Sort the categories by click_count from $topCategories
-                $clickCount = $topCategories->where('category_id', $category->id)->first()->click_count ?? 0;
-                return $clickCount;
-            });
-                $this->sumCategoryClick = $maxClickCount;
-                $this->topCategories = $topCategories;
-                // dd($topCategoryIds,$this->categoriesWithNames,$this->sumCategoryClick,$this->topCategories);
-        } catch (\Exception $e) {
-            // Handle the exception, log the error, or return an error response as needed.
-            // You can also rethrow the exception if you want it to propagate up the call stack.
-            // Example: throw $e;
-        }
-    }
-    private function topFoods(){
-        $topFood = TrackFoods::selectRaw('food_id, COUNT(*) as click_count')
-        ->whereNotNull('food_id')
-        ->groupBy('food_id')
-        ->orderByDesc('click_count')
-        ->limit(5)
-        ->get();
-
-        $maxClickCount = TrackFoods::whereNotNull('food_id')
-        ->count();
-
-        $topFoodIds = $topFood->pluck('food_id')->toArray();
-
-        $this->foodWithNames = Food::whereIn('id', $topFoodIds)
-        ->with(['translation' => function ($query) {
-            $query->where('lang', $this->glang);
-        }])
-        ->get()
-        ->sortByDesc(function ($food) use ($topFood) {
-            // Sort the foods by click_count from $topFood
-            $clickCount = $topFood->where('food_id', $food->id)->first()->click_count ?? 0;
-            return $clickCount;
-        });
-
-        $this->sumFoodClick = $maxClickCount;
-        $this->topFood = $topFood;
-        // dd($topFood,$this->foodWithNames);
-    }
-
+ 
     public function updatedSelectedYear()
     {
         $this->loadChartData($this->selectedYear);
@@ -408,31 +253,10 @@ class DashboardLivewire extends Component
             $this->totalDeactiveUsers = $this->getTotalDeactiveUsers();
             $this->totalExpireUsers = $this->getTotalExpireUsers();
             $this->totalPendingUsers = $this->getTotalPendingUsers();
-            //Old
-            $this->totalVisitsLifetime = $this->getTotalVisitsLifetime(auth()->user()->name);
-            $this->totalVisitsPerMonth = $this->getTotalVisitsPerMonth(auth()->user()->name);
-            $this->totalCategories = $this->getTotalCategories(auth()->user()->id);
-            $this->totalFoods = $this->getTotalFoods(auth()->user()->id);
             $this->topFiveActions();
-            $this->topCategories(auth()->user()->name);
-            $this->topFoods(auth()->user()->name);
         }
-// dd( $this->totalDemoUsers);
+
         return view('dashboard.livewire.owner.dashboard-view',[
-            'visit_lifetime' => $this->totalVisitsLifetime,
-            'visit_monthly' => $this->totalVisitsPerMonth[0]['total_visits'] ?? 0,
-            'count_category' => $this->totalCategories,
-            'count_food' => $this->totalFoods,
-            // 'chartData' => $this->chartData,
-            'chartData' => 'asd',
-            'topCategories' => $this->topCategories,
-            'categoriesWithNames' => $this->categoriesWithNames,
-            'sumCategoryClick' => $this->sumCategoryClick,
-            'topFood' => $this->topFood,
-            'foodWithNames' => $this->foodWithNames,
-            'sumFoodClick' => $this->sumFoodClick,
-            'profile' => $this->profile,
-            // NEW
             'totalDemoUsers' => $this->totalDemoUsers,
             'totalOneMonthUsers' => $this->totalOneMonthUsers,
             'totalSixMonthUsers' => $this->totalSixMonthUsers,
