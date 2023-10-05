@@ -12,7 +12,7 @@
         </div>
         <div class="row m-0 p-0">
             
-                <h6 class="\ font-medium col-12 col-lg-2">
+                <h6 class="font-medium col-12 col-lg-2">
                     <label class="text-white">{{__('Menu Select')}}</label>
                     <select wire:model="categorieFilter" class="form-control bg-white text-black w-100">
                         <option value="" default>All</option>

@@ -1,4 +1,4 @@
-@extends('dashboard.rest.layouts.layout')
+@extends('dashboard.own.layouts.layout')
 @section('tail','Dashboard')
 @section('rest_content')
 <style>
@@ -205,7 +205,7 @@ left: 10px;
 }
 </style>
 <div>
-    @livewire('dashboard.plans-livewire')
+    @livewire('owner.plans-view-livewire')
 </div>
 
 

@@ -10,30 +10,24 @@ class OwnController extends Controller
     public function profile(){
         return view('dashboard.own.pages.profile.index');
     } // END FUNCTION (PROFILE)
-    public function dashboard(){
+    public function dashboardOwn(){
         return view('dashboard.own.pages.dashboard.index');
     } // END FUNCTION (DASHBOARD)
+
     public function userActivity(){
         return view('dashboard.own.pages.userActivity.index');
-    } // END FUNCTION (DASHBOARD)
-    public function mainmenu(){
-        return view('dashboard.own.pages.menu.index');
-    } // END FUNCTION (MENU)
-    public function category(){
-        return view('dashboard.own.pages.category.index');
-    } // END FUNCTION (CATEGORY)
-    public function food(){
-        return view('dashboard.own.pages.food.index');
-    } // END FUNCTION (FOOD)
-    public function offer(){
-        return view('dashboard.own.pages.offer.index');
-    } // END FUNCTION (OFFER)
-    public function languageSetting(){
-        return view('dashboard.own.pages.setting.languageSetting');
-    } // END FUNCTION (LANGUAGE-SETTING)
-    public function nameSetting(){
-        return view('dashboard.own.pages.setting.nameSetting');
-    } // END FUNCTION (NAME-SETTING)
+    } // END FUNCTION (USER ACTIVITY)
+    public function userData(){
+        return view('dashboard.own.pages.userData.index');
+    } // END FUNCTION (USER DATA)
+
+    public function planView(){
+        return view('dashboard.own.pages.plan.planView');
+    } // END FUNCTION (PLAN-VIEW)
+    public function planSetting(){
+        return view('dashboard.own.pages.plan.planSetting');
+    } // END FUNCTION (PLAN-SETTING)
+
     public function menuSetting(){
         return view('dashboard.own.pages.setting.menuSetting');
     } // END FUNCTION (MENU-SETTING)

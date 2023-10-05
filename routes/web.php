@@ -89,8 +89,11 @@ Route::middleware([LocalizationMainMiddleware::class])->group(function () {
 |--------------------------------------------------------------------------
 */  
 Route::prefix('/own')->middleware(['LocalizationMiddleware', 'superadmin'])->group(function () {
-    Route::get('/', [OwnController::class, 'dashboard'])->name('dashboard');
+    Route::get('/', [OwnController::class, 'dashboardOwn'])->name('dashboardOwn');
     Route::get('/useractivity', [OwnController::class, 'userActivity'])->name('userActivity');
+    Route::get('/usersdata', [OwnController::class, 'userData'])->name('userData');
+    Route::get('/planview', [OwnController::class, 'planView'])->name('planView');
+    Route::get('/plansetting', [OwnController::class, 'planSetting'])->name('planSetting');
 });
 
 /*

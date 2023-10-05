@@ -81,7 +81,7 @@
             </div>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item {{(request()->path() == 'own') ? 'active' : ''}}">
-                <a class="nav-link" href="{{route('dashboard')}}">
+                <a class="nav-link" href="{{route('dashboardOwn')}}">
                     <lord-icon
                     src="https://cdn.lordicon.com/gqdnbnwt.json"
                     trigger="loop"
@@ -113,62 +113,53 @@
                     <span>{{__('User Activity')}}</span></a>
             </li>
 
-            <li class="nav-item {{(request()->path() == 'rest/mainmenu') ? 'active' : ''}}">
-                <a class="nav-link" href="{{route('mainmenu')}}">
+            <li class="nav-item {{(request()->path() == 'own/usersdata') ? 'active' : ''}}">
+                <a class="nav-link" href="{{route('userData')}}">
                     <lord-icon
-                    src="https://cdn.lordicon.com/nocovwne.json"
+                    src="https://cdn.lordicon.com/soseozvi.json"
                     trigger="loop"
                     delay="2000"
                     colors="primary:#cc0022,secondary:#eee"
                     style="width:48px;height:48px">
                 </lord-icon>
-                    <span>{{__('Main Menu')}}</span></a>
-            </li>
-            <!-- Nav Item - Categories -->
-            <li class="nav-item {{(request()->path() == 'rest/category') ? 'active' : ''}}">
-                <a class="nav-link"  href="{{route('category')}}">
-                    <lord-icon
-                    src="https://cdn.lordicon.com/dnoiydox.json"
-                    trigger="loop"
-                    delay="2000"
-                    colors="primary:#cc0022,secondary:#eee"
-                    state="hover-2"
-                    style="width:48px;height:48px">
-                </lord-icon>
-                    <span>{{__('Category')}}</span></a>
-            </li>
-            <!-- Nav Item - Food -->
-            <li class="nav-item  {{(request()->path() == 'rest/food') ? 'active' : ''}}">
-                <a class="nav-link" href="{{route('food')}}">
-                    <lord-icon
-                    src="https://cdn.lordicon.com/jpdtnwas.json"
-                    trigger="loop"
-                    delay="2000"
-                    colors="primary:#cc0022,secondary:#eee"
-                    state="hover-2"
-                    style="width:48px;height:48px">
-                </lord-icon> 
-                    <span>{{__('Food')}}</span></a>
-            </li>
-            <!-- Nav Item - Offer -->
-            <li class="nav-item  {{(request()->path() == 'rest/offer') ? 'active' : ''}}">
-                <a class="nav-link" href="{{route('offer')}}">
-                    <lord-icon
-                    src="https://cdn.lordicon.com/zhxxdohn.json"
-                    trigger="loop"
-                    delay="2000"
-                    colors="primary:#cc0022,secondary:#eee"
-                    state="hover-2"
-                    style="width:48px;height:48px">
-                </lord-icon> 
-                    <span>{{__('Offer')}}</span></a>
+                    <span>{{__('Users Data')}}</span></a>
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider my-1">
             <!-- Heading -->
             <div class="sidebar-heading">
-                {{__('General Setting')}}
+                {{__('Plan Setting')}}
             </div>
+            <li class="nav-item {{(str_contains(request()->path(), 'rest/plan/')) ? 'active' : ''}}">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    <lord-icon
+                    src="https://cdn.lordicon.com/sbiheqdr.json"
+                    trigger="loop"
+                    delay="2000"
+                    colors="primary:#cc0022,secondary:#eee"
+                    style="width:48px;height:48px">
+                    </lord-icon>
+                    <span>{{__('Plan')}}</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="py-2 collapse-inner rounded" style="background-color: #1f2535">
+                        {{-- <h6 class="collapse-header">{{__('Setting')}}</h6> --}}
+                        <a class="collapse-item" href="{{route('planView')}}">
+                            <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
+                                colors="primary:#cc0022,secondary:#eee" state="hover-2" style="width:36px;height:36px">
+                            </lord-icon>
+                            <span class="text-white">{{__('View Plan')}}</span>
+                        </a>
+                        <a class="collapse-item" href="{{route('planSetting')}}">
+                            <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
+                                colors="primary:#cc0022,secondary:#eee" state="hover-1" style="width:36px;height:36px">
+                            </lord-icon>
+                            <span class="text-white">{{__('Edit Plan')}}</span>
+
+                        </a>
+                    </div>
+                </div>
+            </li>
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item {{(str_contains(request()->path(), 'rest/setting/')) ? 'active' : ''}}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
