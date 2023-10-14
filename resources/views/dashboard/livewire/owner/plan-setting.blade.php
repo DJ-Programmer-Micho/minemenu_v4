@@ -62,9 +62,15 @@
                                 @elseif ($col === 'name')
                                 <span>{{ $item->name['en'] }}</span>
 
+                                @elseif ($col === 'status') <!-- Add this condition -->
+                                <span class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
+                                    <b>{{ $item->status == 1 ? __('Active') : __('Non-Active') }}</b>
+                                 </span>
                                 @elseif ($col === 'Action') <!-- Add this condition -->
                                 <button class="btn btn-info mx-1 mb-1" onclick="checkBusiness('{{$general_link.$item->user->name}}')"><i class="far fa-eye"></i></button>
                                 <button class="btn btn-secondary mx-1" wire:click="checkDashboard('{{$item->user_id}}')"><i class="fas fa-satellite-dish"></i></button>
+                                @elseif ($col === 'priority')        
+                                <input type="number" id="priority_{{ $item->id }}" value="{{ $item->priority }}" class="form-control bg-dark text-white">
                                 @else
                                 {{ $item->$col }}
                                 @endif
@@ -74,7 +80,7 @@
                             <button type="button" onclick="updatePriorityValue({{ $item->id }})" class="btn btn-warning btn-icon text-dark">
                                 <i class="fas fa-sort"></i>
                             </button>
-                            <button type="button" data-toggle="modal" data-target="#updateFoodModal" wire:click="editFood({{ $item->id }})" class="btn btn-primary btn-icon">
+                            <button type="button" data-toggle="modal" data-target="#updatePlanModal" wire:click="editPlan({{ $item->id }})" class="btn btn-primary btn-icon">
                                 <i class="far fa-edit"></i>
                             </button>
                             <button type="button" wire:click="updateStatus({{ $item->id }})" class="btn {{ $item->status == 1 ? 'btn-danger' : 'btn-success' }} btn-icon">
@@ -135,6 +141,13 @@ $(function() {
     cb(start, end);
 
 });
+</script>
+<script>
+    function updatePriorityValue(itemId) {
+        var input = document.getElementById('priority_' + itemId);
+        var updatedPriority = input.value;
+        @this.call('updatePriority', itemId, updatedPriority);
+    }
 </script>
 @endpush
 {{-- @endpush --}}

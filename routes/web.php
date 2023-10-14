@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\LocalizationMiddleware;
+use App\Http\Middleware\LocalizationMainMiddleware;
 use App\Http\Controllers\EmpController;
 use App\Http\Controllers\ManController;
 use App\Http\Controllers\OwnController;
@@ -9,8 +11,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RestController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\ForgotPasswordController;
-use App\Http\Middleware\LocalizationMiddleware;
-use App\Http\Middleware\LocalizationMainMiddleware;
+use App\Http\Controllers\Gateaway\CallBackController;
+use App\Http\Controllers\Gateaway\PlanController;
+use App\Http\Controllers\Gateaway\TransactionController;
+use App\Http\Controllers\Gateaway\SubscriptionController;
 // use App\Http\Livewire\User\Components\Header01Livewire;
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +24,10 @@ use App\Http\Middleware\LocalizationMainMiddleware;
 Route::post('/set-locale', [LocalizationMiddleware::class, 'setLocale'])->name('setLocale');
 Route::post('/set-locale-start-up', [LocalizationMiddleware::class, 'setLocaleStartUp'])->name('setLocaleStartUp');
 
-
+Route::controller(CallBackController::class)->group(function(){
+    Route::post('/areeba/callback','areebaCallBack')->name('areeba.callback');
+    Route::get('/zaincash/callback','zainCashCallBack');
+});
 /*
 |--------------------------------------------------------------------------
 | Main Pages for Guests
@@ -56,6 +63,29 @@ Route::middleware([LocalizationMainMiddleware::class])->group(function () {
     Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 /*
 |--------------------------------------------------------------------------
+| Payment Route
+|--------------------------------------------------------------------------
+*/
+    Route::controller(SubscriptionController::class)->group(function(){
+        Route::get('/user-expire','userExpire');
+        Route::get('/admin-expire','adminExpire');
+        Route::post('/subscribe','subscribe');
+    });
+
+    Route::controller(PlanController::class)->group(function(){
+        Route::get('/plans/{id}','show');
+    });
+
+    Route::controller(TransactionController::class)->group(function(){
+        Route::get('/payment/cancel','cancel');
+        Route::get('/payment/error','pageError');
+        Route::get('/payment/success','success');
+    });
+
+
+
+/*
+|--------------------------------------------------------------------------
 | Forget Password Route
 |--------------------------------------------------------------------------
 */
@@ -77,7 +107,6 @@ Route::middleware([LocalizationMainMiddleware::class])->group(function () {
     Route::post('/password/forget/ver', [ForgotPasswordController::class, 'passwordSendPassword'])->name('passwordSendPassword');
 });
 
-
 /*
 |--------------------------------------------------------------------------
 | checkStatus: Chek The Status, LocalizationMiddleware: Check The Custom Language
@@ -88,7 +117,7 @@ Route::middleware([LocalizationMainMiddleware::class])->group(function () {
 | MET ROUTE SUPER ADMIN
 |--------------------------------------------------------------------------
 */  
-Route::prefix('/own')->middleware(['LocalizationMiddleware', 'superadmin'])->group(function () {
+Route::prefix('/own')->middleware(['LocalizationMainMiddleware', 'superadmin'])->group(function () {
     Route::get('/', [OwnController::class, 'dashboardOwn'])->name('dashboardOwn');
     Route::get('/useractivity', [OwnController::class, 'userActivity'])->name('userActivity');
     Route::get('/usersdata', [OwnController::class, 'userData'])->name('userData');

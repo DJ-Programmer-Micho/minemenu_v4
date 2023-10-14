@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PlanChange extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'plan_changes';
     protected $fillable = [
         'user_id',

@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.1",
         "astrotomic/laravel-translatable": "^11.12",
+        "firebase/php-jwt": "^6.9",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
         "laravel/framework": "^10.10",

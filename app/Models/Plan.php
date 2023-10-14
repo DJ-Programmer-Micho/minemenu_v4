@@ -11,15 +11,22 @@ class Plan extends Model
 
     protected $fillable = [ 
         "name",
-        "description",
+        "description", // Design for Menu
+        "description_rest", // Design for Dashboard
+        "description_onpay", // Design for After Selecting Plan
         "cost",
         "duration",
         "exchange_rate",
+        "priority",
+        "status",
+        "valid_date",
     ];
 
 
     protected $casts = [
         'name' => 'array',
         'description' => 'array',
+        'description_rest' => 'array',
+        'description_onpay' => 'array',
     ];
 }

@@ -12,25 +12,7 @@
                             </button>
                         </div>
                         <div class="row mt-3">
-                            {{-- <div class="d-flex justidy-content-between mb-4 col-12">
-                                <h2 class="text-lg font-medium mr-auto">
-                                    <b class="text-uppercase text-white">{{__('Utilities')}}</b>
-                                </h2>
-                            </div> --}}
-                            {{-- <div class="col-12 col-sm-4">
-                                <div class="mb-3">
-                                    <label>{{ __('Select Menu') }}</label>
-                                    <select wire:model="cat_id" name="cat_id" id="" class="form-control">
-                                        <option value="">Select Menu</option>
-                                        @foreach ($menu_select as $menu)
-                                        <option value="{{$menu->translation->cat_id}}">{{$menu->translation->name}}</option>
-                                        @endforeach
-                                    </select>
-                                    <small class="text-info">{{__('Select The Group')}}</small>
-                                    @error('cat_id') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-                            </div> --}}
-                            {{-- <div class="col-12 col-sm-4">
+                            <div class="col-12 col-sm-4">
                                 <div class="mb-3">
                                     <label>{{__('Status')}}</label>
                                     <select wire:model="status" name="status" id="" class="form-control">
@@ -42,39 +24,74 @@
                                     @error('status') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
 
-                            </div> --}}
-                            {{-- <div class="col-12 col-sm-4">
+                            </div>
+                            <div class="col-12 col-sm-4">
                                 <div class="mb-3">
                                     <label>{{__('Priority')}}</label>
                                     <input type="number" wire:model="priority" class="form-control">
                                     <small class="text-info">{{__('The less The Higher Priority')}}</small>
                                     @error('Priority') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
-                            </div> --}}
-                            {{-- <div class="col-12 col-sm-4">
+                            </div>
+                            <div class="col-12 col-sm-4">
                                 <div class="mb-3">
-                                    <label>{{__('Special')}}</label>
-                                    <select wire:model="special" name="special" id="" class="form-control">
-                                        <option value="">Choose Special On/Off</option>
-                                        <option value="1">{{__('Special')}}</option>
-                                        <option value="0">{{__('Non Special')}}</option>
+                                    <label>{{__('Duration')}}</label>
+                                    <input type="number" wire:model="duration" class="form-control">
+                                    <small class="text-info">{{__('Counted by days')}}</small>
+                                    @error('duration') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="mb-3">
+                                    <label>{{__('Exchange Rate')}}</label>
+                                    <input type="number" wire:model="exchange_rate" class="form-control">
+                                    <small class="text-info">{{__('Counted by days')}}</small>
+                                    @error('duration') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="mb-3">
+                                    <label>{{__('Monthly Cost')}}</label>
+                                    <input type="text" wire:model="monthly_cost" class="form-control">
+                                    <small class="text-info">{{__('Counted by days')}}</small>
+                                    @error('monthly_cost') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="mb-3">
+                                    <label>{{__('Cost')}}</label>
+                                    <input type="text" wire:model="cost" class="form-control">
+                                    <small class="text-info">{{__('Final Price')}}</small>
+                                    @error('cost') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="mb-3">
+                                    <label>{{__('Type')}}</label>
+                                    <select wire:model="type" name="type" id="" class="form-control">
+                                        <option value="">Choose Status</option>
+                                        <option value="demo">{{__('Demo')}}</option>
+                                        <option value="regular">{{__('Regular Price')}}</option>
+                                        <option value="offer">{{__('Offer Price')}}</option>
                                         <small class="tetx-info">{{__('Show or Hide')}}</small>
                                     </select>
-                                    @error('special') <span class="text-danger">{{ $message }}</span> @enderror
+                                    @error('status') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
-
-                            </div> --}}
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="mb-3">
+                                    <label>{{__('Valid Date')}}</label>
+                                    <input type="datetime-local" wire:model="valid_date" class="form-control">
+                                    <small class="text-info">{{__('When he offer is valid')}}</small>
+                                    @error('valid_date') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
                         </div>
-                        <div class="row mt-5">
-                            
-                        </div>
-                        <div class="row mt-5">
+                        <div class="row mt-3">
                             <div class="d-flex justidy-content-between mb-4 col-12">
                                 <h2 class="text-lg font-medium mr-auto">
-                                    <b class="text-uppercase text-white">{{__('Title & Description')}}</b>
+                                    <b class="text-uppercase text-white">{{__('Title')}}</b>
                                 </h2>
-                                <div class="">
-                                </div>
                             </div>
                             @foreach ($filteredLocales as $locale)
                             <div class="col-12 col-sm-6 border">
@@ -84,11 +101,42 @@
                                         style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}">
                                     @error('names.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        <div class="row mt-5">
+                            <div class="d-flex justidy-content-between mb-4 col-12">
+                                <h2 class="text-lg font-medium mr-auto">
+                                    <b class="text-uppercase text-white">{{__('Main Design And Description HTML5/CSS/JS')}}</b>
+                                </h2>
+                            </div>
+                            <small class="text-warning col-12">{{__('Where is located at :url/pricing')}}</small>
+                            @foreach ($filteredLocales as $locale)
+                            <div class="col-12 col-sm-4 border">
                                 <div class="mb-3">
-                                    <label>Desctip{{ strtoupper($locale) }}</label>
-                                    <textarea wire:model="description.{{$locale}}" class="form-control"
-                                        style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}"></textarea>
+                                    <label>{{ strtoupper($locale) }}</label>
+                                    <textarea type="text" wire:model="description.{{$locale}}" class="form-control"></textarea>
                                     @error('description.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            @endforeach
+                            <small class="text-warning col-12 mt-5">{{__('Where is located at User dashboard')}}</small>
+                            @foreach ($filteredLocales as $locale)
+                            <div class="col-12 col-sm-4 border">
+                                <div class="mb-3">
+                                    <label>{{ strtoupper($locale) }}</label>
+                                    <textarea type="text" wire:model="description_rest.{{$locale}}" class="form-control"></textarea>
+                                    @error('description_rest.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            @endforeach
+                            <small class="text-warning col-12 mt-5">{{__('Where is located when user is paying')}}</small>
+                            @foreach ($filteredLocales as $locale)
+                            <div class="col-12 col-sm-4 border">
+                                <div class="mb-3">
+                                    <label>{{ strtoupper($locale) }}</label>
+                                    <textarea type="text" wire:model="description_onpay.{{$locale}}" class="form-control"></textarea>
+                                    @error('description_onpay.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                             @endforeach
@@ -104,6 +152,162 @@
         </div>
     </div>
     <!-- Insert Edit  -->
+    <div wire:ignore.self class="modal fade overflow-auto" id="updatePlanModal" tabindex="-1" aria-labelledby="editPlanLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl text-white mx-1 mx-lg-auto" style="max-width: 1140px;">
+            <div class="modal-content bg-dark">
+                <form wire:submit.prevent="updatePlan">
+                    <div class="modal-body">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="updateFoodLabel">{{__('Edit Plan')}}</h5>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                            </button>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12 col-sm-4">
+                                <div class="mb-3">
+                                    <label>{{__('Status')}}</label>
+                                    <select wire:model="status" name="status" id="" class="form-control">
+                                        <option value="">Choose Status</option>
+                                        <option value="1">{{__('Active')}}</option>
+                                        <option value="0">{{__('Non Active')}}</option>
+                                        <small class="tetx-info">{{__('Show or Hide')}}</small>
+                                    </select>
+                                    @error('status') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="mb-3">
+                                    <label>{{__('Priority')}}</label>
+                                    <input type="number" wire:model="priority" class="form-control">
+                                    <small class="text-info">{{__('The less The Higher Priority')}}</small>
+                                    @error('Priority') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="mb-3">
+                                    <label>{{__('Duration')}}</label>
+                                    <input type="number" wire:model="duration" class="form-control">
+                                    <small class="text-info">{{__('Counted by days')}}</small>
+                                    @error('duration') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="mb-3">
+                                    <label>{{__('Exchange Rate')}}</label>
+                                    <input type="number" wire:model="exchange_rate" class="form-control">
+                                    <small class="text-info">{{__('Counted by days')}}</small>
+                                    @error('duration') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="mb-3">
+                                    <label>{{__('Monthly Cost')}}</label>
+                                    <input type="text" wire:model="monthly_cost" class="form-control">
+                                    <small class="text-info">{{__('Counted by days')}}</small>
+                                    @error('monthly_cost') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="mb-3">
+                                    <label>{{__('Cost')}}</label>
+                                    <input type="text" wire:model="cost" class="form-control">
+                                    <small class="text-info">{{__('Final Price')}}</small>
+                                    @error('cost') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="mb-3">
+                                    <label>{{__('Type')}}</label>
+                                    <select wire:model="type" name="type" id="" class="form-control">
+                                        <option value="">Choose Status</option>
+                                        <option value="demo">{{__('Demo')}}</option>
+                                        <option value="regular">{{__('Regular Price')}}</option>
+                                        <option value="offer">{{__('Offer Price')}}</option>
+                                        <small class="tetx-info">{{__('Show or Hide')}}</small>
+                                    </select>
+                                    @error('status') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="mb-3">
+                                    <label>{{__('Valid Date')}}</label>
+                                    <input type="datetime" wire:model="valid_date" class="form-control">
+                                    <small class="text-info">{{__('When he offer is valid')}}</small>
+                                    @error('valid_date') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="d-flex justidy-content-between mb-4 col-12">
+                                <h2 class="text-lg font-medium mr-auto">
+                                    <b class="text-uppercase text-white">{{__('Title & Description')}}</b>
+                                </h2>
+                            </div>
+                            @foreach ($filteredLocales as $locale)
+                            <div class="col-12 col-sm-6 border">
+                                <div class="mb-3">
+                                    <label>{{ strtoupper($locale) }}</label>
+                                    <input type="text" wire:model="names.{{$locale}}" class="form-control"
+                                        style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}">
+                                    @error('names.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                                {{-- <div class="mb-3">
+                                    <label>Desctip{{ strtoupper($locale) }}</label>
+                                    <textarea wire:model="description.{{$locale}}" class="form-control"
+                                        style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}"></textarea>
+                                    @error('description.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
+                                </div> --}}
+                            </div>
+                            @endforeach
+                        </div>
+                        <div class="row mt-5">
+                            <div class="d-flex justidy-content-between mb-4 col-12">
+                                <h2 class="text-lg font-medium mr-auto">
+                                    <b class="text-uppercase text-white">{{__('Main Design And Description HTML5/CSS/JS')}}</b>
+                                </h2>
+                            </div>
+                            <small class="text-warning col-12">{{__('Where is located at :url/pricing')}}</small>
+                            @foreach ($filteredLocales as $locale)
+                            <div class="col-12 col-sm-4 border">
+                                <div class="mb-3">
+                                    <label>{{ strtoupper($locale) }}</label>
+                                    <textarea type="text" wire:model="description.{{$locale}}" class="form-control"></textarea>
+                                    @error('description.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            @endforeach
+                            <small class="text-warning col-12 mt-5">{{__('Where is located at User dashboard')}}</small>
+                            @foreach ($filteredLocales as $locale)
+                            <div class="col-12 col-sm-4 border">
+                                <div class="mb-3">
+                                    <label>{{ strtoupper($locale) }}</label>
+                                    <textarea type="text" wire:model="description_rest.{{$locale}}" class="form-control"></textarea>
+                                    @error('description_rest.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            @endforeach
+                            <small class="text-warning col-12 mt-5">{{__('Where is located when user is paying')}}</small>
+                            @foreach ($filteredLocales as $locale)
+                            <div class="col-12 col-sm-4 border">
+                                <div class="mb-3">
+                                    <label>{{ strtoupper($locale) }}</label>
+                                    <textarea type="text" wire:model="description_onpay.{{$locale}}" class="form-control"></textarea>
+                                    @error('description_onpay.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" wire:click="closeModal"
+                            data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary submitJs">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     {{-- <div wire:ignore.self class="modal fade" id="updateFoodModal" tabindex="-1" aria-labelledby="updateFoodModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-xl text-white">
