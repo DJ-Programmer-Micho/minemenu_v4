@@ -29,7 +29,7 @@ class LocalizationMiddleware
             $userProfile = User::where('name', $businessName)->first();
             $activation = Subscription::where('user_id', $userProfile->id)->where('expire_at', '>=', now())->count() > 0;
             if(!$activation){
-                dd('expire');
+                dd('expire',$userProfile->name);
             }
             App::instance('userProfile', $userProfile);
     

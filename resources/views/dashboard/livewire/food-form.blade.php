@@ -369,12 +369,6 @@
                             @endforeach
                         </div>
                         @endforeach
-                        
-                        
-                        
-
-
-                        
 
                         @else
                         <div class="d-flex justidy-content-between mb-4 col-12">

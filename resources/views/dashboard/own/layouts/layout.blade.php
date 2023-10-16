@@ -25,6 +25,7 @@
     @livewireStyles
     @stack('language_css')
     @stack('cropper_links')
+    @stack('add_user')
     @stack('style_tag')
     @stack('support')
  
@@ -113,6 +114,18 @@
                     <span>{{__('User Activity')}}</span></a>
             </li>
 
+            <li class="nav-item {{(request()->path() == 'own/userinformation') ? 'active' : ''}}">
+                <a class="nav-link" href="{{route('userInformation')}}">
+                    <lord-icon
+                    src="https://cdn.lordicon.com/soseozvi.json"
+                    trigger="loop"
+                    delay="2000"
+                    colors="primary:#cc0022,secondary:#eee"
+                    style="width:48px;height:48px">
+                </lord-icon>
+                    <span>{{__('Users Information')}}</span></a>
+            </li>
+
             <li class="nav-item {{(request()->path() == 'own/usersdata') ? 'active' : ''}}">
                 <a class="nav-link" href="{{route('userData')}}">
                     <lord-icon
@@ -130,10 +143,10 @@
             <div class="sidebar-heading">
                 {{__('Plan Setting')}}
             </div>
-            <li class="nav-item {{(str_contains(request()->path(), 'rest/plan/')) ? 'active' : ''}}">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <li class="nav-item {{(str_contains(request()->path(), 'own/plan/')) ? 'active' : ''}}">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePlan" aria-expanded="true" aria-controls="collapsePlan">
                     <lord-icon
-                    src="https://cdn.lordicon.com/sbiheqdr.json"
+                    src="https://cdn.lordicon.com/huwchbks.json"
                     trigger="loop"
                     delay="2000"
                     colors="primary:#cc0022,secondary:#eee"
@@ -141,7 +154,7 @@
                     </lord-icon>
                     <span>{{__('Plan')}}</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapsePlan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="py-2 collapse-inner rounded" style="background-color: #1f2535">
                         {{-- <h6 class="collapse-header">{{__('Setting')}}</h6> --}}
                         <a class="collapse-item" href="{{route('planView')}}">
@@ -689,12 +702,12 @@
                         }
                     });
         </script>
-    @stack('cropper')
     @stack('drag')
     @stack('color');
     @stack('rest_script')
     @yield('rest_script')
     @stack('datePicker')
+    @stack('cropper')
     <form id="languageForm" action="{{ route('setLocale') }}" method="post">
         @csrf
         <input type="hidden" name="locale" id="selectedLocale" value="{{ app()->getLocale() }}">
@@ -705,9 +718,10 @@
             document.getElementById('selectedLocale').value = locale;
             document.getElementById('languageForm').submit();
         }
-    </script>
+        </script>
 
 
+{{-- @stack('lastScript') --}}
 
 </body>
 

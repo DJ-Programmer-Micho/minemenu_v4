@@ -67,7 +67,9 @@ class DashboardLivewire extends Component
         return Subscription::where('plan_id', 4)->count() ?? 0;
     }
     private function getTotalActiveUsers() {
-        return User::where('role', 3)->where('status', 1)->count() ?? 0;
+        return User::where('role', 3)->where('status', 1)->whereHas('subscription', function($query) {
+            $query->where('expire_at', '>=', now());
+        })->count() ?? 0;
     }
     private function getTotalDeactiveUsers() {
         return User::where('role', 3)->where('status', 0)->count() ?? 0;

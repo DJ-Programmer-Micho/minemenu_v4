@@ -41,6 +41,7 @@ class UserDataLivewire extends Component
     public $planFilter = null;
     public $searchFilter = null;
     public $dateRange = null;
+    public $planSelect = null;
 
     protected $listeners = ['dateRangeSelected' => 'applyDateRangeFilter'];
 
@@ -55,6 +56,7 @@ class UserDataLivewire extends Component
         $this->defualt_img = app('no_uknown_user');
         $this->defualt_link = app('cloudfront');
         $this->general_link = env('APP_URL');
+        $this->planSelect = $this->planSelectFilter();
 
     }
     //NEW
@@ -70,8 +72,12 @@ class UserDataLivewire extends Component
         return $this->dateRange;
     }
 
+    private function planSelectFilter(){
+        return Plan::get();
+    }
+
     public $countUsers;
-     private function topFiveActions()
+    private function topFiveActions()
     {
         if (Auth::check()) {
             try {
