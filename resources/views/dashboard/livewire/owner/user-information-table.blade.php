@@ -115,14 +115,14 @@
                                 @elseif ($col === 'country') <!-- Add this condition -->
                                 <span>{{ $item->profile->country }} - {{ $item->profile->address }}</span> 
                                 @elseif ($col === 'Action') <!-- Add this condition -->
-                                <button class="btn btn-info mx-1 mb-1" onclick="checkBusiness('{{$general_link.$item->name}}')"><i class="far fa-eye"></i></button>
-                                <button class="btn btn-secondary mx-1 mb-1" wire:click="checkDashboard('{{$item->id}}')"><i class="fas fa-satellite-dish"></i></button>
-                                <button class="btn btn-primary mx-1 mb-1" data-toggle="modal" data-target="#updateUserModal" wire:click="editUser('{{$item->id}}')"><i class="fas fa-edit"></i></button>
-                                <button class="btn btn-light mx-1 mb-1 text-dark" data-toggle="modal" data-target="#moduleUserModal" wire:click="moduleUser('{{$item->id}}')"><i class="fab fa-empire"></i></button>
-                                <button type="button" wire:click="updateStatus({{ $item->id }})" class="btn {{ $item->status == 1 ? 'btn-danger' : 'btn-success' }} btn-icon mx-1 mb-1">
+                                <button class="btn btn-info mx-1 mb-1" data-toggle="tooltip" title="View Menu" onclick="checkBusiness('{{$general_link.$item->name}}')"><i class="far fa-eye"></i></button>
+                                <button class="btn btn-secondary mx-1 mb-1" data-toggle="tooltip" title="Check Dashboard" wire:click="checkDashboard('{{$item->id}}')"><i class="fas fa-satellite-dish"></i></button>
+                                <button class="btn btn-primary mx-1 mb-1" data-toggle="modal" data-target="#updateUserModal" data-toggle="tooltip" title="Edit" wire:click="editUser('{{$item->id}}')"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-light mx-1 mb-1 text-dark" data-toggle="modal" data-target="#moduleUserModal" data-toggle="tooltip" title="Validation" wire:click="moduleUser('{{$item->id}}')"><i class="fab fa-empire"></i></button>
+                                <button type="button" data-toggle="tooltip" title="Status" wire:click="updateStatus({{ $item->id }})" class="btn {{ $item->status == 1 ? 'btn-danger' : 'btn-success' }} btn-icon mx-1 mb-1">
                                     <i class="far {{ $item->status == 1 ? 'fa-times-circle' : 'fa-check-circle' }}"></i>
                                 </button>
-                                <button class="btn btn-warning mx-1 mb-1 text-dark" data-toggle="modal" data-target="#infoUserModal" wire:click="infoUser('{{$item->id}}')"><i class="fas fa-info-circle"></i></button>
+                                <button class="btn btn-warning mx-1 mb-1 text-dark" data-toggle="modal" data-target="#infoUserModal" data-toggle="tooltip" title="Extra Information" wire:click="infoUser('{{$item->id}}')"><i class="fas fa-info-circle"></i></button>
                                 @elseif ($col === 'expire_at')
                                 <div class="text-center">
                                 <span class="{{ $item->subscription->expire_at >= now() ? 'text-success' : 'text-danger' }}">

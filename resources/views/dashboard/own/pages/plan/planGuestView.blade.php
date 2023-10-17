@@ -205,7 +205,7 @@ left: 10px;
 }
 </style>
 <div>
-    @livewire('owner.plans-view-livewire')
+    @livewire('owner.plans-guest-view-livewire')
 </div>
 
 

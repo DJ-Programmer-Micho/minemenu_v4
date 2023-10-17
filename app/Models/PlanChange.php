@@ -14,6 +14,7 @@ class PlanChange extends Model
         'user_id',
         'old_plan_id',
         'new_plan_id',
+        'action',
         'change_date',
     ];
 

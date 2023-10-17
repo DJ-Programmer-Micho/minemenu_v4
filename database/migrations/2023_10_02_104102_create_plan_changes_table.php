@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('old_plan_id')->default(1)->references('id')->on('plans');
             $table->foreignId('new_plan_id')->default(1)->references('id')->on('plans');
+            $table->string('action')->nullable();
             $table->timestamp('change_date')->default(now());
         });
     }

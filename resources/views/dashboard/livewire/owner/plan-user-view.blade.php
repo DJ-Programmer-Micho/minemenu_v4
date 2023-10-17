@@ -1,4 +1,26 @@
 <!-- Begin Page Content -->
+<script>
+  function updateCountdownTimer(expiryDate, countdownElementId) {
+      const countdownElement = document.getElementById(countdownElementId);
+
+      const countdownInterval = setInterval(function () {
+          const now = new Date();
+          const timeRemaining = expiryDate - now;
+
+          if (timeRemaining <= 0) {
+              countdownElement.textContent = 'Offer Expired';
+              clearInterval(countdownInterval);
+          } else {
+              const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+              const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+              const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+              countdownElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+          }
+      }, 1000);
+  }
+</script>
 <div>
     <section class="price_plan_area section_padding_130_80 bg" id="pricing">
         <div class="row justify-content-center">
@@ -12,8 +34,30 @@
                 </div>
             </div>
         </div>
+        <div class="my-3 text-center">
+            <h3 class="offer-price">New Offers</h3>
+          </div>
+          <div class="row justify-content-center w-100">
+            @foreach ($offerPlan as $plan)
+            <div class="col-12 col-md-6 p-1">
+              <div style="border-left: 4px solid #cc0022; border-radius: 5px;">
+                <h6 class="ml-2">Expires in: <b><span id="countdown-{{ $plan->id }}"></span></b></h6>
+              </div>
+              {!! $plan->description[app()->getLocale()] !!}
+              <script>
+                const offerExpiryDate_{{ $plan->id }} = new Date('{{ $plan->valid_date }}');
+                updateCountdownTimer(offerExpiryDate_{{ $plan->id }}, 'countdown-{{ $plan->id }}');
+            </script>
+            </div>
+            @endforeach
+          </div>
+          <div class="mt-5 my-3 text-center">
+            <h3 class="regular-price">Regular Price</h3>
+          </div>
         <div class="row justify-content-center w-100">
-
+            @foreach ($regularPlans as $plan)
+              {!! $plan->description_rest[app()->getLocale()] !!}
+            @endforeach
             <div class="col-12 col-md-6 p-1 mb-4 text-white">
                 <div class="single_price_plan wow fadeInUp" data-wow-delay="0.2s"
                     style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">

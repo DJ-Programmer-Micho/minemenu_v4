@@ -122,7 +122,8 @@ Route::prefix('/own')->middleware(['LocalizationMainMiddleware', 'superadmin'])-
     Route::get('/useractivity', [OwnController::class, 'userActivity'])->name('userActivity');
     Route::get('/userinformation', [OwnController::class, 'userInformation'])->name('userInformation');
     Route::get('/usersdata', [OwnController::class, 'userData'])->name('userData');
-    Route::get('/plan/planview', [OwnController::class, 'planView'])->name('planView');
+    Route::get('/plan/userplanview', [OwnController::class, 'userPlanView'])->name('userPlanView');
+    Route::get('/plan/guestplanview', [OwnController::class, 'guestPlanView'])->name('guestPlanView');
     Route::get('/plan/plansetting', [OwnController::class, 'planSetting'])->name('planSetting');
 });
 

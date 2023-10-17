@@ -48,6 +48,7 @@
                                     <th>Resturant Name</th>
                                     <th>Old Status</th>
                                     <th>New Status</th>
+                                    <th>Type</th>
                                     <th>Date</th>
                                 </tr>
                             </thead>
@@ -71,6 +72,11 @@
                                     <td class="align-middle">
                                         <span class="text-success">
                                             <b>{{$item["new_plan_id"][1]}}</b>
+                                         </span>
+                                    </td>
+                                    <td class="align-middle">
+                                        <span class="text-warning">
+                                            <b>{{$item["action"]}}</b>
                                          </span>
                                     </td>
                                     <td class="align-middle">{{$item['date_time']}}</td>

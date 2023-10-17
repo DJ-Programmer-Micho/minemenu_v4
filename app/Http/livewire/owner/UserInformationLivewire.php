@@ -169,70 +169,76 @@ class UserInformationLivewire extends Component
         }
     }
     public function addRegister(){
-        $formFields = [];
-        $formFields = [
-            'name' => $this->add_businessname,
-            'fullname' => $this->add_fullname,
-            'email' => $this->add_email,
-            'password' => $this->add_password,
-            'phone' => $this->add_phone,
-            'country' => $this->add_country,
-            'state' => $this->add_state,
-        ];
+        try{
 
-        $formFields['brand_type'] = implode(',', $this->add_type) ?? null;
-        $formFields['brand_type'] = implode(',', $this->add_type) ?? null;
-        $formFields['languages'] = implode(',', $this->add_language) ?? null;
-        $formFields['status'] = '1';
-        $formFields['role'] = 3;
-        $formFields['default_lang'] = 'en';
-        $formFields['ui_ux'] = "[\"01\",\"01\",\"01\",\"02\",\"01\",\"01\",\"01\",\"01\"]";
-        $formFields['email_verified'] = 1;
-        $formFields['phone_verified'] = 1;
-        $formFields['background_img_avatar'] = $this->objectName;
-        
-        $formFeilds = collect($formFields);
-        
-        try {
-            if($this->tempImg) {
-                $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
-                Storage::disk('s3')->put($this->objectName, $croppedImage);
-            } else {
-                $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
-                return;
+            $formFields = [];
+            $formFields = [
+                'name' => $this->add_businessname,
+                'fullname' => $this->add_fullname,
+                'email' => $this->add_email,
+                'password' => $this->add_password,
+                'phone' => $this->add_phone,
+                'country' => $this->add_country,
+                'state' => $this->add_state,
+            ];
+            
+            $formFields['brand_type'] = implode(',', $this->add_type) ?? null;
+            $formFields['brand_type'] = implode(',', $this->add_type) ?? null;
+            $formFields['languages'] = implode(',', $this->add_language) ?? null;
+            $formFields['status'] = '1';
+            $formFields['role'] = 3;
+            $formFields['default_lang'] = 'en';
+            $formFields['ui_ux'] = "[\"01\",\"01\",\"01\",\"02\",\"01\",\"01\",\"01\",\"01\"]";
+            $formFields['email_verified'] = 1;
+            $formFields['phone_verified'] = 1;
+            $formFields['background_img_avatar'] = $this->objectName;
+            
+            $formFeilds = collect($formFields);
+            
+            try {
+                if($this->tempImg) {
+                    $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
+                    Storage::disk('s3')->put($this->objectName, $croppedImage);
+                } else {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
+                    return;
+                }
+            } catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Try Reload the Page: ' . $e->getMessage())]);
             }
+            
+            // dd($formFeilds);
+            $user = User::create($formFeilds->only('name','email','password','role','status','email_verified','phone_verified')->toArray());
+            $user->profile()->create($formFeilds->only('fullname','state','country','address','phone','brand_type')->toArray());
+            $user->settings()->create($formFeilds->only('default_lang','languages','ui_ux','background_img_avatar')->toArray());
+
+
+            $newId = User::where('name', $formFields['name'])->first();
+            $plan = Plan::find($this->add_plan_id);
+
+            Subscription::Create([
+                'user_id' => $newId->id,
+                'plan_id' => $plan->id,
+                'start_at' => now(),
+                'expire_at' => now()->addDays($plan->duration),
+                'renew_at' => now()->addDays($plan->duration),
+                'status' => 1,
+            ]);
+            $temp = Subscription::where('user_id', $newId->id)->first();
+            $old_plan = $temp->plan_id ?? 1;
+            
+            PlanChange::Create([
+                'user_id' => $newId->id,
+                'old_plan_id' => $old_plan,
+                'new_plan_id' => $this->add_plan_id,
+                'action' => 'Manually',
+                'change_date' => now(),
+            ]);
+            
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('New Register Added Successfully')]);
         } catch (\Exception $e) {
-            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Try Reload the Page: ' . $e->getMessage())]);
+            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while adding new User.')]);
         }
-        
-        // dd($formFeilds);
-        $user = User::create($formFeilds->only('name','email','password','role','status','email_verified','phone_verified')->toArray());
-        $user->profile()->create($formFeilds->only('fullname','state','country','address','phone','brand_type')->toArray());
-        $user->settings()->create($formFeilds->only('default_lang','languages','ui_ux','background_img_avatar')->toArray());
-
-
-        $newId = User::where('name', $formFields['name'])->first();
-        $plan = Plan::find($this->add_plan_id);
-
-        Subscription::Create([
-            'user_id' => $newId->id,
-            'plan_id' => $plan->id,
-            'start_at' => now(),
-            'expire_at' => now()->addDays($plan->duration),
-            'renew_at' => now()->addDays($plan->duration),
-            'status' => 1,
-        ]);
-        $temp = Subscription::where('user_id', $newId->id)->first();
-        $old_plan = $temp->plan_id ?? 1;
-        
-        PlanChange::Create([
-            'user_id' => $newId->id,
-            'old_plan_id' => $old_plan,
-            'new_plan_id' => $this->add_plan_id,
-            'change_date' => now(),
-        ]);
-        
-        return $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Image did not crop!!!')]);
     } // END Function (Register)
     
     public $user_update;
@@ -265,53 +271,59 @@ class UserInformationLivewire extends Component
     }
 
     public function updateUser(){
-        if($this->objectName == null){
-            $this->objectName = $this->imgReader;
-            $this->tempImg = $this->imgReader;
-        } 
+        try{
 
-        try {
-            if($this->tempImg) {
-                $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
-
-                if( $this->imgReader){
-                    Storage::disk('s3')->delete($this->imgReader);
-                    Storage::disk('s3')->put($this->objectName, $croppedImage);
+            if($this->objectName == null){
+                $this->objectName = $this->imgReader;
+                $this->tempImg = $this->imgReader;
+            } 
+            
+            try {
+                if($this->tempImg) {
+                    $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
+                    
+                    if( $this->imgReader){
+                        Storage::disk('s3')->delete($this->imgReader);
+                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+                    } else {
+                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+                    }
                 } else {
-                    Storage::disk('s3')->put($this->objectName, $croppedImage);
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...USR-ADD-IMG')]);
+                    return;
                 }
-            } else {
-                $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...USR-ADD-IMG')]);
-                return;
+            } catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Try Reload the Page: ' . $e->getMessage())]);
             }
+            
+            User::where('id', $this->user_update->id)->update([
+                'name' => $this->add_businessname,
+                'email' => $this->add_email,
+                'status' => $this->add_status,
+                'email_verified' => $this->email_verified,
+                'phone_verified' => $this->phone_verified,
+                'password' => isset($this->add_password) ? $this->add_password : null,
+            ]);
+            
+            Profile::where('user_id', $this->user_update->id)->update([
+                'fullname' => $this->add_businessname,
+                'phone' => $this->add_email,
+                'address' => $this->add_status,
+                'country' => $this->email_verified,
+                'state' => $this->has_type,
+                'brand_type' => isset($this->add_password) ? $this->add_password : null,
+            ]);
+            
+            Setting::where('user_id', $this->user_update->id)->update([
+                'languages' => $this->has_language,
+                'background_img_avatar' => isset($this->objectName) ? $this->objectName : $this->imgReader,
+            ]);
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('User Updated Successfully')]);
         } catch (\Exception $e) {
-            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Try Reload the Page: ' . $e->getMessage())]);
+            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while updating the User.')]);
         }
-
-        User::where('id', $this->user_update->id)->update([
-            'name' => $this->add_businessname,
-            'email' => $this->add_email,
-            'status' => $this->add_status,
-            'email_verified' => $this->email_verified,
-            'phone_verified' => $this->phone_verified,
-            'password' => isset($this->add_password) ? $this->add_password : null,
-        ]);
-
-        Profile::where('user_id', $this->user_update->id)->update([
-            'fullname' => $this->add_businessname,
-            'phone' => $this->add_email,
-            'address' => $this->add_status,
-            'country' => $this->email_verified,
-            'state' => $this->has_type,
-            'brand_type' => isset($this->add_password) ? $this->add_password : null,
-        ]);
-
-        Setting::where('user_id', $this->user_update->id)->update([
-            'languages' => $this->has_language,
-            'background_img_avatar' => isset($this->objectName) ? $this->objectName : $this->imgReader,
-        ]);
     }
-
+    
     public function moduleUser(int $user_selected){
         $this->imgReader = null;
         $user_edit = User::findOrFail($user_selected);
@@ -328,34 +340,39 @@ class UserInformationLivewire extends Component
         $plan = Plan::find($value);
         $this->expire_at = now()->addDays($plan->duration)->format('Y-m-d\TH:i');
     }
-    public function updateModuleUser(int $user_selected){
-        $this->imgReader = null;
-        $user_edit = User::findOrFail($user_selected);
-        $this->user_update = $user_edit;
+    public function updateModuleUser(){
+        try{
+            $this->imgReader = null;
+            $user_edit = $this->user_update;
+            $this->user_update = $user_edit;
+            $this->email_verified = $user_edit->email_verified;
+            $this->phone_verified = $user_edit->phone_verified;
+            $this->status = $user_edit->status;
+            $this->expire_at = $user_edit->subscription->expire_at;
 
-        $this->email_verified = $user_edit->email_verified;
-        $this->phone_verified = $user_edit->phone_verified;
-        $this->status = $user_edit->status;
-        $this->expire_at = $user_edit->subscription->expire_at;
+            $plan = Plan::find($this->add_plan_id);
 
-        $plan = Plan::find($this->add_plan_id);
-
-        Subscription::where('user_id', $this->user_update->id)->update([
-            'plan_id' => $plan->id,
-            'start_at' => now(),
-            'expire_at' => isset($this->expire_at) ? $this->expire_at : now()->addDays($plan->duration),
-            'renew_at' => isset($this->expire_at) ? $this->expire_at : now()->addDays($plan->duration),
-            'status' => 1,
-        ]);
-        $temp = Subscription::where('user_id', $user_edit)->first();
-        $old_plan = $temp->plan_id ?? 1;
-        
-        PlanChange::Create([
-            'user_id' => $user_edit,
-            'old_plan_id' => $old_plan,
-            'new_plan_id' => $this->add_plan_id,
-            'change_date' => now(),
-        ]);
+            Subscription::where('user_id', $this->user_update->id)->update([
+                'plan_id' => $plan->id,
+                'start_at' => now(),
+                'expire_at' => isset($this->expire_at) ? $this->expire_at : now()->addDays($plan->duration),
+                'renew_at' => isset($this->expire_at) ? $this->expire_at : now()->addDays($plan->duration),
+                'status' => 1,
+            ]);
+            $temp = Subscription::where('user_id', $user_edit)->first();
+            $old_plan = $temp->plan_id ?? 1;
+            
+            PlanChange::Create([
+                'user_id' => $user_edit->id,
+                'old_plan_id' => $old_plan,
+                'new_plan_id' => $this->add_plan_id,
+                'action' => 'Manually',
+                'change_date' => now(),
+            ]);
+            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('User Module Updated Successfully')]);
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while updating the User Module.')]);
+        }
     }
 
     public function updateStatus(int $user_id)

@@ -232,7 +232,7 @@
                             <div class="col-12 col-sm-4">
                                 <div class="mb-3">
                                     <label>{{__('Valid Date')}}</label>
-                                    <input type="datetime" wire:model="valid_date" class="form-control">
+                                    <input type="datetime-local" wire:model="valid_date" class="form-control">
                                     <small class="text-info">{{__('When he offer is valid')}}</small>
                                     @error('valid_date') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>

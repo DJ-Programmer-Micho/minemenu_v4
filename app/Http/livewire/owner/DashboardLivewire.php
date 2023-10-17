@@ -219,6 +219,7 @@ class DashboardLivewire extends Component
                             'background_avatar_img' => $temp,
                             'old_plan_id' => [$action->old_plan_id,$planNameOldEn],
                             'new_plan_id' => [$action->new_plan_id,$planNameNewEn],
+                            'action' => $action->action ?? 'unknown',
                             'date_time' => $action->change_date
                         ];
     

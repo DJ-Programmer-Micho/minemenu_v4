@@ -23,13 +23,16 @@ class OwnController extends Controller
     public function userData(){
         return view('dashboard.own.pages.userData.index');
     } // END FUNCTION (USER DATA)
-
-    public function planView(){
-        return view('dashboard.own.pages.plan.planView');
-    } // END FUNCTION (PLAN-VIEW)
+    
     public function planSetting(){
         return view('dashboard.own.pages.plan.planSetting');
     } // END FUNCTION (PLAN-SETTING)
+    public function userPlanView(){
+        return view('dashboard.own.pages.plan.planUserView');
+    } // END FUNCTION (PLAN-VIEW)
+    public function guestPlanView(){
+        return view('dashboard.own.pages.plan.planGuestView');
+    } // END FUNCTION (PLAN-VIEW)
 
     public function menuSetting(){
         return view('dashboard.own.pages.setting.menuSetting');

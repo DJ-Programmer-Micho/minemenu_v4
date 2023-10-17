@@ -176,7 +176,7 @@
     aria-hidden="true">
     <div class="modal-dialog modal-xl text-white mx-1 mx-lg-auto" style="max-width: 1140px;">
         <div class="modal-content bg-dark">
-            <form wire:submit.prevent="updateRegister">
+            <form wire:submit.prevent="updateUser">
                 <div class="modal-body">
                     <div class="modal-header">
                         <h5 class="modal-title" id="createUserLabel">{{__('Add New Register')}}</h5>
@@ -307,7 +307,7 @@
     aria-hidden="true">
     <div class="modal-dialog modal-xl text-white mx-1 mx-lg-auto" style="max-width: 1140px;">
         <div class="modal-content bg-dark">
-            <form wire:submit.prevent="updateRegister">
+            <form wire:submit.prevent="updateModuleUser">
                 <div class="modal-body">
                     <div class="modal-header">
                         <h5 class="modal-title" id="createUserLabel">{{__('Update Register Validation')}}</h5>
@@ -390,7 +390,6 @@
     aria-hidden="true">
     <div class="modal-dialog modal-xl text-white mx-1 mx-lg-auto" style="max-width: 1140px;">
         <div class="modal-content bg-dark">
-            <form wire:submit.prevent="updateRegister">
                 <div class="modal-body">
                     <div class="modal-header">
                         <h5 class="modal-title" id="createUserLabel">{{__('Other Information')}}</h5>
@@ -410,7 +409,6 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal" data-dismiss="modal">Close</button>
                 </div>
-            </form>
         </div>
     </div>
 </div>

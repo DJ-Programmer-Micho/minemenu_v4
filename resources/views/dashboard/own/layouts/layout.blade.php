@@ -157,12 +157,6 @@
                 <div id="collapsePlan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="py-2 collapse-inner rounded" style="background-color: #1f2535">
                         {{-- <h6 class="collapse-header">{{__('Setting')}}</h6> --}}
-                        <a class="collapse-item" href="{{route('planView')}}">
-                            <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
-                                colors="primary:#cc0022,secondary:#eee" state="hover-2" style="width:36px;height:36px">
-                            </lord-icon>
-                            <span class="text-white">{{__('View Plan')}}</span>
-                        </a>
                         <a class="collapse-item" href="{{route('planSetting')}}">
                             <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
                                 colors="primary:#cc0022,secondary:#eee" state="hover-1" style="width:36px;height:36px">
@@ -170,54 +164,23 @@
                             <span class="text-white">{{__('Edit Plan')}}</span>
 
                         </a>
+                        <a class="collapse-item" href="{{route('userPlanView')}}">
+                            <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
+                                colors="primary:#cc0022,secondary:#eee" state="hover-2" style="width:36px;height:36px">
+                            </lord-icon>
+                            <span class="text-white">{{__('User View Plan')}}</span>
+                        </a>
+                        <a class="collapse-item" href="{{route('guestPlanView')}}">
+                            <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
+                                colors="primary:#cc0022,secondary:#eee" state="hover-2" style="width:36px;height:36px">
+                            </lord-icon>
+                            <span class="text-white">{{__('Guest View Plan')}}</span>
+                        </a>
                     </div>
                 </div>
             </li>
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item {{(str_contains(request()->path(), 'rest/setting/')) ? 'active' : ''}}">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <lord-icon
-                    src="https://cdn.lordicon.com/sbiheqdr.json"
-                    trigger="loop"
-                    delay="2000"
-                    colors="primary:#cc0022,secondary:#eee"
-                    style="width:48px;height:48px">
-                    </lord-icon>
-                    <span>{{__('Setting')}}</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="py-2 collapse-inner rounded" style="background-color: #1f2535">
-                        {{-- <h6 class="collapse-header">{{__('Setting')}}</h6> --}}
-                        <a class="collapse-item" href="{{route('languageSetting')}}">
-                            <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
-                                colors="primary:#cc0022,secondary:#eee" state="hover-2" style="width:36px;height:36px">
-                            </lord-icon>
-                            <span class="text-white">{{__('Language')}}</span>
-                        </a>
-                        <a class="collapse-item" href="{{route('nameSetting')}}">
-                            <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
-                                colors="primary:#cc0022,secondary:#eee" state="hover-1" style="width:36px;height:36px">
-                            </lord-icon>
-                            <span class="text-white">{{__('Resturant Name')}}</span>
 
-                        </a>
-                        <a class="collapse-item" href="{{route('menuSetting')}}">
-                            <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
-                                colors="primary:#cc0022,secondary:#eee" state="hover-2" style="width:36px;height:36px">
-                            </lord-icon>
-                            <span class="text-white">{{__('Menu Setting')}}</span>
-                        </a>
-                        <a class="collapse-item" href="{{route('startSetting')}}">
-                            <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
-                                colors="primary:#cc0022,secondary:#eee" state="hover-1" style="width:36px;height:36px">
-                            </lord-icon>
-                            <span class="text-white">{{__('Start Up Page')}}</span>
-
-                        </a>
-
-                    </div>
-                </div>
-            </li>
 
             <hr class="sidebar-divider my-1">
 
@@ -293,6 +256,51 @@
                         </lord-icon>
                             <span class="text-white">{{__('QR Code')}}</span>
                             </a>
+                    </div>
+                </div>
+            </li>
+
+                        <li class="nav-item {{(str_contains(request()->path(), 'rest/setting/')) ? 'active' : ''}}">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    <lord-icon
+                    src="https://cdn.lordicon.com/sbiheqdr.json"
+                    trigger="loop"
+                    delay="2000"
+                    colors="primary:#cc0022,secondary:#eee"
+                    style="width:48px;height:48px">
+                    </lord-icon>
+                    <span>{{__('Setting')}}</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="py-2 collapse-inner rounded" style="background-color: #1f2535">
+                        {{-- <h6 class="collapse-header">{{__('Setting')}}</h6> --}}
+                        <a class="collapse-item" href="{{route('languageSetting')}}">
+                            <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
+                                colors="primary:#cc0022,secondary:#eee" state="hover-2" style="width:36px;height:36px">
+                            </lord-icon>
+                            <span class="text-white">{{__('Language')}}</span>
+                        </a>
+                        <a class="collapse-item" href="{{route('nameSetting')}}">
+                            <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
+                                colors="primary:#cc0022,secondary:#eee" state="hover-1" style="width:36px;height:36px">
+                            </lord-icon>
+                            <span class="text-white">{{__('Resturant Name')}}</span>
+
+                        </a>
+                        <a class="collapse-item" href="{{route('menuSetting')}}">
+                            <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
+                                colors="primary:#cc0022,secondary:#eee" state="hover-2" style="width:36px;height:36px">
+                            </lord-icon>
+                            <span class="text-white">{{__('Menu Setting')}}</span>
+                        </a>
+                        <a class="collapse-item" href="{{route('startSetting')}}">
+                            <lord-icon src="https://cdn.lordicon.com/wloilxuq.json" trigger="loop" delay="2000"
+                                colors="primary:#cc0022,secondary:#eee" state="hover-1" style="width:36px;height:36px">
+                            </lord-icon>
+                            <span class="text-white">{{__('Start Up Page')}}</span>
+
+                        </a>
+
                     </div>
                 </div>
             </li>

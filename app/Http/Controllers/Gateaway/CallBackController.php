@@ -90,6 +90,7 @@ class CallBackController extends Controller
                 'user_id' => $Transaction->user_id,
                 'old_plan_id' => $old_plan,
                 'new_plan_id' => $Transaction->plan_id,
+                'action' => 'Visa/Master',
                 'change_date' => now(),
             ]);
             }
@@ -149,6 +150,7 @@ class CallBackController extends Controller
                     'user_id' => $Transaction->user_id,
                     'old_plan_id' => $old_plan,
                     'new_plan_id' => $Transaction->plan_id,
+                    'action' => 'Zain Cash',
                     'change_date' => now(),
                 ]);
                 return redirect('/payment/success');
