@@ -186,7 +186,7 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                {{__('Subscription')}}
+                {{__('Comunications')}}
             </div>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item ">
@@ -198,7 +198,19 @@
                     colors="primary:#cc0022,secondary:#eee"
                     style="width:48px;height:48px">
                 </lord-icon>
-                    <span>{{__('Plan')}}</span></a>
+                    <span>{{__('Contact Us')}}</span></a>
+            </li>
+
+            <li class="nav-item ">
+                <a class="nav-link {{(str_contains(request()->path(), 'rest/plan/')) ? 'active' : ''}}" href="{{route('plan')}}">
+                    <lord-icon
+                    src="https://cdn.lordicon.com/huwchbks.json"
+                    trigger="loop"
+                    delay="2000"
+                    colors="primary:#cc0022,secondary:#eee"
+                    style="width:48px;height:48px">
+                </lord-icon>
+                    <span>{{__('Notifications')}}</span></a>
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider my-1">

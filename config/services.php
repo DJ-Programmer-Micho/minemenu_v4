@@ -30,6 +30,9 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'telegram-bot-api' => [
+        'token' => env('TELEGRAM_BOT_TOKEN', '6290605779:AAHc-oxBa86Ee_R4jbAmswOZlN6MxSL3qs4')
+    ],
 
     // 'sinch' => [
     //     'key' => env('SINCH_APP_KEY'),

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Gateaway;
 
 use App\Models\Plan;
+use App\Models\User;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use App\Models\PlanChange;
@@ -11,44 +12,47 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Gateaway\Transaction;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\TelegramPlanChangeNew;
 
 class CallBackController extends Controller
 {
     public function areebaCallBack(){
-        $data = [
-            "result" => "OK",
-            "uuid" => "fb47ff137684df861dc4",
-            "merchantTransactionId" => "da358214-adc7-4e1c-9f08-a0a99d473ed0",
-            "purchaseId" => "20231012-fb47ff137684df861dc4",
-            "transactionType" => "DEBIT",
-            "paymentMethod" => "Creditcard",
-            "amount" => "50.00",
-            "currency" => "USD",
-            "customer" => [
-                "firstName" => "Michel Shabo",
-                "lastName" => "N/A",
-                "company" => "minemenu",
-                "ipAddress" => "127.0.0.1",
-            ],
-            "returnData" => [
-                "_TYPE" => "cardData",
-                "type" => "mastercard",
-                "cardHolder" => "areeba",
-                "expiryMonth" => "05",
-                "expiryYear" => "2026",
-                "binDigits" => "51234500",
-                "firstSixDigits" => "512345",
-                "lastFourDigits" => "0008",
-                "fingerprint" => "/9NMen+1D5cGfQUB5NHb+mDrnqCBeL86wdGbuzCf7avMpvlMZEBJr1xBrZyAPTH02cJ6+Yz3O61kN+5MugQjNQ",
-                "threeDSecure" => "OPTIONAL",
-                "eci" => "02",
-                "binBrand" => "MASTERCARD",
-                "binBank" => "Afriland First Bank",
-                "binType" => "CREDIT",
-                "binLevel" => "STANDARD",
-                "binCountry" => "LR",
-            ],
-        ];
+        $data = request()->all();
+        // $data = [
+        //     "result" => "OK",
+        //     "uuid" => "fb47ff137684df861dc4",
+        //     "merchantTransactionId" => "da358214-adc7-4e1c-9f08-a0a99d473ed0",
+        //     "purchaseId" => "20231012-fb47ff137684df861dc4",
+        //     "transactionType" => "DEBIT",
+        //     "paymentMethod" => "Creditcard",
+        //     "amount" => "50.00",
+        //     "currency" => "USD",
+        //     "customer" => [
+        //         "firstName" => "Michel Shabo",
+        //         "lastName" => "N/A",
+        //         "company" => "minemenu",
+        //         "ipAddress" => "127.0.0.1",
+        //     ],
+        //     "returnData" => [
+        //         "_TYPE" => "cardData",
+        //         "type" => "mastercard",
+        //         "cardHolder" => "areeba",
+        //         "expiryMonth" => "05",
+        //         "expiryYear" => "2026",
+        //         "binDigits" => "51234500",
+        //         "firstSixDigits" => "512345",
+        //         "lastFourDigits" => "0008",
+        //         "fingerprint" => "/9NMen+1D5cGfQUB5NHb+mDrnqCBeL86wdGbuzCf7avMpvlMZEBJr1xBrZyAPTH02cJ6+Yz3O61kN+5MugQjNQ",
+        //         "threeDSecure" => "OPTIONAL",
+        //         "eci" => "02",
+        //         "binBrand" => "MASTERCARD",
+        //         "binBank" => "Afriland First Bank",
+        //         "binType" => "CREDIT",
+        //         "binLevel" => "STANDARD",
+        //         "binCountry" => "LR",
+        //     ],
+        // ];
         $Transaction = Transaction::findOrFail($data['merchantTransactionId']);
         $plan = Plan::find($Transaction->plan_id);
         // dd($Transaction);
@@ -93,6 +97,33 @@ class CallBackController extends Controller
                 'action' => 'Visa/Master',
                 'change_date' => now(),
             ]);
+
+            $plans = Plan::get();
+            $planNames = [];
+            
+            foreach ($plans as $plan) {
+                $planNames[$plan->id] = $plan->name['en'] ?? 'Error';
+            }
+            $userData = User::where('id', $Transaction->user_id)->first();
+            $amount = $data['amount'] . ' ' . $data['currency'];
+
+            try{
+                Notification::route('toTelegram', env('TELEGRAM_GROUP_ID'))
+                ->notify(new TelegramPlanChangeNew(
+                    $Transaction->user_id,
+                    $userData->name,
+                    $userData->profile->fullname,
+                    $userData->email,
+                    $userData->phone,
+                    $planNames[$old_plan],
+                    $planNames[$Transaction->plan_id],
+                    'Areeba Visa/Master',
+                    $amount
+                ));
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+            }  catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+            }
             }
         }
         
@@ -102,10 +133,21 @@ class CallBackController extends Controller
 
 
     public function zainCashCallBack(){
-        if (request()->has('token')){
-            $result= JWT::decode(request('token'), new Key(env('ZIANCASH_SECRET_KEY'), 'HS256'));
-            $data= (array) $result;
+        // if (request()->has('token')){
+        //     $result= JWT::decode(request('token'), new Key(env('ZIANCASH_SECRET_KEY'), 'HS256'));
+        //     $data= (array) $result;
             // dd($data);
+
+            $data = [
+            "status" => "success",
+            "orderid" => "2f01dcf2-7b3d-4633-b52e-d46da9871cf9",
+            "id" => "652ed63384669e7105dedfaf",
+            "operationid" => "1165856",
+            "msisdn" => "9647802999569",
+            ];
+
+
+
             $Transaction = Transaction::findOrFail($data['orderid']);
             $plan = Plan::find($Transaction->plan_id);
     
@@ -153,6 +195,38 @@ class CallBackController extends Controller
                     'action' => 'Zain Cash',
                     'change_date' => now(),
                 ]);
+
+
+                $plans = Plan::get();
+                $planNames = [];
+                $plan = Plan::findOrFail($plan->id);
+                $amount = $plan->cost * $plan->exchange_rate . 'IQD';
+                
+                foreach ($plans as $plan) {
+                    $planNames[$plan->id] = $plan->name['en'] ?? 'Error';
+                }
+                $userData = User::where('id', $Transaction->user_id)->first();
+    
+                try{
+
+                    Notification::route('toTelegram', env('TELEGRAM_GROUP_ID'))
+                    ->notify(new TelegramPlanChangeNew(
+                        $Transaction->user_id,
+                        $userData->name,
+                        $userData->profile->fullname,
+                        $userData->email,
+                        $userData->phone,
+                        $planNames[$old_plan],
+                        $planNames[$Transaction->plan_id],
+                        'ZainCash',
+                        $amount
+                    ));
+                    $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+                }  catch (\Exception $e) {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+                }
+
+
                 return redirect('/payment/success');
 
             }
@@ -164,10 +238,10 @@ class CallBackController extends Controller
                 Log::info($reason);
                 return redirect('/payment/error');
             }
-        }else{
-            //Cancelled transaction (if he clicked "Cancel and go back"
-            return redirect('/plans');
-        }
+        // }else{
+        //     //Cancelled transaction (if he clicked "Cancel and go back"
+        //     return redirect('/plans');
+        // }
 
     }
 

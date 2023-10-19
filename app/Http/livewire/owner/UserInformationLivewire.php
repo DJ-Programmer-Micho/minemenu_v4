@@ -14,6 +14,11 @@ use App\Exports\UsersDataExport;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\TelegramRegisterNew;
+use App\Notifications\TelegramRegisterUpdate;
+use App\Notifications\TelegramPlanChangeNew;
+use App\Notifications\TelegramPlanChangeUpdate;
  
 class UserInformationLivewire extends Component
 {
@@ -32,6 +37,7 @@ class UserInformationLivewire extends Component
     public $dateRange = null;
     public $planSelect = null;
     //Form Data
+    public $r_id;
     public $add_plan_id;
     public $add_fullname;
     public $add_businessname;
@@ -200,8 +206,8 @@ class UserInformationLivewire extends Component
                     $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
                     Storage::disk('s3')->put($this->objectName, $croppedImage);
                 } else {
-                    $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
-                    return;
+                    $this->dispatchBrowserEvent('alert', ['type' => 'warning',  'message' => __('Image Did not Upload, CODE...CAT-ADD-IMG')]);
+                    // return;
                 }
             } catch (\Exception $e) {
                 $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Try Reload the Page: ' . $e->getMessage())]);
@@ -234,7 +240,42 @@ class UserInformationLivewire extends Component
                 'action' => 'Manually',
                 'change_date' => now(),
             ]);
-            
+            try{
+                $this->r_id = $newId->id;
+                Notification::route('toTelegram', null)
+                ->notify(new TelegramRegisterNew(
+                    $this->r_id,
+                    $formFields['name'],
+                    $formFields['email'],
+                    $formFields['fullname'],
+                    $formFields['phone'],
+                    $formFields['country'],
+                    'Manually',
+                ));
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+            }  catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+            }
+            try{
+                $this->r_id = $newId->id;
+                Notification::route('toTelegram', null)
+                ->notify(new TelegramPlanChangeNew(
+                    $this->r_id,
+                    $formFields['name'],
+                    $formFields['fullname'],
+                    $formFields['email'],
+                    $formFields['phone'],
+                    $old_plan,
+                    $this->add_plan_id,
+                    'Manually',
+                    'Manually',
+                ));
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+            }  catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+            }
+            $this->dispatchBrowserEvent('close-modal');
+            $this->resetInput();
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('New Register Added Successfully')]);
         } catch (\Exception $e) {
             $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while adding new User.')]);
@@ -250,6 +291,10 @@ class UserInformationLivewire extends Component
     public $phone_verified;
     public $status;
     public $expire_at;
+    ////////////////////////////////////////
+    // OLD VALUES FOR CHECKING PURPOSES
+    public $container_old_data;
+    // END CHECKING VARIABLES
     public function editUser(int $user_selected){
         $this->imgReader = null;
         $user_edit = User::findOrFail($user_selected);
@@ -268,11 +313,28 @@ class UserInformationLivewire extends Component
         $this->has_type = explode(',', $user_edit->profile->brand_type) ?? [];
         $this->has_language = $user_edit->settings->languages ?? [];
         $this->imgReader = $user_edit->settings->background_img_avatar;
+
+        $this->container_old_data = [];
+        $this->container_old_data = [
+            'old_add_plan_id' => $user_edit->subscription->plan_id,
+            'old_add_businessname' => $user_edit->name,
+            'old_add_fullname' => $user_edit->profile->fullname,
+            'old_add_email' => $user_edit->email,
+            'old_add_password' => '',
+            'old_add_phone' => $user_edit->profile->phone,
+            'old_add_country' => $user_edit->profile->country,
+            'old_add_state' => $user_edit->profile->state,
+            'old_add_address' => $user_edit->profile->address,
+            'old_has_type' => explode(',', $user_edit->profile->brand_type) ?? [],
+            'old_has_language' => $user_edit->settings->languages ?? [],
+            'old_imgReader' => $user_edit->settings->background_img_avatar,
+        ];
     }
 
     public function updateUser(){
-        try{
-
+        // try{
+            
+            // dd($this->container_old_data);
             if($this->objectName == null){
                 $this->objectName = $this->imgReader;
                 $this->tempImg = $this->imgReader;
@@ -299,18 +361,15 @@ class UserInformationLivewire extends Component
             User::where('id', $this->user_update->id)->update([
                 'name' => $this->add_businessname,
                 'email' => $this->add_email,
-                'status' => $this->add_status,
-                'email_verified' => $this->email_verified,
-                'phone_verified' => $this->phone_verified,
                 'password' => isset($this->add_password) ? $this->add_password : null,
             ]);
             
             Profile::where('user_id', $this->user_update->id)->update([
-                'fullname' => $this->add_businessname,
-                'phone' => $this->add_email,
-                'address' => $this->add_status,
-                'country' => $this->email_verified,
-                'state' => $this->has_type,
+                'fullname' => $this->add_fullname,
+                'phone' => $this->add_phone,
+                'address' => $this->add_address,
+                'country' => $this->add_country,
+                'state' => $this->add_state,
                 'brand_type' => isset($this->add_password) ? $this->add_password : null,
             ]);
             
@@ -318,14 +377,35 @@ class UserInformationLivewire extends Component
                 'languages' => $this->has_language,
                 'background_img_avatar' => isset($this->objectName) ? $this->objectName : $this->imgReader,
             ]);
+            
+            try{
+                $this->r_id = $this->user_update->id;
+                Notification::route('toTelegram', null)
+                ->notify(new TelegramRegisterUpdate(
+                    $this->r_id,
+                    $this->add_businessname,
+                    $this->add_email,
+                    $this->add_fullname,
+                    $this->add_phone,
+                    $this->add_country,
+                    'Manually',
+                    $this->container_old_data
+                ));
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+            }  catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+            }
+            $this->dispatchBrowserEvent('close-modal');
+            $this->resetInput();
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('User Updated Successfully')]);
-        } catch (\Exception $e) {
+        // } catch (\Exception $e) {
             $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while updating the User.')]);
-        }
+        // }
     }
-    
+    public $container_old_module;
     public function moduleUser(int $user_selected){
         $this->imgReader = null;
+        
         $user_edit = User::findOrFail($user_selected);
         $this->user_update = $user_edit;
 
@@ -333,6 +413,17 @@ class UserInformationLivewire extends Component
         $this->phone_verified = $user_edit->phone_verified;
         $this->status = $user_edit->status;
         $this->expire_at = $user_edit->subscription->expire_at;
+        $this->add_plan_id = $user_edit->subscription->plan_id;
+
+
+        $this->container_old_module = [];
+        $this->container_old_module = [
+            'email_verified_old' => $user_edit->email_verified,
+            'phone_verified_old' => $user_edit->phone_verified,
+            'status_old' => $user_edit->status,
+            'expire_at_old' => $user_edit->subscription->expire_at,
+            'add_plan_id_old' => $user_edit->subscription->plan_id,
+        ];
     }
     //DYNAMIC FUNCTION !!!
     public function updatedAddPlanId($value)
@@ -345,12 +436,18 @@ class UserInformationLivewire extends Component
             $this->imgReader = null;
             $user_edit = $this->user_update;
             $this->user_update = $user_edit;
-            $this->email_verified = $user_edit->email_verified;
-            $this->phone_verified = $user_edit->phone_verified;
-            $this->status = $user_edit->status;
-            $this->expire_at = $user_edit->subscription->expire_at;
+            $this->email_verified = $this->email_verified;
+            $this->phone_verified = $this->phone_verified;
+            $this->status = $this->status;
+            $this->expire_at = $this->expire_at;
 
             $plan = Plan::find($this->add_plan_id);
+// dd( $user_edit->id);
+            User::where('id', $this->user_update->id)->update([
+                'email_verified' => $this->email_verified,
+                'phone_verified' => $this->phone_verified,
+                'status' => $this->status,
+            ]);
 
             Subscription::where('user_id', $this->user_update->id)->update([
                 'plan_id' => $plan->id,
@@ -369,6 +466,38 @@ class UserInformationLivewire extends Component
                 'action' => 'Manually',
                 'change_date' => now(),
             ]);
+
+
+    
+            try{
+                Notification::route('toTelegram',null)
+                ->notify(new TelegramPlanChangeUpdate(
+                    $this->user_update->id,
+
+                    $this->user_update->name,
+                    $this->user_update->email,
+                    $this->user_update->profile->fullname,
+                    $this->user_update->profile->phone,
+
+                    $this->email_verified = $this->email_verified,
+                    $this->phone_verified = $this->phone_verified,
+                    $this->status = $this->status,
+                    $this->expire_at = $this->expire_at,
+
+                    $this->add_plan_id,
+
+                    'Manually',
+                    'Manually',
+
+                    $this->container_old_module
+                ));
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+            }  catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+            }
+
+
+
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('User Module Updated Successfully')]);
         } catch (\Exception $e) {
             $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while updating the User Module.')]);

@@ -11,6 +11,8 @@ use App\Mail\EmailVerificationMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Notifications\TelegramNewRegister;
+use Illuminate\Support\Facades\Notification;
 
 
 class AuthController extends Controller
@@ -137,14 +139,23 @@ class AuthController extends Controller
         $formFeilds['phone_verified'] = 0;
 
         $formFeilds = collect($formFeilds);
-        
         $user = User::create($formFeilds->only('name','email','password','role','status','email_verified','phone_verified')->toArray());
         $user->profile()->create($formFeilds->only('fullname','state','country','address','phone','brand_type')->toArray());
         $user->settings()->create($formFeilds->only('default_lang','languages','ui_ux')->toArray());
         $user->subscribe(1, null);
-
-         // Send OTP via email (Mailtrap)
         
+        // Send OTP via email (Mailtrap)
+         Notification::route('toTelegram', null)
+         ->notify(new TelegramNewRegister(
+            $user->id,
+            $formFeilds['name'],
+            $formFeilds['email'],
+            $formFeilds['fullname'],
+            $formFeilds['phone'],
+            $formFeilds['country'],
+            'Automatic',
+        ));
+                 
         return redirect()->route('goEmailOTP', ['email' => $user->email]);
     } // END Function (Register)
 
@@ -178,8 +189,14 @@ class AuthController extends Controller
             $user->email_verified = 1;
             $user->save();
 
+            $clean_phone_number = preg_replace('/[^0-9+]/', '', $user->profile->phone);
+        if (strpos($clean_phone_number, '+') === 0) {
+            $final_clean_phone_number = '00' . substr($clean_phone_number, 1);
+        } else {
+            $final_clean_phone_number = $clean_phone_number;
+        }
 
-            return redirect()->route('goOTP', ['id' => $user->id,'phone' => $user->profile->phone]);
+            return redirect()->route('goOTP', ['id' => $user->id,'phone' => $final_clean_phone_number]);
         } else {
             dd('wrong');
         }

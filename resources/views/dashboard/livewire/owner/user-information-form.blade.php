@@ -234,14 +234,14 @@
                         <div class="col-12 col-sm-6 border" wire:ignore>
                             <div class="mb-3 phone">
                                 <label for="inputPhone">Phone Number</label>
-                                <input id="inputPhone" type="tel" name="inputPhone" wire:model="add_phone" class="form-control" dir="ltr" required>
+                                <input id="inputPhone" type="tel" name="add_phone" wire:model="add_phone" class="form-control" dir="ltr" required>
                                 @error('add_phone') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 border">
                             <div class="mb-3">
                                 <label>Password</label>
-                                <input type="text" wire:model="add_password" class="form-control" required>
+                                <input type="text" wire:model="add_password" class="form-control">
                                 @error('add_password') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>

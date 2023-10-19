@@ -9,7 +9,7 @@
             @if (session('success'))
             <p class="alert alert-success ar my-text">{{__("Thank you For Contact Us We'll Reach You Very Soon")}}</p>
             @endif
-            <form action="/messages" class="contact-form" method="POST">
+            <form action="/contactus-whatsapp" class="contact-form" method="POST">
                 @csrf
                 <div class="row">
                     <div class="col-lg-6">

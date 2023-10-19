@@ -1,18 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\LocalizationMiddleware;
-use App\Http\Middleware\LocalizationMainMiddleware;
 use App\Http\Controllers\EmpController;
 use App\Http\Controllers\ManController;
 use App\Http\Controllers\OwnController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RestController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\BusinessController;
-use App\Http\Controllers\ForgotPasswordController;
-use App\Http\Controllers\Gateaway\CallBackController;
+use App\Http\Middleware\LocalizationMiddleware;
 use App\Http\Controllers\Gateaway\PlanController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Middleware\LocalizationMainMiddleware;
+use App\Http\Controllers\Gateaway\CallBackController;
 use App\Http\Controllers\Gateaway\TransactionController;
 use App\Http\Controllers\Gateaway\SubscriptionController;
 // use App\Http\Livewire\User\Components\Header01Livewire;
@@ -189,3 +190,9 @@ Route::prefix('/{business_name}')->middleware(['LocalizationMiddleware','Tracker
     // PWA DYNAMIC
     Route::get('/manifest', [BusinessController::class, 'generateManifest'])->name('generateManifest');
 });
+/*
+|--------------------------------------------------------------------------
+| Third Part Route
+|--------------------------------------------------------------------------
+*/
+Route::post('/contactus-whatsapp', [MessageController::class, 'contactUsApp'])->name('contactUsApp');
