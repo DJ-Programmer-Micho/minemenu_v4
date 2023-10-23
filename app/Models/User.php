@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'g_pass',
         'role',
         'status',
         'email_verified',

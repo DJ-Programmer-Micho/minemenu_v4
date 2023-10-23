@@ -101,6 +101,9 @@
                             <button type="button" wire:click="updateStatus({{ $item->id }})" class="btn {{ $item->status == 1 ? 'btn-danger' : 'btn-success' }} btn-icon">
                             <i class="far {{ $item->status == 1 ? 'fa-times-circle' : 'fa-check-circle' }}"></i>
                             </button>
+                            <button type="button" wire:click="updateSpecial({{ $item->id }})" class="btn {{ $item->special == 1 ? 'btn-info' : 'btn-dark' }} btn-icon">
+                            <i class="fas {{ $item->special == 1 ? 'fa-percent' : 'fa-dollar-sign' }}"></i>
+                            </button>
                             <button type="button" data-toggle="modal" data-target="#deleteFoodModal" wire:click="deleteFood({{ $item->id }})" class="btn btn-danger btn-icon">
                             <i class="far fa-trash-alt"></i>
                             </button>

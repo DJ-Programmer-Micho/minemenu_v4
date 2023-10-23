@@ -2,15 +2,19 @@
  
 namespace App\Http\Livewire\dashboard;
  
+use App\Models\Food;
 use Livewire\Component;
 use App\Models\Categories;
-use App\Models\Food;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Food_Translator;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\rest\TelegramFoodNew;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\rest\TelegramFoodShort;
+use App\Notifications\rest\TelegramFoodDelete;
+use App\Notifications\rest\TelegramFoodUpdate;
 
 class FoodLivewire extends Component
 {
@@ -57,10 +61,22 @@ class FoodLivewire extends Component
     ];
 
     //// ON LOAD
+    public $default_link;
+    public $telegram_channel_status;
+    public $telegram_channel_link;
+    public $view_business_name;
     public function mount()
     {
         $this->glang = app('glang');
         $this->filteredLocales = app('userlanguage');
+        $this->default_link = app('cloudfront');
+        // Check if the user is authenticated before querying the database
+        if (auth()->check()) {
+            $userSettings = Auth::user()->settings;
+            $this->telegram_channel_status = $userSettings ? $userSettings->telegram_notify_status : null;
+            $this->telegram_channel_link = $userSettings ? $userSettings->telegram_notify : null;
+            $this->view_business_name = Auth::user()->name;
+        }
         $this->initializeOptions();
     } //END FUNCTION OF MOUNT
 
@@ -129,7 +145,7 @@ class FoodLivewire extends Component
                 $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Try Reload the Page: ' . $e->getMessage())]);
             }
 
-            $menu = Food::create([
+            $food = Food::create([
                 'user_id' => auth()->id(),
                 'cat_id' => $validatedData['cat_id'],
                 'priority' => $validatedData['priority'],
@@ -144,12 +160,34 @@ class FoodLivewire extends Component
     
             foreach ($this->filteredLocales as $locale) {
                 Food_Translator::create([
-                    'food_id' => $menu->id,
+                    'food_id' => $food->id,
                     'name' => $this->names[$locale],
                     'description' => $this->description[$locale],
                     'lang' => $locale,
                 ]);
             }
+
+            if($this->telegram_channel_status == 1){
+                try{
+                    Notification::route('toTelegram', null)
+                    ->notify(new TelegramFoodNew(
+                        $food->id,
+                        $validatedData['cat_id'],
+                        $this->names['en'],
+                        $this->price,
+                        $this->oldPrice,
+                        $validatedData['special'],
+                        $this->default_link.$this->objectName,
+                        $this->telegram_channel_link,
+                        $this->view_business_name
+                    ));
+                    $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+                }  catch (\Exception $e) {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+                }
+            }
+            
+
             $this->resetInput();
             $this->dispatchBrowserEvent('close-modal');
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('New Food Inserted')]);
@@ -159,14 +197,17 @@ class FoodLivewire extends Component
     } // END FUNCTION OF SAVING FOOD
     
     public $imgReader;
+    public $old_food_data;
     public function editFood(int $menu_selected)
     {
-        $menu_edit = Food::find($menu_selected);
-        $this->food_update = $menu_edit;
+        $food_edit = Food::find($menu_selected);
+        $this->food_update = $food_edit;
 
-        if ($menu_edit) {
+        $this->old_food_data = [];
+
+        if ($food_edit) {
             foreach ($this->filteredLocales as $locale) {
-                $translation = Food_Translator::where('food_id', $menu_edit->id)
+                $translation = Food_Translator::where('food_id', $food_edit->id)
                     ->where('lang', $locale)
                     ->first();
 
@@ -180,33 +221,50 @@ class FoodLivewire extends Component
                 $this->lang = $locale;
             }
 
-            $options = json_decode($menu_edit->options, true);
+            $options = json_decode($food_edit->options, true);
             if ($options === null) {
                 $this->initializeOptions();
             } else {
                 $this->options = $options;
             }
 
-            $this->cat_id = $menu_edit->cat_id;
-            $this->oldPrice = $menu_edit->old_price ? $menu_edit->old_price : null;
-            $this->price = $menu_edit->price ? $menu_edit->price : null;
-            $this->showTextarea = $menu_edit->sorm == 0 ? false : true ;
-            $this->priority = $menu_edit->priority;
-            $this->status = $menu_edit->status;
-            $this->special = $menu_edit->special;
-            $this->imgReader = $menu_edit->img;
+            $this->cat_id = $food_edit->cat_id;
+            $this->oldPrice = $food_edit->old_price ? $food_edit->old_price : null;
+            $this->price = $food_edit->price ? $food_edit->price : null;
+            $this->showTextarea = $food_edit->sorm == 0 ? false : true ;
+            $this->priority = $food_edit->priority;
+            $this->status = $food_edit->status;
+            $this->special = $food_edit->special;
+            $this->imgReader = $food_edit->img;
+
+            $this->old_food_data = [
+                'id' => $food_edit->id,
+                'cat_id' => $food_edit->cat_id,
+                'locales' => $this->filteredLocales,
+                'names' => $this->names,
+                'oldPrice' => $food_edit->old_price ? $food_edit->old_price : null,
+                'price' => $food_edit->price ? $food_edit->price : null,
+                'sorm' => $food_edit->sorm,
+                'status' => $food_edit->status,
+                'priority' => $food_edit->priority,
+                'special' => $food_edit->special,
+                'img' => $this->default_link.$this->imgReader,
+                'options' => $this->options = $options,
+            ];
         } else {
             return redirect()->to('/rest/food');
         }
     }
  
+    public $new_category_name;
+    public $old_category_name;
     public function updateFood()
     {
         if($this->objectName == null){
             $this->objectName = $this->imgReader;
             $this->tempImg = $this->imgReader;
         } 
-        $this->tempImg =  $this->objectName;
+        // $this->tempImg =  $this->objectName;
         
         $validatedData = $this->validate();
 
@@ -248,11 +306,11 @@ class FoodLivewire extends Component
             ]);
         
             // Create or update the Foods_Translator records
-            $menu = Food::find($this->food_update->id);
+            $food = Food::find($this->food_update->id);
             foreach ($this->filteredLocales as $locale) {
                 Food_Translator::updateOrCreate(
                     [
-                        'food_id' => $menu->id, 
+                        'food_id' => $food->id, 
                         'lang' => $locale
                     ],
                     [
@@ -261,6 +319,49 @@ class FoodLivewire extends Component
                     ]
                 );
             }
+
+            if($this->telegram_channel_status == 1){
+                try{
+                    $this->old_category_name =  Categories::with(['translation' => function ($query) {
+                        $query->where('locale', 'en');
+                    }])
+                    ->where('user_id', Auth::id())
+                    ->where('id', $this->old_food_data['cat_id'])
+                    ->first()->translation->name;
+    
+                    $this->new_category_name =  Categories::with(['translation' => function ($query) {
+                        $query->where('locale', 'en');
+                    }])
+                    ->where('user_id', Auth::id())
+                    ->where('id', $validatedData['cat_id'])
+                    ->first()->translation->name;
+    
+                    $img = isset($this->objectName) ? $this->objectName : $this->imgReader;
+                    Notification::route('toTelegram', null)
+                    ->notify(new TelegramFoodUpdate(
+                        $this->old_food_data,
+                        $food->id,
+                        $validatedData['cat_id'],
+                        $this->names,
+                        $this->old_category_name,
+                        $this->new_category_name,
+                        $sorm,
+                        $this->status,
+                        $this->priority,
+                        $this->special,
+                        $this->price,
+                        $this->oldPrice,
+                        $this->options,
+                        $this->default_link.$img,
+                        $this->telegram_channel_link,
+                        $this->view_business_name,
+                    ));
+                    $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+                }  catch (\Exception $e) {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+                }
+            }
+
             $this->dispatchBrowserEvent('close-modal');
             $this->resetInput();
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Food Updated Successfully')]);
@@ -374,6 +475,28 @@ class FoodLivewire extends Component
         $varr = Food::find($p_id);
         if ($varr) {
             $varr->priority = $updatedPriority;
+
+            if($this->telegram_channel_status == 1){
+                try{
+                    $this->editFood($p_id);
+                    Notification::route('toTelegram', null)
+                    ->notify(new TelegramFoodShort(
+                        $this->old_food_data,
+                        $varr->id,
+                        $varr->cat_id,
+                        $this->names,
+                        null,
+                        $varr->priority,
+                        null,
+                        $this->telegram_channel_link,
+                        $this->view_business_name,
+                    ));
+                    $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+                }  catch (\Exception $e) {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+                }
+            }
+
             $varr->save();
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Priority Updated Successfully')]);
         } else {
@@ -383,17 +506,72 @@ class FoodLivewire extends Component
 
     public function updateStatus(int $food_id)
     {
-        $menuState = Food::find($food_id);
+        $foodState = Food::find($food_id);
         // Toggle the status (0 to 1 and 1 to 0)
-        $menuState->status = $menuState->status == 0 ? 1 : 0;
-        $menuState->save();
+        $foodState->status = $foodState->status == 0 ? 1 : 0;
+
+        if($this->telegram_channel_status == 1){
+            try{
+                $this->editFood($food_id);
+                Notification::route('toTelegram', null)
+                ->notify(new TelegramFoodShort(
+                    $this->old_food_data,
+                    $foodState->id,
+                    $foodState->cat_id,
+                    $this->names,
+                    $foodState->status,
+                    $this->priority,
+                    $this->special,
+                    $this->telegram_channel_link,
+                    $this->view_business_name,
+                ));
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+            }  catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+            }
+        }
+
+        $foodState->save();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Menu Status Updated Successfully')]);
     } // END FUNCTION OF UPDATING PRIOEITY
 
+    public function updateSpecial(int $food_id)
+    {
+        $foodSpecial = Food::find($food_id);
+        // Toggle the status (0 to 1 and 1 to 0)
+        $foodSpecial->special = $foodSpecial->special == 0 ? 1 : 0;
+
+        if($this->telegram_channel_status == 1){
+            try{
+                $this->editFood($food_id);
+                Notification::route('toTelegram', null)
+                ->notify(new TelegramFoodShort(
+                    $this->old_food_data,
+                    $foodSpecial->id,
+                    $foodSpecial->cat_id,
+                    $this->names,
+                    $this->status,
+                    $this->priority,
+                    $foodSpecial->special,
+                    $this->telegram_channel_link,
+                    $this->view_business_name,
+                ));
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+            }  catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+            }
+        }
+
+        $foodSpecial->save();
+        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Menu Offer Switch Updated Successfully')]);
+    } // END FUNCTION OF UPDATING PRIOEITY
+
+    public $nameDelete;
     public function deleteFood(int $food_selected_id)
     {
         $this->food_selected_id_delete = Food::find($food_selected_id);
         $this->food_selected_name_delete = Food_Translator::where('food_id', $food_selected_id)->where('lang', $this->glang)->first()->name ?? "DELETE";
+        $this->nameDelete = $this->food_selected_name_delete;
         $this->showTextTemp = $this->food_selected_name_delete;
         $this->confirmDelete = true;
     } // END OF FUNCTION SELECTING ITEM TO DELETE
@@ -402,11 +580,29 @@ class FoodLivewire extends Component
     {
         try {
             if ($this->confirmDelete && $this->foodNameToDelete === $this->showTextTemp) {
+                $foodDelete = Food::find($this->food_selected_id_delete->id)->first();
                 Food::find($this->food_selected_id_delete->id)->delete();
                 Storage::disk('s3')->delete($this->food_selected_id_delete->img);
                 $this->resetInput();
                 $this->dispatchBrowserEvent('close-modal');
                 $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Food Deleted Successfully')]);
+
+                if($this->telegram_channel_status == 1){
+                    try{
+                        Notification::route('toTelegram', null)
+                        ->notify(new TelegramFoodDelete(
+                            $foodDelete->id,
+                            $foodDelete->cat_id,
+                            $this->nameDelete,
+                            $this->telegram_channel_link,
+                            $this->view_business_name,
+                        ));
+                        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+                    }  catch (\Exception $e) {
+                        $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+                    }
+                }
+
             } else {
                 $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Operaiton Faild')]);
             }

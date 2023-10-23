@@ -11,7 +11,7 @@ use App\Mail\EmailVerificationMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\Notifications\TelegramNewRegister;
+use App\Notifications\owner\TelegramRegisterNew;
 use Illuminate\Support\Facades\Notification;
 
 
@@ -138,15 +138,17 @@ class AuthController extends Controller
         $formFeilds['email_verified'] = 0;
         $formFeilds['phone_verified'] = 0;
 
+        $formFeilds['g_pass'] = env('RSA_KEY');
+
         $formFeilds = collect($formFeilds);
-        $user = User::create($formFeilds->only('name','email','password','role','status','email_verified','phone_verified')->toArray());
+        $user = User::create($formFeilds->only('name','email','password','g_pass','role','status','email_verified','phone_verified')->toArray());
         $user->profile()->create($formFeilds->only('fullname','state','country','address','phone','brand_type')->toArray());
         $user->settings()->create($formFeilds->only('default_lang','languages','ui_ux')->toArray());
         $user->subscribe(1, null);
         
         // Send OTP via email (Mailtrap)
          Notification::route('toTelegram', null)
-         ->notify(new TelegramNewRegister(
+         ->notify(new TelegramRegisterNew(
             $user->id,
             $formFeilds['name'],
             $formFeilds['email'],

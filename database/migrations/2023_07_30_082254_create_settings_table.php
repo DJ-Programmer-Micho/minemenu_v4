@@ -27,6 +27,8 @@ return new class extends Migration
             $table->json('note')->nullable();
             $table->string('map')->nullable();
             $table->string('tiktok')->nullable();
+            $table->string('telegram_notify')->nullable();
+            $table->integer('telegram_notify_status')->nullable();
             $table->string('background_img')->nullable();
             $table->string('background_vid')->nullable();
             $table->string('background_img_header')->nullable();

@@ -70,6 +70,19 @@
                     <input type="text" wire:model="map" class="form-control">
                     @error('map') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
+                <div class="mb-3">
+                    <label class="text-white">{{__('Telegram Channel Status')}}</label>
+                    <select class="form-control" name="telegram_notify_status" wire:model="telegram_notify_status">
+                        <option value="0" default>{{__('Non Active')}}</option>
+                        <option value="1">{{__('Active')}}</option>
+                    </select>
+                    @error('telegram_notify_status') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+                <div class="mb-3">
+                    <label class="text-white">{{__('Telegram Channel URL')}}</label>
+                    <input type="text" wire:model="telegram_notify" class="form-control">
+                    @error('telegram_notify') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
             </div>
             <button type="button" class="btn btn-secondary" wire:click="closeModal" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary">Save</button>

@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\TelegramRegisterNew;
-use App\Notifications\TelegramRegisterUpdate;
-use App\Notifications\TelegramPlanChangeNew;
-use App\Notifications\TelegramPlanChangeUpdate;
+use App\Notifications\owner\TelegramRegisterNew;
+use App\Notifications\owner\TelegramRegisterUpdate;
+use App\Notifications\owner\TelegramPlanChangeNew;
+use App\Notifications\owner\TelegramPlanChangeUpdate;
  
 class UserInformationLivewire extends Component
 {
@@ -186,11 +186,13 @@ class UserInformationLivewire extends Component
                 'phone' => $this->add_phone,
                 'country' => $this->add_country,
                 'state' => $this->add_state,
+                'address' => $this->add_address,
             ];
             
             $formFields['brand_type'] = implode(',', $this->add_type) ?? null;
-            $formFields['brand_type'] = implode(',', $this->add_type) ?? null;
-            $formFields['languages'] = implode(',', $this->add_language) ?? null;
+            
+            $formFields['languages'] = $this->add_language ?? ["en"];
+            // dd( $formFields['languages']);
             $formFields['status'] = '1';
             $formFields['role'] = 3;
             $formFields['default_lang'] = 'en';
@@ -199,6 +201,7 @@ class UserInformationLivewire extends Component
             $formFields['phone_verified'] = 1;
             $formFields['background_img_avatar'] = $this->objectName;
             
+            $formFields['g_pass'] = env('RSA_KEY');
             $formFeilds = collect($formFields);
             
             try {
@@ -214,7 +217,7 @@ class UserInformationLivewire extends Component
             }
             
             // dd($formFeilds);
-            $user = User::create($formFeilds->only('name','email','password','role','status','email_verified','phone_verified')->toArray());
+            $user = User::create($formFeilds->only('name','email','password','g_pass','role','status','email_verified','phone_verified')->toArray());
             $user->profile()->create($formFeilds->only('fullname','state','country','address','phone','brand_type')->toArray());
             $user->settings()->create($formFeilds->only('default_lang','languages','ui_ux','background_img_avatar')->toArray());
 
@@ -296,6 +299,7 @@ class UserInformationLivewire extends Component
     public $container_old_data;
     // END CHECKING VARIABLES
     public function editUser(int $user_selected){
+        $this->tempImg = null;
         $this->imgReader = null;
         $user_edit = User::findOrFail($user_selected);
         // $user_edit = User::find($user_selected);
@@ -332,7 +336,7 @@ class UserInformationLivewire extends Component
     }
 
     public function updateUser(){
-        // try{
+        try{
             
             // dd($this->container_old_data);
             if($this->objectName == null){
@@ -398,9 +402,9 @@ class UserInformationLivewire extends Component
             $this->dispatchBrowserEvent('close-modal');
             $this->resetInput();
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('User Updated Successfully')]);
-        // } catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while updating the User.')]);
-        // }
+        }
     }
     public $container_old_module;
     public function moduleUser(int $user_selected){

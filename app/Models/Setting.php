@@ -23,6 +23,8 @@ class Setting extends Model
         'note',
         'map',
         'tiktok',
+        'telegram_notify',
+        'telegram_notify_status',
         'background_img',
         'background_vid',
         'background_img_header',

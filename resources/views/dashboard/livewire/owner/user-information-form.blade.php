@@ -172,7 +172,7 @@
     
 </div>
 
-<div wire:ignore.self class="modal fade" id="updateUserModal" tabindex="-1" aria-labelledby="updateUserModalLabel"
+<div wire:ignore.self class="modal fade overflow-auto" id="updateUserModal" tabindex="-1" aria-labelledby="updateUserModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-xl text-white mx-1 mx-lg-auto" style="max-width: 1140px;">
         <div class="modal-content bg-dark">

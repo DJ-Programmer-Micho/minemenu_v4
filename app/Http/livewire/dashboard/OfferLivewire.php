@@ -2,14 +2,18 @@
  
 namespace App\Http\Livewire\dashboard;
  
+use Exception;
+use App\Models\Offer;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
-use App\Models\Offer;
 use App\Models\Offer_Translator;
-use Exception;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use App\Notifications\rest\TelegramOfferNew;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\rest\TelegramOfferShort;
+use App\Notifications\rest\TelegramOfferUpdate;
 
 class OfferLivewire extends Component
 {
@@ -53,10 +57,21 @@ class OfferLivewire extends Component
         'simulationCompleteImgOffer' => 'handlesimulationCompleteImg',
     ];
 
+    public $default_link;
+    public $telegram_channel_status;
+    public $telegram_channel_link;
+    public $view_business_name;
     public function mount()
     {
         $this->glang = app('glang');
         $this->filteredLocales = app('userlanguage');
+        $this->default_link = app('cloudfront');
+        if (auth()->check()) {
+            $userSettings = Auth::user()->settings;
+            $this->telegram_channel_status = $userSettings ? $userSettings->telegram_notify_status : null;
+            $this->telegram_channel_link = $userSettings ? $userSettings->telegram_notify : null;
+            $this->view_business_name = Auth::user()->name;
+        }
     } //END FUNCTION OF MOUNT
 
     protected function rules()
@@ -109,7 +124,7 @@ class OfferLivewire extends Component
             }
 
 
-            $menu = Offer::create([
+            $offer = Offer::create([
                 'user_id' => auth()->id(),
                 'priority' => $validatedData['priority'],
                 'price' => $this->price ? $this->price : null,
@@ -120,12 +135,31 @@ class OfferLivewire extends Component
     
             foreach ($this->filteredLocales as $locale) {
                 Offer_Translator::create([
-                    'offer_id' => $menu->id,
+                    'offer_id' => $offer->id,
                     'name' => $this->names[$locale],
                     'description' => $this->description[$locale],
                     'lang' => $locale,
                 ]);
             }
+
+            if($this->telegram_channel_status == 1){
+                try{
+                    Notification::route('toTelegram', null)
+                    ->notify(new TelegramOfferNew(
+                        $offer->id,
+                        $this->names['en'],
+                        $this->price,
+                        $this->oldPrice,
+                        $this->default_link.$this->objectName,
+                        $this->telegram_channel_link,
+                        $this->view_business_name
+                    ));
+                    $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+                }  catch (\Exception $e) {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+                }
+            }
+            
             $this->resetInput();
             $this->dispatchBrowserEvent('close-modal');
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('New Offer Inserted')]);
@@ -135,6 +169,7 @@ class OfferLivewire extends Component
     } // END FUNCTION OF SAVING OFFER
     
     public $imgReader;
+    public $old_offer_data;
     public function editOffer(int $offer_selected)
     {
         $offer_edit = Offer::find($offer_selected);
@@ -160,6 +195,17 @@ class OfferLivewire extends Component
             $this->priority = $offer_edit->priority;
             $this->status = $offer_edit->status;
             $this->imgReader = $offer_edit->img;
+
+            $this->old_offer_data = [
+                'id' => $offer_edit->id,
+                'locales' => $this->filteredLocales,
+                'names' => $this->names,
+                'oldPrice' => $offer_edit->old_price ? $offer_edit->old_price : null,
+                'price' => $offer_edit->price ? $offer_edit->price : null,
+                'status' => $offer_edit->status,
+                'priority' => $offer_edit->priority,
+                'img' => $this->default_link.$this->imgReader,
+            ];
         } else {
             return redirect()->to('/rest/offer');
         }
@@ -171,7 +217,7 @@ class OfferLivewire extends Component
             $this->objectName = $this->imgReader;
             $this->tempImg = $this->imgReader;
         } 
-        $this->tempImg =  $this->objectName;
+        // $this->tempImg =  $this->objectName;
         
         $validatedData = $this->validate();
 
@@ -218,6 +264,28 @@ class OfferLivewire extends Component
                 ]
             );
         }
+
+        if($this->telegram_channel_status == 1){
+            try{
+                Notification::route('toTelegram', null)
+                ->notify(new TelegramOfferUpdate(
+                    $this->old_offer_data,
+                    $menu->id,
+                    $this->names,
+                    $this->price,
+                    $this->oldPrice,
+                    $this->status,
+                    $this->priority,
+                    $this->default_link.$this->objectName,
+                    $this->telegram_channel_link,
+                    $this->view_business_name
+                ));
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+            }  catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+            }
+        }
+
         $this->dispatchBrowserEvent('close-modal');
         $this->resetInput();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Offer Updated Successfully')]);
@@ -229,10 +297,30 @@ class OfferLivewire extends Component
     //// QUICK ACTIONS
     public function updateStatus(int $offer_id)
     {
-        $menuState = Offer::find($offer_id);
+        $offerState = Offer::find($offer_id);
         // Toggle the status (0 to 1 and 1 to 0)
-        $menuState->status = $menuState->status == 0 ? 1 : 0;
-        $menuState->save();
+        $offerState->status = $offerState->status == 0 ? 1 : 0;
+
+        if($this->telegram_channel_status == 1){
+            try{
+                $this->editOffer($offer_id);
+                Notification::route('toTelegram', null)
+                ->notify(new TelegramOfferShort(
+                    $this->old_offer_data,
+                    $offerState->id,
+                    $this->names,
+                    $offerState->status,
+                    $this->priority,
+                    $this->telegram_channel_link,
+                    $this->view_business_name
+                ));
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+            }  catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+            }
+        }
+
+        $offerState->save();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Offer Status Updated Successfully')]);
     } // END OF FUNCTION UPDATING STATUS
 
@@ -240,6 +328,26 @@ class OfferLivewire extends Component
         $varr = Offer::find($p_id);
         if ($varr) {
             $varr->priority = $updatedPriority;
+
+            if($this->telegram_channel_status == 1){
+                try{
+                    $this->editOffer($p_id);
+                    Notification::route('toTelegram', null)
+                    ->notify(new TelegramOfferShort(
+                        $this->old_offer_data,
+                        $varr->id,
+                        $this->names,
+                        $varr->status,
+                        $varr->priority,
+                        $this->telegram_channel_link,
+                        $this->view_business_name
+                    ));
+                    $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+                }  catch (\Exception $e) {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+                }
+            }
+
             $varr->save();
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Priority Updated Successfully')]);
         } else {

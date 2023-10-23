@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('g_pass');
             $table->integer('role'); //SuperAdmin (OWN) - 1, man (MineMenu Dashboard) - 2, Rest (//Emp Resturant Owner) - 3, Emp (Resturant Employee) - 4
             $table->integer('status'); //Active - 1,DeActive - 0
             $table->timestamp('email_verified_at')->nullable();

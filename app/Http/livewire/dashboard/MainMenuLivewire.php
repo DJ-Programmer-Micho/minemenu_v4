@@ -4,9 +4,13 @@ namespace App\Http\Livewire\dashboard;
  
 use Livewire\Component;
 use App\Models\Mainmenu;
-use App\Models\Mainmenu_Translator;
 use Livewire\WithPagination;
+use App\Models\Mainmenu_Translator;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\rest\TelegramMenuNew;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\rest\TelegramMenuDelete;
+use App\Notifications\rest\TelegramMenuUpdate;
  
 class MainMenuLivewire extends Component
 {
@@ -25,10 +29,19 @@ class MainMenuLivewire extends Component
     public $priority;
     public $menu_update;
 
+    public $telegram_channel_link;
+    public $telegram_channel_status;
+    public $view_business_name;
     public function mount()
     {
         $this->glang = app('glang');
         $this->filteredLocales = app('userlanguage');
+        if (auth()->check()) {
+            $userSettings = Auth::user()->settings;
+            $this->telegram_channel_status = $userSettings ? $userSettings->telegram_notify_status : null;
+            $this->telegram_channel_link = $userSettings ? $userSettings->telegram_notify : null;
+            $this->view_business_name = Auth::user()->name;
+        }
     }
 
     protected function rules()
@@ -60,11 +73,28 @@ class MainMenuLivewire extends Component
                 'lang' => $locale,
             ]);
         }
+
+        if($this->telegram_channel_status == 1){
+            try{
+                Notification::route('toTelegram', null)
+                ->notify(new TelegramMenuNew(
+                    $menu->id,
+                    $this->names['en'],
+                    $this->telegram_channel_link,
+                    $this->view_business_name
+                ));
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+            }  catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+            }
+        }
+
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Menu Added Successfully')]);
         $this->resetInput();
         $this->dispatchBrowserEvent('close-modal');
     }
      
+    public $old_menu_data;
     public function editMenu(int $menu_selected)
     {
         $menu_edit = Mainmenu::find($menu_selected);
@@ -72,7 +102,10 @@ class MainMenuLivewire extends Component
         $this->priority = $menu_edit->priority;
         $this->status = $menu_edit->status;
 
+        $this->old_menu_data = [];
+
         if ($menu_edit) {
+            $this->old_menu_data = null;
             foreach ($this->filteredLocales as $locale) {
                 // Find the translation for the given locale in the Mainmenu_Translator table
                 $translation = Mainmenu_Translator::where('menu_id', $menu_edit->id)
@@ -89,6 +122,14 @@ class MainMenuLivewire extends Component
                 
                 $this->lang = $locale;
             }
+
+            $this->old_menu_data = [
+                'id' => $menu_edit->id,
+                'locales' => $this->filteredLocales,
+                'names' => $this->names,
+                'status' => $menu_edit->status,
+                'priority' => $menu_edit->priority,
+            ];
         } else {
             return redirect()->to('/rest');
         }
@@ -116,6 +157,24 @@ class MainMenuLivewire extends Component
             );
         }
 
+        if($this->telegram_channel_status == 1){
+            try{
+                Notification::route('toTelegram', null)
+                ->notify(new TelegramMenuUpdate(
+                    $this->old_menu_data,
+                    $menu->id,
+                    $this->names,
+                    $this->status,
+                    $this->priority,
+                    $this->telegram_channel_link,
+                    $this->view_business_name,
+                ));
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+            }  catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+            }
+        }
+
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Menu Updated Successfully')]);
         $this->resetInput();
         $this->dispatchBrowserEvent('close-modal');
@@ -127,15 +186,52 @@ class MainMenuLivewire extends Component
 
         // Toggle the status (0 to 1 and 1 to 0)
         $menuState->status = $menuState->status == 0 ? 1 : 0;
-    
+        $this->editMenu($menuState->id);
+        if($this->telegram_channel_status == 1){
+            try{
+                Notification::route('toTelegram', null)
+                ->notify(new TelegramMenuUpdate(
+                    $this->old_menu_data,
+                    $menuState->id,
+                    $this->names,
+                    $menuState->status,
+                    $this->priority,
+                    $this->telegram_channel_link,
+                    $this->view_business_name,
+                ));
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+            }  catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+            }
+        }
         $menuState->save();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Menu Status Updated Successfully')]);
+
+
     }
      
     public function updatePriority(int $p_id, $updatedPriority){
         $varr = Mainmenu::find($p_id);
         if ($varr) {
             $varr->priority = $updatedPriority;
+            $this->editMenu($varr->id);
+            if($this->telegram_channel_status == 1){
+                try{
+                    Notification::route('toTelegram', null)
+                    ->notify(new TelegramMenuUpdate(
+                        $this->old_menu_data,
+                        $varr->id,
+                        $this->names,
+                        $varr->status,
+                        $varr->priority,
+                        $this->telegram_channel_link,
+                        $this->view_business_name,
+                    ));
+                    $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+                }  catch (\Exception $e) {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+                }
+            }
             $varr->save();
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Priority Updated Successfully')]);
         } else {
@@ -153,8 +249,13 @@ class MainMenuLivewire extends Component
     {
         $this->menu_selected_id_delete = Mainmenu::find($menu_selected_id);
         $this->menu_selected_name_delete = Mainmenu_Translator::where('menu_id', $menu_selected_id)->where('lang', $this->glang)->first();
-        $this->showTextTemp = $this->menu_selected_name_delete->name;
-        $this->confirmDelete = true;
+        if ($this->menu_selected_name_delete) {
+            $this->showTextTemp = $this->menu_selected_name_delete->name;
+            $this->confirmDelete = true;
+        } else {
+            // Handle the case where the record is not found
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Record Not Found')]);
+        }
     }
 
     public function destroyMenu()
@@ -164,6 +265,22 @@ class MainMenuLivewire extends Component
             $this->dispatchBrowserEvent('close-modal');
             $this->closeModal();
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Menu Deleted Successfully')]);
+
+            if($this->telegram_channel_status == 1){
+                try{
+                    Notification::route('toTelegram', null)
+                    ->notify(new TelegramMenuDelete(
+                        $this->menu_selected_id_delete->id,
+                        $this->menuNameToDelete,
+                        $this->telegram_channel_link,
+                        $this->view_business_name,
+                    ));
+                    $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+                }  catch (\Exception $e) {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+                }
+            }
+            // $this->reloadData();
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Operaiton Faild')]);
         }

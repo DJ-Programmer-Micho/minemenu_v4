@@ -10,6 +10,12 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Categories_Translator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\rest\TelegramCategoryNew;
+use App\Notifications\rest\TelegramCategoryDelete;
+use App\Notifications\rest\TelegramCategoryUpdate;
+use App\Notifications\rest\TelegramCategoryUpdateStatus;
+use App\Notifications\rest\TelegramCategoryUpdatePriority;
 
 class CategoryLivewire extends Component
 {
@@ -55,10 +61,24 @@ class CategoryLivewire extends Component
     ];
 
     //// ON LOAD
+    public $telegram_channel_link;
+    public $telegram_channel_status;
+    public $view_business_name;
+    public $default_link;
+    public $menu_name;
+    public $old_menu_name;
+    public $new_menu_name;
     public function mount()
     {
         $this->glang = app('glang');
         $this->filteredLocales = app('userlanguage');
+        $this->default_link = app('cloudfront');
+        if (auth()->check()) {
+            $userSettings = Auth::user()->settings;
+            $this->telegram_channel_status = $userSettings ? $userSettings->telegram_notify_status : null;
+            $this->telegram_channel_link = $userSettings ? $userSettings->telegram_notify : null;
+            $this->view_business_name = Auth::user()->name;
+        }
     } //END FUNCTION OF MOUNT
 
     protected function rules()
@@ -139,6 +159,7 @@ class CategoryLivewire extends Component
                 }
             } 
 
+           
         $menu = Categories::create([
             'user_id' => auth()->id(),
             'menu_id' => $validatedData['menu_id'],
@@ -155,6 +176,30 @@ class CategoryLivewire extends Component
                 'locale' => $locale,
             ]);
         }
+
+        
+        if($this->telegram_channel_status == 1){
+            try{
+                $this->menu_name =  Mainmenu::with(['translation' => function ($query) {
+                    $query->where('lang', 'en');
+                }])
+                ->where('user_id', Auth::id())
+                ->where('id', $validatedData['menu_id'])
+                ->first()->translation->name;
+                Notification::route('toTelegram', null)
+                ->notify(new TelegramCategoryNew(
+                    $menu->id,
+                    $this->menu_name,
+                    $this->names['en'],
+                    $this->default_link.$this->objectName,
+                    $this->telegram_channel_link,
+                    $this->view_business_name
+                ));
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+            }  catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+            }
+        }
         $this->resetInput();
         $this->dispatchBrowserEvent('close-modal');
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('New Category Inserted')]);
@@ -163,7 +208,7 @@ class CategoryLivewire extends Component
         }
     } // END FUNCTION OF SAVING CATEGORY
     
-
+    public $old_category_data;
     public function editCategory(int $menu_selected)
     {
         $this->tempImgCover = null;
@@ -171,6 +216,8 @@ class CategoryLivewire extends Component
 
         $menu_edit = Categories::find($menu_selected);
         $this->category_update = $menu_edit;
+
+        $this->old_category_data = [];
 
         if ($menu_edit) {
             foreach ($this->filteredLocales as $locale) {
@@ -190,6 +237,16 @@ class CategoryLivewire extends Component
             $this->priority = $menu_edit->priority;
             $this->imgReader = $menu_edit->img;
             $this->imgReaderCover = $menu_edit->cover;
+
+            $this->old_category_data = [
+                'id' => $menu_edit->id,
+                'menu_id' => $menu_edit->menu_id,
+                'locales' => $this->filteredLocales,
+                'names' => $this->names,
+                'status' => $menu_edit->status,
+                'priority' => $menu_edit->priority,
+                'img' => $this->default_link.$this->imgReader,
+            ];
         } else {
             return redirect()->to('/rest/category');
         }
@@ -201,7 +258,11 @@ class CategoryLivewire extends Component
             $this->objectName = $this->imgReader;
             $this->tempImg = $this->imgReader;
         } 
-        $this->tempImg =  $this->objectName;
+        if($this->objectNameCover == null){
+            $this->objectNameCover = $this->imgReaderCover;
+            $this->tempImgCover = $this->imgReaderCover;
+        } 
+        // $this->tempImg =  $this->objectName;
 
         $validatedData = $this->validate();
 
@@ -238,7 +299,7 @@ class CategoryLivewire extends Component
                     $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred during image upload: ' . $e->getMessage())]);
                 }
             } 
-
+            // dd($this->tempImg, $croppedImage, $this->tempImgCover, $croppedImageCover);
         // Update the Categories record
         Categories::where('id', $this->category_update->id)->update([
             'menu_id' => $validatedData['menu_id'],
@@ -261,6 +322,41 @@ class CategoryLivewire extends Component
                 ]
             );
         }
+        if($this->telegram_channel_status == 1){
+            try{
+                $this->old_menu_name =  Mainmenu::with(['translation' => function ($query) {
+                    $query->where('lang', 'en');
+                }])
+                ->where('user_id', Auth::id())
+                ->where('id', $this->old_category_data['menu_id'])
+                ->first()->translation->name;
+
+                $this->new_menu_name =  Mainmenu::with(['translation' => function ($query) {
+                    $query->where('lang', 'en');
+                }])
+                ->where('user_id', Auth::id())
+                ->where('id', $validatedData['menu_id'])
+                ->first()->translation->name;
+
+                $img = isset($this->objectName) ? $this->objectName : $this->imgReader;
+                Notification::route('toTelegram', null)
+                ->notify(new TelegramCategoryUpdate(
+                    $this->old_category_data,
+                    $menu->id,
+                    $this->names,
+                    $this->status,
+                    $this->priority,
+                    $this->default_link.$img,
+                    $this->telegram_channel_link,
+                    $this->view_business_name,
+                    $this->old_menu_name,
+                    $this->new_menu_name,
+                ));
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+            }  catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+            }
+        }
         $this->dispatchBrowserEvent('close-modal');
         $this->resetInput();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Updated Successfully')]);
@@ -273,7 +369,24 @@ class CategoryLivewire extends Component
     public function updatePriority(int $p_id, $updatedPriority){
         $varr = Categories::find($p_id);
         if ($varr) {
+            $this->editCategory($p_id);
             $varr->priority = $updatedPriority;
+            if($this->telegram_channel_status == 1){
+                try{
+                    Notification::route('toTelegram', null)
+                    ->notify(new TelegramCategoryUpdatePriority(
+                        $this->old_category_data,
+                        $varr->id,
+                        $this->names,
+                        $varr->priority,
+                        $this->telegram_channel_link,
+                        $this->view_business_name,
+                    ));
+                    $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+                }  catch (\Exception $e) {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+                }
+            }
             $varr->save();
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Priority Updated Successfully')]);
         } else {
@@ -286,6 +399,25 @@ class CategoryLivewire extends Component
         $menuState = Categories::find($category_id);
         // Toggle the status (0 to 1 and 1 to 0)
         $menuState->status = $menuState->status == 0 ? 1 : 0;
+        $this->editCategory($category_id);
+        if($this->telegram_channel_status == 1){
+            try{
+                Notification::route('toTelegram', null)
+                ->notify(new TelegramCategoryUpdateStatus(
+                    $this->old_category_data,
+                    $menuState->id,
+                    $this->names,
+                    $menuState->status,
+                    $this->telegram_channel_link,
+                    $this->view_business_name,
+                ));
+                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+            }  catch (\Exception $e) {
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+            }
+        }
+
+
         $menuState->save();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Status Updated Successfully')]);
     } // END OF FUNCTION UPDATING STATUS
@@ -296,8 +428,10 @@ class CategoryLivewire extends Component
         $this->statusFilter = '';
     } // END OF FUNCTION RESETING FILTER
 
+    public $idd;
     public function deleteCategory(int $category_selected_id)
     {
+        $this->idd = $category_selected_id;
         $this->category_selected_id_delete = Categories::find($category_selected_id);
         $this->category_selected_name_delete = Categories_Translator::where('cat_id', $category_selected_id)->where('locale', $this->glang)->first()->name ?? "DELETE";
         $this->showTextTemp = $this->category_selected_name_delete;
@@ -314,8 +448,20 @@ class CategoryLivewire extends Component
                 $this->category_selected_name_delete = null;
                 $this->dispatchBrowserEvent('close-modal');
                 $this->resetInput();
-                // $this->dispatchBrowserEvent('fixx');
                 $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Deleted Successfully')]);
+
+                try{
+                    Notification::route('toTelegram', null)
+                    ->notify(new TelegramCategoryDelete(
+                        $this->idd,
+                        $this->categoryNameToDelete,
+                        $this->telegram_channel_link,
+                        $this->view_business_name,
+                    ));
+                    $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+                }  catch (\Exception $e) {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+                }
             } else {
                 $this->dispatchBrowserEvent('alert', ['type' => 'error',      'message' => __('Operation Failed, Make sure of the name CODE...DEL-NAME, The name:') . ' ' . $this->showTextTemp]);
             }

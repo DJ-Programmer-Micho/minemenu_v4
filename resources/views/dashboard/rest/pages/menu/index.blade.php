@@ -10,12 +10,10 @@
 @endsection
 @section('rest_script')
 <script>
-    // alert('asd')
     window.addEventListener('close-modal', event => {
- 
-        $('#studentModal').modal('hide');
-        $('#updateStudentModal').modal('hide');
-        $('#deleteStudentModal').modal('hide');
+        $('#menuModal').modal('hide');
+        $('#updatemenuModal').modal('hide');
+        $('#deletemenuModal').modal('hide');
     })
 </script>
 @endsection

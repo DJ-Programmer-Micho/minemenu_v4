@@ -22,6 +22,8 @@ class MenuSettingLivewire extends Component
     public $map;
     public $currency;
     public $fees;
+    public $telegram_notify_status;
+    public $telegram_notify;
 
 
     public function mount()
@@ -43,6 +45,9 @@ class MenuSettingLivewire extends Component
             $this->map = $settings->map ? $settings->map : null ;
             $this->currency = $settings->currency ? $settings->currency : null ;
             $this->fees = $settings->fees ? $settings->fees : null ;
+
+            $this->telegram_notify_status = $settings->telegram_notify_status ? $settings->telegram_notify_status : null ;
+            $this->telegram_notify = $settings->telegram_notify ? $settings->telegram_notify : null ;
     
             $notesData = json_decode($settings->note, true);
     
@@ -51,11 +56,6 @@ class MenuSettingLivewire extends Component
             }
         }
     }
-
-    // public function updated($propertyName)
-    // {
-    //     $this->saveSettings();
-    // }
 
     public function saveSettings()
     {
@@ -85,6 +85,8 @@ class MenuSettingLivewire extends Component
         $settings->map = $this->map;
         $settings->currency = $this->currency;
         $settings->fees = $this->fees;
+        $settings->telegram_notify_status = $this->telegram_notify_status;
+        $settings->telegram_notify = $this->telegram_notify;
     
         $settings->save();
         $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Settings Updated successfully')]);
