@@ -96,7 +96,7 @@
           <span class="text-danger">{{__("$message")}}</span>
           @enderror
         </label>
-        <input type="text" class="form-control" id="inputRestName" placeholder="" name="name" value="{{old('name')}}" required>
+        <input type="text" class="form-control" id="inputRestName" placeholder="" name="name" value="{{old('name')}}" required  pattern="^\S*$">
       </div>
     </div>
 
@@ -118,7 +118,6 @@
         <input type="tel" class="form-control" id="inputPhone" placeholder="" name="phone" value="{{old('phone')}}" dir="ltr" required>
       </div>
     </div>
-
     <div class="form-row">
       <div class="form-group col-md-12">
         <label for="inputPass">{{__("Password")}}
@@ -192,7 +191,8 @@
     @enderror
 
     <div class="form-group">
-      <button type="submit" class="btn btn-danger mt-4 text-right">{{__("Reserve Now")}}</button>
+      {{-- <button type="submit" class="btn btn-danger mt-4 text-right">{{__("Reserve Now")}}</button> --}}
+      <button type="button" onclick="submitForm()" class="btn btn-danger mt-4 text-right">{{__("Reserve Now")}}</button>
     </div>
 
   </form>
@@ -315,42 +315,92 @@ jQuery(function($) {
 
 <script>
   var input = document.querySelector("#inputPhone");
-  window.intlTelInput(input, {
+  var iti = window.intlTelInput(input, {
     // allowDropdown: false,
     // autoHideDialCode: false,
-    // autoPlaceholder: "off",
+    autoPlaceholder: "off",
     // dropdownContainer: document.body,
     // excludeCountries: ["us"],
-    // formatOnDisplay: false,
-    // geoIpLookup: function(callback) {
-    //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
-    //     var countryCode = (resp && resp.country) ? resp.country : "";
-    //     callback(countryCode);
-    //   });
-    // },
+    formatOnDisplay: true,
+//     geoIpLookup: function(callback) {
+//     $.get("https://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+//         var countryCode = (resp && resp.country) ? resp.country : "";
+//         callback(countryCode);
+//     });
+// },
     // hiddenInput: "phone",
     // initialCountry: "auto",
     // localizedCountries: { 'de': 'Deutschland' },
-    // nationalMode: false,
+    nationalMode: true,
     // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do','sa','iq'],
     placeholderNumberType: "MOBILE",
     preferredCountries: ['iq','sa','kw','ae','lb','eg'],
-    // separateDialCode: true,
-    // utilsScript: "{{asset('assets/general/lib/teleSelect/utils.js')}}",
+    separateDialCode: true,
     utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
   });
+
+//   function setInitialCountry(iti) {
+//     $.get("https://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+//         var countryCode = (resp && resp.country) ? resp.country : "";
+//         iti.setCountry(countryCode);
+//     });
+// }
+
+// setInitialCountry(iti);
+
+</script>
+
+<script>
+function submitForm() {
+    var formattedPhoneInput = document.getElementById("inputPhone").value;
+    var countryCode = iti.getNumber();
+
+    if (formattedPhoneInput.startsWith("00")) {
+        formattedPhoneInput = formattedPhoneInput.slice(2);
+    } else if (formattedPhoneInput.startsWith("0")) {
+        formattedPhoneInput = formattedPhoneInput.slice(1);
+    }
+
+    // if (!formattedPhoneInput.startsWith("+" + countryCode)) {
+    //     formattedPhoneInput = "+" + countryCode + formattedPhoneInput;
+    // }
+
+    document.getElementById("inputPhone").value = countryCode;
+
+    document.getElementById("myForm").submit();
+}
+
 </script>
 
 
 {{-- <script src="/assets/dashboard/assets/libs/country_select/countrySelect.min.js"></script> --}}
 <script src="{{asset('assets/general/lib/country_select/countrySelect.min.js')}}"></script>
 <script>
-  $("#country_selector").countrySelect({
+  // $("#country_selector").countrySelect({
     // defaultCountry: "iq",
     // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
     // responsiveDropdown: true,
+    // preferredCountries: ['iq', 'sa', 'ae']
+  // });
+
+
+  $(document).ready(function() {
+  var countrySelector = $("#country_selector");
+  
+  countrySelector.countrySelect({
     preferredCountries: ['iq', 'sa', 'ae']
   });
+
+  function setInitialCountry() {
+    $.get("https://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+      var countryCode = (resp && resp.country) ? resp.country : "";
+      countrySelector.countrySelect("setCountry", countryCode);
+    });
+  }
+
+  setInitialCountry();
+});
+
 </script>
 
 

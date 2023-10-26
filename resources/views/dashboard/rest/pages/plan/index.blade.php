@@ -24,7 +24,8 @@ border: 1px solid #fff;
     color: #2ecc71
 }
 
-.single_price_plan:lang(ar){
+.single_price_plan:lang(ar),
+.single_price_plan:lang(ku){
 direction: rtl;
   text-align: right;
 }
@@ -161,7 +162,9 @@ border: 2px solid #227885;
 font-weight: bold
 }
 
-[lang = "ar"] .bestDeal {
+[lang = "ar"] .bestDeal ,
+[lang = "ku"] .bestDeal 
+{
 right: auto;
 left: 10px;
 }

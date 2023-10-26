@@ -1,7 +1,7 @@
 
 @extends('main.layouts.clean')
 
-@section('content')
+@section('content***')
 <section class="price_plan_area section_padding_130_80 bg" id="pricing">
       <div class="row justify-content-center">
         <div class="col-12  col-lg-6">

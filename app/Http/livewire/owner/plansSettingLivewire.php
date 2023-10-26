@@ -102,8 +102,8 @@ class plansSettingLivewire extends Component
                 'valid_date' => $validatedData['valid_date'] ?? null,
             ]);
 
-            // $this->resetInput();
-            // $this->dispatchBrowserEvent('close-modal');
+            $this->resetInput();
+            $this->dispatchBrowserEvent('close-modal');
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('New Plan Inserted')]);
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please refreash The Page CODE...FOD-ADD')]);
@@ -206,7 +206,7 @@ class plansSettingLivewire extends Component
             ]);
 
             $this->dispatchBrowserEvent('close-modal');
-            // $this->resetInput();
+            $this->resetInput();
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Food Updated Successfully')]);
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please Relaod The Page CODE...-UPT')]);
@@ -224,6 +224,15 @@ class plansSettingLivewire extends Component
             foreach ($this->filteredLocales as $locale) {
                 $this->names[$locale] = "";
             }
+            foreach ($this->filteredLocales as $locale) {
+                $this->description[$locale] = "";
+            }
+            foreach ($this->filteredLocales as $locale) {
+                $this->description_rest[$locale] = "";
+            }
+            foreach ($this->filteredLocales as $locale) {
+                $this->description_onpay[$locale] = "";
+            }
             $this->exchange_rate= '';
             $this->monthly_cost= '';
             $this->duration= '';
@@ -232,9 +241,6 @@ class plansSettingLivewire extends Component
             $this->valid_date= '';
             $this->status= '';
             $this->priority= '';
-            $this->description= '';
-            $this->description_rest= '';
-            $this->description_onpay= false;
         } // END FUNCTION OF RESET INPUT
         
     public function render()

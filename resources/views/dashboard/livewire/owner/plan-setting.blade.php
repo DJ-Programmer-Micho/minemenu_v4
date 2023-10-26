@@ -58,7 +58,7 @@
                         @foreach ($cols_td as $col)
                         <td class="align-middle">
                             @if($col === 'id')
-                                {{$index +1 }}
+                                {{$item->id }}
                                 @elseif ($col === 'name')
                                 <span>{{ $item->name['en'] }}</span>
 

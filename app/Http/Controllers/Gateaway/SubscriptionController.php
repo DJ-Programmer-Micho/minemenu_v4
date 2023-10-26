@@ -56,7 +56,7 @@ class SubscriptionController extends Controller
         } elseif($payment_method == Payment::ZAINCASH_PAYMENT){
             $pay = PaymentServiceManager::getInstance()
             ->setLanguage(app()->getLocale())
-            ->setAmount($cost * $plan->exchange_rate)
+            ->setAmount($plan->cost * $plan->exchange_rate)
             ->setOrderId($transaction->id)
             ->setPaymentMethod(Payment::ZAINCASH_PAYMENT)
             ->send();

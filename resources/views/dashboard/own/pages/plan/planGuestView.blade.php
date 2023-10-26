@@ -1,7 +1,7 @@
 @extends('dashboard.own.layouts.layout')
 @section('tail','Dashboard')
 @section('rest_content')
-<style>
+{{-- <style>
 .price_plan_area {
   position: relative;
 }
@@ -202,7 +202,7 @@ left: 10px;
   .single_price_plan {
       padding: 1rem;
   }
-}
+} --}}
 </style>
 <div>
     @livewire('owner.plans-guest-view-livewire')

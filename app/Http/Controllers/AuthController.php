@@ -128,7 +128,7 @@ class AuthController extends Controller
             'password.min' => 'Password Must Be 6+ Charechters',
         ]
     );
-
+// dd($formFeilds['phone']);
         $formFeilds['brand_type'] = (request('brand_type')) ? implode(',',request('brand_type')) : null;
         $formFeilds['status'] = '1';
         $formFeilds['role'] = 3;
@@ -191,14 +191,14 @@ class AuthController extends Controller
             $user->email_verified = 1;
             $user->save();
 
-            $clean_phone_number = preg_replace('/[^0-9+]/', '', $user->profile->phone);
-        if (strpos($clean_phone_number, '+') === 0) {
-            $final_clean_phone_number = '00' . substr($clean_phone_number, 1);
-        } else {
-            $final_clean_phone_number = $clean_phone_number;
-        }
+        //     $clean_phone_number = preg_replace('/[^0-9+]/', '', $user->profile->phone);
+        // if (strpos($clean_phone_number, '+') === 0) {
+        //     $final_clean_phone_number = '00' . substr($clean_phone_number, 1);
+        // } else {
+        //     $final_clean_phone_number = $clean_phone_number;
+        // }
 
-            return redirect()->route('goOTP', ['id' => $user->id,'phone' => $final_clean_phone_number]);
+            return redirect()->route('goOTP', ['id' => $user->id,'phone' => $user->profile->phone]);
         } else {
             dd('wrong');
         }
@@ -213,11 +213,22 @@ class AuthController extends Controller
         if ($user) {
             // Send OTP via Sinch
             $response = SinchService::sendOTP($phone);
-            // dd($response);
+            // dd($response,$phone);
             if ($response->successful()) {
                 return redirect()->route('goOTP', ['id'=> $id, 'phone' => $phone]);
             } else {
-                return redirect()->back()->with('error', 'Invalid sms OTP code.');
+                $clean_phone_number = preg_replace('/[^0-9+]/', '', $user->profile->phone);
+                if (strpos($clean_phone_number, '+') === 0) {
+                    $final_clean_phone_number = '00' . substr($clean_phone_number, 1);
+                } else {
+                    $final_clean_phone_number = $clean_phone_number;
+                }
+                $s_response = SinchService::sendOTP($final_clean_phone_number);
+                if($response->successful()) {
+                    return redirect()->route('goOTP', ['id'=> $id, 'phone' => $phone]);
+                } else {
+                    return $s_response;
+                }
             }  
         }
     }
@@ -231,6 +242,8 @@ class AuthController extends Controller
         $response = SinchService::verifyOTP($toNumber, $enteredOTP);
 
         if ($response->successful()) {
+            $user->phone_verified = 1;
+            $user->save();
             auth()->login($user);
             return redirect('/rest')->with('success', 'Registration completed.');
         } else {
