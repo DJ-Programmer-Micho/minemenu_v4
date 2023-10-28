@@ -22,7 +22,7 @@
 <div>
 
 <!-- Insert Modal  -->
-<div wire:ignore.self class="modal fade overflow-auto" id="createFood" tabindex="-1" aria-labelledby="createFoodLabel" aria-hidden="true">
+<div wire:ignore.self class="modal fade overflow-auto" id="createFood" tabindex="-1" aria-labelledby="createFoodLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-xl text-white mx-1 mx-lg-auto" style="max-width: 1140px;">
         <div class="modal-content bg-dark">
             <form wire:submit.prevent="saveFood">
@@ -222,8 +222,7 @@
     </div>
 </div>
 
-<div wire:ignore.self class="modal fade" id="updateFoodModal" tabindex="-1" aria-labelledby="updateFoodModalLabel"
-    aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="updateFoodModal" tabindex="-1" aria-labelledby="updateFoodModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-xl text-white">
         <div class="modal-content bg-dark">
             <form wire:submit.prevent="updateFood">
@@ -429,7 +428,7 @@
  
  
 <div wire:ignore.self class="modal fade" id="deleteFoodModal" tabindex="-1" aria-labelledby="deleteFoodModalLabel"
-    aria-hidden="true">
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog text-white">
         <div class="modal-content bg-dark">
             <div class="modal-header">
@@ -456,7 +455,7 @@
 </div>
 
 {{-- IMAGE CROP MODAL --}}
-<div class="modal fade" id="modal" tabindex="-2" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade" id="modal" tabindex="-2" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg text-white" role="document">
         <div class="modal-content bg-dark">
             <div class="modal-header">

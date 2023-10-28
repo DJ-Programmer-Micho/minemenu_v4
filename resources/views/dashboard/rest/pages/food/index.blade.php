@@ -18,6 +18,6 @@
         $('#createFood').modal('hide');
         $('#updateFoodModal').modal('hide');
         $('#deleteFoodModal').modal('hide');
-    })
+    }) 
 </script>
 @endsection

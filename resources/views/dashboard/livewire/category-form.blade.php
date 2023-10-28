@@ -18,7 +18,7 @@
 <div>
 
 <!-- Insert Modal -->
-<div wire:ignore.self class="modal fade" style=" overflow: auto;" id="createCategory" tabindex="-1" aria-labelledby="createCategoryLabel" aria-hidden="true">
+<div wire:ignore.self class="modal fade" style=" overflow: auto;" id="createCategory" tabindex="-1" aria-labelledby="createCategoryLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-xl text-white">
         <div class="modal-content bg-dark">
             <form wire:submit.prevent="saveCategory">
@@ -102,7 +102,7 @@
 </div>
 
 <div wire:ignore.self class="modal fade" style=" overflow: auto;" id="updateCategoryModal" tabindex="-1" aria-labelledby="updateCategoryModalLabel"
-    aria-hidden="true">
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-xl text-white">
         <div class="modal-content bg-dark">
             <form wire:submit.prevent="updateCategory">
@@ -198,7 +198,7 @@
  
  
 <div wire:ignore.self class="modal fade" id="deleteCategoryModal" tabindex="-1" aria-labelledby="deleteCategoryModalLabel"
-    aria-hidden="true">
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog text-white">
         <div class="modal-content bg-dark">
             <div class="modal-header">
@@ -225,7 +225,7 @@
 </div>
 
 {{-- IMAGE CROP MODAL --}}
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg text-white" role="document">
         <div class="modal-content bg-dark">
             <div class="modal-header">
@@ -257,7 +257,7 @@
 
 
 {{-- IMAGE COVER CROP MODAL --}}
-<div class="modal fade" id="modalCover" tabindex="-1" role="dialog" aria-labelledby="modalLabelCover" aria-hidden="true">
+<div class="modal fade" id="modalCover" tabindex="-1" role="dialog" aria-labelledby="modalLabelCover" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg text-white" role="document">
         <div class="modal-content bg-dark">
             <div class="modal-header">

@@ -22,8 +22,7 @@
 
 
 {{-- MODAL 1--}}
-<div wire:ignore.self class="modal fade" id="presetNameModal0" tabindex="-1" aria-labelledby="presetNameModalLabel"
-    aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="presetNameModal0" tabindex="-1" aria-labelledby="presetNameModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog text-white">
         <div class="modal-content bg-dark">
             <div class="modal-header">
@@ -47,8 +46,7 @@
 </div>
 {{-- MODAL 1--}}
 {{-- MODAL 2--}}
-<div wire:ignore.self class="modal fade" id="presetNameModal1" tabindex="-1" aria-labelledby="presetNameModalLabel"
-    aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="presetNameModal1" tabindex="-1" aria-labelledby="presetNameModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog text-white">
         <div class="modal-content bg-dark">
             <div class="modal-header">
@@ -72,8 +70,7 @@
 </div>
 {{-- MODAL 2--}}
 {{-- MODAL 3--}}
-<div wire:ignore.self class="modal fade" id="presetNameModal2" tabindex="-1" aria-labelledby="presetNameModalLabel"
-    aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="presetNameModal2" tabindex="-1" aria-labelledby="presetNameModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog text-white">
         <div class="modal-content bg-dark">
             <div class="modal-header">
@@ -97,18 +94,7 @@
 </div>
 {{-- MODAL 3--}}
 
-
-
-
-
     <div>
-        {{-- <select wire:model="selectedPreset">
-            <option value="p1">Preset 1</option>
-            <option value="p2">Preset 2</option>
-            <!-- Add more preset options as needed -->
-        </select>
-        <button wire:click="fixedPreset">Apply Preset</button> --}}
-
         <h3 class="text-white">{{__('MENU CUSTOMIZATION')}}</h3>
         <hr>
        
@@ -176,7 +162,7 @@
                                         <div class="col-12">
                                             <label for="img">Upload Image</label>
                                             <input type="file" name="headerImg" id="headerImg" class="form-control" style="height: auto">
-                                            <small class="text-info">The Image Size Should be <b>(640px X 360px)</b> or <b>(1280px X 720px)</b></small>
+                                            <small class="text-white">The Image Size Should be <b>(640px X 360px)</b> or <b>(1280px X 720px)</b></small>
                                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                                             <input type="file" name="croppedHeaderImg" id="croppedHeaderImg" style="display: none;">
                                         </div>
@@ -937,7 +923,7 @@
 
 
 {{-- IMAGE CROP MODAL --}}
-<div class="modal fade" id="modal_header_image" tabindex="-2" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade blockm" id="modal_header_image" tabindex="-2" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" data-target="#modal_header_image">
     <div class="modal-dialog modal-lg text-white" role="document">
         <div class="modal-content bg-dark">
             <div class="modal-header">
@@ -951,6 +937,35 @@
                     <div class="row">
                         <div class="col-md-8">
                             <img src="" id="sample_image_header_image" />
+                        </div>
+                        <div class="col-md-4">
+                            <div class="preview"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                {{-- <button type="button" id="crop" class="btn btn-primary">Crop</button> --}}
+                <button type="button" class="btn btn-primary crop-btn" data-index="">Crop</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div> 
+<div class="modal fade blockm" id="modal_logo_image" tabindex="-2" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" data-target="#modal_logo_image">
+    <div class="modal-dialog modal-lg text-white" role="document">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title">Crop Image Before Upload</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="img-container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <img src="" id="sample_image_logo_image" />
                         </div>
                         <div class="col-md-4">
                             <div class="preview"></div>
@@ -1204,7 +1219,7 @@
     document.addEventListener('livewire:load', function () {
         var modal = new bootstrap.Modal(document.getElementById('modal_header_image'));
         var cropper;
-    
+
         $('#headerImg').change(function (event) {
             console.log(document.getElementById('headerImg').value)
             var image = document.getElementById('sample_image_header_image');
@@ -1233,10 +1248,17 @@
                     viewMode: 1,
                     preview: '.preview'
                 });
+
+                $('.blockm').off('click');
+                $('#modal_header_image').find('[data-dismiss="modal"]').off('click').on('click', function () {
+                    modal.hide();
+                    document.getElementById('headerImg').value = null;
+                });
             });
     
             $('.crop-btn').off('click').on('click', function () {
-                var canvas = cropper.getCroppedCanvas({
+                var canvas = null;
+                canvas = cropper.getCroppedCanvas({
                     width: 800,
                     height: 240
                 });
@@ -1270,17 +1292,17 @@
                 }, 5000); 
             });
         }
+
     });
 </script>
 {{-- Add Logo OR Avatar--}}
 <script>
     document.addEventListener('livewire:load', function () {
-        var modal = new bootstrap.Modal(document.getElementById('modal_header_image'));
+        var modal = new bootstrap.Modal(document.getElementById('modal_logo_image'));
         var cropper;
     
         $('#logoImg').change(function (event) {
-            // console.log(document.getElementById('logoImg').value)
-            var image = document.getElementById('sample_image_header_image');
+            var image = document.getElementById('sample_image_logo_image');
             var files = event.target.files;
             var done = function (url) {
                 image.src = url;
@@ -1297,7 +1319,7 @@
         });
     
         function handleCropButtonClick(image) {
-            $('#modal_header_image').on('shown.bs.modal', function () {
+            $('#modal_logo_image').on('shown.bs.modal', function () {
                 if (cropper) {
                     cropper.destroy();
                 }
@@ -1306,10 +1328,16 @@
                     viewMode: 1,
                     preview: '.preview'
                 });
+                $('.blockm').off('click');
+                $('#modal_header_image').find('[data-dismiss="modal"]').off('click').on('click', function () {
+                    modal.hide();
+                    document.getElementById('logoImg').value = null;
+                });
             });
     
             $('.crop-btn').off('click').on('click', function () {
-                var canvas = cropper.getCroppedCanvas({
+                var canvas = null;
+                canvas = cropper.getCroppedCanvas({
                     width: 256,
                     height: 256
                 });

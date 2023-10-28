@@ -22,7 +22,7 @@
 <div>
 
 <!-- Insert Modal -->
-<div wire:ignore.self class="modal fade overflow-auto" id="createOffer" tabindex="-1" aria-labelledby="createOfferLabel" aria-hidden="true">
+<div wire:ignore.self class="modal fade overflow-auto" id="createOffer" tabindex="-1" aria-labelledby="createOfferLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-xl text-white mx-1 mx-lg-auto" style="max-width: 1140px;">
         <div class="modal-content bg-dark">
             <form wire:submit.prevent="saveOffer">
@@ -146,8 +146,7 @@
     </div>
 </div>
 
-<div wire:ignore.self class="modal fade overflow-auto" id="updateOfferModal" tabindex="-1" aria-labelledby="updateOfferModalLabel"
-    aria-hidden="true">
+<div wire:ignore.self class="modal fade overflow-auto" id="updateOfferModal" tabindex="-1" aria-labelledby="updateOfferModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-xl text-white">
         <div class="modal-content bg-dark">
             <form wire:submit.prevent="updateOffer">
@@ -267,8 +266,7 @@
 </div>
  
  
-<div wire:ignore.self class="modal fade" id="deleteOfferModal" tabindex="-1" aria-labelledby="deleteOfferModalLabel"
-    aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="deleteOfferModal" tabindex="-1" aria-labelledby="deleteOfferModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog text-white">
         <div class="modal-content bg-dark">
             <div class="modal-header">
@@ -295,7 +293,7 @@
 </div>
 
 {{-- IMAGE CROP MODAL --}}
-<div class="modal fade" id="modal" tabindex="-2" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade" id="modal" tabindex="-2" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg text-white" role="document">
         <div class="modal-content bg-dark">
             <div class="modal-header">

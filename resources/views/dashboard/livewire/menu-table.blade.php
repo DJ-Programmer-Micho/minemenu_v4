@@ -1,6 +1,5 @@
 <!-- Insert Modal -->
-<div wire:ignore.self class="modal fade overflow-auto" id="menuModal" tabindex="-1"
-    aria-labelledby="menuModalLabel" aria-hidden="true">
+<div wire:ignore.self class="modal fade overflow-auto" id="menuModal" tabindex="-1" aria-labelledby="menuModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-xl text-white mx-1 mx-lg-auto" style="max-width: 1140px;">
         <div class="modal-content bg-dark">
             <div class="modal-header">
@@ -56,7 +55,7 @@
 </div>
 <!-- Update Student Modal -->
 <div wire:ignore.self class="modal fade" id="updatemenuModal" tabindex="-1" aria-labelledby="updatemenuModalLabel"
-    aria-hidden="true">
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-xl text-white mx-1 mx-lg-auto" style="max-width: 1140px;">
         <div class="modal-content bg-dark">
             <div class="modal-header">
@@ -112,7 +111,7 @@
  
 <!-- Delete Student Modal -->
 <div wire:ignore.self class="modal fade" id="deletemenuModal" tabindex="-1" aria-labelledby="deletemenuModalLabel"
-    aria-hidden="true">
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog text-white">
         <div class="modal-content bg-dark">
             <div class="modal-header">
