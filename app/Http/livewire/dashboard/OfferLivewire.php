@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Notifications\rest\TelegramOfferNew;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\rest\TelegramOfferShort;
+use App\Notifications\rest\TelegramOfferDelete;
 use App\Notifications\rest\TelegramOfferUpdate;
 
 class OfferLivewire extends Component
@@ -355,18 +356,26 @@ class OfferLivewire extends Component
         }
     } // END FUNCTION OF UPDATING PRIOEITY
      
+    public $offerDelete;
     public function deleteOffer(int $offer_selected_id)
     {
         $this->offer_selected_id_delete = Offer::find($offer_selected_id);
         $this->offer_selected_name_delete = Offer_Translator::where('offer_id', $offer_selected_id)->where('lang', $this->glang)->first()->name ?? "DELETE";
-        $this->showTextTemp = $this->offer_selected_name_delete;
-        $this->confirmDelete = true;
+        if($this->offer_selected_name_delete) {
+            $this->offerDelete = $this->offer_selected_name_delete;
+            $this->showTextTemp = $this->offer_selected_name_delete;
+            $this->confirmDelete = true;
+        } else {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Record Not Found')]);
+        }
+
     } // END OF FUNCTION SELECTING ITEM TO DELETE
 
     public function destroyOffer()
     {
         try{
             if ($this->confirmDelete && $this->offerNameToDelete === $this->showTextTemp) {
+                $offerDelete = Offer::find($this->offer_selected_id_delete->id)->first();
                 Offer::find($this->offer_selected_id_delete->id)->delete();
                 Storage::disk('s3')->delete($this->offer_selected_id_delete->img);
                 $this->offer_selected_id_delete = null;
@@ -376,7 +385,26 @@ class OfferLivewire extends Component
                 $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Offer Deleted Successfully')]);
             } else {
                 $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Operaiton Faild')]);
+                return;
             }
+            if($this->telegram_channel_status == 1){
+                try{
+                    Notification::route('toTelegram', null)
+                    ->notify(new TelegramOfferDelete(
+                        $offerDelete->id,
+                        $this->offerDelete,
+                        $this->telegram_channel_link,
+                        $this->view_business_name,
+                    ));
+                    $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+                }  catch (\Exception $e) {
+                    $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+                }
+            }
+            $this->offer_selected_id_delete = null;
+            $this->offer_selected_name_delete = null;
+            $this->showTextTemp = null;
+            $this->confirmDelete = null;
         } catch (\Exception $e) {
             $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Try Reload the Page: ' . $e->getMessage())]);
         }
@@ -405,6 +433,8 @@ class OfferLivewire extends Component
         $this->oldPrice = '';
         $this->confirmDelete = false;
         $this->imgFlag = false;
+        $this->objectName = '';
+        $this->tempImg = null;
     } // END FUNCTION OF RESET INPUT
  
     public function resetFilter(){

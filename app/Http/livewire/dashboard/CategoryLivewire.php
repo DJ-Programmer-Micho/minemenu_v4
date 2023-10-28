@@ -434,8 +434,12 @@ class CategoryLivewire extends Component
         $this->idd = $category_selected_id;
         $this->category_selected_id_delete = Categories::find($category_selected_id);
         $this->category_selected_name_delete = Categories_Translator::where('cat_id', $category_selected_id)->where('locale', $this->glang)->first()->name ?? "DELETE";
-        $this->showTextTemp = $this->category_selected_name_delete;
-        $this->confirmDelete = true;
+        if($this->category_selected_name_delete){
+            $this->showTextTemp = $this->category_selected_name_delete;
+            $this->confirmDelete = true;
+        } else {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Record Not Found')]);
+        }
     } // END OF FUNCTION SELECTING ITEM TO DELETE
 
     public function destroycategory()
@@ -462,8 +466,13 @@ class CategoryLivewire extends Component
                 }  catch (\Exception $e) {
                     $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
                 }
+                $this->idd = null;
+                $this->category_selected_id_delete = null;
+                $this->category_selected_name_delete = null;
+                $this->showTextTemp = null;
+                $this->confirmDelete = null;
             } else {
-                $this->dispatchBrowserEvent('alert', ['type' => 'error',      'message' => __('Operation Failed, Make sure of the name CODE...DEL-NAME, The name:') . ' ' . $this->showTextTemp]);
+                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Operation Failed, Make sure of the name CODE...DEL-NAME, The name:') . ' ' . $this->showTextTemp]);
             }
         } catch (\Exception $e) {
             $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Try Reload the Page: ' . $e->getMessage())]);

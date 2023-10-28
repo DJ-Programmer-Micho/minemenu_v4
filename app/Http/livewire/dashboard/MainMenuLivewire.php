@@ -280,6 +280,11 @@ class MainMenuLivewire extends Component
                     $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
                 }
             }
+            $this->confirmDelete = false;
+            $this->menu_selected_id_delete = null;
+            $this->menu_selected_name_delete = null;
+            $this->menuNameToDelete = null;
+            $this->showTextTemp = null;
             // $this->reloadData();
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Operaiton Faild')]);

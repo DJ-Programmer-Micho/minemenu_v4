@@ -571,9 +571,14 @@ class FoodLivewire extends Component
     {
         $this->food_selected_id_delete = Food::find($food_selected_id);
         $this->food_selected_name_delete = Food_Translator::where('food_id', $food_selected_id)->where('lang', $this->glang)->first()->name ?? "DELETE";
-        $this->nameDelete = $this->food_selected_name_delete;
-        $this->showTextTemp = $this->food_selected_name_delete;
-        $this->confirmDelete = true;
+        if($this->food_selected_name_delete){
+            $this->nameDelete = $this->food_selected_name_delete;
+            $this->showTextTemp = $this->food_selected_name_delete;
+            $this->confirmDelete = true;
+        } else {
+            $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Record Not Found')]);
+        }
+
     } // END OF FUNCTION SELECTING ITEM TO DELETE
 
     public function destroyfood()
@@ -583,8 +588,8 @@ class FoodLivewire extends Component
                 $foodDelete = Food::find($this->food_selected_id_delete->id)->first();
                 Food::find($this->food_selected_id_delete->id)->delete();
                 Storage::disk('s3')->delete($this->food_selected_id_delete->img);
-                $this->resetInput();
                 $this->dispatchBrowserEvent('close-modal');
+                $this->resetInput();
                 $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Food Deleted Successfully')]);
 
                 if($this->telegram_channel_status == 1){
@@ -602,7 +607,11 @@ class FoodLivewire extends Component
                         $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
                     }
                 }
-
+                $this->food_selected_id_delete = null;
+                $this->food_selected_name_delete = null;
+                $this->nameDelete = null;
+                $this->showTextTemp = null;
+                $this->confirmDelete = null;
             } else {
                 $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Operaiton Faild')]);
             }
