@@ -160,9 +160,9 @@
                                     <h4 class="text-white">{{__('Header Image')}}</h4>
                                     <div class="row">
                                         <div class="col-12">
+                                            <small class="text-white">* The Image Size Should be <b>(640px X 360px)</b> or <b>(1280px X 720px)</b></small>
                                             <label for="img">Upload Image</label>
                                             <input type="file" name="headerImg" id="headerImg" class="form-control" style="height: auto">
-                                            <small class="text-white">The Image Size Should be <b>(640px X 360px)</b> or <b>(1280px X 720px)</b></small>
                                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                                             <input type="file" name="croppedHeaderImg" id="croppedHeaderImg" style="display: none;">
                                         </div>
@@ -191,9 +191,9 @@
                                     <h4 class="text-white">{{__('Logo/Avatar')}}</h4>
                                     <div class="row">
                                         <div class="col-12">
+                                            <small class="text-white">* The Image Size Should be <b>(64px X 64px)</b> or <b>(128px X 128px)</b></small>
                                             <label for="img">Upload Image</label>
                                             <input type="file" name="logoImg" id="logoImg" class="form-control" style="height: auto">
-                                            <small class="text-info">The Image Size Should be <b>(64px X 64px)</b> or <b>(128px X 128px)</b></small>
                                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                                             <input type="file" name="croppedLogoImg" id="croppedLogoImg" style="display: none;">
                                         </div>

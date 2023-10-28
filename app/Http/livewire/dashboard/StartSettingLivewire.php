@@ -35,7 +35,7 @@ class StartSettingLivewire extends Component
     {
         if ($base64data){
             $microtime = str_replace('.', '', microtime(true));
-            $this->objectName = 'rest/setting/' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
+            $this->objectName = 'rest/' . auth()->user()->name . '/setting/' . auth()->user()->name.'_setting_'.date('Ydm') . $microtime . '.jpeg';
             $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64data));
             $this->tempImg = $base64data;
             $this->imgFlag = true;
@@ -69,19 +69,20 @@ class StartSettingLivewire extends Component
             }
             $old_video = $this->objectVideoName;
             $microtime = str_replace('.', '', microtime(true));
-            $customFilename = auth()->user()->name . '_' . date('Ymd') . $microtime . '.mp4';
+            $customFilename = auth()->user()->name . '_vid_' . date('Ymd') . $microtime . '.mp4';
             $fileContents = file_get_contents($this->fileVideo->getRealPath());
 
             $this->dispatchBrowserEvent('fakeProgressBar');
-            $this->objectVideoName = 'rest/setting/' . $customFilename;
+            $this->objectVideoName = 'rest/' . auth()->user()->name . '/setting/' . $customFilename;
+            // $this->objectVideoName = 'rest/setting/' . $customFilename;
             if($old_video){
                 Storage::disk('s3')->delete($old_video);
-                Storage::disk('s3')->put('rest/setting/' . $customFilename, $fileContents);
+                Storage::disk('s3')->put('rest/' . auth()->user()->name . '/setting/' . $customFilename, $fileContents);
                 $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
                 $settings->background_vid = $this->objectVideoName;
                 $settings->save();
             } else {
-                Storage::disk('s3')->put('rest/setting/' . $customFilename, $fileContents);
+                Storage::disk('s3')->put('rest/' . auth()->user()->name . '/setting/' . $customFilename, $fileContents);
                 $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
                 $settings->background_vid = $this->objectVideoName;
                 $settings->save();

@@ -874,8 +874,17 @@ class DesignCustomizeLivewire extends Component
     {
 
         if ($base64data){
+
+            $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
+            $imgExsistHeader = $settings->background_img_header;
+    
+            if($imgExsistHeader){
+                $this->imgReader = $imgExsistHeader;
+            }
+
             $microtime = str_replace('.', '', microtime(true));
-            $this->objectName = 'rest/menu/header_' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
+            $this->objectName = 'rest/' . auth()->user()->name . '/setting/' . auth()->user()->name.'_hed_'.date('Ydm') . $microtime . '.jpeg';
+            // $this->objectName = 'rest/menu/header_' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
             $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64data));
             $this->tempImg = $base64data;
             if( $this->imgReader){
@@ -901,8 +910,15 @@ class DesignCustomizeLivewire extends Component
     {
  
         if ($base64data){
+            $settings = Setting::firstOrNew(['user_id' => auth()->id()]);
+            $imgExsistLogo = $settings->background_img_avatar;
+
+            if($imgExsistLogo){
+                $this->imgReaderLogo = $imgExsistLogo;
+            }
             $microtime = str_replace('.', '', microtime(true));
-            $this->objectNameLogo = 'rest/menu/logo_' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
+            // $this->objectNameLogo = 'rest/menu/logo_' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
+            $this->objectNameLogo = 'rest/' . auth()->user()->name . '/setting/' . auth()->user()->name.'_logo_'.date('Ydm') . $microtime . '.jpeg';
             $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64data));
             $this->tempImgLogo = $base64data;
             if( $this->imgReaderLogo){

@@ -99,7 +99,7 @@ class CategoryLivewire extends Component
     {
         if ($base64data){
             $microtime = str_replace('.', '', microtime(true));
-            $this->objectName = 'rest/menu/1' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
+            $this->objectName = 'rest/' . auth()->user()->name . '/cat/' . auth()->user()->name.'_cat_'.date('Ydm') . $microtime . '.jpeg';
             $this->tempImg = $base64data;
             $this->dispatchBrowserEvent('fakeProgressBarImg');
         } else {
@@ -112,7 +112,7 @@ class CategoryLivewire extends Component
     {
         if ($base64dataCover){
             $microtime = str_replace('.', '', microtime(true));
-            $this->objectNameCover = 'rest/menu/cover_' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
+            $this->objectNameCover = 'rest/' . auth()->user()->name . '/cat/' . auth()->user()->name.'_cover_cat_'.date('Ydm') . $microtime . '.jpeg';
             $this->tempImgCover = $base64dataCover;
             $this->dispatchBrowserEvent('fakeProgressBarCover');
         } else {
@@ -429,12 +429,14 @@ class CategoryLivewire extends Component
     } // END OF FUNCTION RESETING FILTER
 
     public $idd;
+    public $nameDelete;
     public function deleteCategory(int $category_selected_id)
     {
         $this->idd = $category_selected_id;
         $this->category_selected_id_delete = Categories::find($category_selected_id);
         $this->category_selected_name_delete = Categories_Translator::where('cat_id', $category_selected_id)->where('locale', $this->glang)->first()->name ?? "DELETE";
         if($this->category_selected_name_delete){
+            $this->nameDelete = $this->category_selected_name_delete;
             $this->showTextTemp = $this->category_selected_name_delete;
             $this->confirmDelete = true;
         } else {
@@ -448,6 +450,9 @@ class CategoryLivewire extends Component
             if ($this->confirmDelete && $this->categoryNameToDelete === $this->showTextTemp) {
                 Categories::find($this->category_selected_id_delete->id)->delete();
                 Storage::disk('s3')->delete($this->category_selected_id_delete->img);
+                if($this->category_selected_id_delete->cover){
+                    Storage::disk('s3')->delete($this->category_selected_id_delete->cover);
+                }
                 $this->category_selected_id_delete = null;
                 $this->category_selected_name_delete = null;
                 $this->dispatchBrowserEvent('close-modal');
@@ -458,7 +463,7 @@ class CategoryLivewire extends Component
                     Notification::route('toTelegram', null)
                     ->notify(new TelegramCategoryDelete(
                         $this->idd,
-                        $this->categoryNameToDelete,
+                        $this->nameDelete,
                         $this->telegram_channel_link,
                         $this->view_business_name,
                     ));

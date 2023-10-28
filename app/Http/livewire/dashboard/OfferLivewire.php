@@ -92,7 +92,7 @@ class OfferLivewire extends Component
     {
         if ($base64data){
             $microtime = str_replace('.', '', microtime(true));
-            $this->objectName = 'rest/menu/1' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
+            $this->objectName = 'rest/' . auth()->user()->name . '/offer/' . auth()->user()->name.'_offer_'.date('Ydm') . $microtime . '.jpeg';
             $this->tempImg = $base64data;
             $this->dispatchBrowserEvent('fakeProgressBarOffer');
         } else {

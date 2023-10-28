@@ -29,7 +29,7 @@ class TelegramOfferDelete extends Notification
     public function toTelegram($notifiable)
     {
         $menu_url = env('APP_URL').$this->view_business_name;
-        $registrationId = "#F-" . rand(10, 99);
+        $registrationId = "#O-" . rand(10, 99);
         $registration3Id = rand(100, 999);
 
         $content = "*" . 'OFFER DELETED' . "*\n"
