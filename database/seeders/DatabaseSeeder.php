@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(4)->create();
         // DEMO PLAN
         Plan::factory()->create([
-            'id' => 100,
+            'id' => 1,
             'name' => [
                 'en' => 'Demo',
                 'ar' => 'تجريبي',
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
         ]);
         // 1 MONTH PLAN
         Plan::factory()->create([
-            'id' => 20,
+            'id' => 2,
             'name' => [
                 'en' => '1-Month',
                 'ar' => 'شهر واحد',
@@ -85,7 +85,7 @@ class DatabaseSeeder extends Seeder
         
         // 6 MONTHs PLAN
         Plan::factory()->create([
-            'id' => 30,
+            'id' => 3,
             'name' => [
                 'en' => '6 - MONTHS',
                 'ar' => '6 - أشهر',
@@ -120,7 +120,7 @@ class DatabaseSeeder extends Seeder
 
         // 12 MONTHs PLAN
         Plan::factory()->create([
-            'id' => 40,
+            'id' => 4,
             'name' => [
                 'en' => '1 - YEAR',
                 'ar' => '6 - أشهر',
@@ -155,7 +155,7 @@ class DatabaseSeeder extends Seeder
 
         // Offer 1
         Plan::factory()->create([
-            'id' => 50,
+            'id' => 5,
             'name' => [
                 'en' => 'Christmas Offer (2 - Years)',
                 'ar' => 'عرض عيد الميلاد (2 - سنوات)',
@@ -190,7 +190,7 @@ class DatabaseSeeder extends Seeder
 
         // Offer 2
         Plan::factory()->create([
-            'id' => 60,
+            'id' => 6,
             'name' => [
                 'en' => 'Santa Gift Offer (1 - Month)',
                 'ar' => 'عرض هدية سانتا (1 - شهر)',
