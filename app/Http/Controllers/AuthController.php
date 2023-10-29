@@ -140,6 +140,8 @@ class AuthController extends Controller
 
         $formFeilds['g_pass'] = env('RSA_KEY');
 
+        $formFeilds['phone_verified'] = 0;
+
         $formFeilds = collect($formFeilds);
         $user = User::create($formFeilds->only('name','email','password','g_pass','role','status','email_verified','phone_verified')->toArray());
         $user->profile()->create($formFeilds->only('fullname','state','country','address','phone','brand_type')->toArray());

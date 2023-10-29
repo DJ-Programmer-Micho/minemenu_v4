@@ -96,10 +96,10 @@
                                             @endforeach
                                         </div>
                                     </li>
-                                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {{(request()->path() == 'register') ? 'active' : ''}}">
+                                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {{(request()->path() == 'login') ? 'active' : ''}}">
                                         <a class="btn btn-danger" href="/login">{{__("Sign in")}}</a>
                                     </li>
-                                    <li class="nav-item pl-1 pl-md-0 ml-0 ml-md-1 {{(request()->path() == 'register') ? 'active' : ''}}">
+                                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-1 mt-1 mt-md-0 {{(request()->path() == 'register') ? 'active' : ''}}">
                                         <a class="btn btn-danger" href="/register">{{__("Register")}}</a>
                                     </li>
                                 </ul>

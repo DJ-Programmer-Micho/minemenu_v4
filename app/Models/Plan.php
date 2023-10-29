@@ -16,6 +16,7 @@ class Plan extends Model
         "description_onpay", // Design for After Selecting Plan
         "cost",
         "duration",
+        "monthly_cost",
         "exchange_rate",
         "priority",
         "status",
