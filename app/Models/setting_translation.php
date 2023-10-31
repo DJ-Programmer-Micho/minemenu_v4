@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class setting_translation extends Model
+class Setting_Translation extends Model
 {
     use HasFactory;
 
