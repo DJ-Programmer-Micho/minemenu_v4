@@ -24,7 +24,7 @@ return new class extends Migration
             $table->decimal('monthly_cost',4,2)->nullable();
             $table->boolean('status');  /// days
             $table->integer('priority');  /// days
-            $table->datetime('valid_date');
+            $table->datetime('valid_date')->nullable();
             $table->timestamps();
         });
     }
