@@ -11,7 +11,7 @@ use App\Models\Subscription;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
  
-class dashboardlivewire extends Component
+class Dashboardlivewire extends Component
 {
     public $glang;
     public $filteredLocales;
