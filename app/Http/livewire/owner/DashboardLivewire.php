@@ -1,6 +1,6 @@
 <?php
  
-namespace App\Http\Livewire\owner;
+namespace App\Http\Livewire\Owner;
 
 use App\Models\Plan;
 use App\Models\User;
@@ -11,7 +11,7 @@ use App\Models\Subscription;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
  
-class Dashboardlivewire extends Component
+class DashboardLivewire extends Component
 {
     public $glang;
     public $filteredLocales;
