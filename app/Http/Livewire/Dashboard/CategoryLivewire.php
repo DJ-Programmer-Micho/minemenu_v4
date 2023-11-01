@@ -458,18 +458,19 @@ class CategoryLivewire extends Component
                 $this->dispatchBrowserEvent('close-modal');
                 $this->resetInput();
                 $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Deleted Successfully')]);
-
-                try{
-                    Notification::route('toTelegram', null)
-                    ->notify(new TelegramCategoryDelete(
-                        $this->idd,
-                        $this->nameDelete,
-                        $this->telegram_channel_link,
-                        $this->view_business_name,
-                    ));
-                    $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
-                }  catch (\Exception $e) {
-                    $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+                if($this->telegram_channel_status == 1){
+                    try{
+                        Notification::route('toTelegram', null)
+                        ->notify(new TelegramCategoryDelete(
+                            $this->idd,
+                            $this->nameDelete,
+                            $this->telegram_channel_link,
+                            $this->view_business_name,
+                        ));
+                        $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+                    }  catch (\Exception $e) {
+                        $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+                    }
                 }
                 $this->idd = null;
                 $this->category_selected_id_delete = null;

@@ -1,9 +1,7 @@
 <div>
     <x-business.Offer01Component :user="$user_id" :glang="$glang" :ui="$ui" />
-
     <x-business.Menu01Component :user="$user_id" :glang="$glang" :ui="$ui" :settings="$setting"/>
 </div>
-
 
 @push('business_script')    
 <script>
