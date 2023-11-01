@@ -31,7 +31,7 @@
             {{-- <div class="add-to-catr-btn">
                 <button class="btn" data-toggle="modal" data-target="#addCart"> {{__('Add to Cart')}}</button>
             </div> --}}
-            <x-business.copyright01component/>
+            <x-business.Copyright01Component/>
         </div>
     </div>
 </div>

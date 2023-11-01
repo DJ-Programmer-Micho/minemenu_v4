@@ -35,7 +35,7 @@
                             {{$foodData->translation->description}}
                         </p>
                     </div>
-                    <x-business.copyright01component/>
+                    <x-business.Copyright01Component/>
                 </div>
             </div>
         </div>

@@ -47,7 +47,7 @@
                         <livewire:cart.food-cart-livewire :foodcartdata="$foodData" :setting="$settings" :glang="$glang" />
                         <div class="mb-5"></div>
                     </div>
-                    <x-business.copyright01component/>
+                    <x-business.Copyright01Component/>
                 </div>
             </div>
         </div>

@@ -18,7 +18,7 @@
         @foreach ($menuData as $menu)
         <div class="tab-pane fade {{$loop->index == 0 ? 'show active' : ''}}" id="pills-{{$menu->id}}" role="tabpanel"
             aria-labelledby="pills-{{$menu->id}}-tab">
-            <x-business.category01component :menuid="$menu->translation->menu_id" :user="$user_id" :glang="$glang" :ui="$ui" />
+            <x-business.Category01Component :menuid="$menu->translation->menu_id" :user="$user_id" :glang="$glang" :ui="$ui" />
         </div>
         @endforeach
         <div class="tab-pane fade" id="pills-social" role="tabpanel"
