@@ -39,21 +39,21 @@ class Header01Component extends Component
     public function render(): View|Closure|string
     {
         if ($this->selected_ui == '01') {
-            return view('user.components.headers.Header01',[
+            return view('user.components.headers.header01',[
                 'cart_count' => $this->cartcount, 
                 'setting' => $this->setting,
                 'restName'=> $this->rest_name, 
                 'cover_id' => $this->coverid
             ]);
         } else if ($this->selected_ui == '02') {
-            return view('user.components.headers.Header02',[
+            return view('user.components.headers.header02',[
                 'cart_count' => $this->cartcount, 
                 'setting' => $this->setting,
                 'restName'=> $this->rest_name, 
                 'cover_id' => $this->coverid
             ]);
         } else {
-            return view('user.components.headers.Header03',[
+            return view('user.components.headers.header03',[
                 'cart_count' => $this->cartcount, 
                 'setting' => $this->setting,
                 'restName'=> $this->rest_name, 
