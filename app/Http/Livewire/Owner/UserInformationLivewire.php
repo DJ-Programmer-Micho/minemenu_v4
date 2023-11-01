@@ -1,6 +1,6 @@
 <?php
  
-namespace App\Http\Livewire\owner;
+namespace App\Http\Livewire\Owner;
 
 use App\Models\Plan;
 use App\Models\User;

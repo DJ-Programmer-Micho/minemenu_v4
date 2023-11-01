@@ -226,7 +226,7 @@
                 <input id="password" name="password" placeholder="password" type="password" /><br />
 
                 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                <div class="g-recaptcha" id="feedback-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}"></div>
+                <div class="g-recaptcha" id="feedback-recaptcha" data-sitekey="{!! env('GOOGLE_RECAPTCHA_KEY') !!}"></div>
                 @error('g-recaptcha-response')
                 <span class="danger" style="font-size: 12px">Please Check reCaptcha</span><br>
                 @enderror

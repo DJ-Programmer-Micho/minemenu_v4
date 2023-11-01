@@ -1,6 +1,6 @@
 <?php
  
-namespace App\Http\Livewire\dashboard;
+namespace App\Http\Livewire\Dashboard;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
