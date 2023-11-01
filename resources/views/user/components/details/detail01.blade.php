@@ -13,7 +13,7 @@
                     <a class="back-butt-detail-01" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
                     <a class="home-butt-detail-01" href="{{ route('business.zzz', ['business_name' => $restName])}}"><i
                             class="fas fa-home"></i></a>
-                    <livewire:Cart.food-cart-counter-livewire :glang="$glang" :setting="$settings" />
+                    <Livewire:Cart.FoodCartCounterLivewire :glang="$glang" :setting="$settings" />
                 </div>
                 <div class="img-head-01">
                     <div class="content-01">
@@ -26,7 +26,7 @@
                     <div class="col-md-12">
                         <h2 class="title mb-5">{{$foodData->translation->name}}</h2>
                     </div>
-                    <livewire:Cart.food-cart-livewire :foodcartdata="$foodData" :setting="$settings" :glang="$glang" />
+                    <Livewire:Cart.FoodCartLivewire :foodcartdata="$foodData" :setting="$settings" :glang="$glang" />
                     <div class="description mt-5">
                         <div class="tab">
                             <a>{{__('Description')}}</a>

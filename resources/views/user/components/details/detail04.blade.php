@@ -23,7 +23,7 @@
                         <a class="back-butt-detail-01" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
                         <a class="home-butt-detail-01" href="{{ route('business.zzz', ['business_name' => $restName])}}"><i
                                 class="fas fa-home"></i></a>
-                        <livewire:cart.food-cart-counter-livewire :glang="$glang" :setting="$settings" />
+                        <Livewire:Cart.FoodCartCounterLivewire :glang="$glang" :setting="$settings" />
                     </div>
                     <div class="img-head-01">
                         <div class="content-01">
@@ -44,7 +44,7 @@
                                 {{$foodData->translation->description}}
                             </p>
                         </div>
-                        <livewire:cart.food-cart-livewire :foodcartdata="$foodData" :setting="$settings" :glang="$glang" />
+                        <Livewire:Cart.FoodCartLivewire :foodcartdata="$foodData" :setting="$settings" :glang="$glang" />
                         <div class="mb-5"></div>
                     </div>
                     <x-business.Copyright01Component/>
