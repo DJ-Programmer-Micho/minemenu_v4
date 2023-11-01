@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-            <x-business.Copyright01Component/>
+            <x-business.CopyRight01Component/>
         </div>
     </div>
 </div>

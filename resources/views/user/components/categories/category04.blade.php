@@ -14,5 +14,5 @@
         <div class="text-center">{{__('Nothing To Show')}}</div>
     </div>
     @endforelse
-    <x-business.Copyright01Component/>
+    <x-business.CopyRight01Component/>
 </div>
