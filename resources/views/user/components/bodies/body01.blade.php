@@ -1,7 +1,7 @@
 <div>
-    <x-business.offer01component :user="$user_id" :glang="$glang" :ui="$ui" />
+    <x-business.Offer01Component :user="$user_id" :glang="$glang" :ui="$ui" />
 
-    <x-business.menu01component :user="$user_id" :glang="$glang" :ui="$ui" :settings="$setting"/>
+    <x-business.Menu01Component :user="$user_id" :glang="$glang" :ui="$ui" :settings="$setting"/>
 </div>
 
 
