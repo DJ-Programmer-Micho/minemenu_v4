@@ -131,7 +131,7 @@
 </head>
 <body>
     <div class="master-container">
-        <x-business.detail01component :user="$user" :detail="$detail" :ui="$ui" :settings="$setting" :settingname="$setting_name"/>
+        <x-business.Detail01Component :user="$user" :detail="$detail" :ui="$ui" :settings="$setting" :settingname="$setting_name"/>
     <div class="place-footer">
 
     </div>

@@ -124,7 +124,7 @@
     <x-business.Facilities01Component :settingname="$setting_name" :settingaddress="$setting_address" :setting="$setting" :filteredlocales="$filteredLocales" :ui="$ui"/>
     {{-- @endif --}}
     <div class="place-header">
-        <x-business.header01component :user="$user" :ui="$ui" :setting="$setting" :coverid="$cover_id ?? null"/>
+        <x-business.Header01Component :user="$user" :ui="$ui" :setting="$setting" :coverid="$cover_id ?? null"/>
     </div>
     <div class="place-body">
         @yield('business-content')

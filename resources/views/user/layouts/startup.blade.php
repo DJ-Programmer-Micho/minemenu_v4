@@ -120,7 +120,7 @@
 <body>
 <div class="master-container">
 
-    <x-business.home01component :user="$user" :ui="$ui" :settings="$setting" :settingname="$setting_name"/>
+    <x-business.Home01Component :user="$user" :ui="$ui" :settings="$setting" :settingname="$setting_name"/>
     
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
