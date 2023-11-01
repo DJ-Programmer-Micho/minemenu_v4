@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications\owner;
+namespace App\Notifications\Owner;
 
 use App\Models\Plan;
 use Illuminate\Notifications\Notification;

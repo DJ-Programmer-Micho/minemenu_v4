@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications\rest;
+namespace App\Notifications\Rest;
 
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Telegram\TelegramChannel;

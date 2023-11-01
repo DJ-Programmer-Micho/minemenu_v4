@@ -1,30 +1,34 @@
 <?php
 
-namespace App\Notifications\owner;
+namespace App\Notifications\Owner;
 
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Telegram\TelegramChannel;
 use NotificationChannels\Telegram\TelegramMessage;
 
-class TelegramRegisterNew extends Notification
+class TelegramPlanChangeNew extends Notification
 {
     protected $r_id;
     protected $business_name;
     protected $name;
     protected $email;
     protected $phone;
-    protected $country;
-    protected $type;
+    protected $old_plan;
+    protected $new_plan;
+    protected $action;
+    protected $amount;
 
-    public function __construct($id, $business_name, $email, $name, $phone, $country, $type)
+    public function __construct($id, $business_name, $email, $name, $phone, $old_plan, $new_plan, $action, $amount)
     {
-        $this->r_id = $id;
         $this->business_name = $business_name;
         $this->name = $name;
         $this->email = $email;
         $this->phone = $phone;
-        $this->country = $country;
-        $this->type = $type;
+        $this->old_plan = $old_plan;
+        $this->new_plan = $new_plan;
+        $this->action = $action;
+        $this->amount = $amount;
+        $this->r_id = $id;
     }
 
     public function via($notifiable)
@@ -38,17 +42,18 @@ class TelegramRegisterNew extends Notification
         $registrationId = "#R-" . rand(10, 99);
         $registration3Id = rand(100, 999);
 
-
        return TelegramMessage::create()
-       ->to(env('TELEGRAM_GROUP_ID'))
-       ->content("*" . 'NEW USER REGISTERED' . "*\n"
+       ->to(env('TELEGRAM_GROUP_ID_PLAN_REGISTER'))
+       ->content("*" . 'REGISTER UPDATED' . "*\n"
        . "*" .'Reg-ID: '. $registrationId . '-'. $this->r_id .'-' . $registration3Id . "*\n"
        . "*" .'Business Name: '. $this->business_name . "*\n"
        . "*" .'Regisered Name: '. $this->name . "*\n"
        . "*" .'EmailAddress: '. $this->email . "*\n"
        . "*" .'Phone Number: '. $this->phone . "*\n"
-       . "*" .'Country: '. $this->country . "*\n"
-       . "*" .'Type: '. $this->type . "*\n"
+       . "*" .'Old Plan: '. $this->old_plan . "*\n"
+       . "*" .'New Plan: '. $this->new_plan . "*\n"
+       . "*" .'Action: '. $this->action . "*\n"
+       . "*" .'Amount: '. $this->amount . "*\n"
        )->button('View Menu', $url);
     }
 
@@ -59,7 +64,9 @@ class TelegramRegisterNew extends Notification
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
-            'country' => $this->country,
+            'old_plan' => $this->old_plan,
+            'new_plan' => $this->new_plan,
+            'action' => $this->action,
         ];
     }
 }

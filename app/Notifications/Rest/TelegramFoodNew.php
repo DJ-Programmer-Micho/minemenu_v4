@@ -1,24 +1,32 @@
 <?php
 
-namespace App\Notifications\rest;
+namespace App\Notifications\Rest;
 
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Telegram\TelegramChannel;
 use NotificationChannels\Telegram\TelegramMessage;
 
-class TelegramFoodDelete extends Notification
+class TelegramFoodNew extends Notification
 {
     protected $r_id;
-    protected $food_main_name;
+    protected $food_name;
     protected $cat_id;
-    protected $view_business_name;
+    protected $price;
+    protected $old_price;
+    protected $special;
+    protected $img;
     protected $telegram_channel_link;
+    protected $view_business_name;
 
-    public function __construct($id, $cat_id, $food_name, $telegram_channel_link, $view_business_name)
+    public function __construct($id, $food_name, $cat_id, $price, $old_price, $special, $img, $telegram_channel_link, $view_business_name)
     {
         $this->r_id = $id;
-        $this->food_main_name = $food_name;
+        $this->food_name = $food_name;
         $this->cat_id = $cat_id;
+        $this->price = $price ?? null;
+        $this->old_price = $old_price ?? null;
+        $this->special = $special;
+        $this->img = $img;
         $this->telegram_channel_link = $telegram_channel_link;
         $this->view_business_name = $view_business_name;
     }
@@ -35,10 +43,22 @@ class TelegramFoodDelete extends Notification
         $registrationId = "#F-" . rand(10, 99);
         $registration3Id = rand(100, 999);
 
-        $content = "*" . 'FOOD DELETED' . "*\n"
-        . "*" .'-----------------'."*\n"  
+        $content = "*" . 'NEW FOOD ADDED' . "*\n"
+        . "*" .'-----------------'."*\n" 
         . "*" .'Food-ID: '. $registrationId . '-'. $this->r_id .'-' . $registration3Id . "*\n"
-        . "*" .'Food Name: '. $this->food_main_name . "*\n";
+        . "*" .'Food Name: '. $this->food_name . "*\n";
+        
+        if ($this->price) {
+            $content .= "*" .'Price: '. $this->price . "*\n";
+            if ($this->old_price) {
+                $content .= "*" .'Old Price: '. $this->old_price . "*\n";
+            }
+        } else {
+            $content .= "*" .'Price: Options Type' . "*\n";
+        }
+
+        $content .= "*" .'Special: '. $this->special . "*\n" 
+        . "*" .  $this->img . "*\n" ;
 
        return TelegramMessage::create()
        ->to($this->telegram_channel_link)
