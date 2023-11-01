@@ -13,7 +13,7 @@
                 <div class="panel panel--open">
                     <label for="form-data"></label>
                     {{-- <input node="data" node-change-event="oninput" id="form-data" type="hidden" value="https://minemenu.com/{{auth()->user()->name}}" /><br> --}}
-                    <input node="data" node-change-event="oninput" id="form-data" type="hidden" value="http://192.168.0.80:8000/{{auth()->user()->name}}" /><br>
+                    <input node="data" node-change-event="oninput" id="form-data" type="hidden" value="{{env('APP_URL').auth()->user()->name}}" /><br>
                     <label for="form-image-file">Image File</label>
                     <div class="buttons-container">
                         <input node="image" node-data-field="files" id="form-image-file" type="file" />
