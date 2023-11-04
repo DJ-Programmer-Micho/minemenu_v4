@@ -23,10 +23,10 @@
             'name' => 'offer',
             'group_design' => __('Design Group For Offer'),
             'designs' => [
-                ['id' => '01', 'name' => 'Offer O1', 'image' => app('cloudfront').'mine-setting/IMG_9633.PNG'],
-                ['id' => '02', 'name' => 'Offer O2', 'image' => app('cloudfront').'mine-setting/phone.png'],
-                ['id' => '03', 'name' => 'Offer O3', 'image' => app('cloudfront').'mine-setting/Capture.PNG'],
-                ['id' => '04', 'name' => 'Offer O4', 'image' => app('cloudfront').'mine-setting/IMG_9633.PNG'],
+                ['id' => '01', 'name' => 'Offer O1', 'image' => app('cloudfront').'mine-setting/ui-ux/Ofr01.jpg'],
+                ['id' => '02', 'name' => 'Offer O2', 'image' => app('cloudfront').'mine-setting/ui-ux/Ofr02.jpg'],
+                ['id' => '03', 'name' => 'Offer O3', 'image' => app('cloudfront').'mine-setting/ui-ux/Ofr03.jpg'],
+                ['id' => '04', 'name' => 'Offer O4', 'image' => app('cloudfront').'mine-setting/ui-ux/Ofr04.jpg'],
             ],
         ],
         [
@@ -41,23 +41,23 @@
             'name' => 'category',
             'group_design' => __('Design Group For Category'),
             'designs' => [
-                ['id' => '01', 'name' => 'Category C1', 'image' => app('cloudfront').'mine-setting/IMG_9633.PNG'],
-                ['id' => '02', 'name' => 'Category C2', 'image' => app('cloudfront').'mine-setting/phone.png'],
-                ['id' => '03', 'name' => 'Category C3', 'image' => app('cloudfront').'mine-setting/Capture.PNG'],
-                ['id' => '04', 'name' => 'Category C4', 'image' => app('cloudfront').'mine-setting/IMG_9633.PNG'],
-                ['id' => '05', 'name' => 'Category C5', 'image' => app('cloudfront').'mine-setting/IMG_9633.PNG'],
-                ['id' => '06', 'name' => 'Category C6', 'image' => app('cloudfront').'mine-setting/IMG_9633.PNG'],
-                ['id' => '07', 'name' => 'Category C7', 'image' => app('cloudfront').'mine-setting/IMG_9633.PNG'],
+                ['id' => '01', 'name' => 'Category C1', 'image' => app('cloudfront').'mine-setting/ui-ux/cat01.jpg'],
+                ['id' => '02', 'name' => 'Category C2', 'image' => app('cloudfront').'mine-setting/ui-ux/cat02.jpg'],
+                ['id' => '03', 'name' => 'Category C3', 'image' => app('cloudfront').'mine-setting/ui-ux/cat03.jpg'],
+                ['id' => '04', 'name' => 'Category C4', 'image' => app('cloudfront').'mine-setting/ui-ux/cat04.jpg'],
+                ['id' => '05', 'name' => 'Category C5', 'image' => app('cloudfront').'mine-setting/ui-ux/cat05.jpg'],
+                ['id' => '06', 'name' => 'Category C6', 'image' => app('cloudfront').'mine-setting/ui-ux/cat06.jpg'],
+                ['id' => '07', 'name' => 'Category C7', 'image' => app('cloudfront').'mine-setting/ui-ux/cat07.jpg'],
             ],
         ],
         [
             'name' => 'food_list',
             'group_design' => __('Design Group For Food List'),
             'designs' => [
-                ['id' => '01', 'name' => 'Food F1', 'image' => app('cloudfront').'mine-setting/IMG_9633.PNG'],
-                ['id' => '02', 'name' => 'Food F2', 'image' => app('cloudfront').'mine-setting/phone.png'],
-                ['id' => '03', 'name' => 'Food F3', 'image' => app('cloudfront').'mine-setting/Capture.PNG'],
-                ['id' => '04', 'name' => 'Food F4', 'image' => app('cloudfront').'mine-setting/IMG_9633.PNG'],
+                ['id' => '01', 'name' => 'Food F1', 'image' => app('cloudfront').'mine-setting/ui-ux/food01.jpg'],
+                ['id' => '02', 'name' => 'Food F2', 'image' => app('cloudfront').'mine-setting/ui-ux/food02.jpg'],
+                ['id' => '03', 'name' => 'Food F3', 'image' => app('cloudfront').'mine-setting/ui-ux/food03.jpg'],
+                ['id' => '04', 'name' => 'Food F4', 'image' => app('cloudfront').'mine-setting/ui-ux/food04.jpg'],
             ],
         ],
         [
@@ -92,7 +92,7 @@
 
             <div class="row">
             @foreach ($group['designs'] as $design)
-                <div class="col-12 col-md-6 col-lg-3 col-xl-2 p-1 mb-3">
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2 p-1 mb-3">
                     <label class="d-flex align-items-center text-left">
                         <div>
                             <input class="form-control text-white" type="radio" name="{{ $group['name'] }}" wire:model="selectedDesigns.{{ $group['name'] }}" value="{{ $design['id'] }}"
@@ -105,7 +105,7 @@
                         
                     </label>
 
-                    <img src="{{ asset($design['image']) }}" alt="{{ $design['name'] }} Preview" width="100%">
+                    <img src="{{ asset($design['image']) }}" alt="{{ $design['name'] }} Preview" width="100%" style="border: 1px solid #aaa">
                 </div>
                 <br>
                 @endforeach

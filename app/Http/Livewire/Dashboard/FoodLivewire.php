@@ -187,7 +187,7 @@ class FoodLivewire extends Component
                 }
             }
             
-
+            $this->objectName = null;
             $this->resetInput();
             $this->dispatchBrowserEvent('close-modal');
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('New Food Inserted')]);
