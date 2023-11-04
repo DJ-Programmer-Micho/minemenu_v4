@@ -514,7 +514,6 @@ class CategoryLivewire extends Component
         $this->menu_id = '';
         $this->status = '';
         $this->priority = '';
-        $this->imgReader = null;
         $this->category_selected_id_delete = '';
         $this->category_selected_name_delete = '';
         $this->showTextTemp = '';
@@ -523,7 +522,9 @@ class CategoryLivewire extends Component
         $this->objectName = '';
         $this->objectNameCover = '';
         $this->tempImg = null;
+        $this->imgReader = null;
         $this->tempImgCover = null;
+        $this->imgReaderCover = null;
     } // END FUNCTION OF RESET INPUT
 
     ////DISPATCH OR VIEW FUNCTIONS
