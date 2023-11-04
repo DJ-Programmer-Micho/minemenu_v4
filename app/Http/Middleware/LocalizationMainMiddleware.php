@@ -20,7 +20,6 @@ class LocalizationMainMiddleware
     
         // Set the application locale for the current request
         App::setLocale($selectedLanguages[0]);
-
         if ($request->session()->has('applocale')) {
             App::setLocale($request->session()->get('applocale'));
         } else {

@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Mainmenu;
+use App\Models\Mainmenu_Translator;
+use App\Models\Categories;
+use App\Models\Categories_Translator;
+use App\Models\Food;
+use App\Models\Food_Translator;
 use Twilio\Rest\Client;
 use App\Rules\ReCaptcha;
 use App\Otp\SinchService;
@@ -11,8 +17,8 @@ use App\Mail\EmailVerificationMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\Notifications\owner\TelegramRegisterNew;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\Owner\TelegramRegisterNew;
 
 
 class AuthController extends Controller
@@ -52,7 +58,7 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'g-recaptcha-response' => ['required', new ReCaptcha]
+            // 'g-recaptcha-response' => ['required', new ReCaptcha]
         ]);
         
         //Get Info
@@ -107,12 +113,13 @@ class AuthController extends Controller
     } // END Function (Register)
 
     public function signup(){
+        $tele_id = env('TELEGRAM_GROUP_ID') ?? null;
         $formFeilds =  request()->validate([
             'name'=> 'required|string|unique:users',
             'email'=> 'required|string|email|unique:users',
             'password'=> 'required|min:6',
             
-            'g-recaptcha-response' => ['required', new ReCaptcha],
+            // 'g-recaptcha-response' => ['required', new ReCaptcha],
 
             'fullname' => 'required|string',
             'phone'=> 'required|string|unique:profiles',
@@ -147,18 +154,26 @@ class AuthController extends Controller
         $user->profile()->create($formFeilds->only('fullname','state','country','address','phone','brand_type')->toArray());
         $user->settings()->create($formFeilds->only('default_lang','languages','ui_ux')->toArray());
         $user->subscribe(1, null);
+        $this->addDemo($user->id);
         
         // Send OTP via email (Mailtrap)
-         Notification::route('toTelegram', null)
-         ->notify(new TelegramRegisterNew(
-            $user->id,
-            $formFeilds['name'],
-            $formFeilds['email'],
-            $formFeilds['fullname'],
-            $formFeilds['phone'],
-            $formFeilds['country'],
-            'Automatic',
-        ));
+        if($tele_id){
+            try{    
+                Notification::route('toTelegram', null)
+                ->notify(new TelegramRegisterNew(
+                    $user->id,
+                    $formFeilds['name'],
+                    $formFeilds['email'],
+                    $formFeilds['fullname'],
+                    $formFeilds['phone'],
+                    $formFeilds['country'],
+                    'Automatic',
+                    $tele_id
+                ));
+            } catch (\Exception $e) {
+            //skip
+            }
+        }
                  
         return redirect()->route('goEmailOTP', ['email' => $user->email]);
     } // END Function (Register)
@@ -259,4 +274,128 @@ class AuthController extends Controller
         auth()->logout();
         return back();
     } // END Function (Logout)
+
+
+    private function addDemo($rest_id){
+        // for($i = 0; $i <= 2; $i){
+           // Create two main menus for the user
+           $menus = [];
+           $categories = [];
+           $translations = [
+               ['en', 'Food', 'ar', 'الأطعمة'],
+               ['en', 'Drinks', 'ar', 'المشروبات']
+           ];
+
+           $categoriesData = [
+               ['en', 'Category1', 'ar', 'التصنيف1','mine-setting/default-demo/minemenu_category_1.jpeg','mine-setting/default-demo/minemenu_category_cov_1.jpeg'],
+               ['en', 'Category2', 'ar', 'التصنيف2','mine-setting/default-demo/minemenu_category_2.jpeg','mine-setting/default-demo/minemenu_category_cov_2.jpeg'],
+               ['en', 'Category3', 'ar', 'التصنيف3','mine-setting/default-demo/minemenu_category_3.jpeg','mine-setting/default-demo/minemenu_category_cov_3.jpeg'],
+               ['en', 'Category4', 'ar', 'التصنيف4','mine-setting/default-demo/minemenu_category_4.jpeg','mine-setting/default-demo/minemenu_category_cov_4.jpeg']
+           ];
+           
+           $foodsData = [
+               ['en', 'Food1', 'ar', 'طعام', 33000, null, 'mine-setting/default-demo/minemenu_food_1.jpeg', 'This section provides a description of the food that needs to be added. You can include as much information as you prefer, but it is recommended to keep it within 150 characters.','يقدم هذا القسم وصفًا للأطعمة الاختيارية المراد إضافتها. يمكنك تضمين أي قدر تفضله من المعلومات، ولكن يوصى بالاحتفاظ بها ضمن 150 حرفًا.'],
+               ['en', 'Food2', 'ar', 'طعام', 40000, 55000, 'mine-setting/default-demo/minemenu_food_2.jpeg', 'This section provides a description of the food that needs to be added. You can include as much information as you prefer, but it is recommended to keep it within 150 characters.','يقدم هذا القسم وصفًا للأطعمة الاختيارية المراد إضافتها. يمكنك تضمين أي قدر تفضله من المعلومات، ولكن يوصى بالاحتفاظ بها ضمن 150 حرفًا.'],
+               ['en', 'Food3', 'ar', 'طعام', 25000, null, 'mine-setting/default-demo/minemenu_food_3.jpeg', 'This section provides a description of the food that needs to be added. You can include as much information as you prefer, but it is recommended to keep it within 150 characters.','يقدم هذا القسم وصفًا للأطعمة الاختيارية المراد إضافتها. يمكنك تضمين أي قدر تفضله من المعلومات، ولكن يوصى بالاحتفاظ بها ضمن 150 حرفًا.'],
+               ['en', 'Food4', 'ar', 'طعام', 35000, null, 'mine-setting/default-demo/minemenu_food_4.jpeg', 'This section provides a description of the food that needs to be added. You can include as much information as you prefer, but it is recommended to keep it within 150 characters.','يقدم هذا القسم وصفًا للأطعمة الاختيارية المراد إضافتها. يمكنك تضمين أي قدر تفضله من المعلومات، ولكن يوصى بالاحتفاظ بها ضمن 150 حرفًا.'],
+               ['en', 'Food5', 'ar', 'طعام', 17000, null, 'mine-setting/default-demo/minemenu_food_5.jpeg', 'This section provides a description of the food that needs to be added. You can include as much information as you prefer, but it is recommended to keep it within 150 characters.','يقدم هذا القسم وصفًا للأطعمة الاختيارية المراد إضافتها. يمكنك تضمين أي قدر تفضله من المعلومات، ولكن يوصى بالاحتفاظ بها ضمن 150 حرفًا.'],
+               ['en', 'Food6', 'ar', 'طعام', 18000, null, 'mine-setting/default-demo/minemenu_food_6.jpeg', 'This section provides a description of the food that needs to be added. You can include as much information as you prefer, but it is recommended to keep it within 150 characters.','يقدم هذا القسم وصفًا للأطعمة الاختيارية المراد إضافتها. يمكنك تضمين أي قدر تفضله من المعلومات، ولكن يوصى بالاحتفاظ بها ضمن 150 حرفًا.'],
+               ['en', 'Food7', 'ar', 'طعام', 17000, null, 'mine-setting/default-demo/minemenu_food_7.jpeg', 'This section provides a description of the food that needs to be added. You can include as much information as you prefer, but it is recommended to keep it within 150 characters.','يقدم هذا القسم وصفًا للأطعمة الاختيارية المراد إضافتها. يمكنك تضمين أي قدر تفضله من المعلومات، ولكن يوصى بالاحتفاظ بها ضمن 150 حرفًا.'],
+               ['en', 'Food8', 'ar', 'طعام', 15500, 17000, 'mine-setting/default-demo/minemenu_food_8.jpeg', 'This section provides a description of the food that needs to be added. You can include as much information as you prefer, but it is recommended to keep it within 150 characters.','يقدم هذا القسم وصفًا للأطعمة الاختيارية المراد إضافتها. يمكنك تضمين أي قدر تفضله من المعلومات، ولكن يوصى بالاحتفاظ بها ضمن 150 حرفًا.'],
+               ['en', 'Food9', 'ar', 'طعام', 5500, null, 'mine-setting/default-demo/minemenu_food_9.jpeg', 'This section provides a description of the food that needs to be added. You can include as much information as you prefer, but it is recommended to keep it within 150 characters.','يقدم هذا القسم وصفًا للأطعمة الاختيارية المراد إضافتها. يمكنك تضمين أي قدر تفضله من المعلومات، ولكن يوصى بالاحتفاظ بها ضمن 150 حرفًا.'],
+               ['en', 'Food10', 'ar', 'طعام', 4000, 5500, 'mine-setting/default-demo/minemenu_food_10.jpeg', 'This section provides a description of the food that needs to be added. You can include as much information as you prefer, but it is recommended to keep it within 150 characters.','يقدم هذا القسم وصفًا للأطعمة الاختيارية المراد إضافتها. يمكنك تضمين أي قدر تفضله من المعلومات، ولكن يوصى بالاحتفاظ بها ضمن 150 حرفًا.'],
+               ['en', 'Food11', 'ar', 'طعام', 1750, null, 'mine-setting/default-demo/minemenu_food_11.jpeg', 'This section provides a description of the food that needs to be added. You can include as much information as you prefer, but it is recommended to keep it within 150 characters.','يقدم هذا القسم وصفًا للأطعمة الاختيارية المراد إضافتها. يمكنك تضمين أي قدر تفضله من المعلومات، ولكن يوصى بالاحتفاظ بها ضمن 150 حرفًا.'],
+               ['en', 'Food12', 'ar', 'طعام', 1750, null, 'mine-setting/default-demo/minemenu_food_12.jpeg', 'This section provides a description of the food that needs to be added. You can include as much information as you prefer, but it is recommended to keep it within 150 characters.','يقدم هذا القسم وصفًا للأطعمة الاختيارية المراد إضافتها. يمكنك تضمين أي قدر تفضله من المعلومات، ولكن يوصى بالاحتفاظ بها ضمن 150 حرفًا.'],
+               ['en', 'Food13', 'ar', 'طعام', 6000, 7500, 'mine-setting/default-demo/minemenu_food_13.jpeg', 'This section provides a description of the food that needs to be added. You can include as much information as you prefer, but it is recommended to keep it within 150 characters.','يقدم هذا القسم وصفًا للأطعمة الاختيارية المراد إضافتها. يمكنك تضمين أي قدر تفضله من المعلومات، ولكن يوصى بالاحتفاظ بها ضمن 150 حرفًا.'],
+               ['en', 'Food14', 'ar', 'طعام', 7500, null, 'mine-setting/default-demo/minemenu_food_14.jpeg', 'This section provides a description of the food that needs to be added. You can include as much information as you prefer, but it is recommended to keep it within 150 characters.','يقدم هذا القسم وصفًا للأطعمة الاختيارية المراد إضافتها. يمكنك تضمين أي قدر تفضله من المعلومات، ولكن يوصى بالاحتفاظ بها ضمن 150 حرفًا.'],
+               ['en', 'Food15', 'ar', 'طعام', 4500, null, 'mine-setting/default-demo/minemenu_food_15.jpeg', 'This section provides a description of the food that needs to be added. You can include as much information as you prefer, but it is recommended to keep it within 150 characters.','يقدم هذا القسم وصفًا للأطعمة الاختيارية المراد إضافتها. يمكنك تضمين أي قدر تفضله من المعلومات، ولكن يوصى بالاحتفاظ بها ضمن 150 حرفًا.'],
+               ['en', 'Food16', 'ar', 'طعام', 6500, null, 'mine-setting/default-demo/minemenu_food_16.jpeg', 'This section provides a description of the food that needs to be added. You can include as much information as you prefer, but it is recommended to keep it within 150 characters.','يقدم هذا القسم وصفًا للأطعمة الاختيارية المراد إضافتها. يمكنك تضمين أي قدر تفضله من المعلومات، ولكن يوصى بالاحتفاظ بها ضمن 150 حرفًا.'],
+           ];
+           
+           for ($i = 0; $i < 2; $i++) {
+               $menu = Mainmenu::create([
+                   'user_id' => $rest_id,
+                   'priority' => 1,
+                   'status' => 1,
+               ]);
+           
+               $menuTranslator = Mainmenu_Translator::create([
+                   'menu_id' => $menu->id,
+                   'name' => $translations[$i][1],
+                   'lang' => $translations[$i][0],
+               ]);
+           
+               $menuTranslatorAr = Mainmenu_Translator::create([
+                   'menu_id' => $menu->id,
+                   'name' => $translations[$i][3],
+                   'lang' => $translations[$i][2],
+               ]);
+           
+               $menus[] = $menu;
+           
+               for ($j = 0; $j < 2; $j++) {
+                   $category = Categories::create([
+                       'user_id' => $rest_id,
+                       'menu_id' => $menu->id,
+                       'priority' => 1,
+                       'status' => 1,
+                       'img' => $categoriesData[$i * 2 + $j][4],
+                       'cover' => $categoriesData[$i * 2 + $j][5],
+                   ]);
+           
+                   $categoryTranslator = Categories_Translator::create([
+                       'cat_id' => $category->id,
+                       'name' => $categoriesData[$i * 2 + $j][1],
+                       'locale' => $categoriesData[$i * 2 + $j][0],
+                   ]);
+           
+                   $categoryTranslatorAr = Categories_Translator::create([
+                       'cat_id' => $category->id,
+                       'name' => $categoriesData[$i * 2 + $j][3],
+                       'locale' => $categoriesData[$i * 2 + $j][2],
+                   ]);
+           
+                   $categories[] = $category;
+           
+                   // Create 3 foods for each category
+                   for ($k = 0; $k < 4; $k++) {
+                    $food = Food::create([
+                        'user_id' => $rest_id,
+                        'cat_id' => $category->id,
+                        'priority' => 1,
+                        'price' => $foodsData[($i * 8) + ($j * 4) + $k][4],
+                        'old_price' => $foodsData[($i * 8) + ($j * 4) + $k][5],
+                        'options' =>  null,
+                        'sorm' => 0,
+                        'status' => 1,
+                        'special' => 0,
+                        'img' => $foodsData[($i * 8) + ($j * 4) + $k][6],
+                    ]);
+                
+                    $foodTranslator = Food_Translator::create([
+                        'food_id' => $food->id,
+                        'name' => $foodsData[($i * 8) + ($j * 4) + $k][1],
+                        'description' => $foodsData[($i * 8) + ($j * 4) + $k][7],
+                        'lang' => $foodsData[($i * 8) + ($j * 4) + $k][0],
+                    ]);
+                
+                    $foodTranslatorAr = Food_Translator::create([
+                        'food_id' => $food->id,
+                        'name' => $foodsData[($i * 8) + ($j * 4) + $k][3],
+                        'description' => $foodsData[($i * 8) + ($j * 4) + $k][8],
+                        'lang' => $foodsData[($i * 8) + ($j * 4) + $k][2],
+                    ]);
+                }
+                
+               }
+           }
+           
+        
+        
+    
+        
+           
+        // }
+    }
 }
+

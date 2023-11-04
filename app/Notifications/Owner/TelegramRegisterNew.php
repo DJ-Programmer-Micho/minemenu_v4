@@ -15,8 +15,9 @@ class TelegramRegisterNew extends Notification
     protected $phone;
     protected $country;
     protected $type;
+    protected $tele_id;
 
-    public function __construct($id, $business_name, $email, $name, $phone, $country, $type)
+    public function __construct($id, $business_name, $email, $name, $phone, $country, $type, $tele_id)
     {
         $this->r_id = $id;
         $this->business_name = $business_name;
@@ -25,6 +26,7 @@ class TelegramRegisterNew extends Notification
         $this->phone = $phone;
         $this->country = $country;
         $this->type = $type;
+        $this->tele_id = $tele_id;
     }
 
     public function via($notifiable)
@@ -40,7 +42,7 @@ class TelegramRegisterNew extends Notification
 
 
        return TelegramMessage::create()
-       ->to(env('TELEGRAM_GROUP_ID'))
+       ->to($this->tele_id)
        ->content("*" . 'NEW USER REGISTERED' . "*\n"
        . "*" .'Reg-ID: '. $registrationId . '-'. $this->r_id .'-' . $registration3Id . "*\n"
        . "*" .'Business Name: '. $this->business_name . "*\n"
@@ -54,12 +56,6 @@ class TelegramRegisterNew extends Notification
 
     public function toArray($notifiable)
     {
-        return [
-            'business_name' => $this->business_name,
-            'name' => $this->name,
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'country' => $this->country,
-        ];
+        //nothing
     }
 }
