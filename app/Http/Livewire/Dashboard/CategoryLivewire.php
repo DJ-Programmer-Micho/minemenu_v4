@@ -362,8 +362,10 @@ class CategoryLivewire extends Component
         $this->dispatchBrowserEvent('close-modal');
         $this->resetInput();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Updated Successfully')]);
+        $this->category_update = null;
     } else {
         $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please Relaod The Page CODE...CAT-UPT')]);
+        $this->category_update = null;
     }
     } // END OF FUNCTION UPDATE ITEM
 
