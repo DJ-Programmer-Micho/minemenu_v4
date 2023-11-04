@@ -7,10 +7,10 @@ use App\Models\Mainmenu;
 use Livewire\WithPagination;
 use App\Models\Mainmenu_Translator;
 use Illuminate\Support\Facades\Auth;
-use App\Notifications\rest\TelegramMenuNew;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\rest\TelegramMenuDelete;
-use App\Notifications\rest\TelegramMenuUpdate;
+use App\Notifications\Rest\TelegramMenuNew;
+use App\Notifications\Rest\TelegramMenuDelete;
+use App\Notifications\Rest\TelegramMenuUpdate;
  
 class MainMenuLivewire extends Component
 {

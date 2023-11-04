@@ -10,11 +10,11 @@ use Livewire\WithFileUploads;
 use App\Models\Food_Translator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use App\Notifications\rest\TelegramFoodNew;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\rest\TelegramFoodShort;
-use App\Notifications\rest\TelegramFoodDelete;
-use App\Notifications\rest\TelegramFoodUpdate;
+use App\Notifications\Rest\TelegramFoodNew;
+use App\Notifications\Rest\TelegramFoodShort;
+use App\Notifications\Rest\TelegramFoodDelete;
+use App\Notifications\Rest\TelegramFoodUpdate;
 
 class FoodLivewire extends Component
 {
@@ -200,6 +200,7 @@ class FoodLivewire extends Component
     public $old_food_data;
     public function editFood(int $menu_selected)
     {
+        $this->imgReader = null;
         $food_edit = Food::find($menu_selected);
         $this->food_update = $food_edit;
 
@@ -361,7 +362,7 @@ class FoodLivewire extends Component
                     $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
                 }
             }
-
+            $this->imgReader = null;
             $this->dispatchBrowserEvent('close-modal');
             $this->resetInput();
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Food Updated Successfully')]);

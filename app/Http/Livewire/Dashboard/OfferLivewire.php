@@ -10,11 +10,11 @@ use Livewire\WithFileUploads;
 use App\Models\Offer_Translator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use App\Notifications\rest\TelegramOfferNew;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\rest\TelegramOfferShort;
-use App\Notifications\rest\TelegramOfferDelete;
-use App\Notifications\rest\TelegramOfferUpdate;
+use App\Notifications\Rest\TelegramOfferNew;
+use App\Notifications\Rest\TelegramOfferShort;
+use App\Notifications\Rest\TelegramOfferDelete;
+use App\Notifications\Rest\TelegramOfferUpdate;
 
 class OfferLivewire extends Component
 {

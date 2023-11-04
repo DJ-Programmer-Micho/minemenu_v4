@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Categories_Translator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\rest\TelegramCategoryNew;
-use App\Notifications\rest\TelegramCategoryDelete;
-use App\Notifications\rest\TelegramCategoryUpdate;
-use App\Notifications\rest\TelegramCategoryUpdateStatus;
-use App\Notifications\rest\TelegramCategoryUpdatePriority;
+use App\Notifications\Rest\TelegramCategoryNew;
+use App\Notifications\Rest\TelegramCategoryDelete;
+use App\Notifications\Rest\TelegramCategoryUpdate;
+use App\Notifications\Rest\TelegramCategoryUpdateStatus;
+use App\Notifications\Rest\TelegramCategoryUpdatePriority;
 
 class CategoryLivewire extends Component
 {
@@ -213,6 +213,7 @@ class CategoryLivewire extends Component
     {
         $this->tempImgCover = null;
         $this->imgReaderCover = null;
+        $this->imgReader = null;
 
         $menu_edit = Categories::find($menu_selected);
         $this->category_update = $menu_edit;
@@ -357,6 +358,7 @@ class CategoryLivewire extends Component
                 $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
             }
         }
+        $this->imgReader = null;
         $this->dispatchBrowserEvent('close-modal');
         $this->resetInput();
         $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Updated Successfully')]);
@@ -512,7 +514,7 @@ class CategoryLivewire extends Component
         $this->menu_id = '';
         $this->status = '';
         $this->priority = '';
-        $this->imgReader = '';
+        $this->imgReader = null;
         $this->category_selected_id_delete = '';
         $this->category_selected_name_delete = '';
         $this->showTextTemp = '';
