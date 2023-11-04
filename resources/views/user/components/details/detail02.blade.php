@@ -6,6 +6,7 @@
                     <a class="back-butt-detail-01" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
                     <a class="home-butt-detail-01" href="{{ route('business.zzz', ['business_name' => $restName])}}"><i class="fas fa-home"></i></a>
                     <Livewire:Cart.FoodCartCounterLivewire :glang="$glang" :setting="$settings"/>
+                    @livewire('cart.food-cart-counter-livewire', ['glang' => $glang, 'setting' => $settings])
                 </div>
                 <div class="img-head-01">
                     <div class="content-01">
@@ -26,7 +27,8 @@
                             {{$foodData->translation->description}}
                         </p>
                     </div>
-            <Livewire:Cart.FoodCartLivewire :foodcartdata="$foodData" :setting="$settings" :glang="$glang"/>
+                    @livewire('cart.food-cart-livewire', ['foodcartdata' => $foodData, 'setting' => $settings, 'glang' => $glang])
+            {{-- <Livewire:Cart.FoodCartLivewire :foodcartdata="$foodData" :setting="$settings" :glang="$glang"/> --}}
             <div class="mb-5"></div>
             {{-- <div class="add-to-catr-btn">
                 <button class="btn" data-toggle="modal" data-target="#addCart"> {{__('Add to Cart')}}</button>

@@ -2,7 +2,6 @@
  
 namespace App\Http\Livewire\Cart;
  
-
 use App\Models\Food;
 use App\Models\Offer;
 use Livewire\Component;

@@ -113,7 +113,7 @@ class BusinessController extends Controller
         ]);
     }
 
-    public function foodDetail($business_name, $foodId,$detail){
+    public function foodDetail($business_name, $foodId ,$detail){
         // $user = User::where('name', $business_name)->first();
         // $setting = Setting::where('user_id', $user->id)->with('translations')->first();
         $user = App::make('userProfile');
@@ -121,7 +121,8 @@ class BusinessController extends Controller
         $setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name ?? 'Restutant';
         $setting_address = $setting->translations->where('locale', app('glang'))->first()->address ?? 'Restutant';
         $color = json_decode($setting->ui_color);
-         $ui = json_decode($setting->ui_ux);
+        $ui = json_decode($setting->ui_ux);
+
         return view('user.layouts.food_detail', [
             'user' => $user,
             'setting' => $setting,
@@ -142,7 +143,6 @@ class BusinessController extends Controller
         $setting_address = $setting->translations->where('locale', app('glang'))->first()->address ?? 'Restutant';
         $color = json_decode($setting->ui_color);
         $ui = json_decode($setting->ui_ux);
-
 
         return view('user.layouts.offer_detail', [
             'user' => $user,
@@ -191,14 +191,14 @@ class BusinessController extends Controller
                   "name"=> "Check The New Update",
                   "short_name"=> "Update",
                   "description"=> "Join To Mine Mneu NOW!",
-                  "url"=> "http://192.168.0.80:8000",
+                  "url"=> "https://minemenu.com",
                   "icons"=> [[ "src"=> app('cloudfront').$setting->background_img_header, "sizes"=> "192x192" ]]
                 ],
                 [
                   "name"=> "Get Menu For 14 Days Free Trial",
                   "short_name"=> "FREE MENU",
                   "description"=> "Register to the free menu",
-                  "url"=> "http://192.168.0.80:8000/pricing",
+                  "url"=> "https://minemenu.com/pricing",
                   "icons"=> [[ "src"=> app('cloudfront').$setting->background_img_header, "sizes"=> "192x192" ]]
                 ]
               ],
