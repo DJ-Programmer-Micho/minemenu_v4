@@ -173,12 +173,12 @@
                                 @if ($tempImgCover)
                                 <img id="showEditCategoryImgCover" class="img-thumbnail rounded" src="{{$tempImgCover}}">
                                 <div class="mt-3"> 
-                                    <button class="btn btn-danger" wire:click="deleteCoverCategory">{{__('Delete Cover')}}</button>
+                                    <button class="btn btn-danger" type="button" wire:click="deleteCoverCategory">{{__('Delete Cover')}}</button>
                                 </div>                                
                                 @elseif ($imgReaderCover)
                                 <img id="showEditCategoryImgCover" class="img-thumbnail rounded" src="{{ app('cloudfront').$imgReaderCover }}">
                                 <div class="mt-3"> 
-                                    <button class="btn btn-danger" wire:click="deleteCoverCategory">{{__('Delete Cover')}}</button>
+                                    <button class="btn btn-danger" type="button" wire:click="deleteCoverCategory">{{__('Delete Cover')}}</button>
                                 </div>
                                 @else
                                 <img id="showEditCategoryImgCover" class="img-thumbnail rounded" src="{{ $emptyImg }}">

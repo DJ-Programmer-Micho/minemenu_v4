@@ -498,7 +498,7 @@ class CategoryLivewire extends Component
             $this->dispatchBrowserEvent('close-modal');
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Cover Image Deleted Successfully')]);
         } catch (\Exception) {
-            $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Something Went Wrong, CODE...DEL-CVR')]);
+            $this->dispatchBrowserEvent('alert', ['type' => 'danger',  'message' => __('Something Went Wrong, CODE...DEL-CVR')]);
         }
     } //END OF DELETING COVER
 
