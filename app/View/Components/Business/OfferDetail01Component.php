@@ -8,7 +8,7 @@ use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
-class OfferDetail01Component extends Component
+class Offerdetail01Component extends Component
 {
     /**
      * Create a new component instance.
