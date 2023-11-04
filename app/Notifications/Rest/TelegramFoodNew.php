@@ -39,7 +39,7 @@ class TelegramFoodNew extends Notification
     public function toTelegram($notifiable)
     {
         $menu_url = env('APP_URL').$this->view_business_name;
-        $food_url = env('APP_URL').$this->view_business_name.'/cat/'.$this->cat_id->id.'/'.$this->r_id;
+        $food_url = env('APP_URL').$this->view_business_name.'/cat/'.$this->cat_id.'/'.$this->r_id;
         $registrationId = "#F-" . rand(10, 99);
         $registration3Id = rand(100, 999);
 

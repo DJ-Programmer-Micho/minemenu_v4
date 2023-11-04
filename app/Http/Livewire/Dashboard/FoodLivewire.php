@@ -172,8 +172,8 @@ class FoodLivewire extends Component
                     Notification::route('toTelegram', null)
                     ->notify(new TelegramFoodNew(
                         $food->id,
-                        $validatedData['cat_id'],
                         $this->names['en'],
+                        $validatedData['cat_id'],
                         $this->price,
                         $this->oldPrice,
                         $validatedData['special'],
