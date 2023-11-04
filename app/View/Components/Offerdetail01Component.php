@@ -57,10 +57,7 @@ class Offerdetail01Component extends Component
     public function render(): View|Closure|string
     {
         if ($this->ui_select == '01') {
-            return view('user.components.offerDetails.offerDetail01',[
-                'offerData' => $this->offerData,
-                'restName' => $this->restName
-            ]);
+            return view('user.components.offerDetails.offerDetail01',['offerData' => $this->offerData, 'restName' => $this->restName]);
         } else if ($this->ui_select == '02') {
             return view('user.components.offerDetails.offerDetail02',['offerData' => $this->offerData, 'restName' => $this->restName]);
         } else if ($this->ui_select == '03') {
