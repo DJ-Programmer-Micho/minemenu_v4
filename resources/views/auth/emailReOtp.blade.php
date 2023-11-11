@@ -82,42 +82,23 @@
         </a>
     </div>
     <div class="container">
-        <form id="loginForm" action="{{route('verifyEmailOTP')}}" method="post">
+        <form id="loginForm" action="{{route('updateReEmailOTP', ['id' => $id]) }}" method="post">
             @csrf
             <h1>{{__('Email OTP Code')}}</h1>
             <div class="form-content">
                 <div class="form-group">
-                    <label for="attention">{{__('Is That Your Email?')}}</label>
-                    <input type="email" name="email" value="{{ $email }}" readonly>
-                </div>
-                <div id="choice" class="form-group">
-                    {{-- <button id="no" type="button" class="button" style="margin-top: 3px; width: 49%;">No!</button> --}}
-                    <a href="{{ route('goReEmailOTP', ['id' => $id]) }}">
-                        <button id="no" type="button"  class="button" style="margin-top: 3px; width: 49%; color: #ffffff;">No!</button>
-                    </a>
-                    <a href="{{ route('resendEmailOTP', ['id' => $id,'email' => $email]) }}">
-                        <button id="yes" type="button"  class="button" style="margin-top: 3px; width: 49%; color: #ffffff;">Yes!</button>
-                    </a>
+                    <label for="attention">{{__('Enter Your Email')}}</label>
+                    <input type="email" name="email" required>
                 </div>
 
-                <div id="otp-show" class="hide">
-                    <div class="form-group">
-                        <label for="entered_otp_code">Enter OTP Code:</label>
+                <div>
+                    {{-- <div class="form-group">
+                        <label for="entered_otp_code">Enter New Email Address:</label>
                         <input id="entered_email_otp_code" type="text" class="form-control" name="entered_email_otp_code" required>
-                    </div>
+                    </div> --}}
                     
                     <br>
-                    <p style="font-size: 16px;">
-                        <span>Please Check Your Email</span><br>
-                        <span id="countdown">Wait for 1 minute before clicking again.</span>
-                        <br>
-                        <span id="resendLink" style="display:none;">
-                            Not received the code? <a href="{{ route('resendEmailOTP', ['id' => $id,'email' => $email]) }}" style="color: #cc0022;"><b>Send Code Again</b></a>
-                        </span>
-                    </p>
-                    <button type="submit" class="button">
-                        Submit
-                    </button>
+                    <button type="submit" class="button">Submit</button>
                 </div>
                 <br />
                 <div class="signup-message">
@@ -129,7 +110,7 @@
 </body>
 <script src="{{asset('assets/dashboard/vendor/jquery/jquery.min.js')}}"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script>
+{{-- <script>
     $(function () {
         if(localStorage.getItem('clock')){
             if(localStorage.getItem('clock') === 'true') {
@@ -179,8 +160,50 @@
             }, 1000);
         }
     });
-</script>
+</script> --}}
+<script>
+    $(function () {
+        var countdownData = JSON.parse(localStorage.getItem('countdownData')) || { remainingTime: 0 };
 
+        if (localStorage.getItem('clock') === 'true') {
+            $("#otp-show").show();
+            $("#choice").hide();
+        }
+
+        if (countdownData.remainingTime > 0) {
+            startCountdown(countdownData.remainingTime);
+        }
+
+        $("#yes").on('click', function () {
+            $("#otp-show").show();
+            $("#choice").hide();
+            localStorage.setItem('clock', 'true');
+            startCountdown(60); // Start a new countdown (60 seconds)
+        });
+
+        function startCountdown(initialTime) {
+            var countdown = initialTime;
+            var countdownInterval = setInterval(function () {
+                countdown--;
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    $("#countdown").hide();
+                    $("#resendLink").show();
+                } else {
+                    $("#countdown-number").text(countdown);
+                    $("#countdown").show();
+                    $("#resendLink").hide();
+
+                    var countdownData = {
+                        remainingTime: countdown,
+                        timestamp: Date.now()
+                    };
+                    localStorage.setItem('countdownData', JSON.stringify(countdownData));
+                }
+            }, 1000);
+        }
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var alertData = {!! json_encode(session("alert")) !!};

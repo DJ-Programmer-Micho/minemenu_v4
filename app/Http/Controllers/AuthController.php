@@ -2,24 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Mainmenu;
-use App\Models\Mainmenu_Translator;
-use App\Models\Categories;
-use App\Models\Categories_Translator;
 use App\Models\Food;
-use App\Models\Food_Translator;
+use App\Models\User;
 use Twilio\Rest\Client;
+use App\Models\Mainmenu;
 use App\Rules\ReCaptcha;
+use App\Events\AuthAlert;
 use App\Otp\SinchService;
+use App\Models\Categories;
 use Illuminate\Http\Request;
+use App\Models\Food_Translator;
 use App\Mail\EmailVerificationMail;
+use App\Models\Mainmenu_Translator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Categories_Translator;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\Owner\TelegramRegisterNew;
-
+use PhpParser\Node\Stmt\TryCatch;
 
 class AuthController extends Controller
 {
@@ -175,14 +177,44 @@ class AuthController extends Controller
             }
         }
                  
-        return redirect()->route('goEmailOTP', ['email' => $user->email]);
+        return redirect()->route('goEmailOTP', ['id' => $user->id, 'email' => $user->email]);
     } // END Function (Register)
 
-    public function goEmailOTP($email){
-        return view('auth.emailOtp',['email' => $email]);
+    public function goEmailOTP($uid, $email){
+        return view('auth.emailOtp',['id' => $uid, 'email' => $email]);
     } // END Function (Register)
+
+    public function goReEmailOTP($uid){
+        
+        return view('auth.emailReOtp',['id' => $uid]);
+    } // END Function (Register)
+
+    public function updateReEmailOTP($uid, Request $request){
+    // dd($request->all());
+    $user = User::find($uid);
+    if (!$user) {
+        return abort(404); // Or handle the case where the user is not found
+    }
+        $new_email = $request->email;
+
+        if(User::where('email', $new_email)->exists()) {
+            return redirect()->back()->with('alert', [
+                'type' => 'error',
+                'message' => __('Check Your Email Spelling, Or Email Has been Alreary Registerd'),
+            ]);
+        } else {
+            $user->email = $new_email;
+            $user->save();
+            
+            return redirect()->route('goEmailOTP', ['id' => $user->id, 'email' => $new_email])->with('alert', [
+                'type' => 'success',
+                'message' => __('Email Updated!'),
+            ]);
+        }
+
+    } // END Function (update email)
     
-    public function resendEmailOTP($email){
+    public function resendEmailOTP($id, $email){
         $user = User::where('email', $email)->first();
         if ($user) {
             $otpCodeEmail = rand(100000, 999999);
@@ -191,8 +223,11 @@ class AuthController extends Controller
             $user->save();
             // Send OTP via email (Mailtrap)
             Mail::to($user->email)->send(new EmailVerificationMail($otpCodeEmail));
-    
-            return redirect()->route('goEmailOTP', ['email' => $user->email]);
+            session()->flash('alert', [
+                'type' => 'success',
+                'message' => __('PIN CODE SENT!, Please Check Your Email'),
+            ]);
+            return redirect()->route('goEmailOTP', ['id' => $id, 'email' => $user->email]);
         } else {
             return redirect()->back()->with('error', 'User not found.');
         }
@@ -217,7 +252,10 @@ class AuthController extends Controller
 
             return redirect()->route('goOTP', ['id' => $user->id,'phone' => $user->profile->phone]);
         } else {
-            dd('wrong');
+            return redirect()->back()->with('alert', [
+                'type' => 'error',
+                'message' => __('Wrong Code!'),
+            ]);
         }
     }
 
@@ -232,7 +270,10 @@ class AuthController extends Controller
             $response = SinchService::sendOTP($phone);
             // dd($response,$phone);
             if ($response->successful()) {
-                return redirect()->route('goOTP', ['id'=> $id, 'phone' => $phone]);
+                return redirect()->route('goOTP', ['id'=> $id, 'phone' => $phone])->with('alert', [
+                    'type' => 'success',
+                    'message' => __('PIN SENT!, Please check your SMS'),
+                ]);
             } else {
                 $clean_phone_number = preg_replace('/[^0-9+]/', '', $user->profile->phone);
                 if (strpos($clean_phone_number, '+') === 0) {
@@ -242,9 +283,16 @@ class AuthController extends Controller
                 }
                 $s_response = SinchService::sendOTP($final_clean_phone_number);
                 if($response->successful()) {
-                    return redirect()->route('goOTP', ['id'=> $id, 'phone' => $phone]);
+                    return redirect()->route('goOTP', ['id'=> $id, 'phone' => $phone])->with('alert', [
+                        'type' => 'success',
+                        'message' => __('PIN SENT!, Please check your SMS'),
+                    ]);
                 } else {
-                    return $s_response;
+                    // return $s_response;
+                    return redirect()->back()->with('alert', [
+                        'type' => 'error',
+                        'message' => __('Something Went Wrong!, Please check your phone number or the Phone Number is Already Registered'),
+                    ]);
                 }
             }  
         }
@@ -262,10 +310,17 @@ class AuthController extends Controller
             $user->phone_verified = 1;
             $user->save();
             auth()->login($user);
-            return redirect('/rest')->with('success', 'Registration completed.');
+            return redirect('/rest')
+            ->with('alert', [
+                'type' => 'success',
+                'message' => __('Registration completed.'),
+            ]);
         } else {
             // dd('error');
-            return redirect()->back()->with('error', 'Invalid phone OTP code.');
+            return redirect()->back()->with('alert', [
+                'type' => 'error',
+                'message' => __('Wrong Code!'),
+            ]);
         }
     }
 

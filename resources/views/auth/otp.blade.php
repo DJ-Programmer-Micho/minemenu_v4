@@ -324,4 +324,13 @@
         }
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var alertData = {!! json_encode(session("alert")) !!};
+
+        if (alertData) {
+            toastr[alertData.type](alertData.message);
+        }
+    });
+</script>
 </html>

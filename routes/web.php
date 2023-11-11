@@ -45,8 +45,10 @@ Route::middleware([LocalizationMainMiddleware::class])->group(function () {
     Route::get('/register',[AuthController::class,'register'])->name('register');
     Route::post('/register',[AuthController::class,'signup'])->name('signup');
     // Email Verification
-    Route::get('/email-verify-otp/{email}', [AuthController::class,'goEmailOTP'])->name('goEmailOTP');
-    Route::get('/resend-verify-otp/{email}', [AuthController::class,'resendEmailOTP'])->name('resendEmailOTP');
+    Route::get('/email-verify-otp/{id}/{email}', [AuthController::class,'goEmailOTP'])->name('goEmailOTP');
+    Route::get('/update-email-otp/{id}', [AuthController::class,'goReEmailOTP'])->name('goReEmailOTP');
+    Route::post('/update-email-otp-ser/{id}', [AuthController::class,'updateReEmailOTP'])->name('updateReEmailOTP');
+    Route::get('/resend-verify-otp/{id}/{email}', [AuthController::class,'resendEmailOTP'])->name('resendEmailOTP');
     Route::post('/email-verify-otp', [AuthController::class,'verifyEmailOTP'])->name('verifyEmailOTP');
     // Phone Verification
     Route::get('/verify-otp/{id}/{phone}', [AuthController::class,'goOTP'])->name('goOTP');

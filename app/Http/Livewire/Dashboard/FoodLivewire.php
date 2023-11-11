@@ -5,13 +5,14 @@ namespace App\Http\Livewire\Dashboard;
 use App\Models\Food;
 use Livewire\Component;
 use App\Models\Categories;
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Models\Food_Translator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Notification;
 use App\Notifications\Rest\TelegramFoodNew;
+use Illuminate\Support\Facades\Notification;
 use App\Notifications\Rest\TelegramFoodShort;
 use App\Notifications\Rest\TelegramFoodDelete;
 use App\Notifications\Rest\TelegramFoodUpdate;
@@ -132,7 +133,11 @@ class FoodLivewire extends Component
                     $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
 
                     if($this->imgReader){
-                        Storage::disk('s3')->delete($this->imgReader);
+                        if (Str::startsWith($this->imgReader, 'mine-setting/')) {
+                            //Do nothing
+                        } else {
+                            Storage::disk('s3')->delete($this->imgReader);
+                        }
                         Storage::disk('s3')->put($this->objectName, $croppedImage);
                     } else {
                         Storage::disk('s3')->put($this->objectName, $croppedImage);
@@ -280,7 +285,11 @@ class FoodLivewire extends Component
                     $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
 
                     if( $this->imgReader){
-                        Storage::disk('s3')->delete($this->imgReader);
+                        if (Str::startsWith($this->imgReader, 'mine-setting/')) {
+                            //Do nothing
+                        } else {
+                            Storage::disk('s3')->delete($this->imgReader);
+                        }
                         Storage::disk('s3')->put($this->objectName, $croppedImage);
                     } else {
                         Storage::disk('s3')->put($this->objectName, $croppedImage);
@@ -588,7 +597,11 @@ class FoodLivewire extends Component
             if ($this->confirmDelete && $this->foodNameToDelete === $this->showTextTemp) {
                 $foodDelete = Food::find($this->food_selected_id_delete->id)->first();
                 Food::find($this->food_selected_id_delete->id)->delete();
-                Storage::disk('s3')->delete($this->food_selected_id_delete->img);
+                if (Str::startsWith($this->food_selected_id_delete->img, 'mine-setting/')) {
+                    //Do nothing
+                } else {
+                    Storage::disk('s3')->delete($this->food_selected_id_delete->img);
+                }
                 $this->dispatchBrowserEvent('close-modal');
                 $this->resetInput();
                 $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Food Deleted Successfully')]);

@@ -130,13 +130,22 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <script>
             window.addEventListener('alert', event => { 
-                         toastr[event.detail.type](event.detail.message, 
-                         event.detail.title ?? ''), toastr.options = {
-                                "closeButton": true,
-                                "progressBar": true,
-                            }
-                        });
-            </script>
+                    toastr[event.detail.type](event.detail.message, 
+                    event.detail.title ?? ''), toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true,
+                    }
+                });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var alertData = {!! json_encode(session("alert")) !!};
+
+                if (alertData) {
+                    toastr[alertData.type](alertData.message);
+                }
+            });
+        </script>
         @livewireScripts
         @yield('main_script')
         <form id="languageForm" action="{{ route('setLocale') }}" method="post">
