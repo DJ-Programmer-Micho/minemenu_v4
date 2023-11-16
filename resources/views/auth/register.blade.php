@@ -49,14 +49,6 @@
 	cursor: pointer;
 	font-size: 18px;
   }
-
-  #declineBtn{
-
-
-
-  }
-
-  
 </style>
 
 @endsection
