@@ -117,9 +117,9 @@ class AuthController extends Controller
     public function signup(){
         $tele_id = env('TELEGRAM_GROUP_ID') ?? null;
         $formFeilds =  request()->validate([
-            'name'=> 'required|string|unique:users',
+            'name'=> 'required|string|unique:users|regex:/^[a-z]+$/',
             'email'=> 'required|string|email|unique:users',
-            'password'=> 'required|min:6',
+            'password'=> 'required|min:8',
             
             // 'g-recaptcha-response' => ['required', new ReCaptcha],
 
@@ -133,8 +133,9 @@ class AuthController extends Controller
         [
             'email.unique' => 'This Email Is Already Registered',
             'name.unique' => 'This Name Is Taken',
+            'name.regex' => 'It Should Be small letters without spaces',
             'phone.unique' => 'This Phone Number Is Already Signed',
-            'password.min' => 'Password Must Be 6+ Charechters',
+            'password.min' => 'Password Must Be 8+ Charechters',
         ]
     );
 // dd($formFeilds['phone']);
@@ -240,97 +241,97 @@ class AuthController extends Controller
 //////////////////////////////
 // START OF WITH PHONE NUMBER AUTH OTP
 //////////////////////////////
-    // // RegisterController.php
-    // public function verifyEmailOTP(Request $request)
-    // {
-    //     // Verify email OTP code...
-    //     $enteredEmailOTP = $request->input('entered_email_otp_code');
-    //     $user = User::where('email', $request->input('email'))->first();
+    // RegisterController.php
+    public function verifyEmailOTP(Request $request)
+    {
+        // Verify email OTP code...
+        $enteredEmailOTP = $request->input('entered_email_otp_code');
+        $user = User::where('email', $request->input('email'))->first();
 
-    //     if ($user && $enteredEmailOTP == $user->email_otp_code) {
-    //         $user->email_verified = 1;
-    //         $user->save();
+        if ($user && $enteredEmailOTP == $user->email_otp_code) {
+            $user->email_verified = 1;
+            $user->save();
 
-    //     //     $clean_phone_number = preg_replace('/[^0-9+]/', '', $user->profile->phone);
-    //     // if (strpos($clean_phone_number, '+') === 0) {
-    //     //     $final_clean_phone_number = '00' . substr($clean_phone_number, 1);
-    //     // } else {
-    //     //     $final_clean_phone_number = $clean_phone_number;
-    //     // }
+        //     $clean_phone_number = preg_replace('/[^0-9+]/', '', $user->profile->phone);
+        // if (strpos($clean_phone_number, '+') === 0) {
+        //     $final_clean_phone_number = '00' . substr($clean_phone_number, 1);
+        // } else {
+        //     $final_clean_phone_number = $clean_phone_number;
+        // }
 
-    //         return redirect()->route('goOTP', ['id' => $user->id,'phone' => $user->profile->phone]);
-    //     } else {
-    //         return redirect()->back()->with('alert', [
-    //             'type' => 'error',
-    //             'message' => __('Wrong Code!'),
-    //         ]);
-    //     }
-    // }
+            return redirect()->route('goOTP', ['id' => $user->id,'phone' => $user->profile->phone]);
+        } else {
+            return redirect()->back()->with('alert', [
+                'type' => 'error',
+                'message' => __('Wrong Code!'),
+            ]);
+        }
+    }
 
-    // public function goOTP($id, $phone){
-    //     return view('auth.otp',['id'=> $id, 'phone' => $phone]);
-    // } // END Function (Register)
+    public function goOTP($id, $phone){
+        return view('auth.otp',['id'=> $id, 'phone' => $phone]);
+    } // END Function (Register)
 
-    // public function resendPhoneOTP($id, $phone){
-    //     $user = User::where('id', $id)->first();
-    //     if ($user) {
-    //         // Send OTP via Sinch
-    //         $response = SinchService::sendOTP($phone);
-    //         // dd($response,$phone);
-    //         if ($response->successful()) {
-    //             return redirect()->route('goOTP', ['id'=> $id, 'phone' => $phone])->with('alert', [
-    //                 'type' => 'success',
-    //                 'message' => __('PIN SENT!, Please check your SMS'),
-    //             ]);
-    //         } else {
-    //             $clean_phone_number = preg_replace('/[^0-9+]/', '', $user->profile->phone);
-    //             if (strpos($clean_phone_number, '+') === 0) {
-    //                 $final_clean_phone_number = '00' . substr($clean_phone_number, 1);
-    //             } else {
-    //                 $final_clean_phone_number = $clean_phone_number;
-    //             }
-    //             $s_response = SinchService::sendOTP($final_clean_phone_number);
-    //             if($response->successful()) {
-    //                 return redirect()->route('goOTP', ['id'=> $id, 'phone' => $phone])->with('alert', [
-    //                     'type' => 'success',
-    //                     'message' => __('PIN SENT!, Please check your SMS'),
-    //                 ]);
-    //             } else {
-    //                 // return $s_response;
-    //                 return redirect()->back()->with('alert', [
-    //                     'type' => 'error',
-    //                     'message' => __('Something Went Wrong!, Please check your phone number or the Phone Number is Already Registered'),
-    //                 ]);
-    //             }
-    //         }  
-    //     }
-    // }
+    public function resendPhoneOTP($id, $phone){
+        $user = User::where('id', $id)->first();
+        if ($user) {
+            // Send OTP via Sinch
+            $response = SinchService::sendOTP($phone);
+            // dd($response,$phone);
+            if ($response->successful()) {
+                return redirect()->route('goOTP', ['id'=> $id, 'phone' => $phone])->with('alert', [
+                    'type' => 'success',
+                    'message' => __('PIN SENT!, Please check your SMS'),
+                ]);
+            } else {
+                $clean_phone_number = preg_replace('/[^0-9+]/', '', $user->profile->phone);
+                if (strpos($clean_phone_number, '+') === 0) {
+                    $final_clean_phone_number = '00' . substr($clean_phone_number, 1);
+                } else {
+                    $final_clean_phone_number = $clean_phone_number;
+                }
+                $s_response = SinchService::sendOTP($final_clean_phone_number);
+                if($response->successful()) {
+                    return redirect()->route('goOTP', ['id'=> $id, 'phone' => $phone])->with('alert', [
+                        'type' => 'success',
+                        'message' => __('PIN SENT!, Please check your SMS'),
+                    ]);
+                } else {
+                    // return $s_response;
+                    return redirect()->back()->with('alert', [
+                        'type' => 'error',
+                        'message' => __('Something Went Wrong!, Please check your phone number or the Phone Number is Already Registered'),
+                    ]);
+                }
+            }  
+        }
+    }
 
-    // public function verifyOTP(Request $request)
-    // {
-    //     $enteredOTP = $request->input('entered_otp_code');
-    //     $user = User::where('id', $request->input('id'))->first();
-    //     $toNumber = $user->profile->phone;
+    public function verifyOTP(Request $request)
+    {
+        $enteredOTP = $request->input('entered_otp_code');
+        $user = User::where('id', $request->input('id'))->first();
+        $toNumber = $user->profile->phone;
 
-    //     $response = SinchService::verifyOTP($toNumber, $enteredOTP);
+        $response = SinchService::verifyOTP($toNumber, $enteredOTP);
 
-    //     if ($response->successful()) {
-    //         $user->phone_verified = 1;
-    //         $user->save();
-    //         auth()->login($user);
-    //         return redirect('/rest')
-    //         ->with('alert', [
-    //             'type' => 'success',
-    //             'message' => __('Registration completed.'),
-    //         ]);
-    //     } else {
-    //         // dd('error');
-    //         return redirect()->back()->with('alert', [
-    //             'type' => 'error',
-    //             'message' => __('Wrong Code!'),
-    //         ]);
-    //     }
-    // }
+        if ($response->successful()) {
+            $user->phone_verified = 1;
+            $user->save();
+            auth()->login($user);
+            return redirect('/rest')
+            ->with('alert', [
+                'type' => 'success',
+                'message' => __('Registration completed.'),
+            ]);
+        } else {
+            // dd('error');
+            return redirect()->back()->with('alert', [
+                'type' => 'error',
+                'message' => __('Wrong Code!'),
+            ]);
+        }
+    }
 //////////////////////////////
 // END OF WITH PHONE NUMBER AUTH OTP
 //////////////////////////////
@@ -339,30 +340,30 @@ class AuthController extends Controller
 // START OF WITHOUT PHONE NUMBER AUTH OTP
 /////////////////////////////////
 
-public function verifyEmailOTP(Request $request)
-{
-    // Verify email OTP code...
-    $enteredEmailOTP = $request->input('entered_email_otp_code');
-    $user = User::where('email', $request->input('email'))->first();
+// public function verifyEmailOTP(Request $request)
+// {
+//     // Verify email OTP code...
+//     $enteredEmailOTP = $request->input('entered_email_otp_code');
+//     $user = User::where('email', $request->input('email'))->first();
 
-    if ($user && $enteredEmailOTP == $user->email_otp_code) {
-        $user->email_verified = 1;
-        $user->phone_verified = 1;
-        $user->save();
-        auth()->login($user);
-        return redirect('/rest')
-        ->with('alert', [
-            'type' => 'success',
-            'message' => __('Registration completed.'),
-        ]);
-    } else {
-        // dd('error');
-        return redirect()->back()->with('alert', [
-            'type' => 'error',
-            'message' => __('Wrong Code!'),
-        ]);
-    }
-}
+//     if ($user && $enteredEmailOTP == $user->email_otp_code) {
+//         $user->email_verified = 1;
+//         $user->phone_verified = 1;
+//         $user->save();
+//         auth()->login($user);
+//         return redirect('/rest')
+//         ->with('alert', [
+//             'type' => 'success',
+//             'message' => __('Registration completed.'),
+//         ]);
+//     } else {
+//         // dd('error');
+//         return redirect()->back()->with('alert', [
+//             'type' => 'error',
+//             'message' => __('Wrong Code!'),
+//         ]);
+//     }
+// }
 /////////////////////////////////
 // END OF WITHOUT PHONE NUMBER AUTH OTP
 /////////////////////////////////

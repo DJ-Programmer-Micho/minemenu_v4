@@ -96,7 +96,7 @@
           <span class="text-danger">{{__("$message")}}</span>
           @enderror
         </label>
-        <input type="text" class="form-control" id="inputRestName" placeholder="" name="name" value="{{old('name')}}" required  pattern="^\S*$">
+        <input type="text" class="form-control" id="inputRestName" placeholder="" name="name" value="{{ old('name') }}" required pattern="[a-z]+">
       </div>
     </div>
 
