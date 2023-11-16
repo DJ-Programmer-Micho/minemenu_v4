@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Food;
 use App\Models\User;
 use App\Models\Mainmenu;
-use App\Rules\ReCaptcha;
-use App\Events\AuthAlert;
 use App\Otp\SinchService;
 use App\Models\Categories;
 use Illuminate\Http\Request;
@@ -14,13 +12,10 @@ use App\Models\Food_Translator;
 use App\Mail\EmailVerificationMail;
 use App\Models\Mainmenu_Translator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Categories_Translator;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\Owner\TelegramRegisterNew;
-use PhpParser\Node\Stmt\TryCatch;
 
 class AuthController extends Controller
 {
@@ -196,7 +191,6 @@ class AuthController extends Controller
         return abort(404); // Or handle the case where the user is not found
     }
         $new_email = $request->email;
-
         if(User::where('email', $new_email)->exists()) {
             return redirect()->back()->with('alert', [
                 'type' => 'error',
@@ -211,7 +205,6 @@ class AuthController extends Controller
                 'message' => __('Email Updated!'),
             ]);
         }
-
     } // END Function (update email)
     
     public function resendEmailOTP($id, $email){
@@ -486,13 +479,6 @@ class AuthController extends Controller
                 
                }
            }
-           
-        
-        
-    
-        
-           
-        // }
     }
 }
 
