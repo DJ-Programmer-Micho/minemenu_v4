@@ -8,66 +8,22 @@
 {{-- <link rel="stylesheet" href="{{asset('assets/general/lib/country_select/countrySelect.min.css')}}"> --}}
 <link rel="stylesheet" href="{{asset('assets/general/lib/country_select/country_select.css')}}">
 <style>
-     .modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .modal-content {
-	background-color: #fff;
-	border-radius: 10px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-	margin: 7% auto;
-	padding: 20px;
-	width: 80%;
-	height: 80%;
-	overflow: scroll;
-  }
-  
-  .modal-header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding-bottom: 20px;
-	border-bottom: 1px solid #ccc;
-  }
-  
-  .modal-footer {
-	display: flex;
-	justify-content: flex-end;
-	padding: 20px;
-  }
-  
-  .modal-close {
-	cursor: pointer;
-	font-size: 18px;
+    .modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.5); }
+  .modal-content { background-color: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26); margin: 7% auto; padding: 20px; width: 80%; height: 80%; overflow: scroll; }
+  .modal-header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 20px; border-bottom: 1px solid #ccc; }
+  .modal-footer { display: flex; justify-content: flex-end; padding: 20px; }
+  .modal-close { cursor: pointer; font-size: 18px;
   }
 </style>
-
 @endsection
 
 @section('main_content')
-
 <div class="marg"></div>
-
 <div class="container">
-
-
-
-
   <h2 class="text-center mb-5">{{__("Reserve Demo Menu")}}</h2>
-
   <div class="my-text mb-5">
     <p style="font-size: 14px">{{__("Already have an account?")}}<a href="/rest"> {{__("Sign in now")}}</a></p>
   </div>
-
   @if (session('success'))
   <p class="alert alert-success ar my-text">{{__("Thank you For Reserving Our Menu We'll Reach You Very Soon")}}</p>
   @endif

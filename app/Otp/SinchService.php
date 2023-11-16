@@ -1,9 +1,7 @@
 <?php
 
 namespace App\Otp;
-
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Config;
 
 class SinchService
 {

@@ -476,7 +476,6 @@ class AuthController extends Controller
                         'lang' => $foodsData[($i * 8) + ($j * 4) + $k][2],
                     ]);
                 }
-                
                }
            }
     }
