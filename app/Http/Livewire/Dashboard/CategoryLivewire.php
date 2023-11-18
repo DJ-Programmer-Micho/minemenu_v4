@@ -246,6 +246,7 @@ class CategoryLivewire extends Component
             $this->status = $menu_edit->status;
             $this->priority = $menu_edit->priority;
             $this->imgReader = $menu_edit->img;
+            dd( $this->imgReaderCover);
             $this->imgReaderCover = $menu_edit->cover ?? null;
 
             $this->old_category_data = [

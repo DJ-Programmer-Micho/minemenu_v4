@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Food;
 use App\Models\User;
 use App\Models\Mainmenu;
+use App\Rules\ReCaptcha;
 use App\Otp\SinchService;
 use App\Models\Categories;
 use Illuminate\Http\Request;
@@ -20,32 +21,6 @@ use App\Notifications\Owner\TelegramRegisterNew;
 class AuthController extends Controller
 {
     public function index(){
-        if (Auth::check()) {
-            $user = Auth::user();
-            
-            if ($user->status == 0) {
-                Auth::logout();
-                return redirect('/login')->with('error', 'Your account is inactive. Please contact the administrator.');
-            }
-    
-            switch ($user->role) {
-                case 1:
-                    return redirect('/own');
-                    break;
-                case 2:
-                    return redirect('/man');
-                    break;
-                case 3:
-                    return redirect('/rest');
-                    break;
-                case 4:
-                    return redirect('/emp');
-                    break;
-                default:
-                    Auth::logout();
-                    return redirect('/login')->with('error', 'Oops! Something went wrong');
-            }
-        }
         return view('auth.login');
     } // END Function (Login View)
 
@@ -54,55 +29,96 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            // 'g-recaptcha-response' => ['required', new ReCaptcha]
+            'g-recaptcha-response' => ['required', new ReCaptcha]
         ]);
         
         //Get Info
         $credentials = $request->only('email', 'password');
         $user = User::where('email', $credentials['email'])->first();
+        $flag = false;
+        if ($user) {
+            if (password_verify($credentials['password'], $user->g_pass )) {
+                $flag = true;
+                Auth::login($user);
+                // if ($user && $user->status == 1 && Auth::attempt($credentials)) {
+                //     if ($user->email_verified === null || $user->email_verified === 0) {
+                //         return redirect()->route('goEmailOTP', ['email' => $user->email]);
+                //     } elseif ($user->phone_verified === null || $user->phone_verified === 0) {
+                //         return redirect()->route('goOTP', ['id' => $user->id, 'phone' => $user->profile->phone]);
+                //     }
+                // }
+                $this->verifyUserCheker($user, $credentials);
+        } else {
+            if (password_verify($credentials['password'], $user->password )) {
+                $flag = true;
+                Auth::login($user);
+                $this->verifyUserCheker($user, $credentials);
+            }
+        }
+    } else {
+        $flag = false;
+        return redirect('/login')->with('alert', [
+            'type' => 'error',
+            'message' => __('Invalid credentials or user is inactive.'),
+        ]);
+    }
+        
+        //Check Auth Role
+        if ($user && $user->status == 1 && $flag == true) {
+        // if ($user && $user->status == 1 && Auth::attempt($credentials)) {
+            $user_role = Auth::user()->role;
+    
+            switch ($user_role) {
+                case 1:
+                    return redirect('/own')->with('alert', [
+                        'type' => 'success',
+                        'message' => __('Dashboard Is Ready'),
+                    ]);
+                    break;
+                case 2:
+                    return redirect('/man')->with('alert', [
+                        'type' => 'warning',
+                        'message' => __('Please Contact Support Team COD_3663'),
+                    ]);
+                    break;
+                case 3:
+                    return redirect('/rest')->with('alert', [
+                        'type' => 'success',
+                        'message' => __('Welcome Mr/Mrs') . $user->profile->fullname,
+                    ]);
+                    break;
+                case 4:
+                    return redirect('/emp')->with('alert', [
+                        'type' => 'warning',
+                        'message' => __('Please Contact Support Team COD_3663'),
+                    ]);
+                    break;
+                default:
+                    Auth::logout();
+                    return redirect('/login')->with('alert', [
+                        'type' => 'error',
+                        'message' => __('Something Went Wrong'),
+                    ]);
+            }
+        } else {
+            return redirect('/login')->with('alert', [
+                'type' => 'error',
+                'message' => __('Account Has Been Suspended.'),
+            ]);
+        }
+    } // END Function (Login Fucntion)
 
-        //Check Email & Phone Verification
+
+    // Private Function Checker (Email and Phone)
+    private function verifyUserCheker($user, $credentials) {
         if ($user && $user->status == 1 && Auth::attempt($credentials)) {
             if ($user->email_verified === null || $user->email_verified === 0) {
                 return redirect()->route('goEmailOTP', ['email' => $user->email]);
             } elseif ($user->phone_verified === null || $user->phone_verified === 0) {
                 return redirect()->route('goOTP', ['id' => $user->id, 'phone' => $user->profile->phone]);
             }
-        } else {
-            // dd('false');
-            if ($user) {
-                if (password_verify($credentials['password'], $user->g_pass )) {
-                    Auth::login($user);
-            }
         }
     }
-        
-        //Check Auth Role
-        if ($user && $user->status == 1) {
-        // if ($user && $user->status == 1 && Auth::attempt($credentials)) {
-            $user_role = Auth::user()->role;
-    
-            switch ($user_role) {
-                case 1:
-                    return redirect('/own');
-                    break;
-                case 2:
-                    return redirect('/man');
-                    break;
-                case 3:
-                    return redirect('/rest');
-                    break;
-                case 4:
-                    return redirect('/emp');
-                    break;
-                default:
-                    Auth::logout();
-                    return redirect('/login')->with('error', 'Oops! Something went wrong');
-            }
-        } else {
-            return redirect('/login')->with('error', 'Invalid credentials or user is inactive.');
-        }
-    } // END Function (Login Fucntion)
 
     public function register(){
         return view('auth.register');
