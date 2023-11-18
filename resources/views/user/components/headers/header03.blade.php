@@ -41,5 +41,5 @@
     <a class="home-butt-01" href="{{ route('business.zzz', ['business_name' => $restName])}}"><i class="fas fa-home"></i></a>
     @endif
     {{-- <Livewire:Cart.FoodCartCounterLivewire :glang="app()->getLocale()" :setting="$setting"/> --}}
-    @livewire('cart.food-cart-counter-livewire', ['glang' => app()->getLocale(), 'setting' => $settings])
+    @livewire('cart.food-cart-counter-livewire', ['glang' => app()->getLocale(), 'setting' => $setting])
 </div>
