@@ -268,7 +268,7 @@ class FoodLivewire extends Component
     {
         if($this->objectName == null){
             $this->objectName = $this->imgReader;
-            $this->tempImg = $this->imgReader;
+            // $this->tempImg = $this->imgReader;
         } 
         // $this->tempImg =  $this->objectName;
         
@@ -295,8 +295,8 @@ class FoodLivewire extends Component
                         Storage::disk('s3')->put($this->objectName, $croppedImage);
                     }
                 } else {
-                    $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
-                    return;
+                    // $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
+                    // return;
                 }
             } catch (\Exception $e) {
                 $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Try Reload the Page: ' . $e->getMessage())]);

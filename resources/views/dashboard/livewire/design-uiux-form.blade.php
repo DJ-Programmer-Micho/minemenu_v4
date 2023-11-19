@@ -3,25 +3,25 @@
     $designGroups = [
         [
             'name' => 'navbar',
-            'group_design' => __('Design Group For Navbar'),
+            'group_design' => __('Group Design For Navbar'),
             'designs' => [
-                ['id' => '01', 'name' => 'Navbar N1', 'image' => app('cloudfront').'mine-setting/Capture.PNG'],
-                ['id' => '02', 'name' => 'Navbar N1', 'image' => app('cloudfront').'mine-setting/IMG_9633.PNG'],
-                ['id' => '03', 'name' => 'Navbar N1', 'image' => app('cloudfront').'mine-setting/phone.png'],
+                ['id' => '01', 'name' => 'Navbar N1', 'image' => app('cloudfront').'mine-setting/ui-ux/Navbar_N1.jpg'],
+                ['id' => '02', 'name' => 'Navbar N1', 'image' => app('cloudfront').'mine-setting/ui-ux/Navbar_N2.jpg'],
+                ['id' => '03', 'name' => 'Navbar N1', 'image' => app('cloudfront').'mine-setting/ui-ux/Navbar_N3.jpg'],
             ],
         ],
         [
             'name' => 'header',
-            'group_design' => __('Design Group For Header'),
+            'group_design' => __('Group Design For Header'),
             'designs' => [
-                ['id' => '01', 'name' => 'Header H1', 'image' => app('cloudfront').'mine-setting/Capture.PNG'],
-                ['id' => '02', 'name' => 'Header H2', 'image' => app('cloudfront').'mine-setting/IMG_9633.PNG'],
-                ['id' => '03', 'name' => 'Header H3', 'image' => app('cloudfront').'mine-setting/phone.png'],
+                ['id' => '01', 'name' => 'Header H1', 'image' => app('cloudfront').'mine-setting/ui-ux/Header_H1.jpg'],
+                ['id' => '02', 'name' => 'Header H2', 'image' => app('cloudfront').'mine-setting/ui-ux/Header_H2.jpg'],
+                ['id' => '03', 'name' => 'Header H3', 'image' => app('cloudfront').'mine-setting/ui-ux/Header_H3.jpg'],
             ],
         ],
         [
             'name' => 'offer',
-            'group_design' => __('Design Group For Offer'),
+            'group_design' => __('Group Design For Offer'),
             'designs' => [
                 ['id' => '01', 'name' => 'Offer O1', 'image' => app('cloudfront').'mine-setting/ui-ux/Ofr01.jpg'],
                 ['id' => '02', 'name' => 'Offer O2', 'image' => app('cloudfront').'mine-setting/ui-ux/Ofr02.jpg'],
@@ -31,15 +31,15 @@
         ],
         [
             'name' => 'menu',
-            'group_design' => __('Design Group For Menu'),
+            'group_design' => __('Group Design For Menu'),
             'designs' => [
-                ['id' => '01', 'name' => 'Menu M1', 'image' => app('cloudfront').'mine-setting/Capture.PNG'],
-                ['id' => '02', 'name' => 'Menu M2', 'image' => app('cloudfront').'mine-setting/IMG_9633.PNG'],
+                ['id' => '01', 'name' => 'Menu M1', 'image' => app('cloudfront').'mine-setting/ui-ux/Menu_M1.jpg'],
+                ['id' => '02', 'name' => 'Menu M2', 'image' => app('cloudfront').'mine-setting/ui-ux/Menu_M2.jpg'],
             ],
         ],
         [
             'name' => 'category',
-            'group_design' => __('Design Group For Category'),
+            'group_design' => __('Group Design For Category'),
             'designs' => [
                 ['id' => '01', 'name' => 'Category C1', 'image' => app('cloudfront').'mine-setting/ui-ux/cat01.jpg'],
                 ['id' => '02', 'name' => 'Category C2', 'image' => app('cloudfront').'mine-setting/ui-ux/cat02.jpg'],
@@ -52,7 +52,7 @@
         ],
         [
             'name' => 'food_list',
-            'group_design' => __('Design Group For Food List'),
+            'group_design' => __('Group Design For Food List'),
             'designs' => [
                 ['id' => '01', 'name' => 'Food F1', 'image' => app('cloudfront').'mine-setting/ui-ux/food01.jpg'],
                 ['id' => '02', 'name' => 'Food F2', 'image' => app('cloudfront').'mine-setting/ui-ux/food02.jpg'],
@@ -62,22 +62,22 @@
         ],
         [
             'name' => 'food_detail',
-            'group_design' => __('Design Group For Food Detail'),
+            'group_design' => __('Group Design For Food Detail'),
             'designs' => [
-                ['id' => '01', 'name' => 'Detail FD1', 'image' => app('cloudfront').'mine-setting/IMG_9633.PNG'],
-                ['id' => '02', 'name' => 'Detail FD2', 'image' => app('cloudfront').'mine-setting/phone.png'],
-                ['id' => '03', 'name' => 'Detail FD3', 'image' => app('cloudfront').'mine-setting/Capture.PNG'],
-                ['id' => '04', 'name' => 'Detail FD4', 'image' => app('cloudfront').'mine-setting/IMG_9633.PNG'],
+                ['id' => '01', 'name' => 'Detail FD1', 'image' => app('cloudfront').'mine-setting/ui-ux/Detail_FD1.jpg'],
+                ['id' => '02', 'name' => 'Detail FD2', 'image' => app('cloudfront').'mine-setting/ui-ux/Detail_FD2.jpg'],
+                ['id' => '03', 'name' => 'Detail FD3', 'image' => app('cloudfront').'mine-setting/ui-ux/Detail_FD3.jpg'],
+                ['id' => '04', 'name' => 'Detail FD4', 'image' => app('cloudfront').'mine-setting/ui-ux/Detail_FD4.jpg'],
             ],
         ],
         [
             'name' => 'offer_detail',
-            'group_design' => __('Design Group For Offer Detail'),
+            'group_design' => __('Group Design For Offer Detail'),
             'designs' => [
-                ['id' => '01', 'name' => 'Detail OD1', 'image' => app('cloudfront').'mine-setting/IMG_9633.PNG'],
-                ['id' => '02', 'name' => 'Detail OD2', 'image' => app('cloudfront').'mine-setting/phone.png'],
-                ['id' => '03', 'name' => 'Detail OD3', 'image' => app('cloudfront').'mine-setting/Capture.PNG'],
-                ['id' => '04', 'name' => 'Detail OD4', 'image' => app('cloudfront').'mine-setting/IMG_9633.PNG'],
+                ['id' => '01', 'name' => 'Detail OD1', 'image' => app('cloudfront').'mine-setting/ui-ux/Detail_OD1.jpg'],
+                ['id' => '02', 'name' => 'Detail OD2', 'image' => app('cloudfront').'mine-setting/ui-ux/Detail_OD2.jpg'],
+                ['id' => '03', 'name' => 'Detail OD3', 'image' => app('cloudfront').'mine-setting/ui-ux/Detail_OD3.jpg'],
+                ['id' => '04', 'name' => 'Detail OD4', 'image' => app('cloudfront').'mine-setting/ui-ux/Detail_OD4.jpg'],
             ],
         ],
     ];
