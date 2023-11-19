@@ -13,7 +13,7 @@
                 </p>
             </div>
             <div class="col-lg-6 text-right">
-                <img class="h-img" src="/assets/main/img/main/cardi.png" alt="Mine-Menu" title="Mine-Menu">
+                <img class="h-img" src="{{app('cloudfront').'mine-setting/main-page/main1.png' }}" alt="Mine-Menu" title="Mine-Menu">
             </div>
         </div>
     </header>
@@ -21,7 +21,7 @@
     <section>
         <div class="row d-flex justify-content-center tm-col-md-reverse ar">
             <div class="col-lg-6 mb-4">
-                <img src="/assets/main/img/main/myfood.png" alt="">
+                <img src="{{app('cloudfront').'mine-setting/main-page/main2.png' }}" alt="">
             </div>
             <div class="col-lg-6 mb-5">
                 <h3 class="my-text">{{__("Suitable UI For Your Restaurant")}}</h3>
@@ -41,7 +41,7 @@
                 </p>
             </div>
             <div class="col-lg-6 text-center pt-5">
-                <img src="/assets/main/img/main/fimg.jpg" alt="" style="width: 100%;border-radius:20px">
+                <img src="{{app('cloudfront').'mine-setting/main-page/main3.jpg' }}" alt="" style="width: 100%;border-radius:20px">
             </div>
         </div>
     </section>
@@ -49,7 +49,7 @@
     <section>
         <div class="row d-flex justify-content-center tm-col-md-reverse ar">
             <div class="col-lg-6">
-                <img src="/assets/main/img/main/lapi.png" alt="">
+                <img src="{{app('cloudfront').'mine-setting/main-page/main4.png' }}" alt="">
             </div>
             <div class="col-lg-6 mb-5">
                 <h3 class="my-text">{{__("Full Management Of Your Menu")}}</h3>
@@ -64,19 +64,19 @@
         <h2 style="margin-bottom:100px;font-weight:600">{{__('What We Offer')}}</h2>
         <div class="row features-cards">
             <div class="col-lg-4">
-                <div class="feature-icon"><img src="/assets/main/img/icons/sup2.png" height="100%" width="100%"
+                <div class="feature-icon"><img src="{{asset('/assets/main/img/iconsmain/sup2.png')}}" height="100%" width="100%"
                         alt="Mine-menu"></div>
                 <h5 class="mt-2">{{__("24 Hours Support")}}</h5>
                 <p>{{__("We Provide you a 24/7 online support with a professional team.")}}</p>
             </div>
             <div class="col-lg-4">
-                <div class="feature-icon"><img src="/assets/main/img/icons/up4.png" height="100%" width="100%"
+                <div class="feature-icon"><img src="{{asset('/assets/main/img/iconsmain/up4.png')}}" height="100%" width="100%"
                         alt="Mine-menu"></div>
                 <h5 class="mt-2">{{__("Periodic Updates")}}</h5>
                 <p>{{__("There will Always be updates and new features added to your menu and system.")}}</p>
             </div>
             <div class="col-lg-4">
-                <div class="feature-icon"><img src="/assets/main/img/icons/lang.png" height="100%" width="100%"
+                <div class="feature-icon"><img src="{{asset('/assets/main/img/iconsmain/lang.png')}}" height="100%" width="100%"
                         alt="Mine-menu"></div>
                 <h5 class="mt-2">{{__("Multi Languages")}}</h5>
                 <p>{{__("Your menu will be written in multi languages very easly.")}}</p>
@@ -85,19 +85,19 @@
 
         <div class="row features-cards">
             <div class="col-lg-4">
-                <div class="feature-icon"><img src="/assets/main/img/icons/tut.png" height="100%" width="100%"
+                <div class="feature-icon"><img src="{{asset('/assets/main/img/iconsmain/tut.png')}}" height="100%" width="100%"
                         alt="Mine-menu"></div>
                 <h5 class="">{{__("User Trainning")}}</h5>
                 <p>{{__("You will be provided with a full tutorial about how to manage your menu.")}}</p>
             </div>
             <div class="col-lg-4">
-                <div class="feature-icon"><img src="/assets/main/img/icons/qr.png" height="100%" width="100%"
+                <div class="feature-icon"><img src="{{asset('/assets/main/img/iconsmain/qr.png')}}" height="100%" width="100%"
                         alt="Mine-menu"></div>
                 <h5 class="mt-2">{{__("Multi Qr Designs")}}</h5>
                 <p>{{__("There will be a lot of different designes to choose for your menu Qr code.")}}</p>
             </div>
             <div class="col-lg-4">
-                <div class="feature-icon"><img src="/assets/main/img/icons/ui.png" height="100%" width="100%"
+                <div class="feature-icon"><img src="{{asset('/assets/main/img/iconsmain/ui.png')}}" height="100%" width="100%"
                         alt="Mine-menu"></div>
                 <h5 class="mt-2">{{__("UI Customization")}}</h5>
                 <p>{{__("With our system you can customize your UI and create different views according to you preference.")}}
