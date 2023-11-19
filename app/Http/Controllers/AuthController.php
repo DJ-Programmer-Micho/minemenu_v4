@@ -67,7 +67,7 @@ class AuthController extends Controller
         if ($user && $user->status == 1 && $flag == true) {
         // if ($user && $user->status == 1 && Auth::attempt($credentials)) {
             $user_role = Auth::user()->role;
-    
+    // dd($user_role);
             switch ($user_role) {
                 case 1:
                     return redirect('/own')->with('alert', [
@@ -87,12 +87,12 @@ class AuthController extends Controller
                         'message' => __('Welcome Mr/Mrs') . $user->profile->fullname,
                     ]);
                     break;
-                case 4:
-                    return redirect('/emp')->with('alert', [
-                        'type' => 'warning',
-                        'message' => __('Please Contact Support Team COD_3663'),
-                    ]);
-                    break;
+                // case 4:
+                //     return redirect('/emp')->with('alert', [
+                //         'type' => 'warning',
+                //         'message' => __('Please Contact Support Team COD_3663'),
+                //     ]);
+                //     break;
                 default:
                     Auth::logout();
                     return redirect('/login')->with('alert', [

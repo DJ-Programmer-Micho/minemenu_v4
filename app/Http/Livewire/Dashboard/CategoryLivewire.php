@@ -267,11 +267,11 @@ class CategoryLivewire extends Component
     {
         if($this->objectName == null){
             $this->objectName = $this->imgReader;
-            $this->tempImg = $this->imgReader;
+            // $this->tempImg = $this->imgReader;
         } 
         if($this->objectNameCover == null){
             $this->objectNameCover = $this->imgReaderCover;
-            $this->tempImgCover = $this->imgReaderCover;
+            // $this->tempImgCover = $this->imgReaderCover;
         } 
         // $this->tempImg =  $this->objectName;
 
@@ -295,8 +295,8 @@ class CategoryLivewire extends Component
                         Storage::disk('s3')->put($this->objectName, $croppedImage);
                     }
                 } else {
-                    $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
-                    return;
+                    // $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
+                    // return;
                 }
             } catch (\Exception $e) {
                 $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred during image upload: ' . $e->getMessage())]);

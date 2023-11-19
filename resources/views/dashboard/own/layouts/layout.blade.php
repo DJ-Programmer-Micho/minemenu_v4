@@ -655,7 +655,10 @@
             <footer class="sticky-footer bg-gradient-dark-r">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>&copy; &#8471; &reg; By <a href="https://minemenu.com" target="_blank" style="color: #cc0022;">Mine Menu</a> 2021 - <span id="copyrightYear"></span></span>
+                        <script>
+                            document.getElementById("copyrightYear").textContent = new Date().getFullYear();
+                        </script>
                     </div>
                 </div>
             </footer>

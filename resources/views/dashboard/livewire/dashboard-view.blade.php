@@ -27,7 +27,7 @@
 
     @if($profile['plan_id'] == 1)
     <div class="alert alert-danger" role="alert">
-        You Are In {{$profile['plan_name']}} To Upgrade Click here<a href="#" class="alert-link"> Upgrade</a>
+        You Are In {{$profile['plan_name']}} To Upgrade Click here<a href="{{route('plan')}}" class="alert-link"> Upgrade</a>
       </div>
     @endif
     <!-- Content Row -->

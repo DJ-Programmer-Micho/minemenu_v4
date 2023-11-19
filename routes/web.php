@@ -170,9 +170,9 @@ Route::prefix('/rest')->middleware(['checkStatus', 'LocalizationMiddleware', 're
 | EMP ROUTE EMPLOYEE
 |--------------------------------------------------------------------------
 */
-Route::prefix('/emp')->middleware(['checkStatus', 'LocalizationMiddleware', 'emp'])->group(function () {
-    Route::get('/', [EmpController::class, 'dashboard'])->name('dashboard');
-});
+// Route::prefix('/emp')->middleware(['checkStatus', 'LocalizationMiddleware', 'emp'])->group(function () {
+//     Route::get('/', [EmpController::class, 'dashboard'])->name('dashboard');
+// });
 
 /*
 |--------------------------------------------------------------------------

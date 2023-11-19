@@ -3,6 +3,11 @@
 use App\Models\Plan;
 $offerPlan = Plan::where('status', 1)->where('type','offer')->where('valid_date','>',now())->get();
 $regularPlans = Plan::where('status', 1)->where('type','regular')->get();
+$userExp = false; 
+if(auth()->user()->subscription->expire_at <= now()){
+    $userExp = true; 
+}
+// dd($offerPlan);
 @endphp
 <script>
     function updateCountdownTimer(expiryDate, countdownElementId) {
@@ -27,6 +32,11 @@ $regularPlans = Plan::where('status', 1)->where('type','regular')->get();
     }
   </script>
 <div>
+    @if($userExp == true)
+    <div class="alert alert-danger mt-2" role="alert">
+        You Account has been expired, Please Select the plan to renew or contact with support team</a>
+      </div>
+    @endif
     <section class="price_plan_area section_padding_130_80 bg" id="pricing">
         <div class="row justify-content-center">
             <div class="col-12  col-lg-6">
@@ -39,6 +49,7 @@ $regularPlans = Plan::where('status', 1)->where('type','regular')->get();
                 </div>
             </div>
         </div>
+        @if(!empty($offerPlan))
         <div class="my-3 text-center">
             <h3 class="offer-price">New Offers</h3>
           </div>
@@ -46,7 +57,7 @@ $regularPlans = Plan::where('status', 1)->where('type','regular')->get();
             @foreach ($offerPlan as $plan)
             <div class="col-12 col-md-6 p-1">
               <div style="border-left: 4px solid #cc0022; border-radius: 5px;">
-                <h6 class="ml-2">Expires 5 in: <b><span id="countdown-{{ $plan->id }}"></span></b></h6>
+                <h6 class="ml-2">Expires in: <b><span id="countdown-{{ $plan->id }}"></span></b></h6>
               </div>
               {{-- {!! $plan->description_rest[app()->getLocale()] !!} --}}
 
@@ -63,6 +74,7 @@ $regularPlans = Plan::where('status', 1)->where('type','regular')->get();
             </div>
             @endforeach
           </div>
+          @endif
           <div class="mt-5 my-3 text-center">
             <h3 class="regular-price">Regular Price</h3>
           </div>

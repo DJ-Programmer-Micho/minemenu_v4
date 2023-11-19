@@ -18,8 +18,8 @@ class CheckUserStatus
                 return redirect('/login')->with('alert', 'This is an alert message.');
             }
 
-            if (Route::currentRouteName() !== 'mainmenu' && $user->subscription->expire_at <= now()) {
-                return redirect()->route('mainmenu');
+            if (Route::currentRouteName() !== 'plan' && $user->subscription->expire_at <= now()) {
+                return redirect()->route('plan');
             }
 
             if ($user->email_verified === null || $user->email_verified === 0) {

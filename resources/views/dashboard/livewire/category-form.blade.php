@@ -18,8 +18,8 @@
 <div>
 
 <!-- Insert Modal -->
-<div wire:ignore.self class="modal fade" style=" overflow: auto;" id="createCategory" tabindex="-1" aria-labelledby="createCategoryLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-xl text-white">
+<div wire:ignore.self class="modal fade overflow-auto" id="createCategory" tabindex="-1" aria-labelledby="createCategoryLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl text-white mx-1 mx-lg-auto">
         <div class="modal-content bg-dark">
             <form wire:submit.prevent="saveCategory">
                 <div class="modal-body">
@@ -101,9 +101,9 @@
     </div>
 </div>
 
-<div wire:ignore.self class="modal fade" style=" overflow: auto;" id="updateCategoryModal" tabindex="-1" aria-labelledby="updateCategoryModalLabel"
+<div wire:ignore.self class="modal fade overflow-auto" id="updateCategoryModal" tabindex="-1" aria-labelledby="updateCategoryModalLabel"
     aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-xl text-white">
+    <div class="modal-dialog modal-xl text-white mx-1 mx-lg-auto">
         <div class="modal-content bg-dark">
             <form wire:submit.prevent="updateCategory">
                 <div class="modal-body">
