@@ -43,11 +43,11 @@
                         <input type="checkbox" value="{{ $language }}"
                             {{ in_array($language, $filteredLocales) ? 'checked' : '' }}
                             onchange="checkboxChanged(this)">
-                        {{ strtoupper($language) }}
+                        {{ __(strtoupper($language)) }}
                     </li>
                     @endforeach
                 </ul>
-                <button type="submit" class="btn btn-primary my-3">Update Language</button>
+                <button type="submit" class="btn btn-primary my-3">{{__('Update Language')}}</button>
             </form>
 
         </div>

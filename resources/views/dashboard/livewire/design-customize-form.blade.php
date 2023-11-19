@@ -26,7 +26,7 @@
     <div class="modal-dialog text-white">
         <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title" id="presetNameModalLabel">Add New Preset</h5>
+                <h5 class="modal-title" id="presetNameModalLabel">{{__('Add New Preset')}}</h5>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" wire:click="closeModal"
                     aria-label="Close"><i class="fas fa-times"></i></button>
             </div>
@@ -37,7 +37,7 @@
                     <input type="text" wire:model="presetNameToSave" class="form-control">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" wire:click="closeModal" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" wire:click="closeModal" data-dismiss="modal">{{__('Cancel')}}</button>
                         <button type="submit" class="btn btn-success">{{__('Save Preset')}}</button>
                 </div>
             </form>
@@ -50,7 +50,7 @@
     <div class="modal-dialog text-white">
         <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title" id="presetNameModalLabel">Add New Preset</h5>
+                <h5 class="modal-title" id="presetNameModalLabel">{{__('Add New Preset')}}</h5>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" wire:click="closeModal"
                     aria-label="Close"><i class="fas fa-times"></i></button>
             </div>
@@ -61,7 +61,7 @@
                     <input type="text" wire:model="presetNameToSave" class="form-control">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" wire:click="closeModal" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" wire:click="closeModal" data-dismiss="modal">{{__('Cancel')}}</button>
                         <button type="submit" class="btn btn-success">{{__('Save Preset')}}</button>
                 </div>
             </form>
@@ -74,7 +74,7 @@
     <div class="modal-dialog text-white">
         <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title" id="presetNameModalLabel">Add New Preset</h5>
+                <h5 class="modal-title" id="presetNameModalLabel">{{__('Add New Preset')}}</h5>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" wire:click="closeModal"
                     aria-label="Close"><i class="fas fa-times"></i></button>
             </div>
@@ -85,7 +85,7 @@
                     <input type="text" wire:model="presetNameToSave" class="form-control">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" wire:click="closeModal" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" wire:click="closeModal" data-dismiss="modal">{{__('Cancel')}}</button>
                         <button type="submit" class="btn btn-success">{{__('Save Preset')}}</button>
                 </div>
             </form>
@@ -160,8 +160,8 @@
                                     <h4 class="text-white">{{__('Header Image')}}</h4>
                                     <div class="row">
                                         <div class="col-12">
-                                            <small class="text-white">* The Image Size Should be <b>(640px X 360px)</b> or <b>(1280px X 720px)</b></small>
-                                            <label for="img">Upload Image</label>
+                                            <small class="bg-info text-white px-2 rounded">{{__('The Image Size Should be')}} <b>{{__('(640px X 360px)')}}</b> {{__('or')}} <b>{{__('(1280px X 720px)')}}</b></small>
+                                            <label for="img">{{__('Upload Image')}}</label>
                                             <input type="file" name="headerImg" id="headerImg" class="form-control" style="height: auto">
                                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                                             <input type="file" name="croppedHeaderImg" id="croppedHeaderImg" style="display: none;">
@@ -191,8 +191,8 @@
                                     <h4 class="text-white">{{__('Logo/Avatar')}}</h4>
                                     <div class="row">
                                         <div class="col-12">
-                                            <small class="text-white">* The Image Size Should be <b>(64px X 64px)</b> or <b>(128px X 128px)</b></small>
-                                            <label for="img">Upload Image</label>
+                                            <small class="bg-info text-white px-2 rounded">{{__('The Image Size Should be ')}}<b>{{__('(64px X 64px)')}}</b> {{__('or')}} <b>{{__('(128px X 128px)')}}</b></small>
+                                            <label for="img">{{__('Upload Image')}}</label>
                                             <input type="file" name="logoImg" id="logoImg" class="form-control" style="height: auto">
                                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                                             <input type="file" name="croppedLogoImg" id="croppedLogoImg" style="display: none;">
@@ -234,7 +234,7 @@
                                                     <input type="color" id="start_button_text"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_start_button_text">
-                                                    <small class="text-info">(All)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -244,7 +244,7 @@
                                                     <input type="color" id="start_button_background"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_start_button_background">
-                                                    <small class="text-info">(All)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -284,7 +284,7 @@
                                                     <input type="color" id="navbar_top"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_navbar_top">
-                                                    <small class="text-info">(Ui 3)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(Ui 3)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -316,7 +316,7 @@
                                                     <input type="color" id="navbar_title"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_navbar_title">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -326,7 +326,7 @@
                                                     <input type="color" id="navbar_toggle"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_navbar_toggle">
-                                                    <small class="text-info">(Ui 1, Ui 2)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(Ui 1, Ui 2)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -336,7 +336,7 @@
                                                     <input type="color" id="navbar_sub_title"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_navbar_sub_title">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -376,7 +376,7 @@
                                                     <input type="color" id="main_background"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_main_background">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -387,7 +387,7 @@
                                                     <input type="color" id="main_body"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_main_body">
-                                                    <small class="text-info">(Ui 1, Ui 2)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(Ui 1, Ui 2)')}}</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -401,7 +401,7 @@
                                                     <input type="color" id="main_theme_text"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_main_theme_text">
-                                                    <small class="text-info">(Ui 3)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(Ui 3)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -412,7 +412,7 @@
                                                     <input type="color" id="main_theme_background"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_main_theme_background">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -423,7 +423,7 @@
                                                     <input type="color" id="main_theme_text_active"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_main_theme_text_active">
-                                                    <small class="text-info">(Ui 3)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(Ui 3)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -434,7 +434,7 @@
                                                     <input type="color" id="main_theme_background_active"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_main_theme_background_active">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -445,7 +445,7 @@
                                                     <input type="color" id="main_theme_border"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_main_theme_border">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -497,7 +497,7 @@
                                                     <input type="color" id="cart_icon"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_cart_icon">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -508,7 +508,7 @@
                                                     <input type="color" id="cart_back_icon"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_cart_back_icon">
-                                                    <small class="text-info">(Ui 1, Ui 2)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(Ui 1, Ui 2)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -519,7 +519,7 @@
                                                     <input type="color" id="cart_noti"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_cart_noti">
-                                                    <small class="text-info">(Ui 3)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(Ui 3)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -530,7 +530,7 @@
                                                     <input type="color" id="cart_back_noti"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_cart_back_noti">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -543,7 +543,7 @@
                                                     <input type="color" id="cart_text"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_cart_text">
-                                                    <small class="text-info">(Ui 3)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(Ui 3)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -554,7 +554,7 @@
                                                     <input type="color" id="cart_background"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_cart_background">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -565,7 +565,7 @@
                                                     <input type="color" id="cart_reset_text"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_cart_reset_text">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -576,7 +576,7 @@
                                                     <input type="color" id="cart_reset_backgound"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_cart_reset_backgound">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -587,7 +587,7 @@
                                                     <input type="color" id="cart_close_text"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_cart_close_text">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -598,7 +598,7 @@
                                                     <input type="color" id="cart_close_backgound"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_cart_close_backgound">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
 
@@ -630,7 +630,7 @@
                                                     <input type="color" id="category_title"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_category_title">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -641,7 +641,7 @@
                                                     <input type="color" id="category_description"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_category_description">
-                                                    <small class="text-info">(Ui 1, Ui 2)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(Ui 1, Ui 2)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -652,7 +652,7 @@
                                                     <input type="color" id="category_price"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_category_price">
-                                                    <small class="text-info">(Ui 3)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(Ui 3)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -663,7 +663,7 @@
                                                     <input type="color" id="category_old_price"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_category_old_price">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -674,7 +674,7 @@
                                                     <input type="color" id="category_card_background"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_category_card_background">
-                                                    <small class="text-info">(Ui 3)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(Ui 3)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -685,7 +685,7 @@
                                                     <input type="color" id="category_shabow"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_category_shabow">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -699,7 +699,7 @@
                                                     <input type="color" id="category_button_text"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_category_button_text">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -710,7 +710,7 @@
                                                     <input type="color" id="category_button_background"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_category_button_background">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -741,7 +741,7 @@
                                                     <input type="color" id="food_background"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_food_background">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -752,7 +752,7 @@
                                                     <input type="color" id="food_image_shadow"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_food_image_shadow">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -764,7 +764,7 @@
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_food_image_shadow_opacity" 
                                                         min="0.00" max="1.00" step="0.01">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -779,7 +779,7 @@
                                                     <input type="color" id="food_title"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_food_title">
-                                                    <small class="text-info">(Ui 1, Ui 2)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(Ui 1, Ui 2)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -790,7 +790,7 @@
                                                     <input type="color" id="food_description"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_food_description">
-                                                    <small class="text-info">(Ui 3)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(Ui 3)')}}</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -805,7 +805,7 @@
                                                     <input type="color" id="food_price"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_food_price">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -816,7 +816,7 @@
                                                     <input type="color" id="food_old_price"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_food_old_price">
-                                                    <small class="text-info">(Ui 3)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(Ui 3)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -827,7 +827,7 @@
                                                     <input type="color" id="food_price_key"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_food_price_key">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -838,7 +838,7 @@
                                                     <input type="color" id="food_price_value"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_food_price_value">
-                                                    <small class="text-info">(Ui 3)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(Ui 3)')}}</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -853,7 +853,7 @@
                                                     <input type="color" id="food_button_text"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_food_button_text">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -864,7 +864,7 @@
                                                     <input type="color" id="food_button_background"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_food_button_background">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -895,7 +895,7 @@
                                                     <input type="color" id="utl_icon_color"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_utl_icon_color">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-12">
@@ -906,7 +906,7 @@
                                                     <input type="color" id="utl_icon_background"
                                                         class="form-control color-control p-1"
                                                         wire:model="selected_utl_icon_background">
-                                                    <small class="text-info">(All UI's)</small>
+                                                    <small class="bg-info text-white px-2 rounded">{{__('(All UIs)')}}</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -914,7 +914,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="my-4 btn btn-info" wire:click="saveColors">Update Colors</button>
+                        <button type="submit" class="my-4 btn btn-info" wire:click="saveColors">{{__('Update Colors')}}</button>
                     </form>
                     </div>
                 </div>
@@ -927,7 +927,7 @@
     <div class="modal-dialog modal-lg text-white" role="document">
         <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title">Crop Image Before Upload</h5>
+                <h5 class="modal-title">{{__('Crop Image Before Upload')}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -946,8 +946,8 @@
             </div>
             <div class="modal-footer">
                 {{-- <button type="button" id="crop" class="btn btn-primary">Crop</button> --}}
-                <button type="button" class="btn btn-primary crop-btn" data-index="">Crop</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary crop-btn" data-index="">{{__('Crop')}}</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
             </div>
         </div>
     </div>
@@ -956,7 +956,7 @@
     <div class="modal-dialog modal-lg text-white" role="document">
         <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title">Crop Image Before Upload</h5>
+                <h5 class="modal-title">{{__('Crop Image Before Upload')}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -975,8 +975,8 @@
             </div>
             <div class="modal-footer">
                 {{-- <button type="button" id="crop" class="btn btn-primary">Crop</button> --}}
-                <button type="button" class="btn btn-primary crop-btn" data-index="">Crop</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary crop-btn" data-index="">{{__('Crop')}}</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
             </div>
         </div>
     </div>

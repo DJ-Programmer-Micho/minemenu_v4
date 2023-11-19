@@ -17,11 +17,11 @@
 
     <div class="container p-0 mt-5">
         <h1 id="point" class="PT text-white text-center mb-3 fancy-font">
-            MineMenu <span style="color: red;">Tutorial</span>
+            MineMenu <span style="color: red;">{{__('Tutorial')}}</span>
         </h1>
         <div>
             <select name="playlist" id="playlist" class="form-control mb-3" wire:model="selectedPlaylist" wire:change="updatePlaylist($event.target.value)">
-                <option disabled selected>Choose</option>
+                <option disabled selected>{{__('Choose')}}</option>
                 @foreach ($playlistsData as $playlistId => $playlistInfo)
                 <option value="{{ $playlistInfo[0] }}">{{ $playlistId }}</option>
                 @endforeach
@@ -37,8 +37,7 @@
             <div class="adding col-sm-12 col-md-6 col-lg-6"></div>
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <hr class="hr">
-                <h5 class="text-right text-white arabd b1">أحدث الحلقات</h5>
-                <div class="list-inner row row-cols-1 row-cols-sm-1 row-cols-md-3 row-cols-lg-5 arabd arabd">
+                <div class="list-inner row row-cols-1 row-cols-sm-1 row-cols-md-3 row-cols-lg-5 {{app()->getLocale() == "ar" || app()->getLocale() == 'ku' ? "arabd text-right" : ""}}">
                 </div>
             </div>
         </div>
@@ -109,8 +108,8 @@
                     $('.list-inner').append(`
                         <article class="col-6 col-sm-4 col-md-3 col-lg-3 mb-4" data-key="${vid}" dd="${desc}">
                             <img src="${thumb}" class="card-img-top">
-                            <div class="details">
-                                <div class="title text-dark text-right">${title}</div>
+                            <div class="details text-white">
+                                <div class="title">${title}</div>
                             </div>
                         </article>`);
                 });

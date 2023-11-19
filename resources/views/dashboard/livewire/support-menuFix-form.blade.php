@@ -1,6 +1,6 @@
 <div class="my-4">
     <div class="d-flex align-items-center">
-        <h3 class="text-white">Check Requirements</h3>
+        <h3 class="text-white">{{__('Check Requirements')}}</h3>
         <lord-icon
         src="https://cdn.lordicon.com/hdiorcun.json"
         trigger="loop"
@@ -11,8 +11,7 @@
     </div>
     <hr class="bg-white">
     <div class="container">
-        <button class="btn btn-info" wire:click="checkRequirements">Check Requirements</button>
-
+        <button class="btn btn-info" wire:click="checkRequirements">{{__('Check Requirements')}}</button>
         @if ($showRequirements == false && $analysing == false)
         <div class="mt-3">
             <div class="row">

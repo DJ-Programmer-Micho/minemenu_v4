@@ -307,7 +307,7 @@ class MainMenuLivewire extends Component
     public function render()
     {
         $colspan = 6;
-        $cols_th = ['#','Name','Priority','Status','actions'];
+        $cols_th = ['#','Name','Priority','Status','Actions'];
         $cols_td = ['id','translation.name','priority','status'];
 
         $data = Mainmenu::with(['translation' => function ($query) {

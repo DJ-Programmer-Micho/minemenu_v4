@@ -45,10 +45,10 @@
                             <div class="mb-3">
                                 <label>{{__('Status')}}</label>
                                 <select wire:model="status" name="status" id="" class="form-control">
-                                    <option value="">Choose Status</option>
+                                    <option value="">{{__('Choose Status')}}</option>
                                     <option value="1">{{__('Active')}}</option>
                                     <option value="0">{{__('Non Active')}}</option>
-                                    <small class="tetx-info">{{__('Show or Hide')}}</small>
+                                    <small class="tetx-info">{{__('Active or non-active / Show or Hide')}}</small>
                                 </select>
                                 @error('status') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
@@ -58,7 +58,7 @@
                             <div class="mb-3">
                                 <label>{{__('Priority')}}</label>
                                 <input type="number" wire:model="priority" class="form-control">
-                                <small class="text-info">{{__('The less The Higher Priority')}}</small>
+                                <small class="bg-info text-white px-2 rounded">{{__('The less The Higher Priority')}}</small>
                                 @error('Priority') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -74,13 +74,13 @@
                         @foreach ($filteredLocales as $locale)
                         <div class="col-12 col-sm-6 border">
                             <div class="mb-3">
-                                <label>{{ strtoupper($locale) }}</label>
+                                <label>{{__('Offer Name in')}} {{ strtoupper($locale) }}</label>
                                 <input type="text" wire:model="names.{{$locale}}" class="form-control"
                                     style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}">
                                 @error('names.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                             <div class="mb-3">
-                                <label>Desctip{{ strtoupper($locale) }}</label>
+                                <label>{{__('Description in')}} {{ strtoupper($locale) }}</label>
                                 <textarea wire:model="description.{{$locale}}" class="form-control"
                                     style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}"></textarea>
                                 @error('description.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
@@ -98,16 +98,16 @@
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="mb-3">
-                                <label for="price">Price</label>
+                                <label for="price">{{__('Price')}}</label>
                                 <input type="number" wire:model="price" class="form-control" id="price">
-                                <small class="text-info">{{__('(Offer Price)')}}</small>
+                                <small class="bg-info text-white px-2 rounded">{{__('(Offer Price)')}}</small>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="mb-3">
-                                <label for="oldPrice">Old Price</label>
+                                <label for="oldPrice">{{__('Old Price')}}</label>
                                 <input type="number" wire:model="oldPrice" class="form-control" id="oldPrice">
-                                <small class="text-info">{{__('(Old Price)')}}</small>
+                                <small class="bg-info text-white px-2 rounded">{{__('(Old Price)')}}</small>
                             </div>
                         </div>
                     </div>
@@ -120,9 +120,9 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
-                            <label for="img">Upload Image</label>
+                            <label for="img">{{__('Old Price')}}</label>
                             <input type="file" name="offerImg" id="offerImg" class="form-control" style="height: auto">
-                            <small class="text-info">The Image Size Should be <b>(640px X 360px)</b> or <b>(1280px X 720px)</b></small>
+                            <small class="bg-info text-white px-2 rounded">{{__('The Image Size Should be')}} <b>{{__('(640px X 360px)')}}</b> {{__('or')}} <b>{{__('(1280px X 720px)')}}</b></small>
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                             <input type="file" name="croppedOfferImg" id="croppedOfferImg" style="display: none;">
                             <div class="progress my-1">
@@ -138,8 +138,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                        data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary submitJs">Save</button>
+                        data-dismiss="modal">{{__('Close')}}</button>
+                    <button type="submit" class="btn btn-primary submitJs">{{__('Save')}}</button>
                 </div>
             </form>
         </div>
@@ -168,11 +168,11 @@
                             <div class="mb-3">
                                 <label>{{__('Status')}}</label>
                                 <select wire:model="status" name="status" id="" class="form-control">
-                                    <option value="">Choose Status</option>
+                                    <option value="">{{__('Choose Status')}}</option>
                                     <option value="1">{{__('Active')}}</option>
                                     <option value="0">{{__('Non Active')}}</option>
                                 </select>
-                                <small class="text-info">{{__('Show or Hide')}}</small>
+                                <small class="bg-info text-white px-2 rounded">{{__('Active or non-active / Show or Hide')}}</small>
                                 @error('status') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -180,7 +180,7 @@
                             <div class="mb-3">
                                 <label>{{__('Priority')}}</label>
                                 <input type="number" wire:model="priority" class="form-control">
-                                <small class="text-info">{{__('The less The Higher')}}</small>
+                                <small class="bg-info text-white px-2 rounded">{{__('The less The Higher')}}</small>
                                 @error('Priority') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -220,16 +220,16 @@
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="mb-3">
-                                <label for="price">Price</label>
+                                <label for="price">{{__('Price')}}</label>
                                 <input type="number" wire:model="price" class="form-control" id="price">
-                                <small class="text-info">{{__('(Offer Price)')}}</small>
+                                <small class="bg-info text-white px-2 rounded">{{__('(Offer Price)')}}</small>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="mb-3">
-                                <label for="oldPrice">Old Price</label>
+                                <label for="oldPrice">{{__('Old Price')}}</label>
                                 <input type="number" wire:model="oldPrice" class="form-control" id="oldPrice">
-                                <small class="text-info">{{__('(Old Price)')}}</small>
+                                <small class="bg-info text-white px-2 rounded">{{__('(Old Price)')}}</small>
                             </div>
                         </div>
 
@@ -241,7 +241,7 @@
                             </h2>
                         </div>
                         <div class="col-12 col-sm-6">
-                            <label for="img">Upload Image</label>
+                            <label for="img">{{__('Upload Image')}}</label>
                             <input type="file" name="editOfferImg" id="editOfferImg" class="form-control" style="height: auto">
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                             <div class="progress my-1">
@@ -257,8 +257,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                        data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary submitJs">Update</button>
+                        data-dismiss="modal">{{__('Close')}}</button>
+                    <button type="submit" class="btn btn-primary submitJs">{{__('Update')}}</button>
                 </div>
             </form>
         </div>
@@ -270,7 +270,7 @@
     <div class="modal-dialog text-white">
         <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteOfferModalLabel">Delete Offer</h5>
+                <h5 class="modal-title" id="deleteOfferModalLabel">{{__('Delete Offer')}}</h5>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" wire:click="closeModal"
                     aria-label="Close"><i class="fas fa-times"></i></button>
             </div>
@@ -282,7 +282,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                        data-dismiss="modal">Cancel</button>
+                        data-dismiss="modal">{{__('Cancel')}}</button>
                         <button type="submit" class="btn btn-danger" wire:disabled="!confirmDelete || $offerNameToDelete !== $showTextTemp">
                             {{ __('Yes! Delete') }}
                         </button>
@@ -297,7 +297,7 @@
     <div class="modal-dialog modal-lg text-white" role="document">
         <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title">Crop Image Before Upload</h5>
+                <h5 class="modal-title">{{__('Crop Image Before Upload')}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -316,8 +316,8 @@
             </div>
             <div class="modal-footer">
                 {{-- <button type="button" id="crop" class="btn btn-primary">Crop</button> --}}
-                <button type="button" class="btn btn-primary crop-btn" data-index="">Crop</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary crop-btn" data-index="">{{__('Crop')}}</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
             </div>
         </div>
     </div>

@@ -115,7 +115,7 @@
         <footer>
             <div class="container">
                 <p class="text-center m-0">
-                   &copy; All Rights Reserved | Powered By <a href="https://www.minemenu.com" class="text-danger">MineMenu</a>
+                   &copy; {{__('All Rights Reserved | Powered By')}} <a href="https://www.minemenu.com" class="text-danger">MineMenu</a>
                 </p>
             </div>
         </footer>

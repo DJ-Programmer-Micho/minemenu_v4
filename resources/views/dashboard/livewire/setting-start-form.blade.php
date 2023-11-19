@@ -25,22 +25,22 @@
                 <div class="mb-3">
                     <label class="text-white">{{__('Status')}}</label>
                     <select wire:model="status" name="status" class="form-control">
-                        <option value="">Choose Start up</option>
+                        <option value="">{{__('Choose Start up')}}</option>
                             <option value="null">{{__('none')}}</option>
                             <option value="1">{{__('Photo')}}</option>
                             <option value="2">{{__('Video')}}</option>
                     </select>
                     @error('status') <span class="text-danger">{{ $message }}</span> @enderror
                 </div> 
-                <button type="button" class="btn btn-secondary" wire:click="closeModal" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" wire:click="closeModal" data-dismiss="modal">{{__('Close')}}</button>
+                <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
             </form>
         </div>
 
         <div class="col-12 col-sm-6">
-                <label class="text-white" for="img">Upload Image</label>
+                <label class="text-white" for="img">{{__('Upload Image')}}</label>
                 <input type="file" name="startupImg" id="startupImg" class="form-control" style="height: auto">
-                <small class="text-info"><b>(Auto Upload)</b></small>
+                <small class="bg-info text-white px-2 rounded"><b>{{__('(Auto Upload)')}}</b></small>
                 @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                 <input type="file" name="croppedStartupImg" id="croppedStartupImg" style="display: none;">
                 <div class="mb-3 d-flex justify-content-center mt-1">
@@ -50,12 +50,12 @@
         </div>
         <div class="col-12 col-sm-6">
             <form wire:submit.prevent="uploadVideo">
-                <label class="text-white" for="video">Video (3MB MAX)</label>
+                <label class="text-white" for="video">{{__('Video (3MB MAX)')}}</label>
                 <input type="file" accept=".mp4" class="form-control" wire:model="fileVideo" style="height: auto">
                 <div class="progress my-1">
                     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
-                <button type="submit" class="upload-video btn btn-primary">Upload</button>
+                <button type="submit" class="upload-video btn btn-primary">{{__('Upload')}}</button>
                 @error('fileVideo') <span class="text-danger">{{ $message }}</span> @enderror
                 <div class="my-3 d-flex justify-content-center mt-1">
                     <video controls class="img-thumbnail rounded" style="width: 300px; border-radius: 5px;">
@@ -75,7 +75,7 @@
     <div class="modal-dialog modal-lg text-white" role="document">
         <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title">Crop Image Before Upload</h5>
+                <h5 class="modal-title">{{__('Crop Image Before Upload')}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -94,8 +94,8 @@
             </div>
             <div class="modal-footer">
                 {{-- <button type="button" id="crop" class="btn btn-primary">Crop</button> --}}
-                <button type="button" class="btn btn-primary crop-btn" data-index="">Crop</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary crop-btn" data-index="">{{__('Crop')}}</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
             </div>
         </div>
     </div>

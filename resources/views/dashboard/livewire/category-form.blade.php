@@ -33,7 +33,7 @@
                             <div class="mb-3">
                                 <label>{{ __('Select Menu') }}</label>
                                 <select wire:model="menu_id" name="menu_id" id="" class="form-control">
-                                    <option value="">Select Menu</option>
+                                    <option value="">{{__('Select Menu')}}</option>
                                     @foreach ($menu_select as $menu)
                                         <option value="{{$menu->translation->menu_id}}">{{$menu->translation->name}}</option>
                                     @endforeach
@@ -42,7 +42,7 @@
                             </div>
                             @foreach ($filteredLocales as $locale)
                             <div class="mb-3">
-                                <label>{{ strtoupper($locale) }}</label>
+                                <label>{{__('Category Name in')}} {{ strtoupper($locale) }}</label>
                                 <input type="text" wire:model="names.{{$locale}}" class="form-control" style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}">
                                 @error('names.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
@@ -50,7 +50,7 @@
                             <div class="mb-3">
                                 <label>{{__('Status')}}</label>
                                 <select wire:model="status" name="status" id="" class="form-control">
-                                    <option value="">Choose Status</option>
+                                    <option value="">{{__('Choose Status')}}</option>
                                         <option value="1">{{__('Active')}}</option>
                                         <option value="0">{{__('Non Active')}}</option>
                                 </select>
@@ -64,7 +64,7 @@
                         </div>
                         <div class="col-12 col-sm-6 mb-5">
                             <label for="img">{{__('Upload Image')}}</label>
-                            <input type="file" name="categoryImg" id="categoryImg" class="form-control" style="height: auto">
+                            <input type="file" name="categoryImg" id="categoryImg" class="form-control" style="height: auto" placeholder="{{__('Category Name')}}">
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                             <input type="file" name="croppedCategoryImg" id="croppedCategoryImg" style="display: none;">
                             <div class="progress my-1">
@@ -75,7 +75,7 @@
                                 <img id="showCategoryImg" class="img-thumbnail rounded" src="{{$tempImg ?? $emptyImg}}">
                             </div>
 
-                            <label for="img">{{__('Upload Cover')}} <small class="text-info">{{__('(OPTIONAL)')}}</small></label>
+                            <label for="img">{{__('Upload Cover')}} <small class="bg-info text-white px-2 rounded">{{__('(OPTIONAL)')}}</small></label>
                             <input type="file" name="categoryImgCover" id="categoryImgCover" class="form-control" style="height: auto">
                             @error('objectNameCover') <span class="text-danger">{{ $message }}</span> @enderror
                             <input type="file" name="croppedCategoryImgCover" id="croppedCategoryImgCover" style="display: none;">
@@ -93,8 +93,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                        data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary submitJs">Save</button>
+                        data-dismiss="modal">{{__('Close')}}</button>
+                    <button type="submit" class="btn btn-primary submitJs">{{__('Save')}}</button>
                 </div>
             </form>
         </div>
@@ -119,7 +119,7 @@
                             <div class="mb-3">
                                 <label>{{ __('Select Menu') }}</label>
                                 <select wire:model="menu_id" name="menu_id" id="" class="form-control">
-                                    <option value="">Select Menu</option>
+                                    <option value="">{{__('Select Menu')}}</option>
                                     @foreach ($menu_select as $menu)
                                         <option value="{{$menu->translation->menu_id}}">{{$menu->translation->name}}</option>
                                     @endforeach
@@ -128,7 +128,7 @@
                             </div>
                             @foreach ($filteredLocales as $locale)
                             <div class="mb-3">
-                                <label>{{ strtoupper($locale) }}</label>
+                                <label>{{__('Category Name in')}} {{ strtoupper($locale) }}</label>
                                 <input type="text" wire:model="names.{{$locale}}" class="form-control" style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}">
                                 @error('names.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
@@ -136,7 +136,7 @@
                             <div class="mb-3">
                                 <label>{{__('Status')}}</label>
                                 <select wire:model="status" name="status" id="" class="form-control">
-                                    <option value="">Choose Status</option>
+                                    <option value="">{{__('Choose Status')}}</option>
                                         <option value="1">{{__('Active')}}</option>
                                         <option value="0">{{__('Non Active')}}</option>
                                 </select>
@@ -188,8 +188,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                        data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary submitJs">Update</button>
+                        data-dismiss="modal">{{__('Close')}}</button>
+                    <button type="submit" class="btn btn-primary submitJs">{{__('Update')}}</button>
                 </div>
             </form>
         </div>
@@ -202,7 +202,7 @@
     <div class="modal-dialog text-white">
         <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteCategoryModalLabel">Delete Category</h5>
+                <h5 class="modal-title" id="deleteCategoryModalLabel">{{__('Delete Category')}}</h5>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" wire:click="closeModal"
                     aria-label="Close"><i class="fas fa-times"></i></button>
             </div>
@@ -214,7 +214,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                        data-dismiss="modal">Cancel</button>
+                        data-dismiss="modal">{{__('Cancel')}}</button>
                         <button type="submit" class="btn btn-danger" wire:disabled="!confirmDelete || $categoryNameToDelete !== $showTextTemp">
                             {{ __('Yes! Delete') }}
                         </button>
@@ -229,7 +229,7 @@
     <div class="modal-dialog modal-lg text-white" role="document">
         <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title">Crop Image Before Upload</h5>
+                <h5 class="modal-title">{{__('Crop Image Before Upload')}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -248,8 +248,8 @@
             </div>
             <div class="modal-footer">
                 {{-- <button type="button" id="crop" class="btn btn-primary">Crop</button> --}}
-                <button type="button" class="btn btn-primary crop-btn" data-index="">Crop</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary crop-btn" data-index="">{{__('Crop')}}</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
             </div>
         </div>
     </div>
@@ -261,7 +261,7 @@
     <div class="modal-dialog modal-lg text-white" role="document">
         <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title">Crop Cover Image Before Upload</h5>
+                <h5 class="modal-title">{{__('Crop Cover Image Before Upload')}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -279,8 +279,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary crop-btn-cover" data-index="">Crop</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary crop-btn-cover" data-index="">{{__('Crop')}}</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
             </div>
         </div>
     </div>

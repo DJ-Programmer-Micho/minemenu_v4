@@ -43,14 +43,14 @@
                         </div>
                         <div class="col-12 col-sm-4">
                             <div class="mb-3">
-                                <label>{{ __('Select Menu') }}</label>
+                                <label>{{ __('Category Select') }}</label>
                                 <select wire:model="cat_id" name="cat_id" id="" class="form-control">
-                                    <option value="">Select Menu</option>
+                                    <option value="">{{__('Category Select')}}</option>
                                     @foreach ($menu_select as $menu)
                                     <option value="{{$menu->translation->cat_id}}">{{$menu->translation->name}}</option>
                                     @endforeach
                                 </select>
-                                <small class="text-info">{{__('Select The Group')}}</small>
+                                <small class="bg-info text-white px-2 rounded">{{__('Select The Group')}}</small>
                                 @error('cat_id') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -58,10 +58,10 @@
                             <div class="mb-3">
                                 <label>{{__('Status')}}</label>
                                 <select wire:model="status" name="status" id="" class="form-control">
-                                    <option value="">Choose Status</option>
+                                    <option value="">{{__('Choose Status')}}</option>
                                     <option value="1">{{__('Active')}}</option>
                                     <option value="0">{{__('Non Active')}}</option>
-                                    <small class="tetx-info">{{__('Show or Hide')}}</small>
+                                    <small class="bg-info text-white px-2 rounded">{{__('Active or non-active / Show or Hide')}}</small>
                                 </select>
                                 @error('status') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
@@ -71,7 +71,7 @@
                             <div class="mb-3">
                                 <label>{{__('Priority')}}</label>
                                 <input type="number" wire:model="priority" class="form-control">
-                                <small class="text-info">{{__('The less The Higher Priority')}}</small>
+                                <small class="bg-info text-white px-2 rounded">{{__('The less The Higher Priority')}}</small>
                                 @error('Priority') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -79,10 +79,10 @@
                             <div class="mb-3">
                                 <label>{{__('Special')}}</label>
                                 <select wire:model="special" name="special" id="" class="form-control">
-                                    <option value="">Choose Special On/Off</option>
+                                    <option value="">{{__('Choose Special On/Off')}}</option>
                                     <option value="1">{{__('Special')}}</option>
-                                    <option value="0">{{__('Non Special')}}</option>
-                                    <small class="tetx-info">{{__('Show or Hide')}}</small>
+                                    <option value="0">{{__('Non-Special')}}</option>
+                                    <small class="tetx-info">{{__('Active or non-active / Show or Hide')}}</small>
                                 </select>
                                 @error('special') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
@@ -100,13 +100,13 @@
                         @foreach ($filteredLocales as $locale)
                         <div class="col-12 col-sm-6 border">
                             <div class="mb-3">
-                                <label>{{ strtoupper($locale) }}</label>
+                                <label>{{__('Food Name in')}} {{ __(strtoupper($locale)) }}</label>
                                 <input type="text" wire:model="names.{{$locale}}" class="form-control"
                                     style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}">
                                 @error('names.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                             <div class="mb-3">
-                                <label>Desctip{{ strtoupper($locale) }}</label>
+                                <label>{{__('Desctiption in')}} {{ __(strtoupper($locale)) }}</label>
                                 <textarea wire:model="description.{{$locale}}" class="form-control"
                                     style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}"></textarea>
                                 @error('description.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
@@ -116,10 +116,10 @@
                     </div>
                     <div class="row mt-5">
                         <div class="col-12 d-flex justify-content-center align-items-center">
-                            Single Price
+                            {{__('Single Price')}}
                             <label class="switch"> <input type="checkbox" wire:model="showTextarea"
                                     id="customSwitch1"><span class="slider"></span></label>
-                            Multi Price
+                            {{__('Multi Price')}}
                         </div>
                         @if ($showTextarea)
                         <div class="d-flex justidy-content-between mb-4 col-12">
@@ -128,37 +128,37 @@
                             </h2>
                             
                             <div class="">
-                                <button type="button" class="btn btn-primary" wire:click="addOption">Add New Option</button>
+                                <button type="button" class="btn btn-primary" wire:click="addOption">{{__('Add New Option')}}</button>
                             </div>
                         </div>
                         @foreach ($filteredLocales as $locale)
                         <div class="col-12 col-sm-6 border">
-                            <h3>{{ strtoupper($locale) }}</h3>
+                            <h3>{{ __(strtoupper($locale)) }}</h3>
                         
                             @if (isset($options[$locale]))
                                 @foreach ($options[$locale] as $index => $option)
                                 <h6>{{__('Opntion No.')}} {{$index+1}}</h6>
                                 <div class="row align-items-bottom">
                                     <div class="form-group col-12 col-md-6 col-lg-5">
-                                        <label>Option Description</label>
+                                        <label>{{__('Option Description')}}</label>
                                         <input type="text" wire:model="options.{{ $locale }}.{{ $index }}.key" class="form-control">
-                                        <small class="text-info">{{__('exp:(Small, Medium and Large)')}}</small>
+                                        <small class="bg-info text-white px-2 rounded">{{__('exp:(Small, Medium and Large)')}}</small>
                                     </div>
                                     <div class="form-group col-12 col-md-6 col-lg-5">
-                                        <label>Price</label>
+                                        <label>{{__('Price')}}</label>
                                         <input type="number" wire:model="options.{{ $locale }}.{{ $index }}.value" class="form-control">
-                                        <small class="text-info">{{__('(Original Price)')}}</small>
+                                        <small class="bg-info text-white px-2 rounded">{{__('(Original Price)')}}</small>
                                         <button type="button" class="btn btn-warning text-dark" wire:click="setSamePriceForAllLocales('{{ $locale }}', {{ $index }})">Set Same Price for All</button>
                                     </div>
                                     <div class="col-12 col-lg-2">
-                                        <label class="d-lg-block d-none">Remove</label>
+                                        <label class="d-lg-block d-none">{{__('Remove')}}</label>
                                         <button class="btn btn-danger" wire:click="removeOption('{{ $locale }}', {{ $index }})"><i class="fas fa-minus-square"></i></button>
                                     </div>
                                 </div>
                                 <hr>
                                 @endforeach
                             @else
-                                <p>No options found for this locale.</p>
+                                <p>{{__('No options found for this locale.')}}</p>
                             @endif
                         </div>
                         @endforeach
@@ -173,16 +173,16 @@
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="mb-3">
-                                <label for="price">Price</label>
+                                <label for="price">{{__('Price')}}</label>
                                 <input type="number" name="price" wire:model="price" class="form-control" id="price">
-                                <small class="text-info">{{__('(Original Price)')}}</small>
+                                <small class="bg-info text-white px-2 rounded">{{__('(Original Price)')}}</small>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="mb-3">
-                                <label for="oldPrice">Old Price</label>
+                                <label for="oldPrice">{{__('Old Price')}}</label>
                                 <input type="number" name="oldPrice" wire:model="oldPrice" class="form-control" id="oldPrice">
-                                <small class="text-info">{{__('(Discount Price)')}}</small>
+                                <small class="bg-info text-white px-2 rounded"></small>
                             </div>
                         </div>
                         @endif
@@ -196,9 +196,9 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
-                            <label for="img">Upload Image</label>
+                            <label for="img">{{__('Upload Image')}}</label>
                             <input type="file" name="foodImg" id="foodImg" class="form-control" style="height: auto">
-                            <small class="text-info">The Image Size Should be <b>(640px X 360px)</b> or <b>(1280px X 720px)</b></small>
+                            <small class="bg-info text-white px-2 rounded">{{__('The Image Size Should be')}} <b>{{__('(640px X 360px)')}}</b> {{__('or')}} <b>{{__('(1280px X 720px)')}}</b></small>
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                             <input type="file" name="croppedFoodImg" id="croppedFoodImg" style="display: none;">
                             <div class="progress my-1">
@@ -214,8 +214,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                        data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary submitJs">Save</button>
+                        data-dismiss="modal">{{__('Close')}}</button>
+                    <button type="submit" class="btn btn-primary submitJs">{{__('Save')}}</button>
                 </div>
             </form>
         </div>
@@ -228,7 +228,7 @@
             <form wire:submit.prevent="updateFood">
                 <div class="modal-body">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="updateFoodModalLabel">{{__('Edit Menu')}}</h5>
+                        <h5 class="modal-title" id="updateFoodModalLabel">{{__('Edit Food')}}</h5>
                         <button type="button" class="btn btn-danger" data-dismiss="modal" wire:click="closeModal"
                             aria-label="Close"><i class="fas fa-times"></i></button>
                     </div>
@@ -242,14 +242,14 @@
                         </div>
                         <div class="col-12 col-sm-4">
                             <div class="mb-3">
-                                <label>{{ __('Select Menu') }}</label>
+                                <label>{{ __('Select Category') }}</label>
                                 <select wire:model="cat_id" name="cat_id" id="" class="form-control">
-                                    <option value="">Select Menu</option>
+                                    <option value="">{{__('Select Category')}}</option>
                                     @foreach ($menu_select as $menu)
                                     <option value="{{$menu->translation->cat_id}}">{{$menu->translation->name}}</option>
                                     @endforeach
                                 </select>
-                                <small class="text-info">{{__('Select The Group')}}</small>
+                                <small class="bg-info text-white px-2 rounded">{{__('Select The Group')}}</small>
                                 @error('cat_id') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -257,11 +257,11 @@
                             <div class="mb-3">
                                 <label>{{__('Status')}}</label>
                                 <select wire:model="status" name="status" id="" class="form-control">
-                                    <option value="">Choose Status</option>
+                                    <option value="">{{__('Choose Status')}}</option>
                                     <option value="1">{{__('Active')}}</option>
                                     <option value="0">{{__('Non Active')}}</option>
                                 </select>
-                                <small class="text-info">{{__('Show or Hide')}}</small>
+                                <small class="bg-info text-white px-2 rounded">{{__('Active or non-active / Show or Hide')}}</small>
                                 @error('status') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -269,7 +269,7 @@
                             <div class="mb-3">
                                 <label>{{__('Priority')}}</label>
                                 <input type="number" wire:model="priority" class="form-control">
-                                <small class="text-info">{{__('The less The Higher')}}</small>
+                                <small class="bg-info text-white px-2 rounded">{{__('The less The Higher')}}</small>
                                 @error('Priority') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -277,10 +277,10 @@
                             <div class="mb-3">
                                 <label>{{__('Special')}}</label>
                                 <select wire:model="special" name="special" id="" class="form-control">
-                                    <option value="">Choose Special On/Off</option>
+                                    <option value="">{{__('Choose Special On/Off')}}</option>
                                     <option value="1">{{__('Special')}}</option>
                                     <option value="0">{{__('Non Special')}}</option>
-                                    <small class="tetx-info">{{__('Show or Hide')}}</small>
+                                    <small class="tetx-info">{{__('Active or non-active / Show or Hide')}}</small>
                                 </select>
                                 @error('special') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
@@ -298,13 +298,13 @@
                         @foreach ($filteredLocales as $locale)
                         <div class="col-12 col-sm-6 border">
                             <div class="mb-3">
-                                <label>{{ strtoupper($locale) }}</label>
+                                <label>{{__('Food Name in')}} {{ __(strtoupper($locale)) }}</label>
                                 <input type="text" wire:model="names.{{$locale}}" class="form-control"
                                     style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}">
                                 @error('names.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                             <div class="mb-3">
-                                <label>Desctip{{ strtoupper($locale) }}</label>
+                                <label>{{__('Desctiption in')}} {{ __(strtoupper($locale)) }}</label>
                                 <textarea wire:model="description.{{$locale}}" class="form-control"
                                     style="{{$locale == "ar" || $locale == 'ku' ? "direction: rtl;" : ""}}"></textarea>
                                 @error('description.'.$locale) <span class="text-danger">{{ $message }}</span> @enderror
@@ -314,10 +314,10 @@
                     </div>
                     <div class="row mt-5">
                         <div class="col-12 d-flex justify-content-center align-items-center">
-                            Single Price
+                            {{__('Single Price')}}
                             <label class="switch"> <input type="checkbox" wire:model="showTextarea"
                                     id="customSwitch1"><span class="slider"></span></label>
-                            Multi Price
+                            {{__('Multi Price')}}
                         </div>
                         @if ($showTextarea)
                         <div class="d-flex justidy-content-between mb-4 col-12">
@@ -331,7 +331,7 @@
                         @foreach ($filteredLocales as $locale)
                         <div class="col-12 col-sm-6 border">
                             <div class="d-flex justify-content-between my-3">
-                                <h3>{{ strtoupper($locale) }}</h3>
+                                <h3>{{ __(strtoupper($locale)) }}</h3>
                                 <button type="button" class="btn btn-info" wire:click="addOptionForAllAndLocale('{{$locale}}')">{{__('Add Specific Option')}}</button> 
                             </div>
                             @php
@@ -349,18 +349,18 @@
                                 <h6>{{__('Option No.')}} {{$index+1}}</h6>
                                 <div class="row align-items-bottom">
                                     <div class="form-group col-12 col-md-6 col-lg-5">
-                                        <label>Option Description</label>
+                                        <label>{{__('Option Description')}}</label>
                                         <input type="text" wire:model="options.{{ $locale }}.{{ $index }}.key" class="form-control">
-                                        <small class="text-info">{{__('exp:(Small, Medium and Large)')}}</small>
+                                        <small class="bg-info text-white px-2 rounded">{{__('exp:(Small, Medium and Large)')}}</small>
                                     </div>
                                     <div class="form-group col-12 col-md-6 col-lg-5">
-                                        <label>Price</label>
+                                        <label>{{__('Price')}}</label>
                                         <input type="number" wire:model="options.{{ $locale }}.{{ $index }}.value" class="form-control">
-                                        <small class="text-info">{{__('(Original Price)')}}</small>
-                                        <button type="button" class="btn btn-warning text-dark" wire:click="setSamePriceForAllLocales('{{ $locale }}', {{ $index }})">Set Same Price for All</button>
+                                        <small class="bg-info text-white px-2 rounded">{{__('(Original Price)')}}</small>
+                                        <button type="button" class="btn btn-warning text-dark" wire:click="setSamePriceForAllLocales('{{ $locale }}', {{ $index }})">{{__('Set Same Price for All')}}</button>
                                     </div>
                                     <div class="col-12 col-lg-2">
-                                        <label class="d-lg-block d-none">Remove</label>
+                                        <label class="d-lg-block d-none">{{__('Remove')}}</label>
                                         <button type="button" class="btn btn-danger" wire:click="removeOption('{{ $locale }}', {{ $index }})"><i class="fas fa-minus-square"></i></button>
                                     </div>
                                 </div>
@@ -379,16 +379,16 @@
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="mb-3">
-                                <label for="price">Price</label>
+                                <label for="price">{{__('Price')}}</label>
                                 <input type="number" name="price" wire:model="price" class="form-control" id="price">
-                                <small class="text-info">{{__('(Original Price)')}}</small>
+                                <small class="bg-info text-white px-2 rounded">{{__('(Original Price)')}}</small>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="mb-3">
-                                <label for="oldPrice">Old Price</label>
+                                <label for="oldPrice">{{__('Old Price')}}</label>
                                 <input type="number" name="oldPrice" wire:model="oldPrice" class="form-control" id="oldPrice">
-                                <small class="text-info">{{__('(Discount Price)')}}</small>
+                                <small class="bg-info text-white px-2 rounded"></small>
                             </div>
                         </div>
                         @endif
@@ -402,7 +402,7 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
-                            <label for="img">Upload Image</label>
+                            <label for="img">{{__('Upload Image')}}</label>
                             <input type="file" name="editFoodImg" id="editFoodImg" class="form-control" style="height: auto">
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                             <div class="progress my-1">
@@ -418,8 +418,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                        data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary submitJs">Update</button>
+                        data-dismiss="modal">{{__('Close')}}</button>
+                    <button type="submit" class="btn btn-primary submitJs">{{__('Update')}}</button>
                 </div>
             </form>
         </div>
@@ -432,7 +432,7 @@
     <div class="modal-dialog text-white">
         <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteFoodModalLabel">Delete Food</h5>
+                <h5 class="modal-title" id="deleteFoodModalLabel">{{__('Delete Food')}}</h5>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" wire:click="closeModal"
                     aria-label="Close"><i class="fas fa-times"></i></button>
             </div>
@@ -444,7 +444,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                        data-dismiss="modal">Cancel</button>
+                        data-dismiss="modal">{{__('Cancel')}}</button>
                         <button type="submit" class="btn btn-danger" wire:disabled="!confirmDelete || $foodNameToDelete !== $showTextTemp">
                             {{ __('Yes! Delete') }}
                         </button>
@@ -459,7 +459,7 @@
     <div class="modal-dialog modal-lg text-white" role="document">
         <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title">Crop Image Before Upload</h5>
+                <h5 class="modal-title">{{__('Crop Image Before Upload')}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -478,8 +478,8 @@
             </div>
             <div class="modal-footer">
                 {{-- <button type="button" id="crop" class="btn btn-primary">Crop</button> --}}
-                <button type="button" class="btn btn-primary crop-btn" data-index="">Crop</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary crop-btn" data-index="">{{__('Crop')}}</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
             </div>
         </div>
     </div>

@@ -9,7 +9,7 @@
     {{-- <button wire:click="export" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
             class="fas fa-download fa-sm text-white-50"></i> </button> --}}
             <div class="d-sm-flex align-items-center justify-content-between my-4">
-                <h1 class="h3 mb-0 text-white">Dashboard</h1>
+                <h1 class="h3 mb-0 text-white">{{__('Dashboard')}}</h1>
                 
                 <div class="dropdown mr-1">
                     <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" data-offset="10,20">
@@ -26,12 +26,14 @@
             </div>
 
     @if($profile['plan_id'] == 1)
-    <div class="alert alert-danger" role="alert">
-        You Are In {{$profile['plan_name']}} To Upgrade Click here<a href="{{route('plan')}}" class="alert-link"> Upgrade</a>
-      </div>
+
+<div class="alert alert-danger text-upgrade" role="alert">
+    {{__('You Are In')}} {{$profile['plan_name']}} {{__('To Upgrade Click here')}}<a href="{{route('plan')}}" class="alert-link"> {{__('Upgrade')}}</a>
+  </div>
+
     @endif
     <!-- Content Row -->
-    <div class="row">
+    <div class="row profile-box">
         <div class="col-12 mb-3">
             <div class="row m-0 p-0 dash-card">
                 <div class="col-12 col-xl-2 m-0 p-0">
@@ -45,23 +47,23 @@
                         <div class="row text-white">
                             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-3">
                                 {{-- <h5>Profile</h5> --}}
-                                <p class="card-title">Restaurant Name: {{$profile['restName']}}</p>
-                                <p class="card-title">Country: {{$profile['country']}}</p>
+                                <p class="card-title">{{__('Restaurant Name:')}} {{$profile['restName']}}</p>
+                                <p class="card-title">{{__('Country:')}} {{$profile['country']}}</p>
                             </div>
                             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-3">
                                 {{-- <h5>Initial Information</h5> --}}
-                                <p class="card-title">Name: {{$profile['name']}}</p>
-                                <p class="card-title">Email: {{$profile['email']}}</p>
-                                <p class="card-title">Phone: {{$profile['phone']}}</p>
+                                <p class="card-title">{{__('Name:')}} {{$profile['name']}}</p>
+                                <p class="card-title">{{__('Email:')}} {{$profile['email']}}</p>
+                                <p class="card-title">{{__('Phone:')}} {{$profile['phone']}}</p>
                             </div>
                             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-3">
                                 {{-- <h5>Menu Active Time</h3> --}}
-                                <p class="card-title text-success">Start: {{$profile['create']}}</p>
-                                <p class="card-title text-danger">Expire: {{$profile['expire']}}</p>
+                                <p class="card-title text-success">{{__('Start:')}} {{$profile['create']}}</p>
+                                <p class="card-title text-danger">{{__('Expire:')}} {{$profile['expire']}}</p>
                                 @if($profile['plan_id'] == 1)
-                                    <p class="card-title text-info">Subscription: <span class="text-danger">{{$profile['plan_name']}}</span></p>
+                                    <p class="card-title text-info">{{__('Subscription:')}} <span class="text-danger">{{$profile['plan_name']}}</span></p>
                                 @else
-                                    <p class="card-title text-info">Subscription: {{$profile['plan_name']}}</p>
+                                    <p class="card-title text-info">{{__('Subscription:')}} {{$profile['plan_name']}}</p>
                                 @endif
                             </div>
                         </div>
@@ -106,7 +108,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                {{__('Total Scans (Life-time')}})</div>
+                                {{__('Total Scans (Life-time)')}}</div>
                             <div class="h5 mb-0 font-weight-bold text-white">{{$visit_lifetime}}</div>
                         </div>
                         <div class="col-auto">
@@ -215,7 +217,7 @@
             <!-- Project Card Example -->
             <div class="card shadow mb-4 dash-card">
                 <div class="card-header py-3 dash-card">
-                    <h6 class="m-0 font-weight-bold text-white">Top 5 Categories Clicked</h6>
+                    <h6 class="m-0 font-weight-bold text-white top-title">{{__('Top 5 Categories Clicked')}}</h6>
                 </div>
                 <div class="card-body">
                     @foreach($categoriesWithNames as $category)
@@ -236,7 +238,7 @@
             <!-- Project Card Example -->
             <div class="card shadow mb-4 dash-card">
                 <div class="card-header py-3 dash-card">
-                    <h6 class="m-0 font-weight-bold text-white">Top 5 Food Clicked</h6>
+                    <h6 class="m-0 font-weight-bold text-white top-title">{{__('Top 5 Food Clicked')}}</h6>
                 </div>
                 <div class="card-body">
                     @foreach($foodWithNames as $food)
@@ -259,18 +261,15 @@
             <!-- Approach -->
             <div class="card shadow mb-4 dash-card">
                 <div class="card-header py-3 dash-card">
-                    <h6 class="m-0 font-weight-bold text-white">Development Approach</h6>
+                    <h6 class="m-0 font-weight-bold text-white top-title">{{__('Development Approach')}}</h6>
                 </div>
                 <div class="card-body text-white dash-card">
                     <div class="text-center">
                         <img class="img-fluid px-3 px-sm-4 mt-3 mb-4 rounded-circle" style="width: 10rem; object-fit:cover;"
                             src="https://i.ibb.co/7CdxCVJ/facebook-logo.jpg" alt="minemenulogo">
                     </div>
-                    <p>Mine Menu Version 2 makes extensive use of Resturant utility in order to reduce
-                        poor page performance. Custom Design are used to create
-                        Great components to your Resturant.</p>
-                    <p class="mb-0">Before working with this theme, you should become familiar with the
-                        Mine Menu, especially the utility classes.</p>
+                    <p class="top-title">{{__('Mine Menu Version 2 makes extensive use of Resturant utility in order to reduce poor page performance. Custom Design are used to create Great components to your Resturant.')}}</p>
+                    <p class="mb-0 top-title">{{__('Before working with this theme, you should become familiar with the Mine Menu, especially the utility classes.')}}</p>
                 </div>
             </div>
 
@@ -391,7 +390,7 @@
                     labels: visitsData.map(item => item.month),
                     datasets: [
                         {
-                            label: 'Visits',
+                            label: "{!! __('Visits') !!}",
                             data: visitsData.map(item => item.count),
                             borderColor: 'rgba(75, 192, 192, 1)',
                             backgroundColor: ['rgba(75, 192, 192, 0.1)','rgba(75, 192, 192, 0)'],
@@ -399,7 +398,7 @@
                             fill: true,
                         },
                         {
-                            label: 'Category Clicks',
+                            label: "{!! __('Category Clicks') !!}",
                             data: categoryClicksData.map(item => item.count),
                             borderColor: 'rgba(255, 99, 132, 1)', // Change the color
                             backgroundColor: ['rgba(255, 99, 132, 0.1)','rgba(255, 99, 132, 0)'],
@@ -407,7 +406,7 @@
                             fill: true,
                         },
                         {
-                            label: 'Food Clicks',
+                            label: "{!! __('Food Clicks') !!}",
                             data: foodClicksData.map(item => item.count),
                             borderColor: 'rgba(255, 206, 86, 1)', // Change the color
                             backgroundColor: ['rgba(255, 206, 86, 0.1)','rgba(255, 206, 86, 0)'],

@@ -42,13 +42,13 @@ $regularPlans = Plan::where('status', 1)->where('type','regular')->get();
             </div>
           </div>
           <div class="my-3 text-center">
-            <h3 class="offer-price">New Offers</h3>
+            <h3 class="offer-price">{{__('New Offers')}}</h3>
           </div>
           <div class="row justify-content-center">
             @foreach ($offerPlan as $plan)
             <div class="col-12 col-md-6 p-1">
               <div style="border-left: 4px solid #cc0022; border-radius: 5px;">
-                <h6 class="ml-2">Expires in: <b><span id="countdown-{{ $plan->id }}"></span></b></h6>
+                <h6 class="ml-2">{{__('Expires in:')}}<b><span id="countdown-{{ $plan->id }}"></span></b></h6>
               </div>
               {!! $plan->description[app()->getLocale()] !!}
               <script>
@@ -59,7 +59,7 @@ $regularPlans = Plan::where('status', 1)->where('type','regular')->get();
             @endforeach
           </div>
           <div class="mt-5 my-3 text-center">
-            <h3 class="regular-price">Regular Price</h3>
+            <h3 class="regular-price">{{__('Regular Price')}}</h3>
           </div>
           <div class="row justify-content-center">
             <!-- Single Price Plan Area-->

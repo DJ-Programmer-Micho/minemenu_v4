@@ -692,6 +692,7 @@
     @stack('drag')
     @stack('color');
     @stack('rest_script')
+    @stack('contact')
     @yield('rest_script')
     <form id="languageForm" action="{{ route('setLocale') }}" method="post">
         @csrf

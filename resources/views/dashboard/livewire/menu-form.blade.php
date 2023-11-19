@@ -2,14 +2,14 @@
 
     @include('dashboard.livewire.menu-table')
     <div class="m-4">
-        <h2 class="text-lg font-medium mr-auto">
-            <b>TABLE MENU</b>
+        <h2 class="text-lg text-white font-medium mr-auto">
+            <b>{{__('TABLE MENU')}}</b>
         </h2>
         <div class="row d-flex justify-content-between m-0">
             <div>
                 <h2 class="text-lg font-medium mr-auto">
                     <input type="search" wire:model="search" class="form-control bg-white text-black"
-                        placeholder="Search..." style="width: 250px; border: 1px solid var(--primary)" />
+                        placeholder="{{__('Search...')}}" style="width: 250px; border: 1px solid var(--primary)" />
                 </h2>
             </div>
             <div>

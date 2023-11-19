@@ -36,7 +36,7 @@
             <span class="text-danger">{{__("$message")}}</span>
           @enderror
         </label>
-        <input type="text" class="form-control shadow-none" id="inputName" placeholder="" name="fullname" value="{{old('fullname')}}" required>
+        <input type="text" class="form-control shadow-none" id="inputName" placeholder="{{__("Full Name")}}" name="fullname" value="{{old('fullname')}}" required>
       </div>
       <div class="form-group col-md-6">
         <label for="inputRestName">{{__("Brand Name")}}
@@ -44,7 +44,7 @@
           <span class="text-danger">{{__("$message")}}</span>
           @enderror
         </label>
-        <input type="text" class="form-control" id="inputRestName" placeholder="" name="name" value="{{ old('name') }}" required pattern="[a-z]+">
+        <input type="text" class="form-control" id="inputRestName" placeholder="{{__("Brand Name")}}" name="name" value="{{ old('name') }}" required pattern="[a-z]+">
       </div>
     </div>
 
@@ -55,7 +55,7 @@
           <span class="text-danger">{{__("$message")}}</span>
           @enderror
         </label>
-        <input type="email" class="form-control" id="inputEmail4" placeholder="" name="email" value="{{old('email')}}"  required>
+        <input type="email" class="form-control" id="inputEmail4" placeholder="{{__("Email")}}" name="email" value="{{old('email')}}"  required>
       </div>
       <div class="form-group col-md-6 phone">
         <label for="inputPhone">{{__("Phone Number")}}
@@ -63,7 +63,7 @@
           <span class="text-danger">{{__("$message")}}</span>
           @enderror
         </label>
-        <input type="tel" class="form-control" id="inputPhone" placeholder="" name="phone" value="{{old('phone')}}" dir="ltr" required>
+        <input type="tel" class="form-control" id="inputPhone" placeholder="{{__("Phone Number")}}" name="phone" value="{{old('phone')}}" dir="ltr" required>
       </div>
     </div>
     <div class="form-row">
@@ -73,7 +73,7 @@
           <span class="text-danger">{{__("$message")}}</span>
           @enderror
         </label>
-        <input type="password" class="form-control" id="inputPass" placeholder="" name="password" value="{{old('password')}}" required min="6">
+        <input type="password" class="form-control" id="inputPass" placeholder="********" name="password" value="{{old('password')}}" required min="6">
       </div>
     </div>
 
@@ -96,7 +96,7 @@
         <span class="text-danger">{{__("$message")}}</span>
         @enderror
       </label>
-      <input type="text" class="form-control" id="inputAddress" placeholder="" name="address" value="{{old('address')}}">
+      <input type="text" class="form-control" id="inputAddress" placeholder="{{__("Address")}}" name="address" value="{{old('address')}}">
     </div>
 
     <div class="form-group mt-5 options">
@@ -135,7 +135,7 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <div class="g-recaptcha ar" id="feedback-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}"></div>
     @error('g-recaptcha-response')
-    <span class="danger" style="font-size: 12px">please check recaptcha</span><br>
+    <span class="danger" style="font-size: 12px">{{__('please check recaptcha')}}</span><br>
     @enderror
 
     <div class="form-group">
@@ -208,8 +208,8 @@
       <p>BY USING THIS WEBSITE OR ORDERING PRODUCTS FROM THIS WEBSITE YOU AGREE  TO BE BOUND BY ALL OF THE TERMS AND CONDITIONS OF THIS AGREEMENT</p><br>
     </div>
     <div class="modal-footer">
-      <button type="button" id="acceptBtn" class="btn btn-danger">Accept</button>
-      <button type="button" id="declineBtn" class="btn btn-info">Decline</button>
+      <button type="button" id="acceptBtn" class="btn btn-danger">{{__('Accept')}}</button>
+      <button type="button" id="declineBtn" class="btn btn-info">{{__('Decline')}}</button>
     </div>
   </div>
 </div>

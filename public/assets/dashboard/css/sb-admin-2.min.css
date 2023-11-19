@@ -10426,3 +10426,28 @@ body.sidebar-toggled footer.sticky-footer {
     padding: 0 20px;
     margin-bottom: 17px;
 } */
+
+[lang = "ar"] .text-upgrade,
+[lang = "ku"] .text-upgrade
+{
+  direction: rtl!important;
+  text-align: right !important;
+}
+[lang = "ar"] .profile-box,
+[lang = "ku"] .profile-box
+{
+  direction: rtl!important;
+  text-align: right !important;
+}
+[lang = "ar"] .card-title,
+[lang = "ku"] .card-title
+{
+  direction: rtl!important;
+  text-align: right !important;
+}
+[lang = "ar"] .top-title,
+[lang = "ku"] .top-title
+{
+  direction: rtl!important;
+  text-align: right !important;
+}

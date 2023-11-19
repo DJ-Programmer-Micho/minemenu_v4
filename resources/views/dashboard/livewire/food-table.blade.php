@@ -13,9 +13,9 @@
         <div class="row m-0 p-0">
             
                 <h6 class="font-medium col-12 col-lg-2">
-                    <label class="text-white">{{__('Menu Select')}}</label>
+                    <label class="text-white">{{__('Category Select')}}</label>
                     <select wire:model="categorieFilter" class="form-control bg-white text-black w-100">
-                        <option value="" default>All</option>
+                        <option value="" default>{{__('All')}}</option>
                         @foreach ($menu_select as $menu)
                         <option value="{{$menu->translation->name}}">{{$menu->translation->name}}</option>
                         @endforeach
@@ -25,30 +25,30 @@
                 <h6 class=" font-medium col-12 col-lg-2">
                     <label class="text-white">{{__('Food Search')}}</label>
                     <input type="search" wire:model="search" class="form-control bg-white text-black w-100"
-                        placeholder="Search..." style="width: 250px; border: 1px solid var(--primary)" />
+                        placeholder="{{__('Search...')}}" style="width: 250px; border: 1px solid var(--primary)" />
                 </h6>
 
                 <h6 class=" font-medium col-12 col-lg-2">
                     <label class="text-white">{{__('Options Select')}}</label>
                     <select wire:model="optionFilter" class="form-control bg-white text-black w-100">
-                        <option value="" default>All</option>
-                        <option value="0">Single</option>
-                        <option value="1">Multi</option>
+                        <option value="" default>{{__('All')}}</option>
+                        <option value="0">{{__('Single')}}</option>
+                        <option value="1">{{__('Multi')}}</option>
                     </select>
                 </h6>
 
                 <h6 class=" font-medium col-12 col-lg-2">
                     <label class="text-white">{{__('Status Select')}}</label>
                     <select wire:model="statusFilter" class="form-control bg-white text-black w-100">
-                        <option value="" default>All</option>
-                        <option value="1">Active</option>
-                        <option value="0">Non-Active</option>
+                        <option value="" default>{{__('All')}}</option>
+                        <option value="1">{{__('Active')}}</option>
+                        <option value="0">{{__('Non-Active')}}</option>
                     </select>
                 </h6>
            
                 <h6 class=" font-medium col-12 col-lg-2">
                     <label class="text-white">{{__('Reset Filter')}}</label>
-                    <button class="btn btn-dark form-control py-0" wire:click="resetFilter()">Reset</button>
+                    <button class="btn btn-dark form-control py-0" wire:click="resetFilter()">{{__('Reset')}}</button>
                 </h6>
 
  
@@ -111,7 +111,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="{{ count($cols_th) + 1 }}">No Record Found</td>
+                        <td colspan="{{ count($cols_th) + 1 }}">{{__('No Record Found')}}</td>
                     </tr>
                     @endforelse
                 </tbody>
