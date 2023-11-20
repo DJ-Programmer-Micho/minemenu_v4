@@ -1,13 +1,19 @@
 <div class="my-4">
     <h3 class="text-white">{{__('MENU CUSTOMIZATION')}}</h3>
+    <link href="{{asset('assets/dashboard/css/qr-style.css')}}" rel="stylesheet">
     <hr>
 <main>
+    <style>
+        .accordion {
+            background-color: #334165;
+        }
+    </style>
     <section class="container qr-description d-none" id="qr-description">
         <div class="col">
         </div>
     </section>
     <section class="container mb-5">
-        <div class="row row--body">
+        <div class="row row--body p-0">
             <form class="col qr-form border text-white" id="form">
                 <button type="button" class="accordion accordion--open">Main Options</button>
                 <div class="panel panel--open">
