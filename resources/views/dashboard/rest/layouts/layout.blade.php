@@ -388,9 +388,19 @@
 
             <!-- Sidebar Message -->
             <div class="sidebar-card d-none d-lg-flex">
-                <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
-                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
+                <img class="sidebar-card-illustration mb-2 rounded-circle" src="https://i.ibb.co/7CdxCVJ/facebook-logo.jpg" alt="Mine_Menu">
+                @if(auth()->user()->subscription->plan_id == 1)
+                @php
+                    $plan_name = \App\Models\Plan::where('id', auth()->user()->subscription->plan_id)->first()->name;
+                @endphp
+                <p class="text-center mb-2">{{__('You Are In')}} {{ $plan_name[app()->getLocale()] }} {{__('To Upgrade Click here')}}</p>
+                <a class="btn btn-danger btn-sm" href="{{ route('plan') }}">Upgrade to Pro!</a>
+            @else
+                <p class="text-center mb-2"><b>{{__('You Are In Pro Version')}}</b></p>
+            @endif
+            
+                {{-- <p class="text-center mb-2">{{__('You Are In')}} {{$profile['plan_name']}} {{__('To Upgrade Click here')}}</p>
+                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a> --}}
             </div>
 
         </ul>
@@ -457,7 +467,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
+                                <span class="badge badge-danger badge-counter">0</span>
                             </a>
                             <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -467,16 +477,16 @@
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-check text-white"></i>
                                         </div>
                                     </div>
                                     <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                        {{-- <div class="small text-gray-500">December 12, 2019</div> --}}
+                                        <span class="font-weight-bold">{{__('Account Has Been Activated')}}</span>
                                     </div>
                                 </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                {{-- <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-success">
                                             <i class="fas fa-donate text-white"></i>
@@ -485,8 +495,8 @@
                                     <div>
                                         <div class="small text-gray-500">December 7, 2019</div>
                                         $290.29 has been deposited into your account!
-                                    </div>
-                                </a>
+                                    </div> --}}
+                                {{-- </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-warning">
@@ -497,8 +507,8 @@
                                         <div class="small text-gray-500">December 2, 2019</div>
                                         Spending Alert: We've noticed unusually high spending for your account.
                                     </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                                </a> --}}
+                                {{-- <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a> --}}
                             </div>
                         </li>
 
@@ -564,7 +574,7 @@
                                         <div class="small text-gray-500">Chicken the Dog · 2w</div>
                                     </div>
                                 </a> --}}
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">{{__('No Messages So Far')}}</a>
                             </div>
                         </li>
 
