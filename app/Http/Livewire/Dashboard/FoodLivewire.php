@@ -96,7 +96,7 @@ class FoodLivewire extends Component
         $rules = [];
         foreach ($this->filteredLocales as $locale) {
             $rules['names.' . $locale] = 'required|string|min:2';
-            $rules['description.' . $locale] = 'required|string|min:2';
+            // $rules['description.' . $locale] = 'required|string|min:2';
         }
         $rules['cat_id'] = ['required'];
         $rules['priority'] = ['required'];
