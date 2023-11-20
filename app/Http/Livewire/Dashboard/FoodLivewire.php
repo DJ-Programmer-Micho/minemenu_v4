@@ -167,7 +167,7 @@ class FoodLivewire extends Component
                 Food_Translator::create([
                     'food_id' => $food->id,
                     'name' => $this->names[$locale],
-                    'description' => $this->description[$locale],
+                    'description' => $this->description[$locale] ?? null,
                     'lang' => $locale,
                 ]);
             }
