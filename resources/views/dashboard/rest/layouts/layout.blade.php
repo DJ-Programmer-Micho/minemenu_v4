@@ -325,6 +325,7 @@
                             <span class="text-white">{{__('Documents')}}</span>
                             </a>
                         <div class="collapse-divider"></div>
+                        @if(auth()->user()->subscription->plan_id != 1)
                         <h6 class="collapse-header">{{__('Team Support:')}}</h6>
                         <a class="collapse-item" href="{{route('supportContactUs')}}">
                             <lord-icon
@@ -356,6 +357,7 @@
                         </lord-icon>
                             <span class="text-white">{{__('Error!')}}</span>
                             </a>
+                        @endif
                     </div>
                 </div>
             </li>
