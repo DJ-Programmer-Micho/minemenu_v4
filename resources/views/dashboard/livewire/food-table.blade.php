@@ -68,13 +68,18 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {{-- @php
+                            
+                    dd($items);
+                @endphp --}}
                     @forelse ($items as $index => $item )
                     <tr>
+
                         @foreach ($cols_td as $col)
                         <td class="align-middle">
                             @if($col === 'id')
                                 {{-- {{$index +1 }} --}}
-                                {{$item->food->id }}
+                                {{$item->food_id }}
                             @elseif ($col === 'status')
                                 <span class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
                                    <b>{{ $item->status == 1 ? __('Active') : __('Non-Active') }}</b>
