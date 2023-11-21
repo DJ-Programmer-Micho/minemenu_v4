@@ -688,7 +688,7 @@ class FoodLivewire extends Component
             $query->where('lang', $this->glang);
         }])->where('user_id', Auth::id())
             ->leftJoin('food_translators', function ($join) {
-                $join->on('foods.id', '=', 'food_translators.food_id')
+                $join->on('food.id', '=', 'food_translators.food_id')
                      ->where('food_translators.lang', '=', $this->glang);
             })
             ->where(function ($query) {
