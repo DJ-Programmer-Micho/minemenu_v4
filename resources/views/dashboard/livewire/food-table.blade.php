@@ -73,7 +73,8 @@
                         @foreach ($cols_td as $col)
                         <td class="align-middle">
                             @if($col === 'id')
-                                {{$index +1 }}
+                                {{-- {{$index +1 }} --}}
+                                {{$col->id }}
                             @elseif ($col === 'status')
                                 <span class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
                                    <b>{{ $item->status == 1 ? __('Active') : __('Non-Active') }}</b>
