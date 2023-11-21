@@ -687,13 +687,13 @@ class FoodLivewire extends Component
         }, 'translation' => function ($query) {
             $query->where('lang', $this->glang);
         }])->where('user_id', Auth::id())
-            ->leftJoin('food_translation', function ($join) {
-                $join->on('foods.id', '=', 'food_translation.food_id')
-                     ->where('food_translation.lang', '=', $this->glang);
+            ->leftJoin('food_translators', function ($join) {
+                $join->on('foods.id', '=', 'food_translators.food_id')
+                     ->where('food_translators.lang', '=', $this->glang);
             })
             ->where(function ($query) {
-                $query->where('food_translation.name', 'like', '%' . $this->search . '%')
-                      ->orWhereNull('food_translation.name');
+                $query->where('food_translators.name', 'like', '%' . $this->search . '%')
+                      ->orWhereNull('food_translators.name');
             })
             ->when($this->categorieFilter !== '', function ($query) {
                 $query->whereHas('category.translation', function ($query) {
