@@ -74,7 +74,7 @@
                         <td class="align-middle">
                             @if($col === 'id')
                                 {{-- {{$index +1 }} --}}
-                                {{$item->id }}
+                                {{$item->food->id }}
                             @elseif ($col === 'status')
                                 <span class="{{ $item->status == 1 ? 'text-success' : 'text-danger' }}">
                                    <b>{{ $item->status == 1 ? __('Active') : __('Non-Active') }}</b>
