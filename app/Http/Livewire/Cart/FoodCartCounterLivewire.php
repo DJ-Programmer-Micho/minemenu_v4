@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Cart;
  
 use App\Models\Food;
 use App\Models\Offer;
+use Exception;
 use Livewire\Component;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
@@ -28,7 +29,11 @@ class FoodCartCounterLivewire extends Component
 
     public function mount($glang, $setting){
         $this->glang = $glang;
-        $this->tax = $setting->fees;
+        if($setting->fees == null || $setting->fees == '') {
+            $this->tax = 0;
+        } else {
+            $this->tax = $setting->fees;
+        }
 
         // GET THE VALUES
         foreach (Cart::content() as $cartItem) {
@@ -73,7 +78,9 @@ class FoodCartCounterLivewire extends Component
             $subtotal = floatval($item['subtotal']); // Convert subtotal to float
             $totalSubtotal += $subtotal;
         }
+
         $taxRate = $this->tax / 100;
+
         $grandTotal = $totalSubtotal + ($totalSubtotal * $taxRate);
         
     

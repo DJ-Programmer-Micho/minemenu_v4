@@ -687,30 +687,35 @@ class FoodLivewire extends Component
         }, 'translation' => function ($query) {
             $query->where('lang', $this->glang);
         }])->where('user_id', Auth::id())
-            ->leftJoin('food_translators', function ($join) {
-                $join->on('food.id', '=', 'food_translators.food_id')
-                     ->where('food_translators.lang', '=', $this->glang);
-            })
-            ->where(function ($query) {
-                $query->where('food_translators.name', 'like', '%' . $this->search . '%')
-                      ->orWhereNull('food_translators.name');
-            })
-            ->when($this->categorieFilter !== '', function ($query) {
-                $query->whereHas('category.translation', function ($query) {
-                    $query->where('name', $this->categorieFilter);
-                });
-            })
-            ->when($this->statusFilter !== '', function ($query) {
-                $query->whereHas('translation', function ($query) {
-                    $query->where('status', $this->statusFilter);
-                });
-            })->orderBy('priority', 'ASC')
-            ->when($this->optionFilter !== '', function ($query) {
-                $query->whereHas('translation', function ($query) {
-                    $query->where('sorm', $this->optionFilter);
-                });
-            })
-            ->paginate(10);
+        ->leftJoin('food_translators', function ($join) {
+            $join->on('food.id', '=', 'food_translators.food_id')
+                ->where('food_translators.lang', '=', $this->glang);
+        })
+        ->where(function ($query) {
+            $query->where('food_translators.name', 'like', '%' . $this->search . '%')
+                ->orWhereNull('food_translators.name');
+        })
+        ->when($this->categorieFilter !== '', function ($query) {
+            $query->whereHas('category.translation', function ($query) {
+                $query->where('name', $this->categorieFilter);
+            });
+        })
+        ->when($this->statusFilter !== '', function ($query) {
+            $query->where(function ($query) {
+                $query->where('translation.status', $this->statusFilter)
+                    ->orWhereNull('translation.status');
+            });
+        })
+        ->orderBy('priority', 'ASC')
+        ->when($this->optionFilter !== '', function ($query) {
+            $query->where(function ($query) {
+                $query->where('translation.sorm', $this->optionFilter)
+                    ->orWhereNull('translation.sorm');
+            });
+        })
+        ->select('food.id as food_id', 'food.*') // Select the food table ID
+        ->paginate(10);
+    
 
         return view('dashboard.livewire.food-table', 
         [
