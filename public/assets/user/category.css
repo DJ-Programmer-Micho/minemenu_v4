@@ -29,7 +29,8 @@ Category UI/UX-01
         sans-serif;
 }
 
-[lang="ar"] .nav-pills-01 {
+[lang="ar"] .nav-pills-01,
+[lang="ku"] .nav-pills-01 {
     text-align: right;
     direction: rtl;
     padding-inline-start: 4px !important;

@@ -56,9 +56,9 @@
                                             </button>
                                         </div>
                                     </td>
-                                    <td class="text-center">{{$item->price}}</td>
+                                    <td class="text-center">{{$item->price}} {{$currency}}</td>
                                     <td class="text-center">{{$item->qty}}</td>
-                                    <td class="text-center">{{floatval($item->subtotal)}}</td>
+                                    <td class="text-center">{{floatval($item->subtotal)}} {{$currency}}</td>
 
                                 </tr>                                  
                                 <tr>
@@ -91,9 +91,9 @@
                                             </button>
                                         </div>
                                     </td>
-                                    <td class="text-center">{{$item->price}}</td>
+                                    <td class="text-center">{{$item->price}} {{$currency}}</td>
                                     <td class="text-center">{{$item->qty}}</td>
-                                    <td class="text-center">{{floatval($item->subtotal)}}</td>
+                                    <td class="text-center">{{floatval($item->subtotal)}} {{$currency}}</td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -126,9 +126,9 @@
                                         </button>
                                     </div>
                                 </td>
-                                <td class="text-center">{{$item->price}}</td>
+                                <td class="text-center">{{$item->price}} {{$currency}}</td>
                                 <td class="text-center">{{$item->qty}}</td>
-                                <td class="text-center">{{floatval($item->subtotal)}}</td>
+                                <td class="text-center">{{floatval($item->subtotal)}} {{$currency}}</td>
 
                             </tr> 
                             <tr>
@@ -145,9 +145,9 @@
                       <div class="mt-2"></div>
                       <hr style="background-color: var(--theme-color);">
                       <p class="my-0 py-0 cart-text-color">Tax: %{{$tax}}</p>
-                      <p class="my-0 py-0 cart-text-color">Total: {{$totalSubtotal}}</p>
+                      <p class="my-0 py-0 cart-text-color">Total: {{$totalSubtotal}} {{$currency}}</p>
                       <p class="my-0 py-0 cart-text-color">-------</p>
-                      <p class="cart-text-color">Grand Total: {{$grandTotal}}</p>
+                      <p class="cart-text-color">Grand Total: {{$grandTotal}} {{$currency}}</p>
 
                     @endif
                 </div>

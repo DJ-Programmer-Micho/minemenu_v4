@@ -22,6 +22,7 @@ class FoodCartCounterLivewire extends Component
     public $selectedSizeOption;
     public $selectedSizeOptionIndex;
     public $glang;
+    public $currency;
     public $tax;
     public $quantity_f = [];
     public $previewQuantity = [];
@@ -34,6 +35,7 @@ class FoodCartCounterLivewire extends Component
         } else {
             $this->tax = $setting->fees;
         }
+        $this->currency = $setting->currency;
 
         // GET THE VALUES
         foreach (Cart::content() as $cartItem) {
@@ -91,7 +93,8 @@ class FoodCartCounterLivewire extends Component
             'cart' => $cart,
             'tax' => $this->tax,
             'totalSubtotal' => $totalSubtotal,
-            'grandTotal' => $grandTotal
+            'grandTotal' => $grandTotal,
+            'currency' => $this->currency
         ]
     );
     }

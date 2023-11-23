@@ -11,7 +11,7 @@ nav-pills UI/UX-01
     background-color: var(--main-theme-backgroud-color);
 }
 
-[lang="ar"],
+[lang="ar"] .nav-pills-01,
 [lang="ku"] .nav-pills-01 {
     text-align: right;
     direction: rtl;
@@ -29,12 +29,18 @@ nav-pills UI/UX-01
     border-radius: 13px;
 }
 [lang="ar"],
+[lang="ku"] {
+    text-align: right;
+    direction: rtl;
+}
+
+[lang="ar"] .wrapper-01,
 [lang="ku"] .wrapper-01 {
     text-align: right;
     direction: rtl;
 }
 
-[lang="ar"],
+[lang="ar"] .tabs-box-01 .tab-01,
 [lang="ku"] .tabs-box-01 .tab-01 {
     text-align: right;
     direction: rtl;
@@ -74,13 +80,13 @@ nav-pills UI/UX-01
     color: var(--main-theme-text-color);
     background-color: var(--main-theme-backgroud-color);
 }
-[lang="ar"],
-[lang="ku"].wrapper-01 {
+[lang="ar"] .wrapper-01,
+[lang="ku"] .wrapper-01 {
     text-align: right;
     direction: rtl;
 }
 
-[lang="ar"],
+[lang="ar"] .tabs-box-01 .tab-01,
 [lang="ku"] .tabs-box-01 .tab-01 {
     text-align: right;
     direction: rtl;
@@ -107,7 +113,7 @@ nav-pills UI/UX-02
     background-color: var(--main-theme-backgroud-color);
 }
 
-[lang="ar"],
+[lang="ar"] .nav-pills-02,
 [lang="ku"] .nav-pills-02 {
     text-align: right;
     direction: rtl;
@@ -124,13 +130,13 @@ nav-pills UI/UX-02
     max-width: 770px;
     border-radius: 13px;
 }
-[lang="ar"],
+[lang="ar"] .wrapper-02,
 [lang="ku"] .wrapper-02 {
     text-align: right;
     direction: rtl;
 }
 
-[lang="ar"],
+[lang="ar"] .tabs-box-02 .tab-02,
 [lang="ku"] .tabs-box-02 .tab-02 {
     text-align: right;
     direction: rtl;
@@ -168,13 +174,13 @@ nav-pills UI/UX-02
     color: var(--main-theme-text-color);
     background-color: var(--main-theme-backgroud-color);
 }
-[lang="ar"],
-[lang="ku"].wrapper-02 {
+[lang="ar"] .wrapper-02,
+[lang="ku"] .wrapper-02 {
     text-align: right;
     direction: rtl;
 }
 
-[lang="ar"],
+[lang="ar"] .tabs-box-02 .tab-02,
 [lang="ku"] .tabs-box-02 .tab-02 {
     text-align: right;
     direction: rtl;

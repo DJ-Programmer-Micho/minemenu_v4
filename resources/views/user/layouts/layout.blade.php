@@ -76,9 +76,9 @@
         --navbar-toggle-color: {{ $color->selectedNavbarToggle ?? '#000000' }};
         --navbar-top-color: {{ $color->selectedNavbarTop ?? '#ffffff' }};
         --navbar-sub-title-color: {{ $color->selectedNavbarSubTitle ?? '#b97e87' }};
-        --navbar-text-color: {{ $color->selectedNavbarText ?? '#766fa8' }};
-        --navbar-top-ground-color: {{ $color->selectedNavbarTopGround ?? '#766fa8' }};
-        --navbar-bottom-ground-color: {{ $color->selectedNavbarBottomGround ?? '#766fa8' }};
+        --navbar-text-color: {{ $color->selectedNavbarText ?? '#cc0022' }};
+        --navbar-top-ground-color: {{ $color->selectedNavbarTopGround ?? '#ffffff' }};
+        --navbar-bottom-ground-color: {{ $color->selectedNavbarBottomGround ?? '#ffffff' }};
         /* Main Group */
         --main-background-color: {{ $color->selectedMainBackground ?? '#ffffff' }};
         --main-body-color: {{ $color->selectedMainBody ?? '#b8b8b8' }};

@@ -46,9 +46,12 @@ class LanguageSettingLivewire extends Component
     {
         // dd($this->selectedLanguages);
         $settings = auth()->user()->settings;
-        $settings->languages = $this->selectedLanguages;
+        if($this->selectedLanguages == null || $this->selectedLanguages == '') {
+            $settings->languages = '["en"]';
+        } else {
+            $settings->languages = $this->selectedLanguages;
+        }
         $settings->save();
-
         $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Settings Updated successfully')]);
     }
  
