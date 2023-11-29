@@ -44,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
             return 'https://d3jel9g9x3oq59.cloudfront.net/mine-setting/defaultimg.jpg'; // Replace "abc" with your desired value or logic to fetch the data.
         });
         $this->app->singleton('fixedimage_640x360_half', function () {
-            return 'mine-setting/defaultimg.jpg'; // Replace "abc" with your desired value or logic to fetch the data.
+            return 'mine-setting/defaultimg_cover.jpg'; // Replace "abc" with your desired value or logic to fetch the data.
         });
         $this->app->singleton('fixedvideo_1080x1920', function () {
             return 'https://d3jel9g9x3oq59.cloudfront.net/mine-setting/defaultvideo.mp4'; // Replace "abc" with your desired value or logic to fetch the data.

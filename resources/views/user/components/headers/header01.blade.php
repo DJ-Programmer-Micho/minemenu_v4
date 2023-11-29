@@ -1,6 +1,5 @@
 <div>
     @if(request()->is($restName.'/cat/*'))
-    {{-- <div class="place-header-inner-01" id="rest-img" style="background-image: url('{{ app('cloudfront') . ($cover_id ?? $setting->background_img_header) }}')"></div> --}}
     <div class="place-header-inner-01" id="rest-img" style="background-image: url('{{ app('cloudfront') . ($cover_id ?? $setting->background_img_header ?? app('fixedimage_640x360_half')) }}')"></div>
     @else
     <div class="place-header-inner-01" id="rest-img" style="background-image: url('{{app('cloudfront'). ($setting->background_img_header ?? app('fixedimage_640x360_half'))}}')"></div>
