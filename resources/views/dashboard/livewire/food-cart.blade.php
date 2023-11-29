@@ -13,7 +13,7 @@ $currentOptions = $options[$glang] ?? []; // Get options for the current languag
         </div>
         <div class="col-6">
             <div class="d-flex align-items-center justify-content-end price-box">
-                <button class="btn btn-sm btn-plus-minus" wire:click="decreaseQuantity('{{ $foodAction->id }}', 'null', 'null')">
+                <button type="button" class="btn btn-sm btn-plus-minus" wire:click="decreaseQuantity('{{ $foodAction->id }}', 'null', 'null')">
                     <i class="fas fa-minus"></i>
                 </button>
                 <input class="form-control mx-2 text-center" type="number" min="1" max="10"
@@ -21,7 +21,7 @@ $currentOptions = $options[$glang] ?? []; // Get options for the current languag
                     value="{{ isset($quantity[$foodAction->id]) ? $quantity[$foodAction->id] : '0' }}"
                     wire:change="addToCart('{{ $foodAction->id }}','null','null')"
                 />
-                <button class="btn btn-sm btn-plus-minus" wire:click="increaseQuantity('{{ $foodAction->id }}', 'null', 'null')">
+                <button type="button" class="btn btn-sm btn-plus-minus" wire:click="increaseQuantity('{{ $foodAction->id }}', 'null', 'null')">
                     <i class="fas fa-plus"></i>
                 </button>
             </div>
@@ -43,7 +43,7 @@ $currentOptions = $options[$glang] ?? []; // Get options for the current languag
                 <div class="col-6">
                     <section class="d-flex align-items-center justify-content-end price-box">
                         <div class="plus-minus border border-white">
-                            <button class="btn btn-sm btn-plus-minus" wire:click="decreaseQuantity('{{ $foodAction->id }}', '{{ $option['key'] }}', '{{$index}}')">
+                            <button type="button" class="btn btn-sm btn-plus-minus" wire:click="decreaseQuantity('{{ $foodAction->id }}', '{{ $option['key'] }}', '{{$index}}')">
                                 <i class="fas fa-minus"></i>
                             </button>
                             <input class="form-control mx-2 text-center" type="number" min="1" max="10" style="color: var(--food-title);"
@@ -51,7 +51,7 @@ $currentOptions = $options[$glang] ?? []; // Get options for the current languag
                                 value="{{ isset($previewQuantity[$foodAction->id][$index][$option['key']]) ? $previewQuantity[$foodAction->id][$index][$option['key']] : '0' }}"
                                 wire:change="addToCart('{{ $foodAction->id }}','{{$option['key']}}','{{$index}}')"
                                  />
-                            <button class="btn btn-sm btn-plus-minus" wire:click="increaseQuantity('{{ $foodAction->id }}', '{{ $option['key'] }}', '{{$index}}')">
+                            <button type="button" class="btn btn-sm btn-plus-minus" wire:click="increaseQuantity('{{ $foodAction->id }}', '{{ $option['key'] }}', '{{$index}}')">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>

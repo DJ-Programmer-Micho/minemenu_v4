@@ -41,7 +41,7 @@
                 </div>
         </div>
         @empty
-        <div class="text-center">Nothing To Show</div>
+        <div class="text-center">{{__('Nothing To Show')}}</div>
         @endforelse
         <x-business.CopyRight01Component/>
     </div>

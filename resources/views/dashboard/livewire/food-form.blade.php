@@ -44,7 +44,7 @@
                         <div class="col-12 col-sm-4">
                             <div class="mb-3">
                                 <label>{{ __('Category Select') }}</label>
-                                <select wire:model="cat_id" name="cat_id" id="" class="form-control">
+                                <select wire:model="cat_id" name="cat_id" id="" class="form-control" required>
                                     <option value="">{{__('Category Select')}}</option>
                                     @foreach ($menu_select as $menu)
                                     <option value="{{$menu->translation->cat_id}}">{{$menu->translation->name}}</option>
@@ -57,7 +57,7 @@
                         <div class="col-12 col-sm-4">
                             <div class="mb-3">
                                 <label>{{__('Status')}}</label>
-                                <select wire:model="status" name="status" id="" class="form-control">
+                                <select wire:model="status" name="status" id="" class="form-control" required>
                                     <option value="">{{__('Choose Status')}}</option>
                                     <option value="1">{{__('Active')}}</option>
                                     <option value="0">{{__('Non Active')}}</option>
@@ -70,7 +70,7 @@
                         <div class="col-12 col-sm-4">
                             <div class="mb-3">
                                 <label>{{__('Priority')}}</label>
-                                <input type="number" wire:model="priority" class="form-control">
+                                <input type="number" wire:model="priority" class="form-control" required>
                                 <small class="bg-info text-white px-2 rounded">{{__('The less The Higher Priority')}}</small>
                                 @error('Priority') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
@@ -78,7 +78,7 @@
                         <div class="col-12 col-sm-4">
                             <div class="mb-3">
                                 <label>{{__('Special')}}</label>
-                                <select wire:model="special" name="special" id="" class="form-control">
+                                <select wire:model="special" name="special" id="" class="form-control" required>
                                     <option value="">{{__('Choose Special On/Off')}}</option>
                                     <option value="1">{{__('Special')}}</option>
                                     <option value="0">{{__('Non-Special')}}</option>
@@ -128,7 +128,8 @@
                             </h2>
                             
                             <div class="">
-                                <button type="button" class="btn btn-primary" wire:click="addOption">{{__('Add New Option')}}</button>
+                                {{-- <button type="button" class="btn btn-primary" wire:click="addOption">{{__('Add New Option')}}</button> --}}
+                                <button type="button" class="btn btn-primary" wire:click="addOptionForAllAndLocale('all')">{{__('Add New Option')}}</button>
                             </div>
                         </div>
                         @foreach ($filteredLocales as $locale)
@@ -141,18 +142,18 @@
                                 <div class="row align-items-bottom">
                                     <div class="form-group col-12 col-md-6 col-lg-5">
                                         <label>{{__('Option Description')}}</label>
-                                        <input type="text" wire:model="options.{{ $locale }}.{{ $index }}.key" class="form-control">
+                                        <input type="text" wire:model="options.{{ $locale }}.{{ $index }}.key" class="form-control" required>
                                         <small class="bg-info text-white px-2 rounded">{{__('exp:(Small, Medium and Large)')}}</small>
                                     </div>
                                     <div class="form-group col-12 col-md-6 col-lg-5">
                                         <label>{{__('Price')}}</label>
-                                        <input type="number" wire:model="options.{{ $locale }}.{{ $index }}.value" class="form-control">
+                                        <input type="number" wire:model="options.{{ $locale }}.{{ $index }}.value" class="form-control" required>
                                         <small class="bg-info text-white px-2 rounded">{{__('(Original Price)')}}</small>
                                         <button type="button" class="btn btn-warning text-dark" wire:click="setSamePriceForAllLocales('{{ $locale }}', {{ $index }})">Set Same Price for All</button>
                                     </div>
                                     <div class="col-12 col-lg-2">
                                         <label class="d-lg-block d-none">{{__('Remove')}}</label>
-                                        <button class="btn btn-danger" wire:click="removeOption('{{ $locale }}', {{ $index }})"><i class="fas fa-minus-square"></i></button>
+                                        <button type="button" class="btn btn-danger" wire:click="removeOption('{{ $locale }}', {{ $index }})"><i class="fas fa-minus-square"></i></button>
                                     </div>
                                 </div>
                                 <hr>
@@ -222,7 +223,7 @@
     </div>
 </div>
 
-<div wire:ignore.self class="modal fade" id="updateFoodModal" tabindex="-1" aria-labelledby="updateFoodModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div wire:ignore.self class="modal fade overflow-auto" id="updateFoodModal" tabindex="-1" aria-labelledby="updateFoodModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-xl text-white mx-1 mx-lg-auto">
         <div class="modal-content bg-dark">
             <form wire:submit.prevent="updateFood">
@@ -243,7 +244,7 @@
                         <div class="col-12 col-sm-4">
                             <div class="mb-3">
                                 <label>{{ __('Select Category') }}</label>
-                                <select wire:model="cat_id" name="cat_id" id="" class="form-control">
+                                <select wire:model="cat_id" name="cat_id" id="" class="form-control" required>
                                     <option value="">{{__('Select Category')}}</option>
                                     @foreach ($menu_select as $menu)
                                     <option value="{{$menu->translation->cat_id}}">{{$menu->translation->name}}</option>
@@ -256,7 +257,7 @@
                         <div class="col-12 col-sm-4">
                             <div class="mb-3">
                                 <label>{{__('Status')}}</label>
-                                <select wire:model="status" name="status" id="" class="form-control">
+                                <select wire:model="status" name="status" id="" class="form-control" required> 
                                     <option value="">{{__('Choose Status')}}</option>
                                     <option value="1">{{__('Active')}}</option>
                                     <option value="0">{{__('Non Active')}}</option>
@@ -268,7 +269,7 @@
                         <div class="col-12 col-sm-4">
                             <div class="mb-3">
                                 <label>{{__('Priority')}}</label>
-                                <input type="number" wire:model="priority" class="form-control">
+                                <input type="number" wire:model="priority" class="form-control" required>
                                 <small class="bg-info text-white px-2 rounded">{{__('The less The Higher')}}</small>
                                 @error('Priority') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
@@ -276,7 +277,7 @@
                         <div class="col-12 col-sm-4">
                             <div class="mb-3">
                                 <label>{{__('Special')}}</label>
-                                <select wire:model="special" name="special" id="" class="form-control">
+                                <select wire:model="special" name="special" id="" class="form-control" required>
                                     <option value="">{{__('Choose Special On/Off')}}</option>
                                     <option value="1">{{__('Special')}}</option>
                                     <option value="0">{{__('Non Special')}}</option>
@@ -350,18 +351,18 @@
                                 <div class="row align-items-bottom">
                                     <div class="form-group col-12 col-md-6 col-lg-5">
                                         <label>{{__('Option Description')}}</label>
-                                        <input type="text" wire:model="options.{{ $locale }}.{{ $index }}.key" class="form-control">
+                                        <input type="text" wire:model="options.{{ $locale }}.{{ $index }}.key" class="form-control" required>
                                         <small class="bg-info text-white px-2 rounded">{{__('exp:(Small, Medium and Large)')}}</small>
                                     </div>
                                     <div class="form-group col-12 col-md-6 col-lg-5">
                                         <label>{{__('Price')}}</label>
-                                        <input type="number" wire:model="options.{{ $locale }}.{{ $index }}.value" class="form-control">
+                                        <input type="number" wire:model="options.{{ $locale }}.{{ $index }}.value" class="form-control" required>
                                         <small class="bg-info text-white px-2 rounded">{{__('(Original Price)')}}</small>
                                         <button type="button" class="btn btn-warning text-dark" wire:click="setSamePriceForAllLocales('{{ $locale }}', {{ $index }})">{{__('Set Same Price for All')}}</button>
                                     </div>
                                     <div class="col-12 col-lg-2">
                                         <label class="d-lg-block d-none">{{__('Remove')}}</label>
-                                        <button type="button" class="btn btn-danger" wire:click="removeOption('{{ $locale }}', {{ $index }})"><i class="fas fa-minus-square"></i></button>
+                                        <button type="button" type="button" class="btn btn-danger" wire:click="removeOption('{{ $locale }}', {{ $index }})"><i class="fas fa-minus-square"></i></button>
                                     </div>
                                 </div>
                                 <hr>
@@ -440,7 +441,7 @@
                 <div class="modal-body">
                     <p>{{ __('Are you sure you want to delete this Food?') }}</p>
                     <p>{{ __('Please enter the')}}<strong> "{{$showTextTemp}}" </strong>{{__('to confirm:') }}</p>
-                    <input type="text" wire:model="foodNameToDelete" class="form-control">
+                    <input type="text" wire:model="foodNameToDelete" class="form-control" required>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"

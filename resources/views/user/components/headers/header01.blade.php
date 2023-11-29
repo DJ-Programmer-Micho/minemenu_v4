@@ -6,7 +6,8 @@
     @endif
 
     @if(request()->is($restName.'/*'))
-    <a class="back-butt-01" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
+    {{-- <a class="back-butt-01" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a> --}}
+    <a class="back-butt-01" href="{{ url('/' . $restName) }}"><i class="fas fa-arrow-left"></i></a>
     <a class="home-butt-01" href="{{ route('business.zzz', ['business_name' => $restName])}}"><i class="fas fa-home"></i></a>
     @endif
     @livewire('cart.food-cart-counter-livewire', ['glang' => app()->getLocale(), 'setting' => $setting])

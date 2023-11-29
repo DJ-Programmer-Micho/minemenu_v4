@@ -210,7 +210,7 @@
                 <div class="modal-body">
                     <p>{{ __('Are you sure you want to delete this category?') }}</p>
                     <p>{{ __('Please enter the')}}<strong> "{{$showTextTemp}}" </strong>{{__('to confirm:') }}</p>
-                    <input type="text" wire:model="categoryNameToDelete" class="form-control">
+                    <input type="text" wire:model="categoryNameToDelete" class="form-control" required>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"

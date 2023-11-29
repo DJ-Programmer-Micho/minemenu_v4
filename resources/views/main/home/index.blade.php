@@ -31,6 +31,10 @@
             </div>
         </div>
     </section>
+    {{-- <h1>        
+    @php
+       echo Hash::make('Saad12345menu');
+    @endphp</h1> --}}
     <div class="marg"></div>
     <section>
         <div class="row d-flex justify-content-between ar">

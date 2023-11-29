@@ -9,7 +9,7 @@ $currentOptions = $options[$glang] ?? []; // Get options for the current languag
         </div>
         <div class="col-6">
             <div class="d-flex align-items-center justify-content-end price-box">
-                <button class="btn btn-sm btn-dark" wire:click="decreaseQuantity('{{ $offerAction->id }}', 'null', 'null')">
+                <button type="button" class="btn btn-sm btn-dark" wire:click="decreaseQuantity('{{ $offerAction->id }}', 'null', 'null')">
                     <i class="fas fa-minus"></i>
                 </button>
                 <input class="form-control mx-2 text-center" type="number" min="1" max="10"
@@ -17,7 +17,7 @@ $currentOptions = $options[$glang] ?? []; // Get options for the current languag
                     value="{{ isset($quantity[$offerAction->id]) ? $quantity[$offerAction->id] : '0' }}"
                     wire:change="addToCart('{{ $offerAction->id }}','null','null')"
                 />
-                <button class="btn btn-sm btn-dark" wire:click="increaseQuantity('{{ $offerAction->id }}', 'null', 'null')">
+                <button type="button" class="btn btn-sm btn-dark" wire:click="increaseQuantity('{{ $offerAction->id }}', 'null', 'null')">
                     <i class="fas fa-plus"></i>
                 </button>
             </div>

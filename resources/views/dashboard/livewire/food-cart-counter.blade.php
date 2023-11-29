@@ -1,7 +1,7 @@
 <div>
 <i class="fa fa-cart"></i>
 <div class="badge-notification" data-count="{{$cart_count}}">
-    <button data-toggle="modal" data-target="#checkCart" class="cart-butt-detail-01"><i class="fas fa-shopping-cart"></i></button>
+    <button type="button" data-toggle="modal" data-target="#checkCart" class="cart-butt-detail-01"><i class="fas fa-shopping-cart"></i></button>
 </div>
 <div wire:ignore.self class="modal fade overflow-auto" id="checkCart" tabindex="-1" aria-labelledby="checkCartLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl text-white mx-1 mx-lg-auto" style="max-width: 1140px;">
@@ -10,7 +10,7 @@
                 <div class="modal-body">
                     <div class="modal-header">
                         <h5 class="modal-title cart-title" id="checkCartLabel">{{__('Cart')}}</h5>
-                        <button type="button" class="btn cart-btn-close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" type="button" class="btn cart-btn-close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true"><i class="fas fa-times"></i></span></button>
                     </div>
 
@@ -43,7 +43,7 @@
                                     <td>
                                         {{$item->name[$glang]}}<br>
                                         <div class="plus-minus border border-white">
-                                            <button class="btn btn-sm plus-minus-color" wire:click="decreaseQuantity('{{$item->id }}', 'null', 'null', {{$item->options['sorm']}})">
+                                            <button type="button" class="btn btn-sm plus-minus-color" wire:click="decreaseQuantity('{{$item->id }}', 'null', 'null', {{$item->options['sorm']}})">
                                                 <i class="fas fa-minus"></i>
                                             </button>
                                             <input class="form-control mx-2 text-center" type="number" min="1" max="10" style="background-color: transparent;"
@@ -51,7 +51,7 @@
                                             value="{{ isset($quantity[$item->id]) ? $quantity[$item->id] : '0' }}"
                                             wire:change="addToCart('{{ $item->id }}','null','null')"
                                         />
-                                            <button class="btn btn-sm plus-minus-color" wire:click="increaseQuantity('{{ $item->id }}', 'null', 'null', {{$item->options['sorm']}})">
+                                            <button type="button" class="btn btn-sm plus-minus-color" wire:click="increaseQuantity('{{ $item->id }}', 'null', 'null', {{$item->options['sorm']}})">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </div>
@@ -64,7 +64,7 @@
                                 <tr>
                                     <td>
                                         {{-- <button class="btn btn-sm btn-danger" wire:click="removeFood('{{$item->rowId }}')">{{__('Remove')}}</button> --}}
-                                        <button class="btn btn-sm btn-danger" wire:click="removeFood('{{$item->rowId }}','{{$item->id }}', 'null', 'null')">{{__('Remove')}}</button>
+                                        <button type="button" class="btn btn-sm btn-danger" wire:click="removeFood('{{$item->rowId }}','{{$item->id }}', 'null', 'null')">{{__('Remove')}}</button>
                                     </td>
                                 </tr>
                                 @else
@@ -77,7 +77,7 @@
                                     <td>
                                         {{$item->name[$glang]}}<br>
                                         <div class="plus-minus border border-white">
-                                            <button class="btn btn-sm plus-minus-color" wire:click="decreaseQuantity('{{$item->id }}', '{{ $item->options['size'] }}', '{{ $item->options['sizeindex']}}',{{$item->options['sorm']}})">
+                                            <button type="button" class="btn btn-sm plus-minus-color" wire:click="decreaseQuantity('{{$item->id }}', '{{ $item->options['size'] }}', '{{ $item->options['sizeindex']}}',{{$item->options['sorm']}})">
                                                 <i class="fas fa-minus"></i>
                                             </button>
                                             <input class="form-control mx-2 text-center" type="number" min="1" max="10" style="background-color: transparent;
@@ -86,7 +86,7 @@
                                             wire:change="addToCart('{{$item->id }}','{{ $item->options['size']}}','{{ $item->options['sizeindex']}}')"
                                             />
                                             {{-- <button class="btn btn-sm btn-dark" wire:click="increaseQuantity('{{$item->id }}')"> --}}
-                                            <button class="btn btn-sm plus-minus-color" wire:click="increaseQuantity('{{$item->id }}', '{{ $item->options['size'] }}', '{{ $item->options['sizeindex']}}',{{$item->options['sorm']}})">
+                                            <button type="button" class="btn btn-sm plus-minus-color" wire:click="increaseQuantity('{{$item->id }}', '{{ $item->options['size'] }}', '{{ $item->options['sizeindex']}}',{{$item->options['sorm']}})">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </div>
@@ -97,7 +97,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <button class="btn btn-sm btn-danger" wire:click="removeFood('{{$item->rowId }}', '{{$item->id }}', '{{ $item->options['size'] }}', '{{ $item->options['sizeindex']}}')">{{__('Remove')}}</button>
+                                        <button type="button" class="btn btn-sm btn-danger" wire:click="removeFood('{{$item->rowId }}', '{{$item->id }}', '{{ $item->options['size'] }}', '{{ $item->options['sizeindex']}}')">{{__('Remove')}}</button>
                                     </td>
                                 </tr>
                                 @endif  
@@ -113,7 +113,7 @@
                                 <td>
                                     {{$item->name[$glang]}}<br>
                                     <div class="plus-minus border border-white">
-                                        <button class="btn btn-sm plus-minus-color" wire:click="decreaseOfferQuantity('{{$item->id }}', 'null', 'null', 'null')">
+                                        <button type="button" class="btn btn-sm plus-minus-color" wire:click="decreaseOfferQuantity('{{$item->id }}', 'null', 'null', 'null')">
                                             <i class="fas fa-minus"></i>
                                         </button>
                                         <input class="form-control mx-2 text-center" type="number" min="1" max="10" style="background-color: transparent;"
@@ -121,7 +121,7 @@
                                         value="{{ isset($quantityOffer[$item->id]) ? $quantityOffer[$item->id] : '0' }}"
                                         wire:change="addToCartOffer('{{ $item->id }}','null','null')"
                                     />
-                                        <button class="btn btn-sm plus-minus-color" wire:click="increaseOfferQuantity('{{ $item->id }}', 'null', 'null', 'null')">
+                                        <button type="button" class="btn btn-sm plus-minus-color" wire:click="increaseOfferQuantity('{{ $item->id }}', 'null', 'null', 'null')">
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </div>
@@ -134,7 +134,7 @@
                             <tr>
                                 <td>
                                     {{-- <button class="btn btn-sm btn-danger" wire:click="removeFood('{{$item->rowId }}')">{{__('Remove')}}</button> --}}
-                                    <button class="btn btn-sm btn-danger" wire:click="removeFood('{{$item->rowId }}', 'null', 'null', 'null')">{{__('Remove')}}</button>
+                                    <button type="button" class="btn btn-sm btn-danger" wire:click="removeFood('{{$item->rowId }}', 'null', 'null', 'null')">{{__('Remove')}}</button>
                                 </td>
                             </tr>
                             @endif
@@ -152,7 +152,7 @@
                     @endif
                 </div>
                 <div class="modal-footer">
-                    <button wire:click="removeList()" class="btn cart-btn-reset">Reset</button>
+                    <button type="button" wire:click="removeList()" class="btn cart-btn-reset">Reset</button>
                 </div>
             </form>
         </div>

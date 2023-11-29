@@ -452,11 +452,6 @@ class FoodLivewire extends Component
             $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Something Went Wrong With Adding Option CODE...OPT-ADD')]);
         }
     }
-    
-    
-    
-    
-
 
     public function removeOption($locale, $index)
     {
