@@ -31,6 +31,7 @@
                     {{-- <Livewire:Cart.FoodCartLivewire :foodcartdata="$foodData" :setting="$settings" :glang="$glang" /> --}}
                     @livewire('cart.food-cart-livewire', ['foodcartdata' => $foodData, 'setting' => $settings, 'glang' => $glang])
 
+                    @if($foodData->translation->description)
                     <div class="description mt-5">
                         <div class="tab">
                             <a>{{__('Description')}}</a>
@@ -39,6 +40,7 @@
                             {{$foodData->translation->description}}
                         </p>
                     </div>
+                    @endif
                                 {{-- <div class="add-to-catr-btn">
                 <button class="btn" data-toggle="modal" data-target="#addCart"> {{__('Add to Cart')}}</button>
             </div> --}}

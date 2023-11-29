@@ -37,14 +37,17 @@
                         <div class="col-md-12">
                             <h2 class="title mb-5">{{$offerData->translation->name}}</h2>
                         </div>
-                        <div class="description mb-5">
+                        @if($offerData->translation->description)
+                        <div class="description mt-5">
                             <div class="tab">
-                                <a>Description</a>
+                                <a>{{__('Description')}}</a>
                             </div>
                             <p class="text">
                                 {{$offerData->translation->description}}
                             </p>
+                            <div class="mb-5"></div>
                         </div>
+                        @endif
                         {{-- <Livewire:Cart.OfferCartLivewire :offercartdata="$offerData" :setting="$settings" :glang="$glang" /> --}}
                         @livewire('cart.offer-cart-livewire', ['offercartdata' => $offerData, 'setting' => $settings, 'glang' => $glang])
                     </div>

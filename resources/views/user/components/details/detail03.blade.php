@@ -39,6 +39,7 @@
                         </div>
                         {{-- <Livewire:Cart.FoodCartLivewire :foodcartdata="$foodData" :setting="$settings" :glang="$glang" /> --}}
                         @livewire('cart.food-cart-livewire', ['foodcartdata' => $foodData, 'setting' => $settings, 'glang' => $glang])
+                        @if($foodData->translation->description)
                         <div class="description mt-5">
                             <div class="tab">
                                 <a>{{__('Description')}}</a>
@@ -47,6 +48,7 @@
                                 {{$foodData->translation->description}}
                             </p>
                         </div>
+                        @endif
                     </div>
                     <x-business.CopyRight01Component/>
                 </div>

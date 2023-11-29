@@ -19,6 +19,7 @@
                     <div class="col-md-12">
                         <h2 class="title mb-5">{{$foodData->translation->name}}</h2>
                     </div>
+                    @if($foodData->translation->description)
                     <div class="description mb-5">
                         <div class="tab">
                             <a>{{__('Description')}}</a>
@@ -27,6 +28,7 @@
                             {{$foodData->translation->description}}
                         </p>
                     </div>
+                    @endif
                     @livewire('cart.food-cart-livewire', ['foodcartdata' => $foodData, 'setting' => $settings, 'glang' => $glang])
             {{-- <Livewire:Cart.FoodCartLivewire :foodcartdata="$foodData" :setting="$settings" :glang="$glang"/> --}}
             <div class="mb-5"></div>
