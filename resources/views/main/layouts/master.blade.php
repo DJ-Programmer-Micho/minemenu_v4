@@ -24,20 +24,20 @@
     {{-- Sharing Purposes --}}
     <meta name='og:title' content='MINE MENU'>
     <meta name='og:type' content='website'>
-    <meta name='og:url' content='https://minemenu/'>
-    <meta name='og:image' content='/assets/main/img/logo/MineMenu Logo-FB.psd.jpg'>
+    <meta name='og:url' content='https://minemenu.com/'>
+    <meta name='og:image' content='https://d3jel9g9x3oq59.cloudfront.net/{{app('fixedimage_640x360_half')}}'>
     <meta name='og:site_name' content='MINE MENU'>
     <meta name='og:description' content='احصل على قائمة الطعام الالكترونية الخاصة بمطعمك وخصصها كما تحب بابسط طريقة وبسعر مميز جدا, وساهم بحصول زبائنك على افضل تجربة'>
     {{-- META TAGS --}}
     <meta name='keywords' content='minemenu, mine menu, ماين منيو, menu iraq, menu erbil, menu resturant, qr code, resturant qr code, finedine, finedinemenu, mine menu iraq, food, drinks, food menu, menu scan, scan menu, منيو, menu generator, food menu generator, قائمة الطعام, food'>
     <meta name="news_keywords" content="minemenu, mine menu, ماين منيو, menu iraq, menu erbil, menu resturant, qr code, resturant qr code, finedine, finedinemenu, mine menu iraq, food, drinks, food menu, menu scan, scan menu, منيو, menu generator, food menu generator, قائمة الطعام, food">
     <!-- apple icons -->
-    <link rel="shortcut icon" href="/assets/main/img/logo/72.png">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/main/img/logo/144.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/main/img/logo/114.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/main/img/logo/72.png">
-    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/assets/main/img/logo/57.png">
-    <link rel="apple-touch-icon-precomposed" href="/assets/main/img/logo/1024.png">
+    <link rel="shortcut icon" href="{{app('logo_72')}}">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{app('logo_144')}}">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{app('logo_114')}}">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{app('logo_72')}}">
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="{{app('logo_57')}}">
+    <link rel="apple-touch-icon-precomposed" href="{{app('logo_1024')}}">
     <!-- end of icons -->
     {{-- Title --}}
     <title>Mine Menu V2</title>

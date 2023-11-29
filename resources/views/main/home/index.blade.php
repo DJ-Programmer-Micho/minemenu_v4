@@ -110,35 +110,33 @@
         </div>
     </section>
 
+    @php
+        use App\Models\User;
+        use App\Models\TopUsers;
+        $menus_id = TopUsers::first()->menus_id ?? null;
+        // $menus_id = [9,108];
+        $menus = User::find($menus_id);
+        
+    @endphp
+    @if(!empty($menus_id))
     <section class="testimonial text-center">
-        <h2 style="margin-bottom:100px;margin-top:100px;font-weight:600">{{__('What Our Clients Say')}}</h2>
+        <h6 style="margin-top:100px;font-weight:600">{{__('TOP 4 MENUS')}}</h6>
+        <h2 style="margin-bottom:100px;font-weight:600">{{__('Check Our Clients Menu')}}</h2>
+
         <div class="row">
-            <div class="col-lg-4 testimonial-cards">
-                <div>
-                    <p>{{__("Mine Menu has given us the freedom to change our menu easily and without the need for additional costs")}}
-                    </p>
-                    <h5 class="mt-2">Ring King</h5>
-                    <span>Erbil,Iraq</span>
+            @foreach ($menus as $menu)
+            <div class="col-lg-3 testimonial-cards">
+                    <a href="{{env('APP_URL').$menu->name}}" target="_blank" style="text-decoration: none;" class="text-dark">
+                    <div>
+                        <img src="https://d3jel9g9x3oq59.cloudfront.net/{{$menu->settings->background_img_avatar ?? app('logo_144_show')}}" alt="">
+                        <h6 class="mt-2">{{$menu->name}}</h6>
+                    </div>
+                </a>
                 </div>
-            </div>
-            <div class="col-lg-4 testimonial-cards">
-                <div>
-                    <p>{{__("The interactive menu that you provided has contributed to increasing the satisfaction of our customers")}}
-                    </p>
-                    <h5 class="mt-2">Zalata</h5>
-                    <span>Baghdad,Iraq</span>
-                </div>
-            </div>
-            <div class="col-lg-4 testimonial-cards">
-                <div>
-                    <p>{{__("Through the use of your menu, we are able to provide customers with real and updated pictures of what we offer")}}
-                    </p>
-                    <h5 class="mt-2">Perius Chicken</h5>
-                    <span>Basra,Iraq</span>
-                </div>
-            </div>
+            @endforeach
         </div>
     </section>
+    @endif
 </div>
 
 <section class="book-section text-center">
