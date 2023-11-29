@@ -8,6 +8,7 @@ use App\Models\Mainmenu;
 use App\Rules\ReCaptcha;
 use App\Otp\SinchService;
 use App\Models\Categories;
+use App\Models\PlanChange;
 use Illuminate\Http\Request;
 use App\Models\Food_Translator;
 use App\Mail\EmailVerificationMail;
@@ -127,27 +128,27 @@ class AuthController extends Controller
     public function signup(){
         $tele_id = env('TELEGRAM_GROUP_ID') ?? null;
         $formFeilds =  request()->validate([
-            'name'=> 'required|string|unique:users|regex:/^[a-z]+$/',
-            'email'=> 'required|string|email|unique:users',
-            'password'=> 'required|min:8',
-            
-            // 'g-recaptcha-response' => ['required', new ReCaptcha],
+                'name'=> 'required|string|unique:users|regex:/^[a-z]+$/',
+                'email'=> 'required|string|email|unique:users',
+                'password'=> 'required|min:8',
+                
+                // 'g-recaptcha-response' => ['required', new ReCaptcha],
 
-            'fullname' => 'required|string',
-            'phone'=> 'required|string|unique:profiles',
-            'country' => 'required',
-            'state' => 'required',
-            'address' => 'required',
-        ],
+                'fullname' => 'required|string',
+                'phone'=> 'required|string|unique:profiles',
+                'country' => 'required',
+                'state' => 'required',
+                'address' => 'required',
+            ],
 
-        [
-            'email.unique' => 'This Email Is Already Registered',
-            'name.unique' => 'This Name Is Taken',
-            'name.regex' => 'It Should Be small letters without spaces',
-            'phone.unique' => 'This Phone Number Is Already Signed',
-            'password.min' => 'Password Must Be 8+ Charechters',
-        ]
-    );
+            [
+                'email.unique' => 'This Email Is Already Registered',
+                'name.unique' => 'This Name Is Taken',
+                'name.regex' => 'It Should Be small letters without spaces',
+                'phone.unique' => 'This Phone Number Is Already Signed',
+                'password.min' => 'Password Must Be 8+ Charechters',
+            ]
+        );
 // dd($formFeilds['phone']);
         $formFeilds['brand_type'] = (request('brand_type')) ? implode(',',request('brand_type')) : null;
         $formFeilds['status'] = '1';
@@ -167,6 +168,15 @@ class AuthController extends Controller
         $user->profile()->create($formFeilds->only('fullname','state','country','address','phone','brand_type')->toArray());
         $user->settings()->create($formFeilds->only('default_lang','languages','ui_ux')->toArray());
         $user->subscribe(1, null);
+
+        PlanChange::Create([
+            'user_id' => $user->id,
+            'old_plan_id' => 1,
+            'new_plan_id' => 1,
+            'action' => 'Free Register',
+            'change_date' => now(),
+        ]);
+
         $this->addDemo($user->id);
         
         // Send OTP via email (Mailtrap)

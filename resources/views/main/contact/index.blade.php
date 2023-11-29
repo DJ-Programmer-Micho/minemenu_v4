@@ -32,7 +32,7 @@
                         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                         <div class="g-recaptcha" id="feedback-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}"></div>
                         @error('g-recaptcha-response')
-                        <span class="danger" style="font-size: 12px">Please Check reCaptcha</span><br>
+                        <span class="danger" style="font-size: 12px">{{__('Please Check reCaptcha')}}</span><br>
                         @enderror
                         <br>
                         <button type="submit">{{__('Submit Now')}}</button>
@@ -42,7 +42,7 @@
         </div>
         <div class="col-lg-3">
            <ul class="p-0">
-            <li><i class="fa-solid fa-envelope"></i> <a href=""> Info@minemenu.com</a></li>
+            <li><i class="fa-solid fa-envelope"></i> <a href="">Info@minemenu.com</a></li>
             <li><i class="fa-solid fa-phone"></i><a href="">+964 750 681 4144</a></li>
             <li><i class="fa-solid fa-location-dot"></i> <a href=""> Erbil,Ainkawa</a></li>
            </ul>

@@ -20,12 +20,18 @@
             MineMenu <span style="color: red;">{{__('Tutorial')}}</span>
         </h1>
         <div>
+            @if($playlistsData)
             <select name="playlist" id="playlist" class="form-control mb-3" wire:model="selectedPlaylist" wire:change="updatePlaylist($event.target.value)">
                 <option disabled selected>{{__('Choose')}}</option>
                 @foreach ($playlistsData as $playlistId => $playlistInfo)
                 <option value="{{ $playlistInfo[0] }}">{{ $playlistId }}</option>
                 @endforeach
             </select>
+            @else
+            <div class="text-white text-center mt-5">
+                <h1>{{__('No Videos Yet')}}</h1>
+            </div>
+            @endif
         </div>
               
         <div class="row m-0">
