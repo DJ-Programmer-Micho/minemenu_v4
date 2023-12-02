@@ -6,7 +6,7 @@
             <div class="col-lg-6 mb-3">
                 <h2 class="my-text">{{__("Get Your Own Digital Menu")}}</h2>
                 <h5 class="pt-3 my-text text-capitalize">
-                    {{__('get a digital menu for your restaurant in a very special price, customize the ui very easly,and satisfy your customers')}}
+                    {{__('Get A Digital Menu For Your Restaurant In A Very Special Price, Customize The Ui Very Easly,And Satisfy Your Customers')}}
                 </h5>
                 <p class="my-text">
                     <a href="/register" class="btn btn-danger my-3 p-2">{{__("Book Your Menu Now")}}</a>
