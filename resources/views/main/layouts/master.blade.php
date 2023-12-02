@@ -89,10 +89,10 @@
                                         <a class="nav-link" href="{{route('register')}}">{{__("Book Menu")}}</a>
                                     </li>
                                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                                        <a class="nav-link dropdown-toggle text-uppercase" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{__(app()->getLocale())}}</a>
+                                        <a class="nav-link dropdown-toggle text-uppercase" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img src="{{asset('/assets/general/flags/'.app()->getLocale().'.png')}}" width="25" alt="minemenu">  {{__(app()->getLocale())}}</a>
                                         <div class="dropdown-menu">
                                             @foreach ($filteredLocales as $locale)
-                                                <a class="dropdown-item" href="#" onclick="changeLanguage('{{ $locale }}')">{{ __(strtoupper($locale)) }}</a>
+                                                <a class="dropdown-item" href="#" onclick="changeLanguage('{{ $locale }}')"><img src="{{asset('/assets/general/flags/'.$locale.'.png')}}" width="20" alt="minemenu">  {{ __(strtoupper($locale)) }}</a>
                                             @endforeach
                                         </div>
                                     </li>
