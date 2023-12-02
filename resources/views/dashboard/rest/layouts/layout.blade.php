@@ -599,8 +599,8 @@
                                 <div class="dropdown-divider"></div>
                                 @foreach ($filteredLocales as $locale)
                                     <a class="dropdown-item" href="#" onclick="changeLanguage('{{ $locale }}')">
-                                        <i class="fas fa-language fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        {{ strtoupper($locale) }}
+                                        {{-- <i class="fas fa-language fa-sm fa-fw mr-2 text-gray-400"></i> --}}
+                                        <img src="{{asset('/assets/general/flags/'.$locale.'.png')}}" width="20" alt="minemenu"> {{ __(strtoupper($locale)) }}
                                     </a>
                                 @endforeach
                                 <div class="dropdown-divider"></div>

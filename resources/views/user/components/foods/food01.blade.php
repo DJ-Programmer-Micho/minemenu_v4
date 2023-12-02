@@ -36,7 +36,7 @@
                     <div class="food-price-01">
                         <span class="font-weight-bold h6">{{number_format($item->price) . ' ' .  $settings->currency}}</span>
                         <span class="ml-2 old-price-01"
-                            style="text-decoration: line-through;font-size:17px;font-weight:bolder;padding-right: 10px">{{($item->old_price) ? $item->old_price : ''}}</span>
+                            style="text-decoration: line-through;font-size:17px;font-weight:bolder;padding-right: 10px">{{($item->old_price) ? $item->old_price . ' ' .  $settings->currency : ''}}</span>
                         </div>
                         <span><a href="{{url()->current().'/'.$item->id}}" class="btn btn-see-more">See More Details</a></span>
                     <div>

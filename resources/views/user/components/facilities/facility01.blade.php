@@ -16,9 +16,11 @@
 
         @foreach ($filteredLocales as $locale)
         @if ($locale == 'ar' || $locale == 'ku')
-        <li style="direction: rtl; text-align: right;"><a href="#"  onclick="changeLanguage('{{ $locale }}')"><i class="fas fa-language"></i> {{ __(strtoupper($locale)) }}</a></li>
+        {{-- <li style="direction: rtl; text-align: right;"><a href="#"  onclick="changeLanguage('{{ $locale }}')"><i class="fas fa-language"></i> {{ __(strtoupper($locale)) }}</a></li> --}}
+        <li style="direction: rtl; text-align: right;"><a href="#"  onclick="changeLanguage('{{ $locale }}')"><img src="{{asset('/assets/general/flags/'.$locale.'.png')}}" width="20" alt="minemenu"> {{ __(strtoupper($locale)) }}</a></li>
         @else
-        <li><a href="#"  onclick="changeLanguage('{{ $locale }}')"><i class="fas fa-language"></i> {{ __(strtoupper($locale)) }}</a></li>
+        {{-- <li><a href="#"  onclick="changeLanguage('{{ $locale }}')"><i class="fas fa-language"></i> {{ __(strtoupper($locale)) }}</a></li> --}}
+        <li style="direction: ltr; text-align: left;"><a href="#"  onclick="changeLanguage('{{ $locale }}')"><img src="{{asset('/assets/general/flags/'.$locale.'.png')}}" width="20" alt="minemenu"> {{ __(strtoupper($locale)) }}</a></li>
         @endif
         @endforeach
         @if (!empty($setting->wifi))

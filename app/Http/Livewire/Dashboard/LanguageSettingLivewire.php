@@ -12,6 +12,7 @@ class LanguageSettingLivewire extends Component
     public $startUpLanguage;
     public $allLanguages = [];
     public $selectedLanguages = [];
+    public $old_selectedLanguages = [];
     protected $listeners = ['updateSort' => 'handleCroppedImage'];
 
     public function mount()
@@ -19,6 +20,7 @@ class LanguageSettingLivewire extends Component
         $this->allLanguages = config('translatable.locales');
         $this->filteredLocales = app('userlanguage') ?? [];
 
+        $this->old_selectedLanguages = $this->filteredLocales;
         $sortedLanguages = [];
     
         foreach ($this->filteredLocales as $filteredLocale) {
@@ -47,7 +49,8 @@ class LanguageSettingLivewire extends Component
         // dd($this->selectedLanguages);
         $settings = auth()->user()->settings;
         if($this->selectedLanguages == null || $this->selectedLanguages == '') {
-            $settings->languages = '["en"]';
+            // $settings->languages = ["en"];
+            $settings->languages = $this->old_selectedLanguages;
         } else {
             $settings->languages = $this->selectedLanguages;
         }

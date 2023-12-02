@@ -3,13 +3,14 @@
     <h4 id="rest-title-02">{{$setting_name}}</h4>
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-language fa-sm fa-fw mr-2 text-gray-400"></i>
+            {{-- <i class="fas fa-language fa-sm fa-fw mr-2 text-gray-400"></i> --}}
+            <img src="{{asset('/assets/general/flags/'.app()->getLocale().'.png')}}" width="20" alt="minemenu">
             {{ __(strtoupper(app()->getLocale())) }}
         </button>
         <div class="dropdown-menu" aria-labelledby="languageDropdown">
             @foreach ($filteredLocales as $locale)
                 <a class="dropdown-item" href="#" onclick="changeLanguage('{{ $locale }}')">
-                    {{ __(strtoupper($locale)) }}
+                    <img src="{{asset('/assets/general/flags/'.$locale.'.png')}}" width="20" alt="minemenu"> {{ __(strtoupper($locale)) }}
                 </a>
             @endforeach
         </div>

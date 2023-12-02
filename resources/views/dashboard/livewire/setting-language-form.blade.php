@@ -17,6 +17,11 @@
         border-radius: 10px;
     }
 
+    .slist li:first-child {
+        background: #465197;
+
+    }
+
     /* (B) DRAG-AND-DROP HINT */
     .slist li.hint {
         border: 1px solid #3f3f3f;
@@ -43,7 +48,7 @@
                         <input type="checkbox" value="{{ $language }}"
                             {{ in_array($language, $filteredLocales) ? 'checked' : '' }}
                             onchange="checkboxChanged(this)">
-                        {{ __(strtoupper($language)) }}
+                            {{ __(strtoupper($language)) }}  <img src="{{asset('/assets/general/flags/'.$language.'.png')}}" width="20" alt="minemenu">
                     </li>
                     @endforeach
                 </ul>
