@@ -114,11 +114,10 @@
         use App\Models\User;
         use App\Models\TopUsers;
         $menus_id = TopUsers::first()->menus_id ?? null;
-        // $menus_id = [9,108];
         $menus = User::find($menus_id);
-        
     @endphp
     @if(!empty($menus_id))
+
     <section class="testimonial text-center">
         <h6 style="margin-top:100px;font-weight:600">{{__('TOP 4 MENUS')}}</h6>
         <h2 style="margin-bottom:100px;font-weight:600">{{__('Check Our Clients Menu')}}</h2>

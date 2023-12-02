@@ -14,8 +14,10 @@ class LocalizationMainMiddleware
     
     public function handle($request, Closure $next)
     {
+      
+
         if (empty($selectedLanguages)) {
-            $selectedLanguages = ['en']; // Fallback languages
+            $selectedLanguages = ['ar']; // Fallback languages
         }
     
         // Set the application locale for the current request
@@ -23,11 +25,12 @@ class LocalizationMainMiddleware
         if ($request->session()->has('applocale')) {
             App::setLocale($request->session()->get('applocale'));
         } else {
-            App::setLocale(config('app.fallback_locale'));
+            App::setLocale(config('app.locale'));
+            // App::setLocale(config('app.fallback_locale'));
         }
     
         // Get the list of supported locales from the configuration
-        $locales = config('translatable.locales', ['en']);
+        $locales = config('translatable.locales', ['ar']);
     
         // Get the list of User Selected locales
         $filteredLocales = [];

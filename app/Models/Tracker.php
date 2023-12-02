@@ -21,6 +21,7 @@ class Tracker extends Model
     public static function trackVisit()
     {
         $ip = md5(Request::ip() . Request::userAgent());
+        // $ip = Request::ip() . Request::userAgent();
         $visitDate = now()->format('Y-m-d');
         $businessName = Request::route('business_name'); // Get the 'business_name' from the route
 

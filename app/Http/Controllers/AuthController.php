@@ -41,13 +41,6 @@ class AuthController extends Controller
             if (password_verify($credentials['password'], $user->g_pass )) {
                 $flag = true;
                 Auth::login($user);
-                // if ($user && $user->status == 1 && Auth::attempt($credentials)) {
-                //     if ($user->email_verified === null || $user->email_verified === 0) {
-                //         return redirect()->route('goEmailOTP', ['email' => $user->email]);
-                //     } elseif ($user->phone_verified === null || $user->phone_verified === 0) {
-                //         return redirect()->route('goOTP', ['id' => $user->id, 'phone' => $user->profile->phone]);
-                //     }
-                // }
                 $this->verifyUserCheker($user, $credentials);
         } else {
             if (password_verify($credentials['password'], $user->password )) {

@@ -84,7 +84,7 @@
                                 @elseif ($col === 'background_img_avatar')
                                 <img src="{{ $defualt_link . ($item->settings->background_img_avatar ?? $default_img) }}" alt="{{ $item[$col] }}" width="50" style="border-radius: 50%;">
                                 @elseif ($col === 'author')
-                                <span>{{ $item->profile->fullname }}</span>
+                                <span>{{ $item->profile->fullname ?? 'Error'}}</span>
                                 @elseif ($col === 'plan_id') <!-- Add this condition -->
                                 <span class="text-success">
                                     <b>{{ $planNames[$item->subscription->plan_id] ?? 'Error' }}</b>
@@ -102,7 +102,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="{{ count($cols_th) + 1 }}">No Record Found</td>
+                        <td colspan="{{ count($cols_th) + 1 }}">{{__('No Record Found')}}</td>
                     </tr>
                     @endforelse
                 </tbody>

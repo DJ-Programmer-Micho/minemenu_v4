@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpController;
 use App\Http\Controllers\ManController;
 use App\Http\Controllers\OwnController;
+use App\Http\Controllers\UserStatement;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RestController;
@@ -108,6 +109,14 @@ Route::middleware([LocalizationMainMiddleware::class])->group(function () {
     //Reset Password
     Route::get('/password/forget/ver/{id}', [ForgotPasswordController::class, 'passwordNewPassword'])->name('passwordNewPassword');
     Route::post('/password/forget/ver', [ForgotPasswordController::class, 'passwordSendPassword'])->name('passwordSendPassword');
+
+/*
+|--------------------------------------------------------------------------
+| MET ROUTE SUPER ADMIN
+|--------------------------------------------------------------------------
+*/  
+    Route::get('/expire_state', [UserStatement::class, 'expire_state'])->name('business.expire_state');
+    Route::get('/suspend_state', [UserStatement::class, 'suspend_state'])->name('business.suspend_state');
 });
 
 /*
@@ -128,6 +137,7 @@ Route::prefix('/own')->middleware(['LocalizationMainMiddleware', 'superadmin'])-
     Route::get('/plan/userplanview', [OwnController::class, 'userPlanView'])->name('userPlanView');
     Route::get('/plan/guestplanview', [OwnController::class, 'guestPlanView'])->name('guestPlanView');
     Route::get('/plan/plansetting', [OwnController::class, 'planSetting'])->name('planSetting');
+    Route::get('/top8', [OwnController::class, 'topEight'])->name('topEight');
 });
 
 /*
@@ -182,7 +192,6 @@ Route::prefix('/rest')->middleware(['checkStatus', 'LocalizationMiddleware', 're
 Route::prefix('/{business_name}')->middleware(['LocalizationMiddleware','TrackerVisit'])->group(function () {
     Route::get('/', [BusinessController::class, 'category'])->name('business.home');
     Route::get('/start', [BusinessController::class, 'startUp'])->name('business.zzz');
-
     Route::middleware('track-clicks:business_name')->group(function () {
         Route::get('/cat/{food}', [BusinessController::class, 'food'])->name('business.food');
         Route::get('/cat/{food}/{detail}', [BusinessController::class, 'foodDetail'])->name('business.food_detail');

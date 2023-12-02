@@ -27,9 +27,17 @@ class LocalizationMiddleware
             // Find the user based on the "business_name"
             // GENERAL DATA
             $userProfile = User::where('name', $businessName)->first();
+
+            // If User Subscription Where Expire
+            // $suspended_user_type_1 = Subscription::where('user_id', $userProfile->id)->where('expire_at', '>=', now())->count() > 0;
+            $suspended_user_type_1 = $userProfile->status;
+
+            if($suspended_user_type_1 == 0){
+                return new RedirectResponse('/suspend_state');
+            }
             $activation = Subscription::where('user_id', $userProfile->id)->where('expire_at', '>=', now())->count() > 0;
             if(!$activation){
-                dd('expire',$userProfile->name);
+                return new RedirectResponse('/expire_state');
             }
             App::instance('userProfile', $userProfile);
     
@@ -48,11 +56,7 @@ class LocalizationMiddleware
         }
 
         if (Str::startsWith($request->route()->uri(), 'rest')) {
-  
-            // $userProfile = User::where('id', Auth::id())->first();
-            // dd( Auth::id());
             $userProfile = Auth::id();
-    
             // If the user does not exist, redirect to the home page
             if (!$userProfile) {
                 return new RedirectResponse('/'); // Replace '/' with the URL of your home page
@@ -65,7 +69,6 @@ class LocalizationMiddleware
                 $this->selectedLanguages = $userSettings->languages;
             }
         } 
-
         // If the "business_name" parameter is not present or the user has no specific language preferences
         // Check if the selected locale is supported, otherwise use the fallback language
         if (empty($selectedLanguages)) {
@@ -78,7 +81,12 @@ class LocalizationMiddleware
         if ($request->session()->has('applocale')) {
             App::setLocale($request->session()->get('applocale'));
         } else {
-            App::setLocale(config('app.fallback_locale'));
+            if($userSettings->languages)
+            {
+                App::setLocale($userSettings->languages[0]);
+            } else {
+                App::setLocale(config('translatable.fallback_locale'));
+            }
         }
     
         // Get the list of supported locales from the configuration
