@@ -981,6 +981,11 @@ hr.underline_Logo{
 {
 	flex-direction: row-reverse
 }
+[lang="ar"] .chooseSize-dir,
+[lang="ku"] .chooseSize-dir {
+    text-align: right;
+    direction: rtl;
+}
 .subsT{
 	font-weight: bold;
 }
