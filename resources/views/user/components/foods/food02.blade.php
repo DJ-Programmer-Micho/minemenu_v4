@@ -37,7 +37,7 @@
                         <div class="font-weight-bold h6">{{number_format($item->price) . ' ' .  $settings->currency}}</div>
                         <div class="ml-2 old-price-01" style="text-decoration: line-through;font-size:17px;font-weight:bolder;padding-right: 10px">{{($item->old_price) ? $item->old_price . ' ' .  $settings->currency: ''}}</div>
                     </div>
-                        <span><a href="{{url()->current().'/'.$item->id}}" class="btn btn-see-more">See More Details</a></span>
+                        <span><a href="{{url()->current().'/'.$item->id}}" class="btn btn-see-more">{{__('See More Details')}}</a></span>
                     <div>
                        
                     </div>
@@ -49,7 +49,7 @@
                         style="text-decoration: line-through;font-size:17px;font-weight:bolder;padding-right: 10px">{{($item->old_price) ? $item->old_price : ''}}</span> --}}
                     </div>
                     @endforeach
-                    <span><a href="{{url()->current().'/'.$item->id}}" class="btn btn-see-more">See More Details</a></span>
+                    <span><a href="{{url()->current().'/'.$item->id}}" class="btn btn-see-more">{{__('See More Details')}}</a></span>
                     @endif
                 </div>
             </div>

@@ -25,6 +25,7 @@
     "none":"none",
     "Empty":"Empty",
     "Toggle":"Toggle",
+    "See More Details":"See More Details",
     "****** Main Navbar ******":"****** Main Navbar ******",
     "Home":"Home",
     "Pricing":"Pricing",
@@ -180,7 +181,8 @@
     "Choose Status":"Choose Status",
     "Active or non-active / Show or Hide":"Active or non-active / Show or Hide",
     "The less The Higher Priority":"The less The Higher Priority",
-
+    "Description":"Description",
+    "Choose Size":"Choose Size",
     "Edit Menu":"Edit Menu",
     "Delete Menu":"Delete Menu",
     "Are you sure you want to delete this Menu?":"Are you sure you want to delete this Menu?",
@@ -433,7 +435,6 @@
     "No Problem Found In Food Description Section":"No Problem Found In Food Description Section",
     "Options Issue Found":"Options Issue Found",
     "No Problem Found In Options Section":"No Problem Found In Options Section",
-
     "****** User State ******":"****** User State ******",
     "Account Suspended":"Account Suspended",
     "Your Account is Suspended":"Your Account is Suspended",

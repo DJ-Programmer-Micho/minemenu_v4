@@ -26,7 +26,7 @@
     "none": "لا شيء",
     "Empty": "فارغ",
     "Toggle": "تبديل",
-
+    "See More Details":"مزيد من التفاصيل",
     "****** Main Navbar ******": "****** القائمة الرئيسية ******",
     "Home": "الرئيسية",
     "Pricing": "التسعير",
@@ -239,7 +239,8 @@
     "Multi Price": "سعر متعدد",
     "Multiple Prices": "أسعار متعددة",
     "Add New Option": "إضافة خيار جديد",
-    "Description": "وصف",
+    "Description": "الوصف",
+    "Choose Size":"اختر الحجم",
     "Option Description": "وصف الخيار",
     "Price": "السعر",
     "Old Price": "السعر القديم",

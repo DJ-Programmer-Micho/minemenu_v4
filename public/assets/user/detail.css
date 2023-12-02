@@ -321,6 +321,11 @@ input[type="number"] {
     text-align: right;
     direction: rtl;
 }
+[lang="ar"] .chooseSize-dir,
+[lang="ku"] .chooseSize-dir {
+    text-align: right;
+    direction: rtl;
+}
 [lang="ar"]
     .container-fluid
     .box2

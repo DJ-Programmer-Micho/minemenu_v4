@@ -33,7 +33,7 @@ $currentOptions = $options[$glang] ?? []; // Get options for the current languag
     </div> {{-- Parent div --}}
     <div class="color-section">
         <div class="left">
-            <h5 class="label choose-size-color">{{__('Choose Size')}}</h5>
+            <h5 class="label choose-size-color chooseSize-dir">{{__('Choose Size')}}</h5>
             <hr>
             @foreach ($currentOptions as $index => $option)
             <div class="row mb-3" wire:key="{{ $index }}">
