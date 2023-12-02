@@ -315,14 +315,13 @@ input[type="number"] {
     text-align: right;
     direction: ltr;
 }
-
-[lang="ar"] .description,
-[lang="ku"] .description {
+[lang="ar"] .chooseSize-dir,
+[lang="ku"] .chooseSize-dir {
     text-align: right;
     direction: rtl;
 }
-[lang="ar"] .chooseSize-dir,
-[lang="ku"] .chooseSize-dir {
+[lang="ar"] .description,
+[lang="ku"] .description {
     text-align: right;
     direction: rtl;
 }
