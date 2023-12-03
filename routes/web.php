@@ -25,6 +25,7 @@ use App\Http\Controllers\Gateaway\SubscriptionController;
 */
 Route::post('/set-locale', [LocalizationMiddleware::class, 'setLocale'])->name('setLocale');
 Route::post('/set-locale-start-up', [LocalizationMiddleware::class, 'setLocaleStartUp'])->name('setLocaleStartUp');
+Route::get("sitemap.xml" , function () { return \Illuminate\Support\Facades\Redirect::to('sitemap.xml'); });
 
 Route::controller(CallBackController::class)->group(function(){
     Route::post('/areeba/callback','areebaCallBack')->name('areeba.callback');
