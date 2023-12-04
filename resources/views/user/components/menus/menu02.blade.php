@@ -67,7 +67,7 @@
             </a>
         </div>
         @endif
-        @if ($setting->website)                
+        @if ($setting->map)                
         <div class="col-12 p-1">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6843700.223358107!2d38.42699792131716!3d33.11827106518673!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1557823d54f54a11%3A0x6da561bba2061602!2sIraq!5e0!3m2!1sen!2siq!4v1695229906131!5m2!1sen!2siq" width="100%" height="180%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
