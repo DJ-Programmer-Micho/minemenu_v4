@@ -223,11 +223,13 @@
                     @foreach($categoriesWithNames as $category)
                     @php
                         $clickCount = $topCategories->where('category_id', $category->id)->first()->click_count ?? 0;
-                        $percentage = ($clickCount / $sumCategoryClick) * 100;
+                        // $percentage = ($clickCount / $sumCategoryClick) * 100;
+                        $percentage = min(($clickCount / $sumCategoryClick) * 100, 100);
                     @endphp
                     <h4 class="small font-weight-bold text-white">{{ $category->translation->name }} <span class="float-right">{{ $clickCount }}</span></h4>
                     <div class="progress mb-4">
-                        <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ $percentage + $sumCategoryClick}}%" aria-valuenow="{{ $clickCount }}" aria-valuemin="0" aria-valuemax="{{ $sumCategoryClick }}"></div>
+                        {{-- <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ $percentage + $sumCategoryClick}}%" aria-valuenow="{{ $clickCount }}" aria-valuemin="0" aria-valuemax="{{ $sumCategoryClick }}"></div> --}}
+                        <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ round($percentage) }}%" aria-valuenow="{{ $clickCount }}" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     @endforeach
                 </div>
@@ -244,11 +246,13 @@
                     @foreach($foodWithNames as $food)
                     @php
                         $clickCount = $topFood->where('food_id', $food->id)->first()->click_count ?? 0;
-                        $percentage = ($clickCount / $sumFoodClick) * 100;
+                        // $percentage = ($clickCount / $sumFoodClick) * 100;
+                        $percentage = min(($clickCount / $sumFoodClick) * 100, 100);
                     @endphp
                     <h4 class="small font-weight-bold text-white">{{ $food->translation->name }} <span class="float-right">{{ $clickCount }}</span></h4>
                     <div class="progress mb-4">
-                        <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ $percentage + $sumFoodClick}}%" aria-valuenow="{{ $clickCount }}" aria-valuemin="0" aria-valuemax="{{ $sumFoodClick }}"></div>
+                        <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ round($percentage) }}%" aria-valuenow="{{ $clickCount }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        {{-- <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ $percentage + $sumFoodClick}}%" aria-valuenow="{{ $clickCount }}" aria-valuemin="0" aria-valuemax="{{ $sumFoodClick }}"></div> --}}
                     </div>
                     @endforeach
                 </div>
