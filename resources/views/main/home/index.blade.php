@@ -127,7 +127,7 @@
             <div class="col-6 col-lg-3 testimonial-cards">
                     <a href="{{env('APP_URL').$menu->name}}" target="_blank" style="text-decoration: none;" class="text-dark">
                     <div>
-                        <img src="https://d3jel9g9x3oq59.cloudfront.net/{{$menu->settings->background_img_avatar ?? app('logo_144_show')}}" alt="">
+                        <img src="https://d3jel9g9x3oq59.cloudfront.net/{{$menu->settings->background_img_avatar ?? app('logo_144_show')}}" alt="minemenu {{$menu->name}}">
                         <h6 class="mt-2">{{$menu->name}}</h6>
                     </div>
                 </a>
