@@ -49,6 +49,7 @@ class UserInformationLivewire extends Component
     public $add_address;
     public $add_type = [];
     public $add_language = [];
+    public $tele_id;
     //data
     public $brand_type = [
         'Restaurant',
@@ -85,6 +86,7 @@ class UserInformationLivewire extends Component
         $this->defualt_img = app('no_uknown_user');
         $this->defualt_link = app('cloudfront');
         $this->general_link = env('APP_URL');
+        $this->tele_id = env('TELEGRAM_GROUP_ID');
         $this->planSelect = $this->planSelectFilter();
 
     }
@@ -254,6 +256,7 @@ class UserInformationLivewire extends Component
                     $formFields['phone'],
                     $formFields['country'],
                     'Manually',
+                    $this->tele_id
                 ));
                 $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
             }  catch (\Exception $e) {
@@ -271,7 +274,7 @@ class UserInformationLivewire extends Component
                     $old_plan,
                     $this->add_plan_id,
                     'Manually',
-                    'Manually',
+                    $this->tele_id
                 ));
                 $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
             }  catch (\Exception $e) {
@@ -491,7 +494,7 @@ class UserInformationLivewire extends Component
                     $this->add_plan_id,
 
                     'Manually',
-                    'Manually',
+                    $this->tele_id,
 
                     $this->container_old_module
                 ));
