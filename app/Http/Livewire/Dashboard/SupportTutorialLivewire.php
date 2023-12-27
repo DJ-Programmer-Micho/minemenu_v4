@@ -15,7 +15,7 @@ class SupportTutorialLivewire extends Component
     {
         $this->playlistsData = [
             // 'Patricia Reels' => ['PLq2poEBbwrl7x6IruEBQzjoSssciXIJN4', 'en'],
-            // 'برنامج اليوم وغدا' => ['PLq2poEBbwrl7XnRK-CT8-6--SGdIkxLYd', 'ar'],
+            'ماين مينيو' => ['PLQe1kP4aCPRaKxCgNOOLTjHbj6SrI_y5M', 'ar'],
             // 'M Magazine' => ['PLq2poEBbwrl6YhamyTFCnBu2IUQd7LMur', 'en'],
             // 'Astron' => ['PLq2poEBbwrl4HwAU-rQEkHWHLrnCr2tl2', 'ku'],
         ];

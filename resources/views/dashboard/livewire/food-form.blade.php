@@ -149,7 +149,7 @@
                                         <label>{{__('Price')}}</label>
                                         <input type="number" wire:model="options.{{ $locale }}.{{ $index }}.value" class="form-control" required>
                                         <small class="bg-info text-white px-2 rounded">{{__('(Original Price)')}}</small>
-                                        <button type="button" class="btn btn-warning text-dark" wire:click="setSamePriceForAllLocales('{{ $locale }}', {{ $index }})">Set Same Price for All</button>
+                                        <button type="button" class="btn btn-warning text-dark" wire:click="setSamePriceForAllLocales('{{ $locale }}', {{ $index }})">{{__('Set Same Price for All')}}</button>
                                     </div>
                                     <div class="col-12 col-lg-2">
                                         <label class="d-lg-block d-none">{{__('Remove')}}</label>
