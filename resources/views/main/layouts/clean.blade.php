@@ -24,7 +24,7 @@
     <meta name='og:title' content='MINE MENU'>
     <meta name='og:type' content='Software Company'>
     <meta name='og:url' content='http://minemenu.com/'>
-    <meta name='og:image' content='https://d3jel9g9x3oq59.cloudfront.net/{{app('fixedimage_640x360_half')}}'>
+    <meta name='og:image' content='https://d7tztcuqve7v9.cloudfront.net/{{app('fixedimage_640x360_half')}}'>
     <meta name='og:site_name' content='MINE MENU'>
     <meta name='og:description' content='احصل على قائمة الطعام الالكترونية الخاصة بمطعمك وخصصها كما تحب بابسط طريقة وبسعر مميز جدا, وساهم بحصول زبائنك على افضل تجربة'>
     {{-- META TAGS --}}
