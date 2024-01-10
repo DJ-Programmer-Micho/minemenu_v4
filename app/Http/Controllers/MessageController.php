@@ -26,7 +26,8 @@ class MessageController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
     
-        $tele_id = "-4084626386";
+        // $tele_id = "-1002046515204";
+        $tele_id = env('TELEGRAM_GROUP_ID_CONTACT_US');
     
         try {
             Notification::route('toTelegram', null)
