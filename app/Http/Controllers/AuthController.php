@@ -234,7 +234,8 @@ class AuthController extends Controller
             // $user->email_otp_code = $otpCodeEmail;
             $user->updateOrCreate(
                 ['id' => $user->id], // Use the primary key column for identification
-                ['email_otp_code' => $user->email_otp_code ?: $otpCodeEmail]
+                ['email_otp_code' => $otpCodeEmail]
+                // ['email_otp_code' => $user->email_otp_code ?: $otpCodeEmail]
             );
             // $user->save();
             // Send OTP via email (Mailtrap)
