@@ -24,7 +24,7 @@ class CheckUserStatus
 
             if ($user->email_verified === null || $user->email_verified === 0) {
                 // Auth::logout();
-                return redirect()->route('goEmailOTP', ['email' => $user->email]);
+                return redirect()->route('goEmailOTP', ['id' => $user->id, 'email' => $user->email]);
             }
 
             if ($user->phone_verified === null || $user->phone_verified === 0) {
