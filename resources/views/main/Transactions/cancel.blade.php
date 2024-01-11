@@ -27,7 +27,7 @@
                                 href="/contact">{{__("Contact Page")}}</a></p>
                     </div>
 
-                    <a href="/" class="btn btn-warning">{{__("Home")}}</a>
+                    <a href="/rest" class="btn btn-warning">{{__("Home")}}</a>
                 </div>
             </div>
 

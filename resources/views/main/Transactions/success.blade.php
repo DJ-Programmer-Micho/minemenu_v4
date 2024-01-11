@@ -26,7 +26,7 @@
                     </div> --}}
 
                     {{-- <button type="submit" value="Submit" id="submitBtn" class="btn btn-danger"><i class="fa-solid fa-file-arrow-down"></i></button> --}}
-                    <a href="/admin" class="btn btn-success">{{__("Dashboard")}}</a>
+                    <a href="/rest" class="btn btn-success">{{__("Dashboard")}}</a>
                 </div>
             </div>
 
