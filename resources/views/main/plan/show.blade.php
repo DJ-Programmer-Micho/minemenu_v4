@@ -28,7 +28,7 @@
             </div>
             <div class="col-12 col-lg-4 p-1">
                 <div class="single_price_plan active wow fadeInUp bo-red" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
-                <form action="/login" data-callback="g_check" method="GET" id="myForm">
+                <form action="/subscribe" data-callback="g_check" method="POST" id="myForm">
                     @csrf
                     {{-- <input id="myCheck2" class="mx-1" type="checkbox" aria-label="Checkbox for following text input" name="auto_renew">Auto/Renew <span style="color: #cc0022; font-weight: bold;">(OPTIONAL)</span> --}}
                     <input type="hidden" name="id" value="{{$plan->id}}">

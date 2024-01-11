@@ -234,8 +234,8 @@
                     <button id="no" type="button" class="button" style="margin-top: 3px; width: 49%;">
                         No!
                     </button>
-                    <a href="#">
-                    {{-- <a href="{{ route('resendPhoneOTP', ['id'=> $id, 'phone' => $phone]) }}"> --}}
+                    {{-- <a href="#"> --}}
+                    <a href="{{ route('resendPhoneOTP', ['id'=> $id, 'phone' => $phone]) }}">
                         <button id="yes" type="button"  class="button" style="margin-top: 3px; width: 49%; color: #ffffff;">
                             Yes!
                         </button>
@@ -250,6 +250,7 @@
                     <br>
                     <p style="font-size: 16px;">
                         <span>Please Check Your Email</span><br>
+                        <span>It Can Take Up To (5)min</span><br>
                         <span id="countdown">Wait for 1 minute before clicking again.</span>
                         <br>
                         <span id="resendLink" style="display:none;">

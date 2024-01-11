@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Gateaway\Payment;
 use App\Http\Controllers\Controller;
 use App\Models\Gateaway\Transaction;
+use Illuminate\Support\Facades\Auth;
 use App\Services\PaymentServiceManager;
 
 
@@ -16,6 +17,9 @@ class SubscriptionController extends Controller
     public function subscribe() {
 
         // dd(request()->all());
+        if(Auth::user()){
+            
+
 
         $form = request()->validate([
             'id' => 'required|numeric',
@@ -63,6 +67,11 @@ class SubscriptionController extends Controller
             return redirect()->away($pay);
         }
 
-
+        } else {
+            return redirect('/login')->with('alert', [
+                'type' => 'error',
+                'message' => __('Something Went Wrong'),
+            ]);
+        }
     }
 }

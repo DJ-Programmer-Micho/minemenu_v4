@@ -12,6 +12,11 @@
                 <h1 class="h3 mb-0 text-white">{{__('Dashboard')}}</h1>
                 
                 <div class="dropdown mr-1">
+                    <a href="{{url(auth()->user()->name)}}" target="_blank">
+                        <button class="mx-1 btn btn-success">
+                            {{__('Check Your Menu')}}        
+                        </button>
+                    </a>
                     <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" data-offset="10,20">
                         {{ __('Generate Report') }}
                     </button>

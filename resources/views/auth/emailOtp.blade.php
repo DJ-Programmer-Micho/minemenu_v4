@@ -109,6 +109,7 @@
                     <br>
                     <p style="font-size: 16px;">
                         <span>Please Check Your Email</span><br>
+                        <span>It May Take Up To (5)min</span><br>
                         <span id="countdown">Wait for 1 minute before clicking again.</span>
                         <br>
                         <span id="resendLink" style="display:none;">
