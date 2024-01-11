@@ -107,7 +107,7 @@ class AuthController extends Controller
     private function verifyUserCheker($user, $credentials) {
         if ($user && $user->status == 1 && Auth::attempt($credentials)) {
             if ($user->email_verified === null || $user->email_verified === 0) {
-                return redirect()->route('goEmailOTP', ['email' => $user->email]);
+                return redirect()->route('goEmailOTP', ['id' => $user->id, 'email' => $user->email]);
             } elseif ($user->phone_verified === null || $user->phone_verified === 0) {
                 return redirect()->route('goOTP', ['id' => $user->id, 'phone' => $user->profile->phone]);
             }
