@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Gateaway\Transaction;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\owner\TelegramPlanChangeNew;
+use App\Notifications\Owner\TelegramPlanChangeNew;
 
 class CallBackController extends Controller
 {
