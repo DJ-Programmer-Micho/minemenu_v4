@@ -22,9 +22,9 @@
     <section class="price_plan_area section_padding_130_80 bg" id="pricing">
         <div class="container p-0 m-0 row">
             <div class="col-12 col-lg-8 p-1">
-                <div class="single_price_plan active wow fadeInUp bo-red" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                {{-- <div class="single_price_plan active wow fadeInUp bo-red" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;"> --}}
                     {!! $plan->description_onpay[App::getLocale()] ?? '' !!}
-                </div>
+                {{-- </div> --}}
             </div>
             <div class="col-12 col-lg-4 p-1">
                 <div class="single_price_plan active wow fadeInUp bo-red" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
