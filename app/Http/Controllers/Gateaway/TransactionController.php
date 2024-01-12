@@ -11,7 +11,11 @@ use Illuminate\Support\Facades\Auth;
 class TransactionController extends Controller
 {
     public function success(){
-        return view('main.Transactions.success');
+        if(Auth::user()){ 
+            return view('main.Transactions.success');
+        } else {
+            return redirect('/');
+        }
         // if(Auth::user()){
         //     $tempUser = Auth::user();
         //     $userId = $tempUser->id;
@@ -34,10 +38,19 @@ class TransactionController extends Controller
     }
 
     public function cancel(){
-        return view('main.Transactions.cancel');
+        if(Auth::user()){ 
+            return view('main.Transactions.cancel');
+        } else {
+            return redirect('/');
+        }
+        // return view('main.Transactions.cancel');
     }
 
     public function pageError(){
-        return view('main.Transactions.error');
+        if(Auth::user()){ 
+            return view('main.Transactions.error');
+        } else {
+            return redirect('/');
+        }
     }
 }

@@ -55,7 +55,7 @@ class CallBackController extends Controller
         // ];
         $Transaction = Transaction::findOrFail($data['merchantTransactionId']);
         $plan = Plan::find($Transaction->plan_id);
-        // dd($Transaction);
+        dd($data,$Transaction,$plan);
         $Transaction->update([
             'transactions_data'=> $data,
             'result' => $data['result'],
