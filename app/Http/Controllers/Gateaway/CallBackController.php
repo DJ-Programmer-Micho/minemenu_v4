@@ -133,18 +133,18 @@ class CallBackController extends Controller
 
 
     public function zainCashCallBack(){
-        // if (request()->has('token')){
-        //     $result= JWT::decode(request('token'), new Key(env('ZIANCASH_SECRET_KEY'), 'HS256'));
-        //     $data= (array) $result;
+        if (request()->has('token')){
+            $result= JWT::decode(request('token'), new Key(env('ZIANCASH_SECRET_KEY'), 'HS256'));
+            $data= (array) $result;
             // dd($data);
 
-            $data = [
-            "status" => "success",
-            "orderid" => "2f01dcf2-7b3d-4633-b52e-d46da9871cf9",
-            "id" => "652ed63384669e7105dedfaf",
-            "operationid" => "1165856",
-            "msisdn" => "9647802999569",
-            ];
+            // $data = [
+            // "status" => "success",
+            // "orderid" => "2f01dcf2-7b3d-4633-b52e-d46da9871cf9",
+            // "id" => "652ed63384669e7105dedfaf",
+            // "operationid" => "1165856",
+            // "msisdn" => "9647802999569",
+            // ];
 
 
 
@@ -238,10 +238,10 @@ class CallBackController extends Controller
                 Log::info($reason);
                 return redirect('/payment/error');
             }
-        // }else{
-        //     //Cancelled transaction (if he clicked "Cancel and go back"
-        //     return redirect('/plans');
-        // }
+        }else{
+            //Cancelled transaction (if he clicked "Cancel and go back"
+            return redirect('/plans');
+        }
 
     }
 

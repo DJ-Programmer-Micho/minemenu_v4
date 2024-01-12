@@ -29,7 +29,7 @@ Route::get("sitemap.xml" , function () { return \Illuminate\Support\Facades\Redi
 
 Route::controller(CallBackController::class)->group(function(){
     Route::post('/areeba/callback','areebaCallBack')->name('areeba.callback');
-    Route::get('/zaincash/callback','zainCashCallBack');
+    Route::post('/zaincash/callback','zainCashCallBack');
 });
 /*
 |--------------------------------------------------------------------------

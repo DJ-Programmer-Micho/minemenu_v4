@@ -205,7 +205,7 @@ public function areebaPayment(){
         "cancelUrl" =>  url('/payment/cancel'),
         "errorUrl" => url('/payment/error'),
         "callbackUrl" => url('/areeba/callback'),
-        // "callbackUrl" => url('https://webhook.site/50fe705f-8e4a-4ab8-9152-f5d96695f533'),
+        // "callbackUrl" => url('https://webhook.site/4cbe43fc-5eae-4ed1-ad8a-9abacad0ae9c'),
         "customer" => [
             "firstName" => $user->profile->fullname,
             "lastName" => 'N/A',

@@ -35,17 +35,18 @@
                     <h5 class="mb-4">{{__("Select Payment Method:")}}</h5>
                     <ul class="list-group">
                         <li class="list-group-item d-flex align-items-center">
-                            <input type="radio" id="creditCard" class="payment-option mx-2" name="payment_method" value="1" required>
+                            <input type="radio" id="creditCard" class="payment-option mx-2" name="payment_method" value="1" disabled>
                             <label for="creditCard">
                               <img src="{{asset('assets/main/img/payments/visa.png')}}" alt="Credit Card" width="30px" height="30px">
                             </label>
+                            <span class="badge badge-primary badge-pill ml-auto">maintenance</span>
                             <label for="creditCard">
                               <img src="{{asset('assets/main/img/payments/master.png')}}" alt="Credit Card" width="50px" height="50px">
                             </label>
                           {{-- <span class="badge badge-primary badge-pill ml-auto">NEW</span> --}}
                         </li>
                         <li class="list-group-item d-flex align-items-center">
-                            <input type="radio" id="zaincash" class="payment-option mx-2" name="payment_method" value="2">
+                            <input type="radio" id="zaincash" class="payment-option mx-2" name="payment_method" value="2" required>
                             <label for="zaincash">
                               <img src="{{asset('assets/main/img/payments/zain.png')}}" alt="zaincash" width="40px" height="40px">
                             </label>
