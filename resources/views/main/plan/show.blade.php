@@ -39,10 +39,10 @@
                             <label for="creditCard">
                               <img src="{{asset('assets/main/img/payments/visa.png')}}" alt="Credit Card" width="30px" height="30px">
                             </label>
-                            <span class="badge badge-primary badge-pill ml-auto">maintenance</span>
                             <label for="creditCard">
-                              <img src="{{asset('assets/main/img/payments/master.png')}}" alt="Credit Card" width="50px" height="50px">
+                                <img src="{{asset('assets/main/img/payments/master.png')}}" alt="Credit Card" width="50px" height="50px">
                             </label>
+                            <span class="badge badge-primary badge-pill ml-auto">maintenance</span>
                           {{-- <span class="badge badge-primary badge-pill ml-auto">NEW</span> --}}
                         </li>
                         <li class="list-group-item d-flex align-items-center">
