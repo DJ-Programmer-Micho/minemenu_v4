@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdsController;
 use App\Http\Controllers\EmpController;
 use App\Http\Controllers\ManController;
 use App\Http\Controllers\OwnController;
@@ -139,6 +140,7 @@ Route::prefix('/own')->middleware(['LocalizationMainMiddleware', 'superadmin'])-
     Route::get('/plan/guestplanview', [OwnController::class, 'guestPlanView'])->name('guestPlanView');
     Route::get('/plan/plansetting', [OwnController::class, 'planSetting'])->name('planSetting');
     Route::get('/top8', [OwnController::class, 'topEight'])->name('topEight');
+    Route::get('/dynamicurl', [OwnController::class, 'dynamicUrl'])->name('dynamicUrl');
 });
 
 /*
@@ -208,3 +210,10 @@ Route::prefix('/{business_name}')->middleware(['LocalizationMiddleware','Tracker
 |--------------------------------------------------------------------------
 */
 Route::post('/contactus-whatsapp', [MessageController::class, 'contactUsApp'])->name('contactUsApp');
+
+/*
+|--------------------------------------------------------------------------
+| ADS ROUTE 
+|--------------------------------------------------------------------------
+*/
+Route::get('/ads/{id}', [AdsController::class,'dynamicUrl'])->name('dynamic.url');

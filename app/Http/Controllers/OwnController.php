@@ -33,6 +33,9 @@ class OwnController extends Controller
     public function guestPlanView(){
         return view('dashboard.own.pages.plan.planGuestView');
     } // END FUNCTION (PLAN-VIEW)
+    public function dynamicUrl(){
+        return view('dashboard.own.pages.dynamicUrl.index');
+    } // END FUNCTION (PLAN-VIEW)
     public function topEight(){
         return view('dashboard.own.pages.topEight.index');
     } // END FUNCTION (PLAN-VIEW)

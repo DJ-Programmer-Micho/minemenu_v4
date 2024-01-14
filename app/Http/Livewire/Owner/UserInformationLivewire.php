@@ -169,7 +169,7 @@ class UserInformationLivewire extends Component
     {
         if ($base64data){
             $microtime = str_replace('.', '', microtime(true));
-            $this->objectName = 'rest/menu/1' . auth()->user()->name . '_'.date('Ydm').$microtime.'.jpeg';
+            $this->objectName = 'rest/' . auth()->user()->name . '/setting/' . auth()->user()->name.'_hed_'.date('Ydm') . $microtime . '.jpeg';
             $this->tempImg = $base64data;
         } else {
             $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Image did not crop!!!')]);

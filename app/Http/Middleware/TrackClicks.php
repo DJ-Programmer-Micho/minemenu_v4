@@ -17,6 +17,8 @@ class TrackClicks
      */
     public function handle(Request $request, Closure $next, $type): Response
     {
+        
+try {
         // Extract the 'business_name' parameter from the route
         $businessName = $request->route('business_name');
         $cat_id = $request->route('food') ?? null;
@@ -52,5 +54,8 @@ class TrackClicks
         }
 
         return $next($request);
+    } catch (\Throwable $th) {
+        return $next($request);
+    }
     }
 }

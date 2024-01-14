@@ -180,13 +180,28 @@
                 </div>
             </li>
             <!-- Nav Item - Pages Collapse Menu -->
-
-
+            <hr class="sidebar-divider my-1">
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                {{__('Advertising')}}
+            </div>
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item ">
+                <a class="nav-link {{(str_contains(request()->path(), 'own/dynamicurl/')) ? 'active' : ''}}" href="{{route('dynamicUrl')}}">
+                    <lord-icon
+                    src="https://cdn.lordicon.com/gedfcmxx.json"
+                    trigger="loop"
+                    delay="2000"
+                    colors="primary:#ffffff,secondary:#cc0022"
+                    style="width:48px;height:48px">
+                </lord-icon>
+                    <span>{{__('Dynamic URLs')}}</span></a>
+            </li>
             <hr class="sidebar-divider my-1">
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                {{__('Comunications')}}
+                {{__('Advertising')}}
             </div>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item ">
