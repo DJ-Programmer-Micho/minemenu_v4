@@ -3,15 +3,15 @@
 @section('rest_content')
 
 <div>
-    @livewire('owner.dynamic-url-livewire')
+    @livewire('owner.dynamic-url-track-livewire')
 </div>
 @endsection
 @section('rest_script')
 <script>
     window.addEventListener('close-modal', event => {
-        $('#createAd').modal('hide');
-        $('#updateAd').modal('hide');
-        $('#deleteAd').modal('hide');
+        $('#createAdTrack').modal('hide');
+        $('#updateAdTrack').modal('hide');
+        $('#deleteAdTrack').modal('hide');
     }) 
 </script>
 @endsection

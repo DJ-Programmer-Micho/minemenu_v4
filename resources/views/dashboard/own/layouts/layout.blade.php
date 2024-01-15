@@ -186,16 +186,35 @@
                 {{__('Advertising')}}
             </div>
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item ">
-                <a class="nav-link {{(str_contains(request()->path(), 'own/dynamicurl/')) ? 'active' : ''}}" href="{{route('dynamicUrl')}}">
+            <li class="nav-item {{(str_contains(request()->path(), 'own/dynamicurl/')) ? 'active' : ''}}">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAds" aria-expanded="true" aria-controls="collapseAds">
                     <lord-icon
-                    src="https://cdn.lordicon.com/gedfcmxx.json"
+                    src="https://cdn.lordicon.com/uecgmesg.json"
                     trigger="loop"
                     delay="2000"
-                    colors="primary:#ffffff,secondary:#cc0022"
+                    colors="primary:#cc0022,secondary:#eee"
                     style="width:48px;height:48px">
-                </lord-icon>
-                    <span>{{__('Dynamic URLs')}}</span></a>
+                    </lord-icon>
+                    <span>{{__('Advertising Codes')}}</span>
+                </a>
+                <div id="collapseAds" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="py-2 collapse-inner rounded" style="background-color: #1f2535">
+                        {{-- <h6 class="collapse-header">{{__('Setting')}}</h6> --}}
+                        <a class="collapse-item" href="{{route('dynamicUrl')}}">
+                            <lord-icon src="https://cdn.lordicon.com/avcjklpr.json" trigger="loop" delay="2000"
+                                colors="primary:#cc0022,secondary:#eee" state="hover-1" style="width:36px;height:36px">
+                            </lord-icon>
+                            <span class="text-white">{{__('Generate QRC')}}</span>
+
+                        </a>
+                        <a class="collapse-item" href="{{route('dynamicUrlTrack')}}">
+                            <lord-icon src="https://cdn.lordicon.com/abwrkdvl.json" trigger="loop" delay="2000"
+                                colors="primary:#cc0022,secondary:#eee" state="hover-2" style="width:36px;height:36px">
+                            </lord-icon>
+                            <span class="text-white">{{__('Analyzing QRC')}}</span>
+                        </a>
+                    </div>
+                </div>
             </li>
             <hr class="sidebar-divider my-1">
 

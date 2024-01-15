@@ -36,6 +36,9 @@ class OwnController extends Controller
     public function dynamicUrl(){
         return view('dashboard.own.pages.dynamicUrl.index');
     } // END FUNCTION (PLAN-VIEW)
+    public function dynamicUrlTrack(){
+        return view('dashboard.own.pages.dynamicUrlTrack.index');
+    } // END FUNCTION (PLAN-VIEW)
     public function topEight(){
         return view('dashboard.own.pages.topEight.index');
     } // END FUNCTION (PLAN-VIEW)

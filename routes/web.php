@@ -141,6 +141,7 @@ Route::prefix('/own')->middleware(['LocalizationMainMiddleware', 'superadmin'])-
     Route::get('/plan/plansetting', [OwnController::class, 'planSetting'])->name('planSetting');
     Route::get('/top8', [OwnController::class, 'topEight'])->name('topEight');
     Route::get('/dynamicurl', [OwnController::class, 'dynamicUrl'])->name('dynamicUrl');
+    Route::get('/dynamicurltrack', [OwnController::class, 'dynamicUrlTrack'])->name('dynamicUrlTrack');
 });
 
 /*

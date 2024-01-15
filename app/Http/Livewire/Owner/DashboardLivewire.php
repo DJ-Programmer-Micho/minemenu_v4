@@ -241,7 +241,7 @@ class DashboardLivewire extends Component
         $this->loadChartData($this->selectedYear);
         $this->dispatchBrowserEvent('chartDataUpdated',  $this->chartData);
         
-        $this->getChartDataForCountry(2023);
+        $this->getChartDataForCountry($this->selectedYear);
         $this->dispatchBrowserEvent('chartDataCountryUpdated',  $this->chartCountryData);
     }
     public function render()
