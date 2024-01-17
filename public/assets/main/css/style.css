@@ -61,7 +61,7 @@ body{
 	[lang = "ar"] .my-text,
 	[lang = "ku"] .my-text
 	{
-
+		direction: rtl;
 		text-align: right !important;
 	}
 }
