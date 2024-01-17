@@ -18,7 +18,7 @@
                         <div class="card">
                           <div class="card-header p-0" id="headingOne">
                             <h2 class="mb-0">
-                              <button class="btn btn-danger btn-block text-left" style="border-bottom: 1px solid #cc0022" type="button" data-toggle="collapse" data-target="#collapseSectionOne" aria-expanded="true" aria-controls="collapseSectionOne">
+                              <button class="btn btn-danger btn-block {{ $localTemp == 'en' ? 'text-left' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'text-right' : '') }}" style="border-bottom: 1px solid #cc0022" type="button" data-toggle="collapse" data-target="#collapseSectionOne" aria-expanded="true" aria-controls="collapseSectionOne">
                                 {{__('STEP 1 - How to register to Mine Menu')}}
                               </button>
                             </h2>
@@ -58,7 +58,7 @@
                         <div class="card">
                           <div class="card-header p-0" id="headingTwo">
                             <h2 class="mb-0">
-                              <button class="btn btn-danger btn-block text-left" style="border-bottom: 1px solid #cc0022" type="button" data-toggle="collapse" data-target="#collapseSectionTwo" aria-expanded="true" aria-controls="collapseSectionOne">
+                              <button class="btn btn-danger btn-block {{ $localTemp == 'en' ? 'text-left' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'text-right' : '') }}" style="border-bottom: 1px solid #cc0022" type="button" data-toggle="collapse" data-target="#collapseSectionTwo" aria-expanded="true" aria-controls="collapseSectionOne">
                                 {{__('STEP 2 - Verify Your Email')}}
                               </button>
                             </h2>
@@ -86,7 +86,7 @@
                         <div class="card">
                           <div class="card-header p-0" id="headingThree">
                             <h2 class="mb-0">
-                              <button class="btn btn-danger btn-block text-left" style="border-bottom: 1px solid #cc0022" type="button" data-toggle="collapse" data-target="#collapseSectionThree" aria-expanded="true" aria-controls="collapseSectionOne">
+                              <button class="btn btn-danger btn-block {{ $localTemp == 'en' ? 'text-left' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'text-right' : '') }}" style="border-bottom: 1px solid #cc0022" type="button" data-toggle="collapse" data-target="#collapseSectionThree" aria-expanded="true" aria-controls="collapseSectionOne">
                                 {{__('STEP 3 - Verify Your Phone Number')}}
                               </button>
                             </h2>
@@ -114,7 +114,7 @@
                         <div class="card">
                           <div class="card-header p-0" id="headingFour">
                             <h2 class="mb-0">
-                              <button class="btn btn-danger btn-block text-left" style="border-bottom: 1px solid #cc0022" type="button" data-toggle="collapse" data-target="#collapseSectionFour" aria-expanded="true" aria-controls="collapseSectionOne">
+                              <button class="btn btn-danger btn-block {{ $localTemp == 'en' ? 'text-left' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'text-right' : '') }}" style="border-bottom: 1px solid #cc0022" type="button" data-toggle="collapse" data-target="#collapseSectionFour" aria-expanded="true" aria-controls="collapseSectionOne">
                                 {{__('STEP 4 - Accessing the Dashboard.')}}
                               </button>
                             </h2>
@@ -139,7 +139,7 @@
                         <div class="card">
                           <div class="card-header p-0" id="headingFive">
                             <h2 class="mb-0">
-                              <button class="btn btn-danger btn-block text-left" style="border-bottom: 1px solid #cc0022" type="button" data-toggle="collapse" data-target="#collapseSectionFive" aria-expanded="true" aria-controls="collapseSectionOne">
+                              <button class="btn btn-danger btn-block {{ $localTemp == 'en' ? 'text-left' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'text-right' : '') }}" style="border-bottom: 1px solid #cc0022" type="button" data-toggle="collapse" data-target="#collapseSectionFive" aria-expanded="true" aria-controls="collapseSectionOne">
                                 {{__('STEP 5 - Change Your Dashboard Language.')}}
                               </button>
                             </h2>
@@ -163,7 +163,7 @@
                         <div class="card">
                           <div class="card-header p-0" id="headingSix">
                             <h2 class="mb-0">
-                              <button class="btn btn-danger btn-block text-left" style="border-bottom: 1px solid #cc0022" type="button" data-toggle="collapse" data-target="#collapseSectionSix" aria-expanded="true" aria-controls="collapseSectionOne">
+                              <button class="btn btn-danger btn-block {{ $localTemp == 'en' ? 'text-left' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'text-right' : '') }}" style="border-bottom: 1px solid #cc0022" type="button" data-toggle="collapse" data-target="#collapseSectionSix" aria-expanded="true" aria-controls="collapseSectionOne">
                                 {{__('STEP 6 - Control Your Menu Languages.')}}
                               </button>
                             </h2>
@@ -192,7 +192,7 @@
                         <div class="card">
                           <div class="card-header p-0" id="headingSeven">
                             <h2 class="mb-0">
-                              <button class="btn btn-danger btn-block text-left" style="border-bottom: 1px solid #cc0022" type="button" data-toggle="collapse" data-target="#collapseSectionSeven" aria-expanded="true" aria-controls="collapseSectionOne">
+                              <button class="btn btn-danger btn-block {{ $localTemp == 'en' ? 'text-left' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'text-right' : '') }}" style="border-bottom: 1px solid #cc0022" type="button" data-toggle="collapse" data-target="#collapseSectionSeven" aria-expanded="true" aria-controls="collapseSectionOne">
                                 {{__('STEP 7 - Naming Your Menu.')}}
                               </button>
                             </h2>
@@ -221,7 +221,7 @@
                         <div class="card">
                           <div class="card-header p-0" id="headingEight">
                             <h2 class="mb-0">
-                              <button class="btn btn-danger btn-block text-left" style="border-bottom: 1px solid #cc0022" type="button" data-toggle="collapse" data-target="#collapseSectionEight" aria-expanded="true" aria-controls="collapseSectionOne">
+                              <button class="btn btn-danger btn-block {{ $localTemp == 'en' ? 'text-left' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'text-right' : '') }}" style="border-bottom: 1px solid #cc0022" type="button" data-toggle="collapse" data-target="#collapseSectionEight" aria-expanded="true" aria-controls="collapseSectionOne">
                                 {{__('STEP 8 - Control Your Menu Information.')}}
                               </button>
                             </h2>
@@ -257,7 +257,7 @@
                         <div class="card">
                           <div class="card-header p-0" id="headingNine">
                             <h2 class="mb-0">
-                              <button class="btn btn-danger btn-block text-left" style="border-bottom: 1px solid #cc0022" type="button" data-toggle="collapse" data-target="#collapseSectionNine" aria-expanded="true" aria-controls="collapseSectionOne">
+                              <button class="btn btn-danger btn-block {{ $localTemp == 'en' ? 'text-left' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'text-right' : '') }}" style="border-bottom: 1px solid #cc0022" type="button" data-toggle="collapse" data-target="#collapseSectionNine" aria-expanded="true" aria-controls="collapseSectionOne">
                                 {{__('STEP 9 - Tutorial')}}
                               </button>
                             </h2>
