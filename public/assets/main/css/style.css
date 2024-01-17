@@ -994,3 +994,28 @@ hr.underline_Logo{
 	background-color: transparent;
 	border: none;
 }
+
+[lang = "ar"] .ar-youtube,
+[lang = "ku"] .ar-youtube
+{
+	text-align: right !important;
+	direction: rtl;
+}
+[lang = "ar"] .accordion button,
+[lang = "ku"] .accordion button
+{
+	text-align: right !important;
+	direction: rtl;
+}
+[lang = "ar"] .accordion .card,
+[lang = "ku"] .accordion .card
+{
+	text-align: right !important;
+	direction: rtl;
+}
+
+.documentation{
+	padding: 2px;
+	box-shadow: 0 10px 30px 0 rgba(138, 155, 165, 0.678);
+	border-radius: 10px;
+}

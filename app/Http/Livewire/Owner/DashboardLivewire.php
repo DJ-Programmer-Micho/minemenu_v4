@@ -50,7 +50,7 @@ class DashboardLivewire extends Component
             $this->availableYears = $this->getAvailableYears();
             $this->selectedYear = now()->year; // Initialize with the current year
             $this->loadChartData($this->selectedYear);
-            $this->loadChartCountryData(2023);
+            $this->loadChartCountryData($this->selectedYear);
         }
     }
     //NEW

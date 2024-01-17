@@ -98,9 +98,9 @@ $regularPlans = Plan::where('status', 1)->where('type','regular')->get();
         <div class="text-center text-capitalize">
             <div class="card mt-5">
                 <div class="card-body">
-                    <h5 class="card-title">{{__("FREE QR code menu for a 14-days")}}</h5>
+                    <h5 class="card-title">{{__('Try our E-Menu for free')}}</h5>
                     <hr>
-                    <p class="card-text">{{__("You can try our QR code menu service first, and then decide does it suits you or not. It's free and we do not ask for your credit card details.")}}</p>
+                    <p class="card-text">{{__('You can try our QR code menu service first, and then decide does it suits you or not. It is free and we do not ask for your credit card details.')}}</p>
                         <a href="/register" class="btn btn-danger px-5 font-weight-bold">{{__("Try it for free")}}</a>
                     </div>
             </div>

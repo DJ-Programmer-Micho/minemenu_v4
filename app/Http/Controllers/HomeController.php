@@ -10,6 +10,10 @@ class HomeController extends Controller
         return view('main.home.index');
     } // END FUNCTION (HOME)
 
+    public function documentation(){
+        return view('main.documentation.index');
+    } // END FUNCTION (PRICING)
+
     public function pricing(){
         return view('main.pricing.index');
     } // END FUNCTION (PRICING)

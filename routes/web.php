@@ -65,6 +65,7 @@ Route::middleware([LocalizationMainMiddleware::class])->group(function () {
 |--------------------------------------------------------------------------
 */
     Route::get('/', [HomeController::class, 'home'])->name('home');
+    Route::get('/documentation', [HomeController::class, 'documentation'])->name('documentation');
     Route::get('/pricing', [HomeController::class, 'pricing'])->name('pricing');
     Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 /*
