@@ -76,7 +76,7 @@ p.my-text:lang(ar){
 [lang = "ar"] .ar,
 [lang = "ku"] .ar
 {
-
+	text-align: right;
 	direction: rtl;
 }
 
