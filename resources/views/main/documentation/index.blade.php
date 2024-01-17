@@ -28,7 +28,7 @@
                             <div class="card-body">
                                 <div class="row d-flex justify-content-between ar">
                                 <div class="col-lg-6 p-0">
-                                    <ul class="{{ $localTemp == 'en' ? 'pl-4' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'pr-4' : '') }}">
+                                    <ul class="{{ $localTemp == 'en' ? 'pl-4' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'pr-4 text-right' : '') }}">
                                         <li>{{__('Click on the link')}} <a href="https://minemenu.com/register" target="_blank">{{__('Register')}}</a> {{__('to sign up for Mine Menu.')}}</li>
                                         <li>{{__('You need to fill out the form, providing the following information:')}}</li>
                                         <ol>
@@ -68,7 +68,7 @@
                             <div class="card-body">
                                 <div class="row d-flex justify-content-between ar">
                                 <div class="col-lg-6 p-0">
-                                    <ul class="{{ $localTemp == 'en' ? 'pl-4' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'pr-4' : '') }}">
+                                    <ul class="{{ $localTemp == 'en' ? 'pl-4' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'pr-4 text-right' : '') }}">
                                         <li>{{__('In the beginning, a dialog box will appear prompting you to double-check your email. If the email is correct, click the (Yes) button; otherwise, click (No) and correct the spelling of your email.')}}</li>
                                         <li>{{__('After you click (Yes), an OTP code will be sent to your email. Please enter the 6-digit number and proceed to the next step')}}</li>
                                         <small class="text-danger">{{__('Note: It may take up to 5 minutes to receive the code.')}}</small>
@@ -96,7 +96,7 @@
                             <div class="card-body">
                                 <div class="row d-flex justify-content-between ar">
                                 <div class="col-lg-6 p-0">
-                                    <ul class="{{ $localTemp == 'en' ? 'pl-4' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'pr-4' : '') }}">
+                                    <ul class="{{ $localTemp == 'en' ? 'pl-4' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'pr-4 text-right' : '') }}">
                                         <li>{{__('After Verifying email, a dialog box will appear prompting you to double-check your phone number. If the phone is correct, click the (Yes) button; otherwise, click (No) and correct the spelling of your SMS.')}}</li>
                                         <li>{{__('After you click (Yes), an OTP code will be sent to your SMS. Please enter the 4-digit number and proceed to the next step')}}</li>
                                         <small class="text-danger">{{__('Note: It may take up to 5 minutes to receive the code.')}}</small>
@@ -124,7 +124,7 @@
                             <div class="card-body">
                                 <div class="row d-flex justify-content-between ar">
                                 <div class="col-lg-6 p-0">
-                                    <ul class="{{ $localTemp == 'en' ? 'pl-4' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'pr-4' : '') }}">
+                                    <ul class="{{ $localTemp == 'en' ? 'pl-4' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'pr-4 text-right' : '') }}">
                                         <li>{{__('After verifying your email address and phone number, you will be directed to the dashboard, where you can control your menu/e-menu.')}}</li>
                                     </ul>
                                 </div>
@@ -148,7 +148,7 @@
                             <div class="card-body">
                                 <div class="row d-flex justify-content-between ar">
                                 <div class="col-lg-6 p-0">
-                                    <ul class="{{ $localTemp == 'en' ? 'pl-4' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'pr-4' : '') }}">
+                                    <ul class="{{ $localTemp == 'en' ? 'pl-4' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'pr-4 text-right' : '') }}">
                                         <li>{{__('When clicking on the logo, as shown in the image, the list of languages will appear to you when choosing any language, the language of the interface will change')}}
                                     </ul>
                                 </div>
@@ -172,7 +172,7 @@
                             <div class="card-body">
                                 <div class="row d-flex justify-content-between ar">
                                 <div class="col-lg-6 p-0">
-                                    <ul class="{{ $localTemp == 'en' ? 'pl-4' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'pr-4' : '') }}">
+                                    <ul class="{{ $localTemp == 'en' ? 'pl-4' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'pr-4 text-right' : '') }}">
                                         <li>{{__('Go to Settings (1) -> Language (2). Here, you can select the languages you want to display in your menu.')}}</li>
                                           <ol>
                                             <li>{{__('We activate or not activate the language (3)')}}</li>
@@ -201,7 +201,7 @@
                             <div class="card-body">
                                 <div class="row d-flex justify-content-between ar">
                                 <div class="col-lg-6 p-0">
-                                    <ul class="{{ $localTemp == 'en' ? 'pl-4' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'pr-4' : '') }}">
+                                    <ul class="{{ $localTemp == 'en' ? 'pl-4' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'pr-4 text-right' : '') }}">
                                         <li>{{__('Go to Settings (1) -> Resturant Name (2). Here, you can rename your menu.')}}</li>
                                         <li>{{__('What you can do here is:')}}</li>
                                           <ol>
@@ -230,7 +230,7 @@
                             <div class="card-body">
                                 <div class="row d-flex justify-content-between ar">
                                 <div class="col-lg-6 p-0">
-                                    <ul class="{{ $localTemp == 'en' ? 'pl-4' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'pr-4' : '') }}">
+                                    <ul class="{{ $localTemp == 'en' ? 'pl-4' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'pr-4 text-right' : '') }}">
                                         <li>{{__('Go to Settings (1) -> Menu Setting (2). Here, you can update your menu setting.')}}</li>
                                         <li>{{__('You can add:')}}</li>
                                           <ol>
@@ -266,7 +266,7 @@
                             <div class="card-body">
                                 <div class="row d-flex justify-content-between ar">
                                 <div class="col-lg-12 p-0">
-                                    <ul class="{{ $localTemp == 'en' ? 'pl-4' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'pr-4' : '') }}">
+                                    <ul class="{{ $localTemp == 'en' ? 'pl-4' : ($localTemp == 'ar' || $localTemp == 'ku' ? 'pr-4 text-right' : '') }}">
                                         <li>{{__('Need a tutorial or video explanation? Click on the link to our official YouTube Channel and check out all the videos in our playlist. Everything is explained there on how to use our dashboard like a pro')}}</li>
                                         <a href="https://www.youtube.com/watch?v=vpNjtz_1j3Q&list=PLQe1kP4aCPRaKxCgNOOLTjHbj6SrI_y5M" class="btn btn-danger my-3 p-2" target="_blank">{{__("Youtube")}}</a>
                                     </ul>
