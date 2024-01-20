@@ -103,39 +103,59 @@ class DashboardLivewire extends Component
             ->unique()
             ->toArray();
     }
-    private function loadChartData($selectedYear,$businessName)
+    private function loadChartData($selectedYear, $businessName)
     {
+        // Initialize an array with all months of the selected year
+        $monthsInYear = [];
+        for ($month = 1; $month <= 12; $month++) {
+            $monthsInYear[sprintf('%04d-%02d', $selectedYear, $month)] = 0;
+        }
+
         // Fetch chart data based on the selected year
-        $this->chartData = [
-            // Fetch visits data for the selected year
-            'visits' => Tracker::selectRaw('DATE_FORMAT(visit_date, "%Y-%m") as month, COUNT(*) as count')
-                ->where('business_name', $businessName)
-                ->whereYear('visit_date', $selectedYear)
-                ->groupBy('month')
-                ->orderBy('month')
-                ->get(),
+        $this->chartData = [];
 
-            // Fetch clicks in categories data for the selected year
-            'categoryClicks' => TrackFoods::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
-                ->where('business_name_id', $businessName)
-                ->where('food_id', null)
-                ->whereYear('created_at', $selectedYear)
-                ->groupBy('month')
-                ->orderBy('month')
-                ->get(),
+        foreach (['visits', 'categoryClicks', 'foodClicks'] as $dataType) {
+            $data = $this->fetchChartData($dataType, $selectedYear, $businessName);
+            $this->chartData[$dataType] = collect($monthsInYear)->merge($data->pluck('count', 'month'))->toArray();
+        }
 
-            // Fetch clicks in food data for the selected year
-            'foodClicks' => TrackFoods::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
-                ->where('business_name_id', $businessName)
-                ->whereYear('created_at', $selectedYear)
-                ->whereNotNull('food_id')
-                ->groupBy('month')
-                ->orderBy('month')
-                ->get(),
-        ];
-  
-        
+        // dd($this->chartData);
     }
+
+    private function fetchChartData($dataType, $selectedYear, $businessName)
+    {
+        switch ($dataType) {
+            case 'visits':
+                return Tracker::selectRaw('DATE_FORMAT(visit_date, "%Y-%m") as month, COUNT(*) as count')
+                    ->where('business_name', $businessName)
+                    ->whereYear('visit_date', $selectedYear)
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->get();
+
+            case 'categoryClicks':
+                return TrackFoods::selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, COUNT(*) as count')
+                    ->where('business_name_id', $businessName)
+                    ->where('food_id', null)
+                    ->whereYear('created_at', $selectedYear)
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->get();
+
+            case 'foodClicks':
+                return TrackFoods::selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, COUNT(*) as count')
+                    ->where('business_name_id', $businessName)
+                    ->whereYear('created_at', $selectedYear)
+                    ->whereNotNull('food_id')
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->get();
+
+            default:
+                return collect();
+        }
+    }
+
     private function topCategories($businessName){
         try {
             $topCategories = TrackFoods::selectRaw('category_id, COUNT(*) as click_count')

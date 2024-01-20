@@ -25,7 +25,7 @@ class SupportContactUsLivewire extends Component
     public $data = [];
     // public $attachments = [];
     public function mount(){
-        $this->tele_id = "-4084626386";
+        $this->tele_id = "-1002046515204";
     }
 
     protected function rules()

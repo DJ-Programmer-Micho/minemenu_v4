@@ -396,11 +396,13 @@
             combinedChart = new Chart(ctx, {
                 type: "line",
                 data: {
-                    labels: visitsData.map(item => item.month),
+                    // labels: visitsData.map(item => item.month),
+                    labels: Object.keys(visitsData),
                     datasets: [
                         {
                             label: "{!! __('Visits') !!}",
-                            data: visitsData.map(item => item.count),
+                            // data: visitsData.map(item => item.count),
+                            data: Object.values(visitsData),
                             borderColor: 'rgba(75, 192, 192, 1)',
                             backgroundColor: ['rgba(75, 192, 192, 0.1)','rgba(75, 192, 192, 0)'],
                             borderWidth: 2,
@@ -408,7 +410,8 @@
                         },
                         {
                             label: "{!! __('Category Clicks') !!}",
-                            data: categoryClicksData.map(item => item.count),
+                            // data: categoryClicksData.map(item => item.count),
+                            data: Object.values(categoryClicksData),
                             borderColor: 'rgba(255, 99, 132, 1)', // Change the color
                             backgroundColor: ['rgba(255, 99, 132, 0.1)','rgba(255, 99, 132, 0)'],
                             borderWidth: 2,
@@ -416,7 +419,8 @@
                         },
                         {
                             label: "{!! __('Food Clicks') !!}",
-                            data: foodClicksData.map(item => item.count),
+                            // data: foodClicksData.map(item => item.count),
+                            data: Object.values(foodClicksData),
                             borderColor: 'rgba(255, 206, 86, 1)', // Change the color
                             backgroundColor: ['rgba(255, 206, 86, 0.1)','rgba(255, 206, 86, 0)'],
                             borderWidth: 2,
