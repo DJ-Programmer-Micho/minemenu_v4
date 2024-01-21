@@ -17,8 +17,8 @@ use App\Notifications\Owner\TelegramPlanChangeNew;
 
 class CallBackController extends Controller
 {
-    public function areebaCallBack(){
-        $data = request()->all();
+
+
         // $data = [
         //     "result" => "OK",
         //     "uuid" => "fb47ff137684df861dc4",
@@ -53,10 +53,12 @@ class CallBackController extends Controller
         //         "binCountry" => "LR",
         //     ],
         // ];
-        // dd($data);
+
+    public function areebaCallBack(){
+        $data = request()->all();
         $Transaction = Transaction::findOrFail($data['merchantTransactionId']);
         $plan = Plan::find($Transaction->plan_id);
-        // dd($data,$Transaction,$plan);
+
         $Transaction->update([
             'transactions_data'=> $data,
             'result' => $data['result'],
