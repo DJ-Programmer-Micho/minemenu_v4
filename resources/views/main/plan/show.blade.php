@@ -35,14 +35,14 @@
                     <h5 class="mb-4">{{__("Select Payment Method:")}}</h5>
                     <ul class="list-group">
                         <li class="list-group-item d-flex align-items-center">
-                            <input type="radio" id="creditCard" class="payment-option mx-2" name="payment_method" value="1" disabled>
+                            <input type="radio" id="creditCard" class="payment-option mx-2" name="payment_method" value="1">
                             <label for="creditCard">
                               <img src="{{asset('assets/main/img/payments/visa.png')}}" alt="Credit Card" width="30px" height="30px">
                             </label>
                             <label for="creditCard">
                                 <img src="{{asset('assets/main/img/payments/master.png')}}" alt="Credit Card" width="50px" height="50px">
                             </label>
-                            <span class="badge badge-primary badge-pill ml-auto">maintenance</span>
+                            {{-- <span class="badge badge-primary badge-pill ml-auto">maintenance</span> --}}
                           {{-- <span class="badge badge-primary badge-pill ml-auto">NEW</span> --}}
                         </li>
                         <li class="list-group-item d-flex align-items-center">
@@ -73,10 +73,10 @@
                       <div style="color: #cc0022; font-weight: bold;">
                         
                         <p><i class="fa-solid fa-circle-check mx-1"></i>
-                            You can cancel at any time.
+                            {{__('You can cancel at any time.')}}
                         </p> 
                         <p style="color: #09ac4d; font-weight: 400;">
-                            Note// Our data encryption ensures your information is protected. <b>with confidence!</b>
+                            {{__('Note// Our data encryption ensures your information is protected.')}} <b>{{__('with confidence!')}}</b>
                         </p>
                     </div>
 
@@ -84,11 +84,11 @@
                         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                         <div class="g-recaptcha ar" id="feedback-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}"></div>
                         @error('g-recaptcha-response')
-                        <span class="danger" style="font-size: 12px">please check recaptcha</span><br>
+                        <span class="danger" style="font-size: 12px">{{__('please check recaptcha')}}</span><br>
                         @enderror
                     </div>
                                                 
-                    <button id="submitBtn" class="tbnD btn btn-danger" disabled="">Payment</button>
+                    <button id="submitBtn" class="tbnD btn btn-danger" disabled="">{{__('Payment')}}</button>
                 </form>
             </div>
             </div>
