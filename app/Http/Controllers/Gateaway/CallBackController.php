@@ -55,7 +55,9 @@ class CallBackController extends Controller
         // ];
 
     public function areebaCallBack(){
-        dd(request()->all());
+        Log::info('Received Areeba Callback', ['data' => request()->all()]);
+
+        // dd(request()->all());
         $data = request()->all();
         $Transaction = Transaction::findOrFail($data['merchantTransactionId']);
         $plan = Plan::find($Transaction->plan_id);
