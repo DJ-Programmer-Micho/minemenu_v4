@@ -53,9 +53,10 @@ class CallBackController extends Controller
         //         "binCountry" => "LR",
         //     ],
         // ];
+        // dd($data);
         $Transaction = Transaction::findOrFail($data['merchantTransactionId']);
         $plan = Plan::find($Transaction->plan_id);
-        dd($data,$Transaction,$plan);
+        // dd($data,$Transaction,$plan);
         $Transaction->update([
             'transactions_data'=> $data,
             'result' => $data['result'],
@@ -120,14 +121,12 @@ class CallBackController extends Controller
                     'Areeba Visa/Master',
                     $amount
                 ));
-                $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+                // $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
             }  catch (\Exception $e) {
-                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+                // $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
             }
             }
         }
-        
-
         return  response('OK',200);
     }
 
