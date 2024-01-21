@@ -216,8 +216,8 @@ public function areebaPayment(){
         "language" => self::getLanguage(), 
     ];
 
-    dd(route('areeba.callback'));
-    
+    // dd(route('areeba.callback'));
+
     if(self::getAutoRenew()){
         ////// Auto Renew
         $data['withRegister'] = true;
