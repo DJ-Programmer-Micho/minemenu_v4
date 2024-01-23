@@ -55,6 +55,7 @@ class CallBackController extends Controller
         // ];
 
     public function areebaCallBack(){     
+        
         return  response('OK',200);   
         // $data = request()->all();
 
