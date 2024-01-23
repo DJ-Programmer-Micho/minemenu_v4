@@ -17,8 +17,6 @@ use App\Notifications\Owner\TelegramPlanChangeNew;
 
 class CallBackController extends Controller
 {
-
-
         // $data = [
         //     "result" => "OK",
         //     "uuid" => "fb47ff137684df861dc4",
@@ -55,83 +53,81 @@ class CallBackController extends Controller
         // ];
 
     public function areebaCallBack(){     
-        
-        return  response('OK',200);   
-        // $data = request()->all();
+        $data = request()->all();
 
-        // $Transaction = Transaction::findOrFail($data['merchantTransactionId']);
-        // $plan = Plan::find($Transaction->plan_id);
+        $Transaction = Transaction::findOrFail($data['merchantTransactionId']);
+        $plan = Plan::find($Transaction->plan_id);
 
-        // $Transaction->update([
-        //     'transactions_data'=> $data,
-        //     'result' => $data['result'],
-        //     'card_data' => $data['returnData'],
-        // ]);
-        // if($data['result']){
-        //     if($data['result'] == "OK" ){
-        //     $temp = Subscription::where('user_id', $Transaction->user_id)->first();
-        //     $old_plan = $temp->plan_id ?? 1;
+        $Transaction->update([
+            'transactions_data'=> $data,
+            'result' => $data['result'],
+            'card_data' => $data['returnData'],
+        ]);
+        if($data['result']){
+            if($data['result'] == "OK" ){
+            $temp = Subscription::where('user_id', $Transaction->user_id)->first();
+            $old_plan = $temp->plan_id ?? 1;
             
-        //     if ($temp) {
-        //         Subscription::where('user_id', $Transaction->user_id)->update([
-        //             'plan_id' => $plan->id,
-        //             'start_at' => now(),
-        //             'expire_at' => now()->addDays($plan->duration),
-        //             'renew_at' => now()->addDays($plan->duration),
-        //             'status' => 1,
-        //         ]);
-        //     } else {
-        //         Subscription::Create([
-        //             'user_id' => $Transaction->user_id,
-        //             'plan_id' => $plan->id,
-        //             'start_at' => now(),
-        //             'expire_at' => now()->addDays($plan->duration),
-        //             'renew_at' => now()->addDays($plan->duration),
-        //             'status' => 1,
-        //         ]);
-        //     }
-        //     if (Subscription::where('user_id', $Transaction->user_id)->exists()) {
-        //         $subscription = Subscription::where('user_id', $Transaction->user_id)->first();
-        //         $Transaction->update([
-        //             'subscription_id' => $subscription->id,
-        //         ]);
-        //     }
-        //     PlanChange::Create([
-        //         'user_id' => $Transaction->user_id,
-        //         'old_plan_id' => $old_plan,
-        //         'new_plan_id' => $Transaction->plan_id,
-        //         'action' => 'Visa/Master',
-        //         'change_date' => now(),
-        //     ]);
+            if ($temp) {
+                Subscription::where('user_id', $Transaction->user_id)->update([
+                    'plan_id' => $plan->id,
+                    'start_at' => now(),
+                    'expire_at' => now()->addDays($plan->duration),
+                    'renew_at' => now()->addDays($plan->duration),
+                    'status' => 1,
+                ]);
+            } else {
+                Subscription::Create([
+                    'user_id' => $Transaction->user_id,
+                    'plan_id' => $plan->id,
+                    'start_at' => now(),
+                    'expire_at' => now()->addDays($plan->duration),
+                    'renew_at' => now()->addDays($plan->duration),
+                    'status' => 1,
+                ]);
+            }
+            if (Subscription::where('user_id', $Transaction->user_id)->exists()) {
+                $subscription = Subscription::where('user_id', $Transaction->user_id)->first();
+                $Transaction->update([
+                    'subscription_id' => $subscription->id,
+                ]);
+            }
+            PlanChange::Create([
+                'user_id' => $Transaction->user_id,
+                'old_plan_id' => $old_plan,
+                'new_plan_id' => $Transaction->plan_id,
+                'action' => 'Visa/Master',
+                'change_date' => now(),
+            ]);
 
-        //     $plans = Plan::get();
-        //     $planNames = [];
+            $plans = Plan::get();
+            $planNames = [];
             
-        //     foreach ($plans as $plan) {
-        //         $planNames[$plan->id] = $plan->name['en'] ?? 'Error';
-        //     }
-        //     $userData = User::where('id', $Transaction->user_id)->first();
-        //     $amount = $data['amount'] . ' ' . $data['currency'];
+            foreach ($plans as $plan) {
+                $planNames[$plan->id] = $plan->name['en'] ?? 'Error';
+            }
+            $userData = User::where('id', $Transaction->user_id)->first();
+            $amount = $data['amount'] . ' ' . $data['currency'];
 
-        //     try{
-        //         Notification::route('toTelegram', env('TELEGRAM_GROUP_ID'))
-        //         ->notify(new TelegramPlanChangeNew(
-        //             $Transaction->user_id,
-        //             $userData->name,
-        //             $userData->profile->fullname,
-        //             $userData->email,
-        //             $userData->phone,
-        //             $planNames[$old_plan],
-        //             $planNames[$Transaction->plan_id],
-        //             'Areeba Visa/Master',
-        //             $amount
-        //         ));
-        //         // $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
-        //     }  catch (\Exception $e) {
-        //         // $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
-        //     }
-        //     }
-        // }
+            try{
+                Notification::route('toTelegram', env('TELEGRAM_GROUP_ID'))
+                ->notify(new TelegramPlanChangeNew(
+                    $Transaction->user_id,
+                    $userData->name,
+                    $userData->profile->fullname,
+                    $userData->email,
+                    $userData->phone,
+                    $planNames[$old_plan],
+                    $planNames[$Transaction->plan_id],
+                    'Areeba Visa/Master',
+                    $amount
+                ));
+                // $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Notification Send Successfully')]);
+            }  catch (\Exception $e) {
+                // $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred while sending Notification.')]);
+            }
+            }
+        }
         return  response('OK',200);
     }
 

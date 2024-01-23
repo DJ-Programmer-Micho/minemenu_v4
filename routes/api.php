@@ -22,4 +22,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/areeba/callback', [CallBackController::class, 'areebaCallBack'])
     ->middleware('throttle:60,1') 
     ->name('areeba.callback');
-
