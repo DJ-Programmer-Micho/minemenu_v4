@@ -29,7 +29,7 @@ Route::post('/set-locale-start-up', [LocalizationMiddleware::class, 'setLocaleSt
 Route::get("sitemap.xml" , function () { return \Illuminate\Support\Facades\Redirect::to('sitemap.xml'); });
 
 Route::controller(CallBackController::class)->group(function(){
-    Route::post('/areeba/callback','areebaCallBack')->name('areeba.callback');
+    // Route::post('/areeba/callback','areebaCallBack')->name('areeba.callback');
     Route::get('/zaincash/callback','zainCashCallBack');
 });
 /*
