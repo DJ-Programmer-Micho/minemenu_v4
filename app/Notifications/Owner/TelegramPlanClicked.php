@@ -13,14 +13,16 @@ class TelegramPlanClicked extends Notification
     protected $resturant_name;
     protected $name;
     protected $plan;
+    protected $country;
     protected $tele_id;
 
-    public function __construct($v_id, $resturant_name, $name, $plan, $tele_id,)
+    public function __construct($v_id, $resturant_name, $name, $plan, $country, $tele_id,)
     {
         $this->v_id = $v_id;
         $this->resturant_name = $resturant_name;
         $this->name = $name;
         $this->plan = $plan->name['en'];
+        $this->country = $country;
         $this->tele_id = $tele_id;
     }
 
@@ -40,6 +42,7 @@ class TelegramPlanClicked extends Notification
         . "*" .'Type: '. $this->v_id . "*\n"
         . "*" .'Business Name: '. $this->resturant_name . "*\n"
         . "*" .'Name: '. $this->name . "*\n"
+        . "*" .'Country: '. $this->country . "*\n"
         . "*" .'Plan Clicked: '. $this->plan . "*\n";
 
        return TelegramMessage::create()

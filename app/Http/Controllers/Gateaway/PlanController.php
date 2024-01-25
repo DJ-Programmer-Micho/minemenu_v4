@@ -26,6 +26,16 @@ class PlanController extends Controller
                 $nameIs = 'unKnown';
             }
 
+            try {
+                $ip = request()->ip();
+                $url = "https://ipinfo.io/{$ip}/json";
+                $data = json_decode(file_get_contents($url));
+                // Check if the 'country' property exists in the response
+                $userCountry = isset($data->country) ? $data->country : 'N/A';
+            } catch (\Exception $e) {
+                //nothing
+            }
+
             // try {
                 Notification::route('toTelegram', null)
                     ->notify(new TelegramPlanClicked(
@@ -33,6 +43,7 @@ class PlanController extends Controller
                         $businessIs,
                         $nameIs,
                         $plan,
+                        $userCountry,
                         $tele_id
                     ));
         
