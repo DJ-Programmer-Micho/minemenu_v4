@@ -33,11 +33,11 @@ class AppServiceProvider extends ServiceProvider
                 return Auth::user()->settings->languages; // Replace "abc" with your desired value or logic to fetch the data.
             }
         });
-        $this->app->singleton('viewCart', function () {
-            if (Auth::user()->role != 1) {
-                return Auth::user()->settings->cart_status; // Replace "abc" with your desired value or logic to fetch the data.
-            }
-        });
+        // $this->app->singleton('viewCart', function () {
+            // if (Auth::user()->role != 1) {
+                // return Auth::user()->settings->cart_status; // Replace "abc" with your desired value or logic to fetch the data.
+            // }
+        // });
         $this->app->singleton('cloudfront', function () {
             return 'https://d7tztcuqve7v9.cloudfront.net/'; // Replace "abc" with your desired value or logic to fetch the data.
         });
