@@ -1,5 +1,5 @@
 <div>
-{{-- @if (app('viewCart')) --}}
+@if ($setting->cart_status)
 <i class="fa fa-cart"></i>
 <div class="badge-notification" data-count="{{$cart_count}}">
     <button type="button" data-toggle="modal" data-target="#checkCart" class="cart-butt-detail-01"><i class="fas fa-shopping-cart"></i></button>
@@ -159,5 +159,5 @@
         </div>
     </div>
 </div>
-{{-- @endif --}}
+@endif
 </div>

@@ -23,6 +23,7 @@ class FoodCartCounterLivewire extends Component
     public $selectedSizeOptionIndex;
     public $glang;
     public $currency;
+    public $setting;
     public $tax;
     public $quantity_f = [];
     public $previewQuantity = [];
@@ -92,6 +93,7 @@ class FoodCartCounterLivewire extends Component
             'cart_count' => $cart_count,
             'cart' => $cart,
             'tax' => $this->tax,
+            'settings' => $this->setting,
             'totalSubtotal' => $totalSubtotal,
             'grandTotal' => $grandTotal,
             'currency' => $this->currency
