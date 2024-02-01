@@ -25,6 +25,7 @@ class Setting extends Model
         'tiktok',
         'telegram_notify',
         'telegram_notify_status',
+        'cart_status',
         'background_img',
         'background_vid',
         'background_img_header',

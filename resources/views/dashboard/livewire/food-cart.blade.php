@@ -11,6 +11,7 @@ $currentOptions = $options[$glang] ?? []; // Get options for the current languag
             <h6 class="old-price-detail-01" style="text-decoration: line-through;">{{($foodAction->old_price) ? $foodAction->old_price .' '.$settings->currency : ''}}</h6>
             <h6 class="price-detail-01">{{$foodAction->price . ' ' .  $settings->currency}}</h6>
         </div>
+        @if (app('viewCart'))
         <div class="col-6">
             <div class="d-flex align-items-center justify-content-end price-box">
                 <button type="button" class="btn btn-sm btn-plus-minus" wire:click="decreaseQuantity('{{ $foodAction->id }}', 'null', 'null')">
@@ -26,6 +27,7 @@ $currentOptions = $options[$glang] ?? []; // Get options for the current languag
                 </button>
             </div>
         </div>
+        @endif
     </div>
 </div>
     </div> {{-- Parent div --}}
@@ -40,6 +42,7 @@ $currentOptions = $options[$glang] ?? []; // Get options for the current languag
                 <div class="col-6 my-auto price-box">
                     <h6 class="food-price-value-01"><span class="font-weight-bold food-price-key-01">{{$option['key']}}</span> : {{$option['value'] . ' ' . $settings->currency}}</h6>
                 </div>
+                @if (app('viewCart'))
                 <div class="col-6">
                     <section class="d-flex align-items-center justify-content-end price-box">
                         <div class="plus-minus border border-white">
@@ -57,6 +60,7 @@ $currentOptions = $options[$glang] ?? []; // Get options for the current languag
                         </div>
                     </section>
                 </div>
+                @endif
             </div>
             @endforeach
         </div>

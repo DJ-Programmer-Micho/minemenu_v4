@@ -22,6 +22,7 @@ class MenuSettingLivewire extends Component
     public $map;
     public $currency;
     public $fees;
+    public $cart_status;
     public $telegram_notify_status;
     public $telegram_notify;
 
@@ -46,6 +47,7 @@ class MenuSettingLivewire extends Component
             $this->currency = $settings->currency ? $settings->currency : null ;
             $this->fees = $settings->fees ? $settings->fees : null ;
 
+            $this->cart_status = $settings->cart_status ? $settings->cart_status : 0;
             $this->telegram_notify_status = $settings->telegram_notify_status ? $settings->telegram_notify_status : null ;
             $this->telegram_notify = $settings->telegram_notify ? $settings->telegram_notify : null ;
     
@@ -85,6 +87,7 @@ class MenuSettingLivewire extends Component
         $settings->map = $this->map;
         $settings->currency = $this->currency;
         $settings->fees = $this->fees;
+        $settings->cart_status = $this->cart_status;
         $settings->telegram_notify_status = $this->telegram_notify_status;
         $settings->telegram_notify = $this->telegram_notify;
     
