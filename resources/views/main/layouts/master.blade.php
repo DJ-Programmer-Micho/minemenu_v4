@@ -27,7 +27,7 @@
     <meta name='og:url' content='https://minemenu.com/'>
     <meta name='og:image' content='https://d7tztcuqve7v9.cloudfront.net/{{app('fixedimage_640x360_half')}}'>
     <meta name='og:site_name' content='MINE MENU'>
-    <meta name='og:description' content='ابدأ الآن تجربتك المجانية لمدة 14 يومًا!'>
+    <meta name='og:description' content='ابدأ الآن تجربتك المجانية لمدة 30 يومًا!'>
     {{-- META TAGS --}}
     <meta name='keywords' content='minemenu, mine menu, ماين منيو, menu iraq, menu erbil, menu resturant, qr code, resturant qr code, تصاميم منيو, تصاميم منيوfinedinemenu, mine menu iraq, تصميم منيو, كيف اسوي منيو الكتروني, food menu, قائمة الطعام, scan menu, منيو, menu generator, food menu generator, قائمة الطعام, food'>
     <meta name="news_keywords" content="minemenu, mine menu, ماين منيو, menu iraq, menu erbil, menu resturant, qr code, resturant qr code, finedine, finedinemenu, mine menu iraq, food, drinks, food menu, menu scan, scan menu, منيو, menu generator, food menu generator, قائمة الطعام, food">
