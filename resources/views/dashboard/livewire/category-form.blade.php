@@ -12,6 +12,12 @@
     .overlay { position: absolute; bottom: 10px; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.5); overflow: hidden; height: 0; transition: .5s ease; width: 100%;}
     .image_area:hover .overlay { height: 50%; cursor: pointer; }
     .text { color: #333; font-size: 20px; position: absolute; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%); text-align: center;}
+    .galleryFoodTab:focus { border: #fff; }
+    .galleryFoodTab:hover { transform: scale(1.2); border: #fff;}
+    .galleryCoverTab:focus { border: #fff; }
+    .galleryCoverTab:hover { transform: scale(1.2); border: #fff;}
+    .loader { position: relative; left: 44%; border: 6px solid #f3f3f3; border-top: 6px solid #cc0022; border-radius: 50%; width: 40px; height: 40px; animation: spin 2s linear infinite;}
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 </style>
 
 
@@ -19,7 +25,7 @@
 
 <!-- Insert Modal -->
 <div wire:ignore.self class="modal fade overflow-auto" id="createCategory" tabindex="-1" aria-labelledby="createCategoryLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-xl text-white mx-1 mx-lg-auto">
+    <div class="modal-dialog modal-xl text-white mx-auto" style="max-width: 1200px;">
         <div class="modal-content bg-dark">
             <form wire:submit.prevent="saveCategory">
                 <div class="modal-body">
@@ -63,8 +69,12 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 mb-5">
-                            <label for="img">{{__('Upload Image')}}</label>
+                            <div class="row justify-content-between p-0 my-1 mx-0">
+                                <label for="img">{{__('Upload Image')}}</label>
+                                <button type="button" class="btn btn-warning text-dark font-weight-bold" data-toggle="modal" data-target="#galleryFoodCategory" wire:click="fetchFoodGallery()">{{__('Gallery')}}</button>
+                            </div>
                             <input type="file" name="categoryImg" id="categoryImg" class="form-control" style="height: auto" placeholder="{{__('Category Name')}}">
+                            <small class="bg-info text-white px-2 rounded">{{__('The Image Size Should be')}} <b>{{__('(640px X 360px)')}}</b> {{__('or')}} <b>{{__('(1280px X 720px)')}}</b></small>
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                             <input type="file" name="croppedCategoryImg" id="croppedCategoryImg" style="display: none;">
                             <div class="progress my-1">
@@ -75,8 +85,12 @@
                                 <img id="showCategoryImg" class="img-thumbnail rounded" src="{{$tempImg ?? $emptyImg}}">
                             </div>
 
-                            <label for="img">{{__('Upload Cover')}} <small class="bg-info text-white px-2 rounded">{{__('(OPTIONAL)')}}</small></label>
+                            <div class="row justify-content-between p-0 my-1 mx-0">
+                                <label for="img">{{__('Upload Cover')}} <small class="text-info">{{__('(OPTIONAL)')}}</small></label>
+                                <button type="button" class="btn btn-warning text-dark font-weight-bold" data-toggle="modal" data-target="#galleryCoverCategory" wire:click="fetchCoverGallery()">{{__('Gallery')}}</button>
+                            </div>                            
                             <input type="file" name="categoryImgCover" id="categoryImgCover" class="form-control" style="height: auto">
+                            <small class="bg-info text-white px-2 rounded">{{__('The Image Size Should be')}} <b>{{__('(400px X 120px)')}}</b> {{__('or')}} <b>{{__('(800px X 240px)')}}</b></small>
                             @error('objectNameCover') <span class="text-danger">{{ $message }}</span> @enderror
                             <input type="file" name="croppedCategoryImgCover" id="croppedCategoryImgCover" style="display: none;">
                             <div class="progress my-1">
@@ -149,7 +163,11 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
-                            <label for="img">{{__('Upload Image')}}</label>
+                            <div class="row justify-content-between p-0 my-1 mx-0">
+                                <label for="img">{{__('Update Image')}}</label>
+                                <button type="button" class="btn btn-warning text-dark font-weight-bold" data-toggle="modal" data-target="#galleryFoodCategory" wire:click="fetchFoodGallery()">{{__('Gallery')}}</button>
+                            </div>
+                            <small class="bg-info text-white px-2 rounded">{{__('The Image Size Should be')}} <b>{{__('(640px X 360px)')}}</b> {{__('or')}} <b>{{__('(1280px X 720px)')}}</b></small>
                             <input type="file" name="editCategoryImg" id="editCategoryImg" class="form-control" style="height: auto">
                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror
                             <input type="file" name="editCroppedCategoryImg" id="editCroppedCategoryImg" style="display: none;">
@@ -161,7 +179,11 @@
                                 <img id="showEditCategoryImg" class="img-thumbnail rounded" src="{{ $tempImg ? $tempImg : app('cloudfront').$imgReader}}">
                             </div>
 
-                            <label for="img">{{__('Upload Cover')}} <small class="text-info">{{__('(OPTIONAL)')}}</small></label>
+                            <div class="row justify-content-between p-0 my-1 mx-0">
+                                <label for="img">{{__('UPdate Cover')}} <small class="text-info">{{__('(OPTIONAL)')}}</small></label>
+                                <button type="button" class="btn btn-warning text-dark font-weight-bold" data-toggle="modal" data-target="#galleryCoverCategory" wire:click="fetchCoverGallery()">{{__('Gallery')}}</button>
+                            </div>                            
+                            <small class="bg-info text-white px-2 rounded">{{__('The Image Size Should be')}} <b>{{__('(400px X 120px)')}}</b> {{__('or')}} <b>{{__('(800px X 240px)')}}</b></small>
                             <input type="file" name="editCategoryImgCover" id="editCategoryImgCover" class="form-control" style="height: auto">
                             @error('objectNameCover') <span class="text-danger">{{ $message }}</span> @enderror
                             <input type="file" name="editCroppedCategoryImgCover" id="editCroppedCategoryImgCover" style="display: none;">
@@ -182,7 +204,8 @@
                                 </div>
                                 @else
                                 <img id="showEditCategoryImgCover" class="img-thumbnail rounded" src="{{ $emptyImg }}">
-                                @endif                            </div>
+                                @endif                            
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -220,6 +243,123 @@
                         </button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+{{-- FOOD GALLERY MODAL --}}
+<div wire:ignore.self class="modal fade" id="galleryFoodCategory" tabindex="-1" aria-labelledby="galleryFoodCategoryModalLabel"
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog text-white">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title" id="galleryFoodCategoryModalLabel">{{__('Gallery')}}</h5>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+            </div>
+            {{-- <form wire:submit.prevent="uploadThisImage"> --}}
+                <div class="modal-body">
+                    @if(empty($galleryFoodTab))
+                        <div class="loader"></div>
+                    @endif
+                    @if(isset($galleryFoodTab))
+                        <div class="form-group">
+                            <label for="gallerySelect">{{__('Select Gallery :')}}</label>
+                            
+
+                            <select class="form-control" id="galleryFoodSelect">
+                                <option>{{__('Please Select the Category')}}</option>
+                                @foreach ($galleryFoodTab as $galleryName => $files)
+                                @php
+                                    $galleryNameParts = explode('/', $galleryName);
+                                    $lastPart = end($galleryNameParts);
+                                @endphp
+                                    <option value="{{ $lastPart }}">{{ ucfirst(str_replace('-', ' ', $lastPart)) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                
+                        <div id="selectedFoodGallery" class="mt-3">
+                            @foreach ($galleryFoodTab as $galleryName => $files)
+                            @php
+                                $galleryNameParts = explode('/', $galleryName);
+                                $lastPart = end($galleryNameParts);
+                            @endphp
+                                <div id="{{ $lastPart }}" class="gallery" style="display: none;">
+                                    <div class="row">
+                                        @foreach ($files as $file)
+                                            <div class="col-md-4 mb-3">
+                                                <img src="{{ app('cloudfront').$file }}" class="img-fluid galleryFoodTab" alt="Mine-Menu" wire:click="focusFoodImage('{{ $file }}')">                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+                {{-- <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" wire:click="">
+                        {{ __('Confirm') }}
+                    </button>
+                </div>
+            </form> --}}
+        </div>
+    </div>
+</div>
+
+{{-- COVER GALLERY MODAL --}}
+<div wire:ignore.self class="modal fade" id="galleryCoverCategory" tabindex="-1" aria-labelledby="galleryCoverCategoryModalLabel"
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog text-white">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title" id="galleryCoverCategoryModalLabel">{{__('Gallery')}}</h5>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                    aria-label="Close"><i class="fas fa-times"></i></button>
+            </div>
+            {{-- <form wire:submit.prevent="uploadThisImage"> --}}
+                <div class="modal-body">
+                    @if(empty($galleryCoverTab))
+                    <div class="loader"></div>
+                    @endif
+                    @if(isset($galleryCoverTab))
+                    <div class="form-group">
+                        <label for="gallerySelect">{{__('Select Gallery:')}}</label>
+                        <select class="form-control" id="galleryCoverSelect">
+                            <option>{{__('Please Select the Cover')}}</option>
+                            @foreach ($galleryCoverTab as $galleryName => $files)
+                            @php
+                                $galleryNameParts = explode('/', $galleryName);
+                                $lastPart = end($galleryNameParts);
+                            @endphp
+                                <option value="{{ $lastPart }}">{{ ucfirst(str_replace('-', ' ', $lastPart)) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+            
+                    <div id="selectedCoverGallery" class="mt-3">
+                        @foreach ($galleryCoverTab as $galleryName => $files)
+                        @php
+                            $galleryNameParts = explode('/', $galleryName);
+                            $lastPart = end($galleryNameParts);
+                        @endphp
+                            <div id="{{ $lastPart }}" class="gallery" style="display: none;">
+                                <div class="row">
+                                    @foreach ($files as $file)
+                                        <div class="col-md-4 mb-3">
+                                            <img src="{{ app('cloudfront').$file }}" class="img-fluid galleryCoverTab" alt="Mine-Menu" wire:click="focusCoverImage('{{ $file }}')">                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+                </div>
+                {{-- <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" wire:click="">
+                        {{ __('Confirm') }}
+                    </button>
+                </div>
+            </form> --}}
         </div>
     </div>
 </div>
@@ -289,6 +429,24 @@
 </div>
 
 @push('cropper')
+<script>
+    $(document).ready(function () {
+        $('#galleryFoodSelect').on('change', function () {
+            var selectedFoodGallery = $(this).val();
+            $('.gallery').hide();
+            $('#' + selectedFoodGallery).show();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#galleryCoverSelect').on('change', function () {
+            var selectedCoverGallery = $(this).val();
+            $('.gallery').hide();
+            $('#' + selectedCoverGallery).show();
+        });
+    });
+</script>
 {{-- Add --}}
 <script>
     document.addEventListener('livewire:load', function () {

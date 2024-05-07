@@ -25,6 +25,7 @@ class User extends Authenticatable
         'g_pass',
         'role',
         'status',
+        'app',
         'email_verified',
         'phone_verified',
         'email_otp_code',
@@ -38,6 +39,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'g_pass',
         'remember_token',
     ];
 
@@ -46,6 +48,9 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
+    // protected $appends = ['avatar'];
+
+
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',

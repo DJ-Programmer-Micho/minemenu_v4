@@ -21,6 +21,9 @@ class SupportContactUsLivewire extends Component
     public $message;
     public $phone;
     public $sucessMessage;
+    public $guestIdentifier;
+    public $deviceIdentifier;
+    public $ohNo;
     public $tele_id;
     public $data = [];
     // public $attachments = [];
@@ -48,7 +51,13 @@ class SupportContactUsLivewire extends Component
         $this->data['phone'] = $this->phone;
 
         $contact = $this->data;
- 
+        try {
+            $this->guestIdentifier = $_SERVER['REMOTE_ADDR'];
+            $this->deviceIdentifier = $_SERVER['HTTP_USER_AGENT'];
+        }
+        catch (\Exception $e) {
+            $this->ohNo = 'error ' + $e;
+        }
         try{
             Notification::route('toTelegram', null)
             ->notify(new TelegramContactUs(
@@ -59,6 +68,16 @@ class SupportContactUsLivewire extends Component
                 $this->subject,
                 $this->message,
                 $this->phone,
+
+                // $this->guestIdentifier,
+                'a',
+                // $this->deviceIdentifier,
+                'b',
+                // $this->ohNo,
+                'c',
+                'c',
+                'c',
+
                 $this->tele_id
             ));
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Message Send Successfully')]);

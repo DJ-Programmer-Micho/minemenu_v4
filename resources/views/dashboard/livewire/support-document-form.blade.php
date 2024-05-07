@@ -9,7 +9,7 @@
 </header>
 
 <!-- Featured Content Section -->
-<section class="featured-content py-5">
+{{-- <section class="featured-content py-5">
     <div class="container">
         <div class="row m-0 p-0">
             <div class="col-md-4">
@@ -41,5 +41,5 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 </div>

@@ -20,4 +20,9 @@
         $('#deleteFoodModal').modal('hide');
     }) 
 </script>
+<script>
+    window.addEventListener('close-mini-modal', event => {
+        $('#galleryFood').modal('hide');
+    })
+</script>
 @endsection

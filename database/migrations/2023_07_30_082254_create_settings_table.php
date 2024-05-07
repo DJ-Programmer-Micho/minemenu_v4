@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('default_lang');
             $table->string('languages');
             $table->string('phone')->nullable();
+            $table->string('phone_two')->nullable();
             $table->string('wifi')->nullable();
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();

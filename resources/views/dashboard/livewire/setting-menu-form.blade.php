@@ -10,6 +10,11 @@
                     @error('phone') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <div class="mb-3">
+                    <label class="text-white">{{__('Resturant Phone Number 2')}}</label>
+                    <input type="text" wire:model="phone_two" class="form-control">
+                    @error('phone_two') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+                <div class="mb-3">
                     <label class="text-white">{{__('WIFI Password')}}</label>
                     <input type="text" wire:model="wifi" class="form-control">
                     @error('wifi') <span class="text-danger">{{ $message }}</span> @enderror

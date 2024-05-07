@@ -120,6 +120,24 @@ class FoodLivewire extends Component
         }
     }
 
+    public $galleryFTab = [];
+    public function fetchGallery(){
+        if(empty($this->galleryTab)){
+            $galleries = Storage::disk('s3')->directories('mine-setting/gallery/food');
+            foreach ($galleries as $gallery) {
+                $filesInFolder = Storage::disk('s3')->files($gallery);
+                $this->galleryFTab[$gallery] = $filesInFolder;
+            }
+        }
+    }
+
+    public function focusImage($imageUrl)
+    {
+        $this->tempImg = app('cloudfront') . $imageUrl;
+        $this->objectName = $imageUrl;
+        $this->dispatchBrowserEvent('close-mini-modal');
+    }
+
     public function saveFood()
     {
         $validatedData = $this->validate();
@@ -127,20 +145,25 @@ class FoodLivewire extends Component
 
             $sorm = $this->showTextarea ? 1 : 0;
             $optionsData = $this->showTextarea == false ? null : json_encode($this->options);
-
+            // $startsWith = Str::startsWith($this->objectName, 'mine-setting/');
+            // dd($startsWith); // Should output true
             try {
                 if($this->tempImg) {
                     $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
-
+                    // dd($this->objectName, $this->imgReader);
                     if($this->imgReader){
                         if (Str::startsWith($this->imgReader, 'mine-setting/')) {
                             //Do nothing
                         } else {
                             Storage::disk('s3')->delete($this->imgReader);
                         }
-                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+
                     } else {
-                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+                        if (Str::startsWith($this->objectName, 'mine-setting/')) {
+                            // Do Nothing
+                        } else {
+                            Storage::disk('s3')->put($this->objectName, $croppedImage);
+                        }
                     }
                 } else {
                     $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
@@ -290,10 +313,12 @@ class FoodLivewire extends Component
                         } else {
                             Storage::disk('s3')->delete($this->imgReader);
                         }
-                        Storage::disk('s3')->put($this->objectName, $croppedImage);
                     } else {
-                        Storage::disk('s3')->put($this->objectName, $croppedImage);
-                    }
+                        if (Str::startsWith($this->objectName, 'mine-setting/')) {
+                            // Do Nothing
+                        } else {
+                            Storage::disk('s3')->put($this->objectName, $croppedImage);
+                        }                    }
                 } else {
                     // $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
                     // return;
@@ -310,9 +335,9 @@ class FoodLivewire extends Component
                 'special' => $validatedData['special'],
                 'sorm' => $sorm,
                 'options' => $optionsData,
-                'price' => isset($this->price) ? $this->price : null,
-                'old_price' => isset($this->oldPrice) ? $this->oldPrice : null,
-                'img' => isset($this->objectName) ? $this->objectName : $this->imgReader,
+                'price' => !empty($this->price) ? $this->price : null,
+                'old_price' => !empty($this->oldPrice) ? $this->oldPrice : null,
+                'img' => !empty($this->objectName) ? $this->objectName : $this->imgReader,
             ]);
         
             // Create or update the Foods_Translator records

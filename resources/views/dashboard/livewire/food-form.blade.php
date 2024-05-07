@@ -17,6 +17,10 @@
     .slider:before { position:absolute; content:""; width:100%; height:100%; background:#cc0022; border-radius:30px; transform:translateX(-30px); transition:.4s; }
     input:checked + .slider:before { transform:translateX(30px); background:limeGreen; }
     input:checked + .slider { box-shadow:0 0 0 2px limeGreen,0 0 2px limeGreen; }
+    .galleryTab:focus { border: #fff; }
+    .galleryTab:hover { transform: scale(1.2); border: #fff;}
+    .loader { position: relative; left: 44%; border: 6px solid #f3f3f3; border-top: 6px solid #cc0022; border-radius: 50%; width: 40px; height: 40px; animation: spin 2s linear infinite;}
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 </style>
 
 <div>
@@ -194,6 +198,7 @@
                                 <b class="text-uppercase text-white">{{__('Upload Food Image')}}</b>
                             </h2>
                             <div class="">
+                                <button type="button" class="btn btn-warning text-dark font-weight-bold" data-toggle="modal" data-target="#galleryFood" wire:click="fetchGallery()">{{__('Gallery')}}</button>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
@@ -400,6 +405,9 @@
                                 <b class="text-uppercase text-white">{{__('Upload Food Image')}}</b>
                             </h2>
                             <div class="">
+                                <div class="">
+                                    <button type="button" class="btn btn-warning text-dark font-weight-bold" data-toggle="modal" data-target="#galleryFood" wire:click="fetchGallery()">{{__('Gallery')}}</button>
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
@@ -487,7 +495,74 @@
 </div> 
 </div>
 
+
+{{-- FOOD GALLERY MODAL --}}
+<div wire:ignore.self class="modal fade" id="galleryFood" tabindex="-1" aria-labelledby="galleryFoodModalLabel"
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog text-white">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title" id="galleryFoodModalLabel">{{__('Gallery')}}</h5>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                    aria-label="Close"><i class="fas fa-times"></i></button>
+            </div>
+            {{-- <form wire:submit.prevent="uploadThisImage"> --}}
+                <div class="modal-body">
+                    @if(empty($galleryFTab))
+                    <div class="loader"></div>
+                    @endif
+                    @if(isset($galleryFTab))
+                    <div class="form-group">
+                        <label for="gallerySelect">Select Gallery:</label>
+                        <select class="form-control" id="gallerySelect">
+                            <option>{{__('Please Select the Category')}}</option>
+                            @foreach ($galleryFTab as $galleryName => $files)
+                            @php
+                                $galleryNameParts = explode('/', $galleryName);
+                                $lastPart = end($galleryNameParts);
+                            @endphp
+                                <option value="{{ $lastPart }}">{{ ucfirst(str_replace('_', ' ', $lastPart)) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+            
+                    <div id="selectedGallery" class="mt-3">
+                        @foreach ($galleryFTab as $galleryName => $files)
+                        @php
+                            $galleryNameParts = explode('/', $galleryName);
+                            $lastPart = end($galleryNameParts);
+                        @endphp
+                            <div id="{{ $lastPart }}" class="gallery" style="display: none;">
+                                <div class="row">
+                                    @foreach ($files as $file)
+                                        <div class="col-md-4 mb-3">
+                                            <img src="{{ app('cloudfront').$file }}" class="img-fluid galleryTab" alt="Mine-Menu" wire:click="focusImage('{{ $file }}')">                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+                </div>
+                {{-- <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" wire:click="">
+                        {{ __('Confirm') }}
+                    </button>
+                </div>
+            </form> --}}
+        </div>
+    </div>
+</div>
 @push('cropper')
+<script>
+    $(document).ready(function () {
+        $('#gallerySelect').on('change', function () {
+            var selectedGallery = $(this).val();
+            $('.gallery').hide();
+            $('#' + selectedGallery).show();
+        });
+    });
+</script>
 {{-- Add --}}
 <script>
     document.addEventListener('livewire:load', function () {

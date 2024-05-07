@@ -13,6 +13,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Middleware\LocalizationMiddleware;
 use App\Http\Controllers\Gateaway\PlanController;
+use App\Http\Controllers\Api\V1\AuthApiController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Middleware\LocalizationMainMiddleware;
 use App\Http\Controllers\Gateaway\CallBackController;
@@ -194,7 +195,8 @@ Route::prefix('/rest')->middleware(['checkStatus', 'LocalizationMiddleware', 're
 | User Pages with User ID Prefix
 |--------------------------------------------------------------------------
 */
-Route::prefix('/{business_name}')->middleware(['LocalizationMiddleware','TrackerVisit'])->group(function () {
+Route::prefix('{business_name}')->middleware(['LocalizationMiddleware','TrackerVisit'])
+->group(function () {
     Route::get('/', [BusinessController::class, 'category'])->name('business.home');
     Route::get('/start', [BusinessController::class, 'startUp'])->name('business.zzz');
     Route::middleware('track-clicks:business_name')->group(function () {

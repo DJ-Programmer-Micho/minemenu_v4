@@ -16,4 +16,10 @@
         $('#deleteCategoryModal').modal('hide');
     })
 </script>
+<script>
+    window.addEventListener('close-mini-modal', event => {
+        $('#galleryFoodCategory').modal('hide');
+        $('#galleryCoverCategory').modal('hide');
+    })
+</script>
 @endsection

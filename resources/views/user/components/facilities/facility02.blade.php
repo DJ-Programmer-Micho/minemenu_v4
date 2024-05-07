@@ -16,7 +16,7 @@
         </div>
     </div>
 </div>
-    <div class="d-flex justify-content-between info-02">
+    {{-- <div class="d-flex justify-content-between info-02">
     @if (!empty($setting->wifi))
         @if ($locale == 'ar' || $locale == 'ku')
         <div><a href="{{$setting->map}}"  target="_blank" style="text-transform: none;"><i class="fas fa-location-arrow"></i> {{ $setting_address }}</a></div>
@@ -27,10 +27,46 @@
     @if (!empty($setting->wifi))
     <div><a href="#"  onclick="copyWifiPassword()" style="text-transform: none;"><i class="fa fa-wifi"></i> {{ $setting->wifi }}</a></div>
     @endif
-    @if (!empty($setting->phone))
-    <div><a class="phone-number-01"  href="{{ 'tel:' . $setting->phone }}" dir="ltr"><i class="fas fa-mobile"></i>{{ $setting->phone }}</a></div>
-    @endif
+    <div>
+
+        @if (!empty($setting->phone))
+        <div><a class="phone-number-01"  href="{{ 'tel:' . $setting->phone }}" dir="ltr"><i class="fas fa-mobile"></i> {{ $setting->phone }}</a></div>
+        @endif
+        @if (!empty($setting->phone))
+        <div><a class="phone-number-01"  href="{{ 'tel:' . $setting->phone }}" dir="ltr"><i class="fas fa-mobile"></i> {{ $setting->phone }}</a></div>
+        @endif
     </div>
+    </div> --}}
+    <div class="info-02">
+        <div class="row">
+            <div class="col-md-3 col-6 order-1 order-md-1">
+                @if (!empty($setting_address))
+                    @if ($locale == 'ar' || $locale == 'ku')
+                        <div><a href="{{$setting->map}}" target="_blank" style="text-transform: none;"><i class="fas fa-location-arrow"></i> {{ $setting_address }}</a></div>
+                    @else
+                        <div><a href="{{$setting->map}}" target="_blank" style="text-transform: none;"><i class="fas fa-location-arrow"></i> {{ $setting_address }}</a></div>
+                    @endif
+                @endif
+            </div>
+            <div class="col-md-3 col-6 order-3 order-md-2">
+                @if (!empty($setting->wifi))
+                    <div><a href="#" onclick="copyWifiPassword()" style="text-transform: none;"><i class="fa fa-wifi"></i> {{ $setting->wifi }}</a></div>
+                @endif
+            </div>
+            <div class="col-md-3 col-6 order-2 order-md-3">
+                @if (!empty($setting->phone))
+                    <div><a class="phone-number-01" href="{{ 'tel:' . $setting->phone }}" dir="ltr"><i class="fas fa-mobile"></i> {{ $setting->phone }}</a></div>
+                @endif
+            </div>
+            <div class="col-md-3 col-6 order-4 order-md-4">
+                @if (!empty($setting->phone_two))
+                    <div><a class="phone-number-01" href="{{ 'tel:' . $setting->phone_two }}" dir="ltr"><i class="fas fa-mobile"></i> {{ $setting->phone_two }}</a></div>
+                @endif
+            </div>
+        </div>
+    </div>
+    
+    
 </div>
 
 <script>

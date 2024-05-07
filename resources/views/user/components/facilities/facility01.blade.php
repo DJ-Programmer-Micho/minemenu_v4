@@ -32,6 +32,9 @@
         @if (!empty($setting->phone))
         <li><a class="phone-number-01"><i class="fas fa-mobile"></i> <a href="{{ 'tel:' . $setting->phone }}" class="phone-link-01">{{ $setting->phone }}</a></a></li>
         @endif
+        @if (!empty($setting->phone_two))
+        <li><a class="phone-number-01"><i class="fas fa-mobile"></i> <a href="{{ 'tel:' . $setting->phone_two }}" class="phone-link-01">{{ $setting->phone_two }}</a></a></li>
+        @endif
       </ul>
     </div>
 <script>

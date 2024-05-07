@@ -43,8 +43,8 @@
         <div class="col-lg-3">
            <ul class="p-0">
             <li><i class="fa-solid fa-envelope"></i> <a href="">Info@minemenu.com</a></li>
-            <li><i class="fa-solid fa-phone"></i><a href="">+964 750 681 4144</a></li>
-            <li><i class="fa-solid fa-location-dot"></i> <a href=""> Erbil,Ainkawa</a></li>
+            <li><i class="fa-solid fa-phone"></i><a href="">+964 750 574 5632</a></li>
+            <li><i class="fa-solid fa-location-dot"></i> <a href=""> Iraq - Kurdistan Region Erbil, Ainkawa</a></li>
            </ul>
         </div>
     </div>

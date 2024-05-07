@@ -52,7 +52,11 @@ class CallBackController extends Controller
         //     ],
         // ];
 
-    public function areebaCallBack(){     
+    public function areebaCallBack(){  
+        return response()->json([
+            "status" => "true",
+            "message" => "User Registered Successfully"
+        ]);
         $data = request()->all();
 
         $Transaction = Transaction::findOrFail($data['merchantTransactionId']);

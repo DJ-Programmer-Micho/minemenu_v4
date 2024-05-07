@@ -69,11 +69,13 @@ class CategoryLivewire extends Component
     public $menu_name;
     public $old_menu_name;
     public $new_menu_name;
+    public $emptyImg;
     public function mount()
     {
         $this->glang = app('glang');
         $this->filteredLocales = app('userlanguage');
         $this->default_link = app('cloudfront');
+        $this->emptyImg = app('fixedimage_640x360');
         if (auth()->check()) {
             $userSettings = Auth::user()->settings;
             $this->telegram_channel_status = $userSettings ? $userSettings->telegram_notify_status : null;
@@ -121,6 +123,43 @@ class CategoryLivewire extends Component
             return 'failed to crop image code...405';
         }
     } // END FUNCTION OF HANDLING THE CROPPED COVER
+    
+
+    public $galleryFoodTab = [];
+    public function fetchFoodGallery(){
+        if(empty($this->galleryFoodTab)){
+            $galleries = Storage::disk('s3')->directories('mine-setting/gallery/food');
+            foreach ($galleries as $gallery) {
+                $filesInFolder = Storage::disk('s3')->files($gallery);
+                $this->galleryFoodTab[$gallery] = $filesInFolder;
+            }
+        }
+    }
+
+    public function focusFoodImage($imageUrl)
+    {
+        $this->tempImg = app('cloudfront') . $imageUrl;
+        $this->objectName = $imageUrl;
+        $this->dispatchBrowserEvent('close-mini-modal');
+    }
+    
+    public $galleryCoverTab = [];
+    public function fetchCoverGallery(){
+        if(empty($this->galleryCoverTab)){
+            $galleries = Storage::disk('s3')->directories('mine-setting/gallery/cover');
+            foreach ($galleries as $gallery) {
+                $filesInFolder = Storage::disk('s3')->files($gallery);
+                $this->galleryCoverTab[$gallery] = $filesInFolder;
+            }
+        }
+    }
+
+    public function focusCoverImage($imageUrl)
+    {
+        $this->tempImgCover = app('cloudfront') . $imageUrl;
+        $this->objectNameCover = $imageUrl;
+        $this->dispatchBrowserEvent('close-mini-modal');
+    }
 
     public function saveCategory()
     {
@@ -138,9 +177,12 @@ class CategoryLivewire extends Component
                         } else {
                             Storage::disk('s3')->delete($this->imgReader);
                         }
-                        Storage::disk('s3')->put($this->objectName, $croppedImage);
                     } else {
-                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+                        if (Str::startsWith($this->objectName, 'mine-setting/')) {
+                            // Do Nothing
+                        } else {
+                            Storage::disk('s3')->put($this->objectName, $croppedImage);
+                        }
                     }
                 } else {
                     $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
@@ -159,9 +201,12 @@ class CategoryLivewire extends Component
                         } else {
                             Storage::disk('s3')->delete($this->imgReaderCover);
                         }
-                        Storage::disk('s3')->put($this->objectNameCover, $croppedImageCover);
                     } else {
+                        if (Str::startsWith($this->objectNameCover, 'mine-setting/')) {
+                            // Do Nothing
+                        } else {
                         Storage::disk('s3')->put($this->objectNameCover, $croppedImageCover);
+                        }
                     }
                 } catch (\Exception $e) {
                     $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred during image upload: ' . $e->getMessage())]);
@@ -290,9 +335,13 @@ class CategoryLivewire extends Component
                         } else {
                             Storage::disk('s3')->delete($this->imgReader);
                         }
-                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+
                     } else {
-                        Storage::disk('s3')->put($this->objectName, $croppedImage);
+                        if (Str::startsWith($this->objectName, 'mine-setting/')) {
+                            // Do Nothing
+                        } else {
+                            Storage::disk('s3')->put($this->objectName, $croppedImage);
+                        }
                     }
                 } else {
                     // $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
@@ -311,9 +360,12 @@ class CategoryLivewire extends Component
                         } else {
                             Storage::disk('s3')->delete($this->imgReaderCover);
                         }
-                        Storage::disk('s3')->put($this->objectNameCover, $croppedImageCover);
                     } else {
-                        Storage::disk('s3')->put($this->objectNameCover, $croppedImageCover);
+                        if (Str::startsWith($this->objectNameCover, 'mine-setting/')) {
+                            // Do Nothing
+                        } else {
+                            Storage::disk('s3')->put($this->objectNameCover, $croppedImageCover);
+                        }
                     }
                 } catch (\Exception $e) {
                     $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred during image upload: ' . $e->getMessage())]);
@@ -519,13 +571,22 @@ class CategoryLivewire extends Component
 
     public function deleteCoverCategory()
     {
-        try{
-            Categories::where('id', $this->category_update->id)->update([
-                'cover' => null,
-            ]);
-            $this->dispatchBrowserEvent('close-modal');
+        try {
+            $category = Categories::findOrFail($this->category_update->id);
+            $coverName = $category->cover;
+            // dd($coverName);
+            if ($coverName) {
+                if (Str::startsWith($coverName, 'mine-setting/')) {
+                    // Do nothing
+                } else {
+                    Storage::disk('s3')->delete($coverName);
+                }
+                $category->update(['cover' => null]);
+            }
+            $this->tempImgCover = null;
+            $this->imgReaderCover = null;
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Category Cover Image Deleted Successfully')]);
-        } catch (\Exception) {
+        } catch (\Exception $e) {
             $this->dispatchBrowserEvent('alert', ['type' => 'danger',  'message' => __('Something Went Wrong, CODE...DEL-CVR')]);
         }
     } //END OF DELETING COVER
@@ -534,6 +595,20 @@ class CategoryLivewire extends Component
     public function closeModal()
     {
         $this->resetInput();
+    } // END FUNCTION OF CLOSE MODAL
+    public function closeModalMini()
+    {
+        foreach ($this->filteredLocales as $locale) {
+            $this->names[$locale] = "";
+        }
+        $this->menu_id = '';
+        $this->status = '';
+        $this->priority = '';
+        $this->category_selected_id_delete = '';
+        $this->category_selected_name_delete = '';
+        $this->showTextTemp = '';
+        $this->categoryNameToDelete = '';
+        $this->confirmDelete = false;
     } // END FUNCTION OF CLOSE MODAL
  
     public function resetInput()
@@ -611,7 +686,8 @@ class CategoryLivewire extends Component
             'cols_td' => $cols_td,
             'colspan' => $colspan,
             'menu_select' => $this->menu_select,
-            'emptyImg' => app('fixedimage_640x360'),
+            // 'emptyImg' => app('fixedimage_640x360'),
+            'emptyImg' => $this->emptyImg,
             'fl' => $this->imgReader
         ])->with('alert', ['type' => 'info',  'message' => __('Category Table Loaded')]);
     } // END OF FUNCTION RENDER

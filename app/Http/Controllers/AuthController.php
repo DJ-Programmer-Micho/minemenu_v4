@@ -142,9 +142,10 @@ class AuthController extends Controller
                 'password.min' => 'Password Must Be 8+ Charechters',
             ]
         );
-// dd($formFeilds['phone']);
+
         $formFeilds['brand_type'] = (request('brand_type')) ? implode(',',request('brand_type')) : null;
         $formFeilds['status'] = '1';
+        $formFeilds['app'] = '0';
         $formFeilds['role'] = 3;
         $formFeilds['default_lang'] = 'en';
         $formFeilds['languages'] = ["en", "ar", "ku"];
@@ -157,7 +158,7 @@ class AuthController extends Controller
         $formFeilds['phone_verified'] = 0;
 
         $formFeilds = collect($formFeilds);
-        $user = User::create($formFeilds->only('name','email','password','g_pass','role','status','email_verified','phone_verified')->toArray());
+        $user = User::create($formFeilds->only('name','email','password','g_pass','role','status','app','email_verified','phone_verified')->toArray());
         $user->profile()->create($formFeilds->only('fullname','state','country','address','phone','brand_type')->toArray());
         $user->settings()->create($formFeilds->only('default_lang','languages','ui_ux')->toArray());
         $user->subscribe(1, null);

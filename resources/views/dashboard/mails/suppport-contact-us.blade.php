@@ -395,8 +395,8 @@
                                                 <ul>
                                                     <li>Team Support: <a href="mailto:support@minemenu.com">support@minemenu.com</a></li>
                                                     <li>Developer Support: <a href="mailto:support@metiraq.com">support@metiraq.com</a></li>
-                                                    <li>Email Owner: <a href="mailto:michel@minemenu.com">michel@minemenu.com</a></li>
-                                                    <li>Call Owner: <a href="telto:+9647506814144">+9647506814144</a></li>
+                                                    {{-- <li>Email Owner: <a href="mailto:michel@minemenu.com">michel@minemenu.com</a></li>
+                                                    <li>Call Owner: <a href="telto:+9647506814144">+9647506814144</a></li> --}}
                                                 </ul>
                                             </td>
                                         </tr>

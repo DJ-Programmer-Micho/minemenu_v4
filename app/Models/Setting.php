@@ -14,6 +14,7 @@ class Setting extends Model
         'default_lang',
         'languages',
         'phone',
+        'phone_two',
         'wifi',
         'facebook',
         'instagram',

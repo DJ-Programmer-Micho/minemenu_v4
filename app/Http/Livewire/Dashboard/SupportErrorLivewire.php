@@ -57,6 +57,11 @@ class SupportErrorLivewire extends Component
                 $this->subject,
                 $this->message,
                 $this->phone,
+                '',
+                '',
+                '',
+                '',
+                '',
                 $this->tele_id
             ));
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Message Send Successfully')]);

@@ -22,7 +22,7 @@
                         <p class="subsT"><i class="fa-solid fa-envelope"></i><a
                                 href="mailto:support@minemenu.com">{{__("support@minemenu.com")}}</a></p>
                         <p class="subsT"><i class="fa-solid fa-headset"></i><a
-                                href="tel:+9647506814144">{{__("+964 750 68 14 144")}}</a></p>
+                                href="tel:+9647505745632">{{__("+964 750 574 5632")}}</a></p>
                         <p class="subsT"><i class="fa-solid fa-address-card"></i><a
                                 href="/contact">{{__("Contact Page")}}</a></p>
                     </div>

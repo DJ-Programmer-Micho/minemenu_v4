@@ -42,6 +42,7 @@ class Kernel extends HttpKernel
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
         ],
     ];
 
@@ -73,5 +74,6 @@ class Kernel extends HttpKernel
         'LocalizationMainMiddleware' => \App\Http\Middleware\LocalizationMainMiddleware::class,
         'TrackerVisit' => \App\Http\Middleware\TrackVisits::class,
         'track-clicks' => \App\Http\Middleware\TrackClicks::class,
+        'LocalizationApiMiddleware' => \App\Http\Middleware\Api\V1\LocalizationApiMiddleware::class,
     ];
 }

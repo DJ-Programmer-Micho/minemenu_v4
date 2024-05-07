@@ -11,6 +11,7 @@ class MenuSettingLivewire extends Component
     public $filteredLocales;
     // FormLocal
     public $phone;
+    public $phone_two;
     public $wifi;
     public $notes = [];
     public $website;
@@ -36,6 +37,7 @@ class MenuSettingLivewire extends Component
         $settings = Setting::where('user_id', $userId)->first();
         if ($settings) {
             $this->phone = $settings->phone ? $settings->phone : null ;
+            $this->phone_two = $settings->phone_two ? $settings->phone_two : null ;
             $this->wifi = $settings->wifi ? $settings->wifi : null ;
             $this->website = $settings->website ? $settings->website : null ;
             $this->facebook = $settings->facebook ? $settings->facebook : null ;
@@ -76,6 +78,7 @@ class MenuSettingLivewire extends Component
     
         // Update the settings attributes
         $settings->phone = $this->phone;
+        $settings->phone_two = $this->phone_two;
         $settings->wifi = $this->wifi;
         $settings->note = $notesJson; // Save the JSON object
         $settings->website = $this->website;

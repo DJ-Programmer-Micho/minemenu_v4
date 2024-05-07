@@ -15,9 +15,14 @@ class TelegramContactUs extends Notification
     protected $subject;
     protected $message;
     protected $phone;
+    protected $ipAddress;
+    protected $guestIdentifier;
+    protected $deviceIdentifier;
+    protected $country;
+    protected $ohNo;
     protected $tele_id;
 
-    public function __construct($s_id, $resturant_name, $name, $email, $subject, $message, $phone, $tele_id,)
+    public function __construct($s_id, $resturant_name, $name, $email, $subject, $message, $phone, $ipAddress, $guestIdentifier, $deviceIdentifier, $country, $ohNo, $tele_id)
     {
         $this->s_id = $s_id;
         $this->resturant_name = $resturant_name;
@@ -26,6 +31,11 @@ class TelegramContactUs extends Notification
         $this->subject = $subject;
         $this->phone = $phone;
         $this->message = $message;
+        $this->ipAddress = $ipAddress;
+        $this->guestIdentifier = $guestIdentifier;
+        $this->deviceIdentifier = $deviceIdentifier;
+        $this->country = $country;
+        $this->ohNo = $ohNo;
         $this->tele_id = $tele_id;
     }
 
@@ -42,13 +52,36 @@ class TelegramContactUs extends Notification
 
         $content = "*" . 'NEW SUPPORT MESSAGE' . "*\n"
         . "*" .'-----------------'."*\n" 
-        . "*" .'Cat-ID: '. $registrationId . '-'. $this->s_id .'-' . $registration3Id . "*\n"
+        . "*" .'M-ID: '. $registrationId . '-'. $this->s_id .'-' . $registration3Id . "*\n"
         . "*" .'Business Name: '. $this->resturant_name . "*\n"
-        . "*" .'Name: '. $this->name . "*\n"
+        . "*" .'Name: '. $this->name ."*\n"
         . "*" .'Email Address: '. $this->email . "*\n"
         . "*" .'Phone Number: '. $this->phone . "*\n"
         . "*" .'Subject: '. $this->subject . "*\n"
         . "*" .'Message: '. $this->message . "*\n";
+
+        if ($this->guestIdentifier != null) {
+            $content .= "*" .'-----------------'."*\n"; 
+            $content .= "*" . 'IP ADDRESS: ' . $this->ipAddress . "*\n";
+        }
+        if ($this->guestIdentifier != null) {
+            $content .= "*" .'-----------------'."*\n"; 
+            $content .= "*" . 'Country: ' . $this->country . "*\n";
+        }
+        if ($this->guestIdentifier != null) {
+            $content .= "*" .'-----------------'."*\n"; 
+            $content .= "*" . 'Guest Identifier: ' . $this->guestIdentifier . "*\n";
+        }
+        
+        if ($this->deviceIdentifier != null) {
+            $content .= "*" .'-----------------'."*\n"; 
+            $content .= "*" . 'Device Identifier: ' . $this->deviceIdentifier . "*\n";
+        }
+        
+        if ($this->ohNo != null) {
+            $content .= "*" .'-----------------'."*\n";
+            $content .= "*" . 'Error ' . $this->ohNo . "*\n";
+        }
 
        return TelegramMessage::create()
        ->to($this->tele_id)

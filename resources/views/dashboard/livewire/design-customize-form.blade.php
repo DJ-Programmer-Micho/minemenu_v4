@@ -160,7 +160,7 @@
                                     <h4 class="text-white">{{__('Header Image')}}</h4>
                                     <div class="row">
                                         <div class="col-12">
-                                            <small class="bg-info text-white px-2 rounded">{{__('The Image Size Should be')}} <b>{{__('(640px X 360px)')}}</b> {{__('or')}} <b>{{__('(1280px X 720px)')}}</b></small>
+                                            <small class="bg-info text-white font-weight-bold px-2 rounded">{{__('The Image Size Should be')}} <b>{{__('(800px X 240px)')}}</b></small>
                                             <label for="img">{{__('Upload Image')}}</label>
                                             <input type="file" name="headerImg" id="headerImg" class="form-control" style="height: auto">
                                             @error('objectName') <span class="text-danger">{{ $message }}</span> @enderror

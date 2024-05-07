@@ -73,7 +73,14 @@ facilities UI/UX 03
 .facilities-03 {
     padding: 15px;
     background-color: var(--navbar-top-color);
-    margin-bottom: -45px;
+    margin-bottom: 0px;
+}
+
+@media (min-width: 768px) {
+    /* For medium width screens (md), adjust margin bottom to -70px */
+    .facilities-03 {
+        margin-bottom: -70px;
+    }
 }
 .toggle-icon-03 {
     color: var(--navbar-toggle-color);

@@ -14,7 +14,10 @@ class LocalizationMainMiddleware
     
     public function handle($request, Closure $next)
     {
-      
+        if ($request->is('api/*')) {
+            return $next($request);
+        }
+
 
         if (empty($selectedLanguages)) {
             $selectedLanguages = ['ar']; // Fallback languages
