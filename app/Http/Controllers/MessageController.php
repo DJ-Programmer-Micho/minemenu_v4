@@ -10,15 +10,13 @@ use App\Notifications\TelegramNewRegister;
 // use App\Notifications\TelegramContactUs;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\Owner\TelegramContactUs;
-use GeoIp2\Database\Reader;
+use Stevebauman\Location\Facades\Location;
 
 class MessageController extends Controller
 {
-    public $visitorIp;
-    public $country;
+    public $location;
     public $guestIdentifier;
     public $deviceIdentifier;
-    public $ohNo;
     // use Notifiable;
     public function contactUsApp(Request $request)
     {
@@ -35,15 +33,14 @@ class MessageController extends Controller
         $tele_id = "-1002046515204";
         $tele_id = env('TELEGRAM_GROUP_ID_CONTACT_US');
         try {
-            $reader = new Reader(storage_path('app/geoip/GeoLite2-Country.mmdb'));
-            $this->visitorIp = $request->ip();
-            try {
-                $this->country = $reader->country($this->visitorIp);
-            } catch (\Exception $e) {
-                $this->country = 'UnKnown';
-            }
 
-            $this->guestIdentifier = $_SERVER['REMOTE_ADDR'];
+            // $this->guestIdentifier = $_SERVER['REMOTE_ADDR'];
+            $this->guestIdentifier = '130.193.228.71';
+            try {
+                $this->location = Location::get($this->guestIdentifier);
+            } catch (\Exception $e) {
+
+            }
             $this->deviceIdentifier = $_SERVER['HTTP_USER_AGENT'];
         }
         catch (\Exception $e) {
@@ -59,12 +56,9 @@ class MessageController extends Controller
                     '',
                     $request->input('message'),
                     '',
-
-                    $this->visitorIp,
+                    $this->location,
                     $this->guestIdentifier,
                     $this->deviceIdentifier,
-                    $this->country,
-                    $this->ohNo,
                     $tele_id
                 ));
     

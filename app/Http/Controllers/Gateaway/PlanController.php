@@ -8,9 +8,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\Owner\TelegramPlanClicked;
+use Stevebauman\Location\Facades\Location;
 
 class PlanController extends Controller
 { 
+    public $location;
+    public $guestIdentifier;
+    public $deviceIdentifier;
+
     public function show(Plan $id){
         if (!$id->valid_date || $id->valid_date >= now()) {
             $plan = $id;
@@ -36,6 +41,21 @@ class PlanController extends Controller
                 //nothing
             }
 
+            try {
+
+                // $this->guestIdentifier = $_SERVER['REMOTE_ADDR'];
+                $this->guestIdentifier = '130.193.228.71';
+                try {
+                    $this->location = Location::get($this->guestIdentifier);
+                } catch (\Exception $e) {
+    
+                }
+                $this->deviceIdentifier = $_SERVER['HTTP_USER_AGENT'];
+            }
+            catch (\Exception $e) {
+                
+            }
+
             // try {
                 Notification::route('toTelegram', null)
                     ->notify(new TelegramPlanClicked(
@@ -44,6 +64,9 @@ class PlanController extends Controller
                         $nameIs,
                         $plan,
                         $userCountry,
+                        $this->location,
+                        $this->guestIdentifier,
+                        $this->deviceIdentifier,
                         $tele_id
                     ));
         

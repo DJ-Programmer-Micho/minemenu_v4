@@ -8,7 +8,6 @@
         "php": "^8.1",
         "astrotomic/laravel-translatable": "^11.12",
         "firebase/php-jwt": "^6.9",
-        "geoip2/geoip2": "^3.0",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
         "laravel-notification-channels/telegram": "^4.0",
@@ -18,7 +17,8 @@
         "league/flysystem-aws-s3-v3": "^3.15",
         "livewire/livewire": "^2.12",
         "maatwebsite/excel": "^3.1",
-        "mindscms/laravelshoppingcart": "^2.1"
+        "mindscms/laravelshoppingcart": "^2.1",
+        "stevebauman/location": "^7.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

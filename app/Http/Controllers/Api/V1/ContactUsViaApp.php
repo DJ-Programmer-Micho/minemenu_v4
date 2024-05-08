@@ -15,10 +15,14 @@ use App\Notifications\TelegramNewRegister;
 // use App\Notifications\TelegramContactUs;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\Owner\TelegramContactUs;
+use Stevebauman\Location\Facades\Location;
+
 
 class ContactUsViaApp extends Controller
 {
-
+    public $location;
+    public $guestIdentifier;
+    public $deviceIdentifier;
     public function contactUsViaApp(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -34,7 +38,20 @@ class ContactUsViaApp extends Controller
     
         // $tele_id = "-1002046515204";
         $tele_id = env('TELEGRAM_GROUP_ID_CONTACT_US');
-    
+        try {
+
+            // $this->guestIdentifier = $_SERVER['REMOTE_ADDR'];
+            $this->guestIdentifier = '130.193.228.71';
+            try {
+                $this->location = Location::get($this->guestIdentifier);
+            } catch (\Exception $e) {
+
+            }
+            $this->deviceIdentifier = $_SERVER['HTTP_USER_AGENT'];
+        }
+        catch (\Exception $e) {
+            
+        }
         try {
             Notification::route('toTelegram', null)
                 ->notify(new TelegramContactUs(
@@ -45,11 +62,9 @@ class ContactUsViaApp extends Controller
                     '',
                     $request->input('message'),
                     $request->input('phone'),
-                    '',
-                    '',
-                    '',
-                    '',
-                    '',
+                    $this->location,
+                    $this->guestIdentifier,
+                    $this->deviceIdentifier,
                     $tele_id
                 ));
     
