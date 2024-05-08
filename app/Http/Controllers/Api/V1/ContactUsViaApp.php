@@ -40,8 +40,9 @@ class ContactUsViaApp extends Controller
         $tele_id = env('TELEGRAM_GROUP_ID_CONTACT_US');
         try {
 
-            // $this->guestIdentifier = $_SERVER['REMOTE_ADDR'];
-            $this->guestIdentifier = '130.193.228.71';
+            $this->guestIdentifier = $_SERVER['REMOTE_ADDR'];
+            
+            // $this->guestIdentifier = '130.193.228.71';
             try {
                 $this->location = Location::get($this->guestIdentifier);
             } catch (\Exception $e) {

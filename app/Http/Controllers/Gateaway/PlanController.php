@@ -43,8 +43,8 @@ class PlanController extends Controller
 
             try {
 
-                // $this->guestIdentifier = $_SERVER['REMOTE_ADDR'];
-                $this->guestIdentifier = '130.193.228.71';
+                $this->guestIdentifier = $_SERVER['REMOTE_ADDR'];
+                // $this->guestIdentifier = '130.193.228.71';
                 try {
                     $this->location = Location::get($this->guestIdentifier);
                 } catch (\Exception $e) {
