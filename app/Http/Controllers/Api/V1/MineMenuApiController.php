@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use Livewire\Livewire;
 use App\Models\Mainmenu;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Livewire\Dashboard\MainMenuLivewire;
 
-class MainMenuApiController extends Controller
+class MineMenuApiController extends Controller
 {
     protected $glang;
     protected $filteredLocales;
