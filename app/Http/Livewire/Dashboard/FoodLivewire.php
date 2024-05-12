@@ -312,13 +312,15 @@ class FoodLivewire extends Component
                             //Do nothing
                         } else {
                             Storage::disk('s3')->delete($this->imgReader);
+                            Storage::disk('s3')->put($this->objectName, $croppedImage);
                         }
                     } else {
                         if (Str::startsWith($this->objectName, 'mine-setting/')) {
                             // Do Nothing
                         } else {
                             Storage::disk('s3')->put($this->objectName, $croppedImage);
-                        }                    }
+                        }                    
+                    }
                 } else {
                     // $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
                     // return;
@@ -337,7 +339,7 @@ class FoodLivewire extends Component
                 'options' => $optionsData,
                 'price' => !empty($this->price) ? $this->price : null,
                 'old_price' => !empty($this->oldPrice) ? $this->oldPrice : null,
-                'img' => !empty($this->objectName) ? $this->objectName : $this->imgReader,
+                'img' => isset($this->objectName) ? $this->objectName : $this->imgReader,
             ]);
         
             // Create or update the Foods_Translator records
