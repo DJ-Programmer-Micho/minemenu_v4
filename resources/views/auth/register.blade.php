@@ -147,15 +147,15 @@
 </div>
 
 </a>
-<div id="policyModal" class="modal">
+<div id="policyModal" class="modal text-left" dir="ltr">
   <div class="modal-content">
     <div class="modal-header">
-      <h2>Policy and Privacy</h2>
+      <h2 class="text-center">TERMS & CONDITIONS OF SERVICE AGREEMENT</h2>
       <span class="modal-close">&times;</span>
     </div>
     <div class="modal-body">
       <h3><b>TERMS & CONDITIONS OF SERVICE AGREEMENT</b></h3><br>
-      <p>LAST REVISION: [10-2-2023]</p><br>
+      <p>LAST REVISION: [2024-5-12]</p><br>
       <p>PLEASE READ THIS TERMS OF SERVICE AGREEMENT CAREFULLY. BY USING THIS WEBSITE OR ORDERING PRODUCTS FROM THIS WEBSITE YOU AGREE TO BE BOUND BY ALL OF THE TERMS AND CONDITIONS OF THIS AGREEMENT.</p><br>
       <p>This Terms of Service Agreement (the "Agreement") governs your use of this website, <b>minemenu.com</b> (the "Website"), <b>MINE MENU</b>("Business Name") offer of products for purchase on this Website, or your purchase of products available on this Website. This Agreement includes, and incorporates by this reference, the policies and guidelines referenced below. <b>MINE MENU</b> reserves the right to change or revise the terms and conditions of this Agreement at any time by posting any changes or a revised Agreement on this Website. <b>MINE MENU</b> will alert you that changes or revisions have been made by indicating on the top of this Agreement the date it was last revised. The changed or revised Agreement will be effective immediately after it is posted on this Website. Your use of the Website following the posting any such changes or of a revised Agreement will constitute your acceptance of any such changes or revisions. <b>MINE MENU</b> encourages you to review this Agreement whenever you visit the Website to make sure that you understand the terms and conditions governing use of the Website. This Agreement does not alter in any way the terms or conditions of any other written agreement you may have with <b>MINE MENU</b> for other products or services. If you do not agree to this Agreement (including any referenced policies or guidelines), please immediately terminate your use of the Website.</p><br>
       <br>

@@ -22,6 +22,14 @@ class HomeController extends Controller
         return view('main.contact.index');
     } // END FUNCTION (CONTACT)
 
+    public function privacy_policy(){
+        return view('main.privacy_policy.index');
+    } // END FUNCTION (CONTACT)
+    
+    public function term_condition(){
+        return view('main.term_condition.index');
+    } // END FUNCTION (CONTACT)
+
     public function test(){
         return view('main.home.test');
     } // END FUNCTION (CONTACT)

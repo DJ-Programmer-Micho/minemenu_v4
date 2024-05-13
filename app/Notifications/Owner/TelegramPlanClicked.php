@@ -52,12 +52,14 @@ class TelegramPlanClicked extends Notification
         // . "*" .'Country: '. $this->country . "*\n"
         . "*" .'Plan Clicked: '. $this->plan . "*\n";
 
-        if ($this->location->ip != null) {
-            $content .= "*" .'-----------------'."*\n"; 
-            $content .= "*" . 'IP ADDRESS: ' . $this->location->ip . "*\n";
-        }
+        if($this->location){
 
-        if ($this->location->countryName != null) {
+            if ($this->location->ip != null) {
+                $content .= "*" .'-----------------'."*\n"; 
+                $content .= "*" . 'IP ADDRESS: ' . $this->location->ip . "*\n";
+            }
+            
+            if ($this->location->countryName != null) {
             $content .= "*" .'-----------------'."*\n"; 
             $content .= "*" . 'Country: ' . $this->location->countryName . "*\n";        
         }
@@ -79,7 +81,7 @@ class TelegramPlanClicked extends Notification
             $content .= "*" .'-----------------'."*\n"; 
             $content .= "*" . 'City Name: ' . $this->location->cityName . "*\n";;
         }
-
+        
         if ($this->location->zipCode != null) {
             $content .= "*" .'-----------------'."*\n"; 
             $content .= "*" . 'Zip Code: ' . $this->location->zipCode . "*\n";
@@ -89,23 +91,24 @@ class TelegramPlanClicked extends Notification
             $content .= "*" .'-----------------'."*\n"; 
             $content .= "*" . 'Latitude: ' . $this->location->latitude . "*\n";
         }
-
+        
         if ($this->location->longitude != null) {
-            $content .= "*" . 'Longtitude: ' . $this->location->longitude . "*\n";
+            $content .= "*" . 'Longitude: ' . $this->location->longitude . "*\n";
         }
         
         if ($this->location->areaCode != null) {
             $content .= "*" .'-----------------'."*\n";
             $content .= "*" . 'Area Code: ' . $this->location->areaCode . "*\n";
         }
-
+        
         if ($this->location->timezone != null) {
             $content .= "*" .'-----------------'."*\n";
             $content .= "*" . 'Time Zone: ' . $this->location->timezone . "*\n";
         }
+    }
         
-       return TelegramMessage::create()
-       ->to($this->tele_id)
+        return TelegramMessage::create()
+        ->to($this->tele_id)
        ->content($content);
     }
 

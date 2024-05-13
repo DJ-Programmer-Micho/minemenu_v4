@@ -69,6 +69,8 @@ Route::middleware([LocalizationMainMiddleware::class])->group(function () {
     Route::get('/documentation', [HomeController::class, 'documentation'])->name('documentation');
     Route::get('/pricing', [HomeController::class, 'pricing'])->name('pricing');
     Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+    Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacy_policy');
+    Route::get('/terms-conditions', [HomeController::class, 'term_condition'])->name('term_condition');
 /*
 |--------------------------------------------------------------------------
 | Payment Route

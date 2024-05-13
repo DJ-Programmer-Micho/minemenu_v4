@@ -1,111 +1,18 @@
+
 @extends('main.layouts.clean')
 
-
-@section('style')
-<style>
-    .g-recaptcha {
-    transform:scale(0.9);
-    transform-origin:0 0;
-}
-  </style>
-@endsection
-
 @section('content')
-<div class="subs-text">
-    <div class="row d-flex justify-content-center justify-content-md-between p-0 m-0 navAR">
-        <div>
-            <h3 style="font-weight: bold">{{__("Upgrade your Plan.")}}</h3>
-            <P class="my-text">{{__("Full Management Of Your Menu")}}</P>
+<section class="price_plan_area section_padding_130_80 bg mb-5" id="pricing">
+      <div class="row justify-content-center">
+        <div class="col-12  col-lg-6">
+          <!-- Section Heading-->
+          <div class="section-heading text-center wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+            <h3>TERMS & CONDITIONS</h3>
+            <div class="line my-3"></div>
+          </div>
         </div>
-
-    </div>
-    <section class="price_plan_area section_padding_130_80 bg" id="pricing">
-        <div class="container p-0 m-0 row">
-            <div class="col-12 col-lg-8 p-1">
-                {{-- <div class="single_price_plan active wow fadeInUp bo-red" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;"> --}}
-                    {!! $plan->description_onpay[App::getLocale()] ?? '' !!}
-                {{-- </div> --}}
-            </div>
-            <div class="col-12 col-lg-4 p-1">
-                <div class="single_price_plan active wow fadeInUp bo-red" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
-                <form action="/subscribe" data-callback="g_check" method="POST" id="myForm">
-                    @csrf
-                    {{-- <input id="myCheck2" class="mx-1" type="checkbox" aria-label="Checkbox for following text input" name="auto_renew">Auto/Renew <span style="color: #cc0022; font-weight: bold;">(OPTIONAL)</span> --}}
-                    <input type="hidden" name="id" value="{{$plan->id}}">
-                    <h5 class="mb-4">{{__("Select Payment Method:")}}</h5>
-                    <ul class="list-group">
-                        <li class="list-group-item d-flex align-items-center">
-                            <input type="radio" id="creditCard" class="payment-option mx-2" name="payment_method" value="1">
-                            <label for="creditCard">
-                              <img src="{{asset('assets/main/img/payments/visa.png')}}" alt="Credit Card" width="30px" height="30px">
-                            </label>
-                            <label for="creditCard">
-                                <img src="{{asset('assets/main/img/payments/master.png')}}" alt="Credit Card" width="50px" height="50px">
-                            </label>
-                            {{-- <span class="badge badge-primary badge-pill ml-auto">maintenance</span> --}}
-                          {{-- <span class="badge badge-primary badge-pill ml-auto">NEW</span> --}}
-                        </li>
-                        <li class="list-group-item d-flex align-items-center">
-                            <input type="radio" id="zaincash" class="payment-option mx-2" name="payment_method" value="2" required>
-                            <label for="zaincash">
-                              <img src="{{asset('assets/main/img/payments/zain.png')}}" alt="zaincash" width="40px" height="40px">
-                            </label>
-                          {{-- <span class="badge badge-primary badge-pill ml-auto">NEW</span> --}}
-                        </li>
-                        <li class="list-group-item d-flex align-items-center">
-                            <input type="radio" id="zaincash" class="payment-option mx-2" name="payment_method" value="3" disabled>
-                            <label for="zaincash">
-                              <img src="{{asset('assets/main/img/payments/fib.jpg')}}" alt="fib" width="40px" height="40px">
-                            </label>
-                          <span class="badge badge-danger badge-pill ml-auto">Soon</span>
-                        </li>
-                        <li class="list-group-item d-flex align-items-center">
-                            <input type="radio" id="zaincash" class="payment-option mx-2" name="payment_method" value="4" disabled>
-                            <label for="zaincash">
-                              <img src="{{asset('assets/main/img/payments/fastpay.png')}}" alt="fastpay" width="40px" height="40px">
-                            </label>
-                          <span class="badge badge-danger badge-pill ml-auto">Soon</span>
-                        </li>
-                    </ul>   
-                    <div class="my-4">                 
-                    <input id="oneMyCheck" class="mx-1" type="checkbox" aria-label="Checkbox for following text input" onchange="oneMonthFunc()">I Agree to the site <a href="#" data-toggle="modal" data-target="#policyModal">terms &amp; conditions</a><br>
-                    <div class="my-4">                 
-                      <div style="color: #cc0022; font-weight: bold;">
-                        
-                        <p><i class="fa-solid fa-circle-check mx-1"></i>
-                            {{__('You can cancel at any time.')}}
-                        </p> 
-                        <p style="color: #09ac4d; font-weight: 400;">
-                            {{__('Note// Our data encryption ensures your information is protected.')}} <b>{{__('with confidence!')}}</b>
-                        </p>
-                    </div>
-
-                    <div class="my-4">
-                        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                        <div class="g-recaptcha ar" id="feedback-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}"></div>
-                        @error('g-recaptcha-response')
-                        <span class="danger" style="font-size: 12px">{{__('please check recaptcha')}}</span><br>
-                        @enderror
-                    </div>
-                                                
-                    <button id="submitBtn" class="tbnD btn btn-danger" disabled="">{{__('Payment')}}</button>
-                </form>
-            </div>
-            </div>
-
-        </div>
-    </section>
-</div>
-
-{{-- MODAL AGREEMENT --}}
-<div id="policyModal" class="modal text-left" dir="ltr">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="text-center">TERMS & CONDITIONS OF SERVICE AGREEMENT</h2>
-        <span class="modal-close">&times;</span>
       </div>
-      <div class="modal-body">
-        <h3><b>TERMS & CONDITIONS OF SERVICE AGREEMENT</b></h3><br>
+      <div class="container bg-white p-sm-4 p-4" style="border: solid #000 1px; border-radius: 10px;">
         <p>LAST REVISION: [2024-5-12]</p><br>
         <p>PLEASE READ THIS TERMS OF SERVICE AGREEMENT CAREFULLY. BY USING THIS WEBSITE OR ORDERING PRODUCTS FROM THIS WEBSITE YOU AGREE TO BE BOUND BY ALL OF THE TERMS AND CONDITIONS OF THIS AGREEMENT.</p><br>
         <p>This Terms of Service Agreement (the "Agreement") governs your use of this website, <b>minemenu.com</b> (the "Website"), <b>MINE MENU</b>("Business Name") offer of products for purchase on this Website, or your purchase of products available on this Website. This Agreement includes, and incorporates by this reference, the policies and guidelines referenced below. <b>MINE MENU</b> reserves the right to change or revise the terms and conditions of this Agreement at any time by posting any changes or a revised Agreement on this Website. <b>MINE MENU</b> will alert you that changes or revisions have been made by indicating on the top of this Agreement the date it was last revised. The changed or revised Agreement will be effective immediately after it is posted on this Website. Your use of the Website following the posting any such changes or of a revised Agreement will constitute your acceptance of any such changes or revisions. <b>MINE MENU</b> encourages you to review this Agreement whenever you visit the Website to make sure that you understand the terms and conditions governing use of the Website. This Agreement does not alter in any way the terms or conditions of any other written agreement you may have with <b>MINE MENU</b> for other products or services. If you do not agree to this Agreement (including any referenced policies or guidelines), please immediately terminate your use of the Website.</p><br>
@@ -158,69 +65,10 @@
         <p>Domestic Use. <b>MINE MENU</b> makes no representation that the Website or Products are appropriate or available for use in locations outside India. Users who access the Website from outside India do so at their own risk and initiative and must bear all responsibility for compliance with any applicable local laws. Assignment. You may not assign your rights and obligations under this Agreement to anyone. <b>MINE MENU</b> may assign its rights and obligations under this Agreement in its sole discretion and without advance notice to you.</p><br>
         <p>BY USING THIS WEBSITE OR ORDERING PRODUCTS FROM THIS WEBSITE YOU AGREE  TO BE BOUND BY ALL OF THE TERMS AND CONDITIONS OF THIS AGREEMENT</p><br>
       </div>
-      <div class="modal-footer">
-        <button type="button" id="acceptBtn" class="btn btn-danger">{{__('Accept')}}</button>
-        <button type="button" id="declineBtn" class="btn btn-info">{{__('Decline')}}</button>
-      </div>
-    </div>
-  </div>
-
-
-<div id="warnModal" class="modal">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>{{__("Warnning")}}</h2>
-        <span class="modal-close">&times;</span>
-      </div>
-      <div class="modal-body">
-        <p class="text-center">{{__("Plase Note that if you have any other subscription , it'll be canceled and start over")}}</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" id="acceptBtn" class="btn btn-danger">{{__("Accept")}}</button>
-        <button type="button" id="declineBtn" class="btn btn-info">{{__("Decline")}}</button>
-      </div>
-    </div>
-    </div>
-  </div>
-
+  </section>
 @endsection
 
 
 @section('script')
-<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
-    async defer>
-</script>
-<script>
-function oneMonthFunc() {
-    var checkBox1 = document.getElementById("oneMyCheck");
-    if (checkBox1.checked == true) {
-        document.getElementById("submitBtn").disabled = false
-    } else {
-        document.getElementById("submitBtn").disabled = true
-    }
-}
 
-
-document.getElementById("myForm").addEventListener("submit", function(event) {
-  event.preventDefault();
-  document.getElementById("warnModal").style.display = "block";
-});
-
-document.getElementById("acceptBtn").addEventListener("click", function() {
-  document.getElementById("warnModal").style.display = "none";
-  // submit the form
-  document.getElementById("myForm").submit();
-});
-
-document.getElementById("declineBtn").addEventListener("click", function() {
-  document.getElementById("warnModal").style.display = "none";
-});
-
-document.getElementsByClassName("modal-close")[1].addEventListener("click", function() {
-  document.getElementById("warnModal").style.display = "none";
-});
-
-
-</script>
 @endsection
