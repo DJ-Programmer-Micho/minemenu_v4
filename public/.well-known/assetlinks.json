@@ -1,0 +1,20 @@
+[
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+          "namespace": "android_app",
+          "package_name": "com.minemenu.yamiyam",
+          "sha256_cert_fingerprints":
+            ["5E:A3:6C:A3:64:EE:4C:B1:3F:B8:EE:DC:6E:AB:AF:76:87:ED:E2:3A:24:2C:6F:77:4A:18:98:D8:5C:25:B4:C2"]
+        }
+    },
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.minemenu.marsrooftop",
+            "sha256_cert_fingerprints":
+            ["F2:B9:DC:74:BE:93:E4:1F:07:F6:41:61:41:C3:2D:63:B8:64:99:22:FE:10:CA:B1:D4:43:5C:0B:37:86:7F:4B"]
+        }
+    }
+]

@@ -33,7 +33,7 @@
                                         <li>{{__('You need to fill out the form, providing the following information:')}}</li>
                                         <ol>
                                             <li>{{__('Full Name: Your actual name.')}}</li>
-                                            <li>{{__('Brand Name: Your business name (restaurant name, coffee name, hotel name, etc.). It should be in lowercase and well-written in English. This will be shown as:')}}<br><b> {{__('https://minemenu.com/')}}<span style="color: #cc0022;">{{__('brandName')}}</span></b></li>
+                                            <li>{{__('Brand Name: Your business name (restaurant name, coffee name, hotel name, etc.). It should be in lowercase and well-written in English. This will be shown as:')}}<br><b dir="ltr"> {{__('https://minemenu.com/')}}<span style="color: #cc0022;">{{__('brandName')}}</span></b></li>
                                             <li>{{__('Email Address: This is crucial, as we will send an OTP verification code to this email address.')}}</li>
                                             <li>{{__('Phone Number: This is crucial, as we will send an OTP verification code to this phone number.')}}</li>
                                             <li>{{__('Password: Minimum 8 characters.')}}</li>
