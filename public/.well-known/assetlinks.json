@@ -16,5 +16,23 @@
             "sha256_cert_fingerprints":
             ["F2:B9:DC:74:BE:93:E4:1F:07:F6:41:61:41:C3:2D:63:B8:64:99:22:FE:10:CA:B1:D4:43:5C:0B:37:86:7F:4B"]
         }
+    },
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.minemenu.uranusrooftop",
+            "sha256_cert_fingerprints":
+            ["E8:72:1C:2F:01:6A:8A:8E:0F:E8:15:3B:47:38:2A:15:BD:BC:D1:4B:9B:50:9B:01:CD:C5:82:53:70:2B:76:EE"]
+        }
+    },
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.minemenu.doodle",
+            "sha256_cert_fingerprints":
+            ["B6:6E:61:7E:25:E5:22:BA:FF:63:5B:5F:8D:92:A3:53:48:48:D1:24:FC:CA:19:EA:48:90:63:0C:F1:14:CB:FB"]
+        }
     }
 ]
