@@ -34,5 +34,16 @@
             "sha256_cert_fingerprints":
             ["B6:6E:61:7E:25:E5:22:BA:FF:63:5B:5F:8D:92:A3:53:48:48:D1:24:FC:CA:19:EA:48:90:63:0C:F1:14:CB:FB"]
         }
-    }
+    },
+    [
+        {
+          "relation": ["delegate_permission/common.handle_all_urls"],
+          "target": {
+            "namespace": "android_app",
+            "package_name": "com.minemenu.gantha",
+            "sha256_cert_fingerprints":
+              ["6A:FF:91:E2:92:49:2B:0D:20:E1:49:C6:19:B9:9C:A0:78:53:53:1E:DB:61:5C:C8:5D:6E:CB:7A:C5:4B:4A:DE"]
+          }
+        }
+      ]
 ]
