@@ -111,6 +111,12 @@ Route::prefix('/v1/{business_name}')->middleware(['LocalizationApiMiddleware'])-
 
     Route::get('/offer',[BusinessApiController::class, 'offer'])->name('api.business.offer');
     Route::get('/offerdetail',[BusinessApiController::class, 'offerDetail'])->name('api.business.offerDetail');
+
+    Route::post('/submitRestRating', [BusinessApiController::class, 'submitRestRating']);
+    Route::post('/registerCustomerAndRateRest', [BusinessApiController::class, 'registerCustomerAndRateRest']);
+
+    Route::post('/submitFoodRating', [BusinessApiController::class, 'submitFoodRating']);
+    Route::post('/registerCustomerAndRateFood', [BusinessApiController::class, 'registerCustomerAndRateFood']);
 });
 
 // Route::get('/login', [AuthController::class, 'showLoginForm'])->name('api.login'); // GET request to show login form

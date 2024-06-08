@@ -24,6 +24,8 @@ class FoodCartCounterLivewire extends Component
     public $glang;
     public $currency;
     public $setting;
+    public $setting_name;
+    public $phone;
     public $tax;
     public $quantity_f = [];
     public $previewQuantity = [];
@@ -37,6 +39,8 @@ class FoodCartCounterLivewire extends Component
             $this->tax = $setting->fees;
         }
         $this->currency = $setting->currency;
+        $this->phone = $setting->phone;
+        $this->setting_name = $setting->translations->where('locale', app('glang'))->first()->rest_name ?? 'Restutant';
 
         // GET THE VALUES
         foreach (Cart::content() as $cartItem) {
@@ -310,6 +314,30 @@ class FoodCartCounterLivewire extends Component
             $this->render();
             $this->dispatchBrowserEvent('alert', ['type' => 'success',  'message' => __('Cart Removed, New Cart :)')]);
     }
+
+    public function sendList()
+    {
+        $cartContent = Cart::content();
+        $cartDetails = [];
+        $total = 0;
+        $cartDetails[] = "MINE MENU";
+        $cartDetails[] = $this->setting_name;
+        $cartDetails[] = "";
+    
+        foreach ($cartContent as $item) {
+            $cartDetails[] = "{$item->name[$this->glang]}";
+            $cartDetails[] = "{$item->qty} x {$item->price} {$this->currency} = " . ($item->qty * $item->price) .' '. $this->currency;
+            $total += $item->qty * $item->price;
+            $cartDetails[] = "--";
+        }
+        $cartDetails[] = "Total: {$total}" .' '. $this->currency;
+    
+        $message = implode("\n", $cartDetails);
+        $whatsappUrl = 'https://wa.me/'. $this->phone .'?text=' . urlencode($message);
+    
+        return redirect()->away($whatsappUrl);
+    }
+    
 
     // OFFER ADD LIST
     public function addOfferToCartSingle($offer_id)

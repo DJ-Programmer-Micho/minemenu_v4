@@ -6,8 +6,11 @@ use App\Models\User;
 use App\Models\Offer;
 use App\Models\Profile;
 use App\Models\Setting;
+use App\Models\Customer;
 use App\Models\Mainmenu;
 use App\Models\Categories;
+use App\Models\FoodRating;
+use App\Models\RestRating;
 use App\Models\Subscription;
 use Illuminate\Http\Request; 
 use App\Models\Setting_Translation;
@@ -177,22 +180,70 @@ class BusinessApiController extends Controller
         }
     }
 
+    // public function food(Request $request) {
+    //     try {        
+    //         $language = $request->input('lang');
+    //         $catId = $request->input('catId');
+
+    //         if ($request->route('business_name')) {
+    //             $businessName = $request->route('business_name');   
+    //             $userProfile = User::where('name', $businessName)->firstOrFail();
+    //             $userLanguage = Setting::where('user_id', $userProfile->id)->first();
+    //             $userLanguage = $userLanguage->default_lang;
+
+    //             $categoryData = Food::with(['translation' => function ($query) use ($language, $userLanguage) {
+    //                 $query->where('lang', $language ?? $userLanguage);
+    //             }])
+    //             ->where('cat_id', $catId)
+    //             ->where('user_id', $userProfile->id )
+    //             ->where('status', 1)
+    //             ->get();
+    
+    //             // Filter options based on language if "sorm" is equal to 1
+    //             $categoryData = $categoryData->map(function ($item) use ($language, $userLanguage) {
+    //                 if ($item->sorm == 1 && $item->options) {
+    //                     $options = json_decode($item->options, true); // Convert to associative array
+    //                     $item->options = isset($options[$language ?? $userLanguage]) ? $options[$language ?? $userLanguage] : null;
+    //                 }
+    //                 return $item;
+    //             });
+                
+    //             return response()->json([
+    //                 "status" => "true",
+    //                 "categoryData" => $categoryData,
+    //                 "message" => "User API MW Successfully"
+    //             ]);
+    //         }
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             "status" => "false",
+    //             "message" => "No Data Available"
+    //         ]);
+    //     }
+    // }
+
     public function food(Request $request) {
         try {        
             $language = $request->input('lang');
             $catId = $request->input('catId');
-
+    
             if ($request->route('business_name')) {
                 $businessName = $request->route('business_name');   
                 $userProfile = User::where('name', $businessName)->firstOrFail();
                 $userLanguage = Setting::where('user_id', $userProfile->id)->first();
                 $userLanguage = $userLanguage->default_lang;
-
-                $categoryData = Food::with(['translation' => function ($query) use ($language, $userLanguage) {
-                    $query->where('lang', $language ?? $userLanguage);
-                }])
+    
+                $categoryData = Food::with([
+                    'translation' => function ($query) use ($language, $userLanguage) {
+                        $query->where('lang', $language ?? $userLanguage);
+                    },
+                    'foodRatings' => function ($query) {
+                        $query->selectRaw('food_id, AVG(rating) as average_rating, COUNT(*) as rating_count')
+                              ->groupBy('food_id');
+                    }
+                ])
                 ->where('cat_id', $catId)
-                ->where('user_id', $userProfile->id )
+                ->where('user_id', $userProfile->id)
                 ->where('status', 1)
                 ->get();
     
@@ -218,23 +269,69 @@ class BusinessApiController extends Controller
             ]);
         }
     }
+    
+    
+    
+    // public function foodDetail(Request $request) {
+    //     try {        
+    //         $language = $request->input('lang');
+    //         $foodId = $request->input('foodId');
+
+    //         if ($request->route('business_name')) {
+    //             $businessName = $request->route('business_name');   
+    //             $userProfile = User::where('name', $businessName)->firstOrFail();
+    //             $userLanguage = Setting::where('user_id', $userProfile->id)->first();
+    //             $userLanguage = $userLanguage->default_lang;
+
+    //             $categoryData = Food::with(['translation' => function ($query) use ($language, $userLanguage) {
+    //                 $query->where('lang', $language ?? $userLanguage);
+    //             }])
+    //             ->where('id', $foodId)
+    //             ->where('user_id', $userProfile->id )
+    //             ->where('status', 1)
+    //             ->first();
+    
+    //             if ($categoryData && $categoryData->sorm == 1 && $categoryData->options) {
+    //                 $options = json_decode($categoryData->options, true); // Convert to associative array
+    //                 $categoryData->options = isset($options[$language ?? $userLanguage]) ? $options[$language ?? $userLanguage] : null;
+    //             }
+
+    //             return response()->json([
+    //                 "status" => "true",
+    //                 "categoryData" => $categoryData,
+    //                 "message" => "User API MW Successfully"
+    //             ]);
+    //         }
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             "status" => "false",
+    //             "message" => "No Data Available"
+    //         ]);
+    //     }
+    // }
 
     public function foodDetail(Request $request) {
         try {        
             $language = $request->input('lang');
             $foodId = $request->input('foodId');
-
+    
             if ($request->route('business_name')) {
                 $businessName = $request->route('business_name');   
                 $userProfile = User::where('name', $businessName)->firstOrFail();
                 $userLanguage = Setting::where('user_id', $userProfile->id)->first();
                 $userLanguage = $userLanguage->default_lang;
-
-                $categoryData = Food::with(['translation' => function ($query) use ($language, $userLanguage) {
-                    $query->where('lang', $language ?? $userLanguage);
-                }])
+    
+                $categoryData = Food::with([
+                    'translation' => function ($query) use ($language, $userLanguage) {
+                        $query->where('lang', $language ?? $userLanguage);
+                    },
+                    'foodRatings' => function ($query) {
+                        $query->selectRaw('food_id, AVG(rating) as average_rating, COUNT(*) as rating_count')
+                              ->groupBy('food_id');
+                    }
+                ])
                 ->where('id', $foodId)
-                ->where('user_id', $userProfile->id )
+                ->where('user_id', $userProfile->id)
                 ->where('status', 1)
                 ->first();
     
@@ -242,7 +339,7 @@ class BusinessApiController extends Controller
                     $options = json_decode($categoryData->options, true); // Convert to associative array
                     $categoryData->options = isset($options[$language ?? $userLanguage]) ? $options[$language ?? $userLanguage] : null;
                 }
-
+    
                 return response()->json([
                     "status" => "true",
                     "categoryData" => $categoryData,
@@ -256,39 +353,7 @@ class BusinessApiController extends Controller
             ]);
         }
     }
-
-    public function offer(Request $request) {
-        try {        
-            $language = $request->input('lang');
-            // $menuId = $request->input('menuId');
-
-            if ($request->route('business_name')) {
-                $businessName = $request->route('business_name');   
-                $userProfile = User::where('name', $businessName)->firstOrFail();
-                $userLanguage = Setting::where('user_id', $userProfile->id)->first();
-                $userLanguage = $userLanguage->default_lang;
-
-                $offerData = Offer::with(['translation' => function ($query) use ($language, $userLanguage) {
-                    $query->where('lang', $language ?? $userLanguage);
-                }])
-                ->where('user_id', $userProfile->id )
-                ->where('status', 1)
-                ->orderBy('priority', 'ASC')
-                ->get();
-
-                return response()->json([
-                    "status" => "true",
-                    "offerData" => $offerData,
-                    "message" => "User API MW Successfully"
-                ]);
-            }
-        } catch (\Exception $e) {
-            return response()->json([
-                "status" => "false",
-                "message" => "No Data Available"
-            ]);
-        }
-    }
+    
 
     public function offerDetail(Request $request){
         try {        
@@ -327,6 +392,191 @@ class BusinessApiController extends Controller
             ]);
         }
     }
+
+
+
+    public function submitFoodRating(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required|string',
+            'food_id' => 'required|integer',
+            'rating' => 'required|numeric|min:1|max:5',
+        ]);
+    
+        $phone = $request->input('phone');
+        $foodId = $request->input('food_id');
+        $rating = $request->input('rating');
+    
+        $customer = Customer::where('phone', $phone)->first();
+    
+        if (!$customer) {
+            return response()->json([
+                'status' => 'false',
+                'message' => 'Customer not found. Please register first.',
+            ], 404);
+        }
+    
+        $existingRating = FoodRating::where('customer_id', $customer->id)->where('food_id', $foodId)->first();
+    
+        if ($existingRating) {
+            return response()->json([
+                'status' => 'false',
+                'message' => 'Already Rated',
+            ], 400);
+        }
+    
+        FoodRating::create([
+            'customer_id' => $customer->id,
+            'food_id' => $foodId,
+            'rating' => $rating,
+        ]);
+    
+        return response()->json([
+            'status' => 'true',
+            'message' => 'Thank you for your rating!',
+        ], 201);
+    }
+
+    public function registerCustomerAndRateFood(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'dob' => 'required|date',
+            'phone' => 'required|string|unique:customers,phone',
+            'food_id' => 'required|integer',
+            'rating' => 'required|numeric|min:1|max:5',
+        ]);
+
+        $customer = Customer::create([
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'dob' => $request->input('dob'),
+            'phone' => $request->input('phone'),
+        ]);
+
+        FoodRating::create([
+            'customer_id' => $customer->id,
+            'food_id' => $request->input('food_id'),
+            'rating' => $request->input('rating'),
+        ]);
+
+        return response()->json([
+            'status' => 'true',
+            'message' => 'Customer registered and rating submitted successfully!',
+        ], 201);
+    }
+
+    
+    public function submitRestRating(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required|string',
+            'user_id' => 'required|integer',
+            'staff' => 'required|numeric|min:1|max:5',
+            'service' => 'required|numeric|min:1|max:5',
+            'environment' => 'required|numeric|min:1|max:5',
+            'experience' => 'required|numeric|min:1|max:5',
+            'cleaning' => 'required|numeric|min:1|max:5',
+            'note' => 'nullable|string',
+        ]);
+
+        $phone = $request->input('phone');
+        $userId = $request->input('user_id');
+        $staff = $request->input('staff');
+        $service = $request->input('service');
+        $environment = $request->input('environment');
+        $experience = $request->input('experience');
+        $cleaning = $request->input('cleaning');
+        $note = $request->input('note');
+
+        $customer = Customer::where('phone', $phone)->first();
+
+        if (!$customer) {
+            return response()->json([
+                'status' => 'false',
+                'message' => 'Customer not found. Please register first.',
+            ], 404);
+        }
+
+        $existingRating = RestRating::where('customer_id', $customer->id)->where('user_id', $userId)->first();
+
+        if ($existingRating) {
+            return response()->json([
+                'status' => 'false',
+                'message' => 'Already Rated',
+            ], 400);
+        }
+
+        RestRating::create([
+            'customer_id' => $customer->id,
+            'user_id' => $userId,
+            'staff' => $staff,
+            'service' => $service,
+            'environment' => $environment,
+            'experience' => $experience,
+            'cleaning' => $cleaning,
+            'note' => $note,
+        ]);
+
+        return response()->json([
+            'status' => 'true',
+            'message' => 'Thank you for your rating!',
+        ], 201);
+    }
+
+
+    
+    public function registerCustomerAndRateRest(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'dob' => 'required|date',
+            'phone' => 'required|string|unique:customers,phone',
+            'user_id' => 'required|integer',
+            'staff' => 'required|numeric|min:1|max:5',
+            'service' => 'required|numeric|min:1|max:5',
+            'environment' => 'required|numeric|min:1|max:5',
+            'experience' => 'required|numeric|min:1|max:5',
+            'cleaning' => 'required|numeric|min:1|max:5',
+            'note' => 'nullable|string',
+        ]);
+    
+        $customer = Customer::create([
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'dob' => $request->input('dob'),
+            'phone' => $request->input('phone'),
+        ]);
+    
+        RestRating::create([
+            'customer_id' => $customer->id,
+            'user_id' => $request->input('user_id'),
+            'staff' => $request->input('staff'),
+            'service' => $request->input('service'),
+            'environment' => $request->input('environment'),
+            'experience' => $request->input('experience'),
+            'cleaning' => $request->input('cleaning'),
+            'note' => $request->input('note'),
+        ]);
+    
+        return response()->json([
+            'status' => 'true',
+            'message' => 'Customer registered and restaurant rating submitted successfully!',
+        ], 201);
+    }
+    
+
+
+
+
+
+
+
+
+
+
 
     public function generateManifest($business_name)
     {

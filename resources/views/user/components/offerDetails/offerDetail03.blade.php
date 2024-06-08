@@ -11,7 +11,7 @@
             right: auto!important;
         }
         .home-butt-detail-01 {
-            top: 72px;
+            top: 68px;
             left: 12px;
         }
     </style>
@@ -25,7 +25,7 @@
                                 class="fas fa-home"></i></a>
                         {{-- <Livewire:Cart.FoodCartCounterLivewire :glang="$glang" :setting="$settings" /> --}}
                         @livewire('cart.food-cart-counter-livewire', ['glang' => $glang, 'setting' => $settings])
-
+                        @livewire('rating.rest-rating-livewire', ['glang' => app()->getLocale(), 'restName' => $restName, 'setting' => $settings])
                     </div>
                     <div class="img-head-01">
                         <div class="content-01">

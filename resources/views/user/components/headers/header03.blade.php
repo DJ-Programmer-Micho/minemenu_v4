@@ -15,16 +15,19 @@
             top: 68px;
             left: 12px;
         }
+        .rate-butt-detail-01 {
+            top: 15px;
+        }
     </style>
     @else
     <style>
         .cart-butt-detail-01 {
-            top: 15px!important;
+            top: 25px!important;
             left: 12px!important;
             right: auto!important;
         }
         .badge-notification[data-count]:after {
-            top: 6px!important;
+            top: 16px!important;
             left: 12px!important;
             right: auto!important;
         }
@@ -44,4 +47,6 @@
     @endif
     {{-- <Livewire:Cart.FoodCartCounterLivewire :glang="app()->getLocale()" :setting="$setting"/> --}}
     @livewire('cart.food-cart-counter-livewire', ['glang' => app()->getLocale(), 'setting' => $setting])
+    @livewire('rating.rest-rating-livewire', ['glang' => app()->getLocale(), 'restName' => $restName, 'setting' => $setting])
+
 </div>

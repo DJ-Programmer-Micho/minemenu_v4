@@ -1,4 +1,13 @@
 <div class="container-fluid m-0 p-0">
+    <style>
+        .cart-butt-detail-01,
+        .rate-butt-detail-01 {
+            top: 25px!important;
+        }
+        .badge-notification[data-count]:after {
+            top: 16px!important;
+        }
+    </style>
     <div class="box2">
         <div class="box">
             <div class="top-image-container">
@@ -8,7 +17,7 @@
                             class="fas fa-home"></i></a>
                     {{-- <Livewire:Cart.FoodCartCounterLivewire :glang="$glang" :setting="$settings" /> --}}
                     @livewire('cart.food-cart-counter-livewire', ['glang' => $glang, 'setting' => $settings])
-
+                    @livewire('rating.rest-rating-livewire', ['glang' => app()->getLocale(), 'restName' => $restName, 'setting' => $settings])
                 </div>
                 <div class="img-head-01">
                     <div class="content-01">

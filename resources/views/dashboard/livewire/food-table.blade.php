@@ -59,7 +59,7 @@
         @endif --}}
  
         <div class="table-responsive">
-            <table class="table table-striped table-hover table-sm table-dark">
+            <table class="table table-striped table-hover table-sm table-dark text-center">
                 <thead>
                     <tr>
                         @foreach ($cols_th as $col )
@@ -92,6 +92,10 @@
                                 <img src="{{ app('cloudfront').$item->img }}" alt="{{ $item->translation->name }}" width="150">
                             @elseif ($col === 'priority')        
                                 <input type="number" id="priority_{{ $item->id }}" value="{{ $item->priority }}" class="form-control bg-dark text-white">
+                            @elseif ($col === 'foodRatings.foodRatings_avg_rating')        
+                            <i class="fas fa-star text-warning"></i>
+
+                                {{number_format($item->foodRatings->avg('rating'),2)}}
                             @else
                                 {{ data_get($item, $col) }}
                             @endif

@@ -674,37 +674,10 @@ class FoodLivewire extends Component
         // END GET THE Category NAMES
 
         $colspan = 5;
-        $cols_th = ['#','Menu','Name','Price','Old Price','Multi','Image','Status','Priority','Actions'];
-        $cols_td = ['id','category.translation.name', 'translation.name','price','old_price','sorm','img','status','priority'];
+        $cols_th = ['#','Menu','Name','Price','Old Price','Multi','Rate','Image','Status','Priority','Actions'];
+        $cols_td = ['id','category.translation.name', 'translation.name','price','old_price','sorm','foodRatings.foodRatings_avg_rating','img','status','priority'];
 
-        // $data = Food::with(['category', 'translation', 'category.translation' => function ($query) {
-        //     $query->where('locale', $this->glang);
-        // }, 'translation' => function ($query) {
-        //     $query->where('lang', $this->glang);
-        // }])->where('user_id', Auth::id())
-        //     ->whereHas('translation', function ($query) {
-        //         $query->where(function ($query) {
-        //             $query->where('name', 'like', '%' . $this->search . '%');
-        //         });
-        //     })
-        //     ->when($this->categorieFilter !== '', function ($query) {
-        //     $query->whereHas('category.translation', function ($query) {
-        //         $query->where('name', $this->categorieFilter);
-        //         });
-        //     })
-        //     ->when($this->statusFilter !== '', function ($query) {
-        //         $query->whereHas('translation', function ($query) {
-        //             $query->where('status', $this->statusFilter);
-        //         });
-        //     })->orderBy('priority', 'ASC')
-        //     ->when($this->optionFilter !== '', function ($query) {
-        //         $query->whereHas('translation', function ($query) {
-        //             $query->where('sorm', $this->optionFilter);
-        //         });
-        //     })
-        //     ->paginate(10);
-
-        $data = Food::with(['category', 'translation', 'category.translation' => function ($query) {
+        $data = Food::with(['category', 'foodRatings' ,'translation', 'category.translation' => function ($query) {
             $query->where('locale', $this->glang);
         }, 'translation' => function ($query) {
             $query->where('lang', $this->glang);
@@ -713,6 +686,7 @@ class FoodLivewire extends Component
             $join->on('food.id', '=', 'food_translators.food_id')
                 ->where('food_translators.lang', '=', $this->glang);
         })
+        
         ->where(function ($query) {
             $query->where('food_translators.name', 'like', '%' . $this->search . '%')
                 ->orWhereNull('food_translators.name');
@@ -735,9 +709,12 @@ class FoodLivewire extends Component
                     ->orWhereNull('translation.sorm');
             });
         })
+        ->withAvg('foodRatings', 'rating') // Include average rating
+        ->withCount('foodRatings')
         ->select('food.id as food_id', 'food.*') // Select the food table ID
         ->paginate(10);
-    
+
+        // dd($data);
 
         return view('dashboard.livewire.food-table', 
         [

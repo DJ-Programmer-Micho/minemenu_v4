@@ -40,4 +40,9 @@ class Food extends Model
     {
         return $this->hasOne(Food_Translator::class,'food_id')->withDefault();
     }
+    public function foodRatings()
+{
+    return $this->hasMany(FoodRating::class, 'food_id');
+}
+
 }

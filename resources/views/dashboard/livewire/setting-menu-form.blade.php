@@ -5,8 +5,9 @@
         <div class="row">
             <div class="col-12 col-sm-6">
                 <div class="mb-3">
-                    <label class="text-white">{{__('Resturant Phone Number')}}</label>
+                    <label class="text-white">{{__('Resturant Phone Number / Order Phone Number')}}</label>
                     <input type="text" wire:model="phone" class="form-control">
+                    <small class="bg-info text-white px-2 rounded">{{__('To ensure the order number works, you need to add the area code. For example: (964xxx).')}}</small>
                     @error('phone') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <div class="mb-3">

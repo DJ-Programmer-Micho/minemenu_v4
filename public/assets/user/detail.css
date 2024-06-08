@@ -145,7 +145,7 @@ nav-pills UI/UX-01
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 25px;
+    top: 15px;
     left: 12px;
     font-weight: bolder;
 }
@@ -166,7 +166,7 @@ nav-pills UI/UX-01
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 25px;
+    top: 15px;
     left: 60px;
     font-weight: bolder;
 }
@@ -174,6 +174,29 @@ nav-pills UI/UX-01
 .home-butt-detail-01:hover {
     color: var(--utl-icon-color);
 }
+/* RATE BUTTON */
+.rate-butt-detail-01 {
+    background-color: var(--cart-back-icon-color);
+    position: absolute;
+    color: var(--cart-icon-color);
+    border: none;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    z-index: 555;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 15px;
+    right: 12px;
+    font-weight: bolder;
+}
+
+.rate-butt-detail-01:hover {
+    color: var(--cart-back-icon-color);
+}
+
+/* RATE BUTTON */
 .cart-butt-detail-01 {
     background-color: var(--cart-back-icon-color);
     position: absolute;
@@ -186,19 +209,26 @@ nav-pills UI/UX-01
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 25px;
-    right: 12px;
+    top: 15px;
+    right: 60px;
     font-weight: bolder;
 }
 
 .cart-butt-detail-01:hover {
     color: var(--cart-back-icon-color);
 }
+.fa-star-stroke {
+    color: var(--main-theme-text-color);
+}
+
+.avgStare {
+    color: var(--main-theme-text-color);
+}
 
 .badge-notification[data-count]:after {
     position: absolute;
-    top: 16px;
-    right: 12px;
+    top: 6px;
+    right: 60px;
     content: attr(data-count);
     font-size: 12px;
     padding: 0.6em;

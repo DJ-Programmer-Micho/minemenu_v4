@@ -26,6 +26,12 @@ class RestController extends Controller
     public function offer(){
         return view('dashboard.rest.pages.offer.index');
     } // END FUNCTION (OFFER)
+    public function rateRestaurant(){
+        return view('dashboard.rest.pages.rate.rateRestaurant');
+    } // END FUNCTION (LANGUAGE-SETTING)
+    public function rateFood(){
+        return view('dashboard.rest.pages.rate.rateFood');
+    } // END FUNCTION (LANGUAGE-SETTING)
     public function languageSetting(){
         return view('dashboard.rest.pages.setting.languageSetting');
     } // END FUNCTION (LANGUAGE-SETTING)

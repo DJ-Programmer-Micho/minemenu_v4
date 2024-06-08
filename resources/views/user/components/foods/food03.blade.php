@@ -17,6 +17,14 @@
                         <div class="font-weight-bold h6">{{number_format($item->price) . ' ' .  $settings->currency}}</div>
                         <div class="ml-2 old-price-01" style="text-decoration: line-through;font-size:17px;font-weight:bolder;padding-right: 10px">{{($item->old_price) ? $item->old_price . ' ' .  $settings->currency : ''}}</div>
                     </div>
+                    <div>
+                        @for ($i = 1; $i <= 5; $i++) 
+                        <a href="{{url()->current().'/'.$item->id}}">
+                        <i class="{{  number_format($item->food_ratings_avg_rating, 1) >= $i ? 'fas fa-star' : 'far fa-star' }} fa-star-stroke {{number_format($item->food_ratings_avg_rating, 1) >= $i ? 'text-warning' : '' }}"></i>
+                        </a>
+                        @endfor
+                        <span class="avgStare">{{number_format($item->food_ratings_avg_rating, 1)}} ({{ $item->food_ratings_count }})</span>
+                    </div>
                         <span><a href="{{url()->current().'/'.$item->id}}" class="btn btn-see-more">{{__('See More Details')}}</a></span>
                     <div>
                        
@@ -27,6 +35,14 @@
                         <div class="font-weight-bold h6"> {{$option['key']}}: {{ number_format($option['value']) }} {{$settings->currency}}</div>
                     </div>
                     @endforeach
+                    <div>
+                        @for ($i = 1; $i <= 5; $i++) 
+                        <a href="{{url()->current().'/'.$item->id}}">
+                        <i class="{{  number_format($item->food_ratings_avg_rating, 1) >= $i ? 'fas fa-star' : 'far fa-star' }} fa-star-stroke {{number_format($item->food_ratings_avg_rating, 1) >= $i ? 'text-warning' : '' }}"></i>
+                        </a>
+                        @endfor
+                        <span class="avgStare">{{number_format($item->food_ratings_avg_rating, 1)}} ({{ $item->food_ratings_count }})</span>
+                    </div>
                     <span><a href="{{url()->current().'/'.$item->id}}" class="btn btn-see-more">{{__('See More Details')}}</a></span>
                     @endif
                 </div>

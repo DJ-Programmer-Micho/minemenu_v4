@@ -11,6 +11,9 @@
             left: 130px!important;
             right: auto!important;
         }
+        .rate-butt-detail-01 {
+            top: 15px;
+        }
     </style>
     @else
     <style>
@@ -41,5 +44,5 @@
     @endif
     {{-- <Livewire:Cart.FoodCartCounterLivewire :glang="app()->getLocale()" :setting="$setting"/> --}}
     @livewire('cart.food-cart-counter-livewire', ['glang' => app()->getLocale(), 'setting' => $setting])
-
+    @livewire('rating.rest-rating-livewire', ['glang' => app()->getLocale(), 'restName' => $restName, 'setting' => $setting])
 </div>

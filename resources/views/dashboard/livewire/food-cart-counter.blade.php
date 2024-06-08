@@ -153,7 +153,8 @@
                     @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="button" wire:click="removeList()" class="btn cart-btn-reset">Reset</button>
+                    <button type="button" wire:click="removeList()" class="btn cart-btn-reset">{{__('Reset')}}</button>
+                    <button type="button" wire:click="sendList()" class="btn cart-btn-reset">{{__('Send/Order')}} <i class="fab fa-whatsapp" style="font-size: 20px; color: #00a876;"></i></button>
                 </div>
             </form>
         </div>

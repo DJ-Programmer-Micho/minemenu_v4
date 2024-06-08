@@ -151,6 +151,43 @@
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider my-1">
+            <div class="sidebar-heading">
+                {{__('General Ratings')}}
+            </div>
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item {{(str_contains(request()->path(), 'rest/rate/')) ? 'active' : ''}}">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRate" aria-expanded="true" aria-controls="collapseRate">
+                    <lord-icon
+                    src="https://cdn.lordicon.com/vcuhguff.json"
+                    trigger="loop"
+                    state="hover-wink"
+                    delay="2000"
+                    colors="primary:#cc0022,secondary:#eee"
+                    style="width:48px;height:48px">
+                    </lord-icon>
+                    <span>{{__('Ratings')}}</span>
+                </a>
+                <div id="collapseRate" class="collapse" aria-labelledby="headingRate" data-parent="#accordionSidebar">
+                    <div class="py-2 collapse-inner rounded" style="background-color: #1f2535">
+                        {{-- <h6 class="collapse-header">{{__('Setting')}}</h6> --}}
+                        <a class="collapse-item" href="{{route('rateRestaurant')}}">
+                            <lord-icon src="https://cdn.lordicon.com/vcuhguff.json" trigger="loop" delay="2000"
+                                colors="primary:#cc0022,secondary:#eee" state="in-dynamic" style="width:36px;height:36px">
+                            </lord-icon>
+                            <span class="text-white">{{__('Restaurant Ratings')}}</span>
+                        </a>
+                        <a class="collapse-item" href="{{route('rateFood')}}">
+                            <lord-icon src="https://cdn.lordicon.com/vcuhguff.json" trigger="loop" delay="2000"
+                                colors="primary:#cc0022,secondary:#eee" state="morph-select" style="width:36px;height:36px">
+                            </lord-icon>
+                            <span class="text-white">{{__('Food Ratings')}}</span>
+
+                        </a>
+                    </div>
+                </div>
+            </li>
+
+            <hr class="sidebar-divider my-1">
             <!-- Heading -->
             <div class="sidebar-heading">
                 {{__('General Setting')}}

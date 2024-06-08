@@ -39,7 +39,11 @@ class Food01Component extends Component
             $query->where('locale', $this->glang);
         }, 'translation' => function ($query) {
             $query->where('lang', $this->glang);
-        }])
+            
+        },
+        'foodRatings'])
+        ->withAvg('foodRatings', 'rating') // Include average rating
+        ->withCount('foodRatings')
         ->where('user_id', $this->user->id)
         ->where('cat_id', $this->foodId)
         ->where('status', 1)

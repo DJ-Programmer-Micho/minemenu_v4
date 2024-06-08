@@ -27,7 +27,8 @@ class LocalizationMiddleware
             // Find the user based on the "business_name"
             // GENERAL DATA
             $userProfile = User::where('name', $businessName)->first();
-
+            session(['identify',$businessName]);
+            
             // If User Subscription Where Expire
             // $suspended_user_type_1 = Subscription::where('user_id', $userProfile->id)->where('expire_at', '>=', now())->count() > 0;
             $suspended_user_type_1 = $userProfile->status;

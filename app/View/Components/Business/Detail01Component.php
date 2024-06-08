@@ -47,7 +47,10 @@ class Detail01Component extends Component
     {
         $this->foodData = Food::with(['translation' => function ($query) {
             $query->where('lang', $this->glang);
-        }])
+        },
+        'foodRatings'])
+        ->withAvg('foodRatings', 'rating') // Include average rating
+        ->withCount('foodRatings') // Include count of reviews
         ->where('id', $this->detail)
         ->where('status', 1)
         ->first();

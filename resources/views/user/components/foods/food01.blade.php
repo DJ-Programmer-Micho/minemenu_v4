@@ -16,7 +16,7 @@
             $trimmedDescription = $itemDescription;
         }
         @endphp
-        <div class="col-12 col-sm-6 p-1">
+        <div class="col-12 col-sm-6 p-1" key="{{ $item->id }}">
             <div class="card-01 shd-01 h-100">
                 @if ($item->special == 1)
                 <img class="special_card" src="{{asset('assets/main/img/special.gif')}}" alt="minemenu_special">
@@ -38,6 +38,14 @@
                         <span class="ml-2 old-price-01"
                             style="text-decoration: line-through;font-size:17px;font-weight:bolder;padding-right: 10px">{{($item->old_price) ? $item->old_price . ' ' .  $settings->currency : ''}}</span>
                         </div>
+                        <div>
+                            @for ($i = 1; $i <= 5; $i++) 
+                            <a href="{{url()->current().'/'.$item->id}}">
+                            <i class="{{  number_format($item->food_ratings_avg_rating, 1) >= $i ? 'fas fa-star' : 'far fa-star' }} fa-star-stroke {{number_format($item->food_ratings_avg_rating, 1) >= $i ? 'text-warning' : '' }}"></i>
+                            </a>
+                            @endfor
+                            <span class="avgStare">{{number_format($item->food_ratings_avg_rating, 1)}} ({{ $item->food_ratings_count }})</span>
+                        </div>
                         <span><a href="{{url()->current().'/'.$item->id}}" class="btn btn-see-more">{{__('See More Details')}}</a></span>
                     <div>
                        
@@ -50,6 +58,14 @@
                         style="text-decoration: line-through;font-size:17px;font-weight:bolder;padding-right: 10px">{{($item->old_price) ? $item->old_price : ''}}</span> --}}
                     </div>
                     @endforeach
+                    <div>
+                        @for ($i = 1; $i <= 5; $i++) 
+                        <a href="{{url()->current().'/'.$item->id}}">
+                        <i class="{{  number_format($item->food_ratings_avg_rating, 1) >= $i ? 'fas fa-star' : 'far fa-star' }} fa-star-stroke {{number_format($item->food_ratings_avg_rating, 1) >= $i ? 'text-warning' : '' }}"></i>
+                        </a>
+                        @endfor
+                        <span class="avgStare">{{number_format($item->food_ratings_avg_rating, 1)}} ({{ $item->food_ratings_count }})</span>
+                    </div>
                     <span><a href="{{url()->current().'/'.$item->id}}" class="btn btn-see-more">{{__('See More Details')}}</a></span>
                     @endif
                 </div>

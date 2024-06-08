@@ -11,7 +11,7 @@
             right: auto!important;
         }
         .home-butt-detail-01 {
-            top: 72px;
+            top: 68px;
             left: 12px;
         }
     </style>
@@ -25,6 +25,8 @@
                                 class="fas fa-home"></i></a>
                         {{-- <Livewire:Cart.FoodCartCounterLivewire :glang="$glang" :setting="$settings" /> --}}
                         @livewire('cart.food-cart-counter-livewire', ['glang' => $glang, 'setting' => $settings])
+                        @livewire('rating.rest-rating-livewire', ['glang' => app()->getLocale(), 'restName' => $restName, 'setting' => $settings])
+
                     </div>
                     <div class="img-head-01">
                         <div class="content-01">
@@ -49,6 +51,15 @@
                             </p>
                         </div>
                         @endif
+                        <div>
+                            @livewire('rating.food-rating-livewire', [
+                                'glang' => app()->getLocale(),
+                                'avg' => number_format($foodData->food_ratings_avg_rating, 1),
+                                'review' => $foodData->food_ratings_count,
+                                'foodId' => $foodData->id,
+                                'restName' => $restName,
+                            ])
+                        </div>
                     </div>
                     <x-business.CopyRight01Component/>
                 </div>

@@ -146,6 +146,18 @@
         document.getElementById('languageForm').submit();
     }
 </script>
+<link href="{{asset('assets/general/css/toaster.css')}}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    window.addEventListener('alert', event => { 
+                 toastr[event.detail.type](event.detail.message, 
+                 event.detail.title ?? ''), toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true,
+                        "hideDuration": 100,
+                    }
+                });
+    </script>
 @livewireScripts
 @stack('business_script')
 </body>

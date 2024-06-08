@@ -118,29 +118,62 @@
     @php
     use App\Models\User;
     use App\Models\TopUsers;
-    $menus_id = TopUsers::first()->menus_id ?? null;
-    $menus = User::find($menus_id);
-@endphp
-@if(!empty($menus_id))
-
-<section class="testimonial text-center">
-    <h6 style="margin-top:10px;font-weight:600">{{__('TOP 4 MENUS')}}</h6>
-    <h2 style="margin-bottom:60px;font-weight:600">{{__('Check Our Clients Menu')}}</h2>
-
-    <div class="row">
-        @foreach ($menus as $menu)
-        <div class="col-6 col-lg-3 testimonial-cards">
-                <a href="{{env('APP_URL').$menu->name}}" target="_blank" style="text-decoration: none;" class="text-dark">
-                <div>
-                    <img src="https://d7tztcuqve7v9.cloudfront.net/{{$menu->settings->background_img_avatar ?? app('logo_144_show')}}" alt="minemenu {{$menu->name}}">
-                    <h6 class="mt-2">{{$menu->name}}</h6>
-                </div>
-            </a>
+    use App\Models\RestRating;
+    use App\Models\Setting;
+    
+    // Fetch the top users' menu IDs
+    $menus_ids = TopUsers::pluck('menus_id')->flatten()->toArray();
+    // Fetch the users based on these IDs
+    $menus = User::whereIn('id', $menus_ids)->limit(8)->get();
+    
+    // Calculate the average rating and the count of ratings for each user's restaurant
+    $ratings = [];
+    $settings = [];
+    foreach ($menus as $menu) {
+        $ratingData = RestRating::selectRaw('COUNT(*) as customer_count, AVG((staff + service + environment + experience + cleaning) / 5) AS overall_average')
+            ->where('user_id', $menu->id)
+            ->first();
+            
+        $ratings[$menu->id] = [
+            'average' => $ratingData ? $ratingData->overall_average : 0, // Calculate the average rating
+            'count' => $ratingData ? $ratingData->customer_count : 0 // Get the count of customers who rated
+        ];
+    
+        // Fetch the settings for each menu
+        $setting = Setting::where('user_id', $menu->id)->with(['translations'])->first();
+        $settings[$menu->id] = $setting ? $setting->translations->where('locale', app('glang'))->first()->rest_name ?? __('Restaurant') : __('Restaurant');
+    }
+    @endphp
+    
+    @if(!empty($menus_ids))
+    <section class="testimonial text-center">
+        <h6 style="margin-top:10px;font-weight:600">{{ __('TOP 8 MENUS') }}</h6>
+        <h2 style="margin-bottom:60px;font-weight:600">{{ __('Check Our Clients Menu') }}</h2>
+    
+        <div class="row top_ar">
+            @foreach ($menus as $menu)
+            <div class="col-6 col-lg-3 testimonial-cards">
+                <a href="{{ env('APP_URL') . $menu->name }}" target="_blank" style="text-decoration: none;" class="text-dark">
+                    <div>
+                        <img src="https://d7tztcuqve7v9.cloudfront.net/{{ $menu->settings->background_img_avatar ?? app('logo_144_show') }}" alt="minemenu {{ $menu->name }}">
+                        <h4 class="mt-2">{{ $settings[$menu->id] }}</h4>
+                        <article class="top_ar">
+                          @for ($i = 1; $i <= 5; $i++) 
+                          <i class="{{  number_format($ratings[$menu->id]['average'], 2) >= $i ? 'fas fa-star' : 'far fa-star' }} fa-star-stroke {{number_format($ratings[$menu->id]['average'], 2) >= $i ? 'text-warning' : '' }}"></i>
+                          @endfor
+                        </article>
+                        <p class="mb-1"><b>{{ __('Rating: ') }} {{ number_format($ratings[$menu->id]['average'], 2) }}</b></p>
+                        <span><i class="fas fa-users"></i> ({{ $ratings[$menu->id]['count'] }})</span>
+                    </div>
+                </a>
             </div>
-        @endforeach
-    </div>
-</section>
-@endif
+            @endforeach
+        </div>
+    </section>
+    @endif
+    
+    
+
     <div class="marg"></div>
     <section class="features text-center">
         <h2 style="margin-bottom:10px;font-weight:600">{{__('What We Offer')}}</h2>
