@@ -154,7 +154,7 @@ Route::prefix('/own')->middleware(['LocalizationMainMiddleware', 'superadmin'])-
 |--------------------------------------------------------------------------
 */  
 Route::prefix('/man')->middleware(['checkStatus', 'LocalizationMiddleware', 'admin'])->group(function () {
-    Route::get('/', [ManController::class, 'dashboard'])->name('dashboard');
+    Route::get('/', [ManController::class, 'dashboard'])->name('dashboard.man');
 });
 
 /*

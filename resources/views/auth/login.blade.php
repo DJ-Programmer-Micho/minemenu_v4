@@ -219,7 +219,7 @@
         <form id="loginForm" action="{{route('login')}}" method="post">
             @csrf
             <h1>
-                Sign in
+                {{__('Sign in')}}
             </h1>
             <div class="form-content">
                 <input id="user-name" name="email" placeholder="Email" type="email" />
@@ -228,7 +228,7 @@
                 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                 <div class="g-recaptcha" id="feedback-recaptcha" data-sitekey="{!! env('GOOGLE_RECAPTCHA_KEY') !!}"></div>
                 @error('g-recaptcha-response')
-                <span class="danger" style="font-size: 12px">Please Check reCaptcha</span><br>
+                <span class="danger" style="font-size: 12px">{{__('Please Check reCaptcha')}}</span><br>
                 @enderror
                 <br>
                 {{-- <span style="font-size: 14px"><a href="{{ route('forget.password.get') }}">Forgot Password
@@ -236,7 +236,7 @@
                 <p style="font-size: 16px;"><a href="{{ route('passwordRequestEmail') }}" style="color: #cc0022;"><b>Forget Password?</b></a></p>
                 <p style="font-size: 16px;">Don't have an account?<a href="/register" style="color: #cc0022;"><b> Create an account!</b></a></p>
                 <button type="submit" class="button">
-                    Log in
+                    {{__('Log In')}}
                 </button>
                 <br />
 
