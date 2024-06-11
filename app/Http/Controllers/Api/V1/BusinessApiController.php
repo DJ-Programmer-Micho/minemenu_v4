@@ -180,48 +180,6 @@ class BusinessApiController extends Controller
         }
     }
 
-    // public function food(Request $request) {
-    //     try {        
-    //         $language = $request->input('lang');
-    //         $catId = $request->input('catId');
-
-    //         if ($request->route('business_name')) {
-    //             $businessName = $request->route('business_name');   
-    //             $userProfile = User::where('name', $businessName)->firstOrFail();
-    //             $userLanguage = Setting::where('user_id', $userProfile->id)->first();
-    //             $userLanguage = $userLanguage->default_lang;
-
-    //             $categoryData = Food::with(['translation' => function ($query) use ($language, $userLanguage) {
-    //                 $query->where('lang', $language ?? $userLanguage);
-    //             }])
-    //             ->where('cat_id', $catId)
-    //             ->where('user_id', $userProfile->id )
-    //             ->where('status', 1)
-    //             ->get();
-    
-    //             // Filter options based on language if "sorm" is equal to 1
-    //             $categoryData = $categoryData->map(function ($item) use ($language, $userLanguage) {
-    //                 if ($item->sorm == 1 && $item->options) {
-    //                     $options = json_decode($item->options, true); // Convert to associative array
-    //                     $item->options = isset($options[$language ?? $userLanguage]) ? $options[$language ?? $userLanguage] : null;
-    //                 }
-    //                 return $item;
-    //             });
-                
-    //             return response()->json([
-    //                 "status" => "true",
-    //                 "categoryData" => $categoryData,
-    //                 "message" => "User API MW Successfully"
-    //             ]);
-    //         }
-    //     } catch (\Exception $e) {
-    //         return response()->json([
-    //             "status" => "false",
-    //             "message" => "No Data Available"
-    //         ]);
-    //     }
-    // }
-
     public function food(Request $request) {
         try {        
             $language = $request->input('lang');
@@ -269,46 +227,6 @@ class BusinessApiController extends Controller
             ]);
         }
     }
-    
-    
-    
-    // public function foodDetail(Request $request) {
-    //     try {        
-    //         $language = $request->input('lang');
-    //         $foodId = $request->input('foodId');
-
-    //         if ($request->route('business_name')) {
-    //             $businessName = $request->route('business_name');   
-    //             $userProfile = User::where('name', $businessName)->firstOrFail();
-    //             $userLanguage = Setting::where('user_id', $userProfile->id)->first();
-    //             $userLanguage = $userLanguage->default_lang;
-
-    //             $categoryData = Food::with(['translation' => function ($query) use ($language, $userLanguage) {
-    //                 $query->where('lang', $language ?? $userLanguage);
-    //             }])
-    //             ->where('id', $foodId)
-    //             ->where('user_id', $userProfile->id )
-    //             ->where('status', 1)
-    //             ->first();
-    
-    //             if ($categoryData && $categoryData->sorm == 1 && $categoryData->options) {
-    //                 $options = json_decode($categoryData->options, true); // Convert to associative array
-    //                 $categoryData->options = isset($options[$language ?? $userLanguage]) ? $options[$language ?? $userLanguage] : null;
-    //             }
-
-    //             return response()->json([
-    //                 "status" => "true",
-    //                 "categoryData" => $categoryData,
-    //                 "message" => "User API MW Successfully"
-    //             ]);
-    //         }
-    //     } catch (\Exception $e) {
-    //         return response()->json([
-    //             "status" => "false",
-    //             "message" => "No Data Available"
-    //         ]);
-    //     }
-    // }
 
     public function foodDetail(Request $request) {
         try {        
@@ -343,6 +261,39 @@ class BusinessApiController extends Controller
                 return response()->json([
                     "status" => "true",
                     "categoryData" => $categoryData,
+                    "message" => "User API MW Successfully"
+                ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "false",
+                "message" => "No Data Available"
+            ]);
+        }
+    }
+
+    public function offer(Request $request) {
+        try {        
+            $language = $request->input('lang');
+            // $menuId = $request->input('menuId');
+
+            if ($request->route('business_name')) {
+                $businessName = $request->route('business_name');   
+                $userProfile = User::where('name', $businessName)->firstOrFail();
+                $userLanguage = Setting::where('user_id', $userProfile->id)->first();
+                $userLanguage = $userLanguage->default_lang;
+
+                $offerData = Offer::with(['translation' => function ($query) use ($language, $userLanguage) {
+                    $query->where('lang', $language ?? $userLanguage);
+                }])
+                ->where('user_id', $userProfile->id )
+                ->where('status', 1)
+                ->orderBy('priority', 'ASC')
+                ->get();
+
+                return response()->json([
+                    "status" => "true",
+                    "offerData" => $offerData,
                     "message" => "User API MW Successfully"
                 ]);
             }
@@ -392,8 +343,6 @@ class BusinessApiController extends Controller
             ]);
         }
     }
-
-
 
     public function submitFoodRating(Request $request)
     {
