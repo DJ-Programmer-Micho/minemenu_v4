@@ -344,6 +344,219 @@ class BusinessApiController extends Controller
         }
     }
 
+//     public function submitFoodRating(Request $request)
+//     {
+//         $request->validate([
+//             'phone' => 'required|string',
+//             'food_id' => 'required|integer',
+//             'rating' => 'required|numeric|min:1|max:5',
+//         ]);
+    
+//         $phone = $request->input('phone');
+//         $foodId = $request->input('food_id');
+//         $rating = $request->input('rating');
+    
+//         $customer = Customer::where('phone', $phone)->first();
+    
+//         if (!$customer) {
+//             return response()->json([
+//                 'e_number' => '103',
+//                 'status' => 'false',
+//                 'message' => 'Customer not found. Please register first.',
+//             ], 404);
+//         }
+    
+//         $existingRating = FoodRating::where('customer_id', $customer->id)->where('food_id', $foodId)->first();
+    
+//         if ($existingRating) {
+//             return response()->json([
+//                 'e_number' => '102',
+//                 'status' => 'false',
+//                 'message' => 'Already Rated',
+//             ], 400);
+//         }
+    
+//         FoodRating::create([
+//             'customer_id' => $customer->id,
+//             'food_id' => $foodId,
+//             'rating' => $rating,
+//         ]);
+    
+//         return response()->json([
+//             'status' => 'true',
+//             'message' => 'Thank you for your rating!',
+//         ], 201);
+//     }
+
+//     public function registerCustomerAndRateFood(Request $request)
+//     {
+//         $request->validate([
+//             'first_name' => 'required|string|max:255',
+//             'last_name' => 'required|string|max:255',
+//             'dob' => 'required|date',
+//             'phone' => 'required|string|unique:customers,phone',
+//             'food_id' => 'required|integer',
+//             'rating' => 'required|numeric|min:1|max:5',
+//         ]);
+
+//         // Check if the phone number already exists
+//         $existingCustomer = Customer::where('phone', $request->input('phone'))->first();
+
+//         if ($existingCustomer) {
+//             return response()->json([
+//                 'e_number' => '101',
+//                 'status' => 'false',
+//                 'message' => 'Phone number already exists.',
+//             ], 400);
+//         }
+
+//         $customer = Customer::create([
+//             'first_name' => $request->input('first_name'),
+//             'last_name' => $request->input('last_name'),
+//             'dob' => $request->input('dob'),
+//             'phone' => $request->input('phone'),
+//         ]);
+
+//         FoodRating::create([
+//             'customer_id' => $customer->id,
+//             'food_id' => $request->input('food_id'),
+//             'rating' => $request->input('rating'),
+//         ]);
+
+//         return response()->json([
+//             'status' => 'true',
+//             'message' => 'Customer registered and rating submitted successfully!',
+//         ], 201);
+//     }
+
+    
+//     public function submitRestRating(Request $request)
+//     {
+//         $request->validate([
+//             'phone' => 'required|string',
+//             'user_id' => 'required|integer',
+//             'staff' => 'required|numeric|min:1|max:5',
+//             'service' => 'required|numeric|min:1|max:5',
+//             'environment' => 'required|numeric|min:1|max:5',
+//             'experience' => 'required|numeric|min:1|max:5',
+//             'cleaning' => 'required|numeric|min:1|max:5',
+//             'note' => 'nullable|string',
+//         ]);
+
+//         $phone = $request->input('phone');
+//         $userId = $request->input('user_id');
+//         $staff = $request->input('staff');
+//         $service = $request->input('service');
+//         $environment = $request->input('environment');
+//         $experience = $request->input('experience');
+//         $cleaning = $request->input('cleaning');
+//         $note = $request->input('note');
+
+//         $customer = Customer::where('phone', $phone)->first();
+
+//         if (!$customer) {
+//             return response()->json([
+//                 'e_number' => '103',
+//                 'status' => 'false',
+//                 'message' => 'Customer not found. Please register first.',
+//             ], 404);
+//         }
+
+//         $existingRating = RestRating::where('customer_id', $customer->id)->where('user_id', $userId)->first();
+
+//         if ($existingRating) {
+//             return response()->json([
+//                 'e_number' => '102',
+//                 'status' => 'false',
+//                 'message' => 'Already Rated',
+//             ], 400);
+//         }
+
+//         RestRating::create([
+//             'customer_id' => $customer->id,
+//             'user_id' => $userId,
+//             'staff' => $staff,
+//             'service' => $service,
+//             'environment' => $environment,
+//             'experience' => $experience,
+//             'cleaning' => $cleaning,
+//             'note' => $note,
+//         ]);
+
+//         return response()->json([
+//             'status' => 'true',
+//             'message' => 'Thank you for your rating!',
+//         ], 201);
+//     }
+
+
+    
+//     public function registerCustomerAndRateRest(Request $request)
+// {
+//     // Validate the request data
+//     $request->validate([
+//         'first_name' => 'required|string|max:255',
+//         'last_name' => 'required|string|max:255',
+//         'dob' => 'required|date',
+//         'phone' => 'required|string',
+//         'user_id' => 'required|integer',
+//         'staff' => 'required|numeric|min:1|max:5',
+//         'service' => 'required|numeric|min:1|max:5',
+//         'environment' => 'required|numeric|min:1|max:5',
+//         'experience' => 'required|numeric|min:1|max:5',
+//         'cleaning' => 'required|numeric|min:1|max:5',
+//         'note' => 'nullable|string',
+//     ]);
+
+//     // Check if the phone number already exists
+//     $existingCustomer = Customer::where('phone', $request->input('phone'))->first();
+
+//     if ($existingCustomer) {
+//         return response()->json([
+//             'e_number' => '101',
+//             'status' => 'false',
+//             'message' => 'Phone number already exists.',
+//         ], 400);
+//     }
+
+//     try {
+//         // Create the new customer
+//         $customer = Customer::create([
+//             'first_name' => $request->input('first_name'),
+//             'last_name' => $request->input('last_name'),
+//             'dob' => $request->input('dob'),
+//             'phone' => $request->input('phone'),
+//         ]);
+
+//         // Create the restaurant rating
+//         RestRating::create([
+//             'customer_id' => $customer->id,
+//             'user_id' => $request->input('user_id'),
+//             'staff' => $request->input('staff'),
+//             'service' => $request->input('service'),
+//             'environment' => $request->input('environment'),
+//             'experience' => $request->input('experience'),
+//             'cleaning' => $request->input('cleaning'),
+//             'note' => $request->input('note'),
+//         ]);
+
+//         return response()->json([
+//             'status' => 'true',
+//             'message' => 'Customer registered and restaurant rating submitted successfully!',
+//         ], 201);
+
+//     } catch (\Exception $e) {
+//         // Log the error for debugging
+//         // \Log::error('Error registering customer and submitting rating: ' . $e->getMessage());
+
+//         return response()->json([
+//             'e_number' => '104',
+//             'status' => 'false',
+//             'message' => 'An error occurred. Please try again later.',
+//         ], 500);
+//     }
+// }
+
     public function submitFoodRating(Request $request)
     {
         $request->validate([
@@ -351,41 +564,50 @@ class BusinessApiController extends Controller
             'food_id' => 'required|integer',
             'rating' => 'required|numeric|min:1|max:5',
         ]);
-    
+
         $phone = $request->input('phone');
         $foodId = $request->input('food_id');
         $rating = $request->input('rating');
-    
+
         $customer = Customer::where('phone', $phone)->first();
-    
+
         if (!$customer) {
             return response()->json([
                 'e_number' => '103',
                 'status' => 'false',
                 'message' => 'Customer not found. Please register first.',
-            ], 404);
+            ], 404); // 404 Not Found
         }
-    
+
         $existingRating = FoodRating::where('customer_id', $customer->id)->where('food_id', $foodId)->first();
-    
+
         if ($existingRating) {
             return response()->json([
                 'e_number' => '102',
                 'status' => 'false',
                 'message' => 'Already Rated',
-            ], 400);
+            ], 409); // 409 Conflict
         }
-    
-        FoodRating::create([
-            'customer_id' => $customer->id,
-            'food_id' => $foodId,
-            'rating' => $rating,
-        ]);
-    
-        return response()->json([
-            'status' => 'true',
-            'message' => 'Thank you for your rating!',
-        ], 201);
+
+        try {
+            FoodRating::create([
+                'customer_id' => $customer->id,
+                'food_id' => $foodId,
+                'rating' => $rating,
+            ]);
+
+            return response()->json([
+                'status' => 'true',
+                'message' => 'Thank you for your rating!',
+            ], 201); // 201 Created
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'e_number' => '104',
+                'status' => 'false',
+                'message' => 'An error occurred. Please try again later.',
+            ], 500); // 500 Internal Server Error
+        }
     }
 
     public function registerCustomerAndRateFood(Request $request)
@@ -407,29 +629,37 @@ class BusinessApiController extends Controller
                 'e_number' => '101',
                 'status' => 'false',
                 'message' => 'Phone number already exists.',
-            ], 400);
+            ], 409); // 409 Conflict
         }
 
-        $customer = Customer::create([
-            'first_name' => $request->input('first_name'),
-            'last_name' => $request->input('last_name'),
-            'dob' => $request->input('dob'),
-            'phone' => $request->input('phone'),
-        ]);
+        try {
+            $customer = Customer::create([
+                'first_name' => $request->input('first_name'),
+                'last_name' => $request->input('last_name'),
+                'dob' => $request->input('dob'),
+                'phone' => $request->input('phone'),
+            ]);
 
-        FoodRating::create([
-            'customer_id' => $customer->id,
-            'food_id' => $request->input('food_id'),
-            'rating' => $request->input('rating'),
-        ]);
+            FoodRating::create([
+                'customer_id' => $customer->id,
+                'food_id' => $request->input('food_id'),
+                'rating' => $request->input('rating'),
+            ]);
 
-        return response()->json([
-            'status' => 'true',
-            'message' => 'Customer registered and rating submitted successfully!',
-        ], 201);
+            return response()->json([
+                'status' => 'true',
+                'message' => 'Customer registered and rating submitted successfully!',
+            ], 201); // 201 Created
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'e_number' => '104',
+                'status' => 'false',
+                'message' => 'An error occurred. Please try again later.',
+            ], 500); // 500 Internal Server Error
+        }
     }
 
-    
     public function submitRestRating(Request $request)
     {
         $request->validate([
@@ -459,7 +689,7 @@ class BusinessApiController extends Controller
                 'e_number' => '103',
                 'status' => 'false',
                 'message' => 'Customer not found. Please register first.',
-            ], 404);
+            ], 404); // 404 Not Found
         }
 
         $existingRating = RestRating::where('customer_id', $customer->id)->where('user_id', $userId)->first();
@@ -469,95 +699,97 @@ class BusinessApiController extends Controller
                 'e_number' => '102',
                 'status' => 'false',
                 'message' => 'Already Rated',
-            ], 400);
+            ], 409); // 409 Conflict
         }
 
-        RestRating::create([
-            'customer_id' => $customer->id,
-            'user_id' => $userId,
-            'staff' => $staff,
-            'service' => $service,
-            'environment' => $environment,
-            'experience' => $experience,
-            'cleaning' => $cleaning,
-            'note' => $note,
-        ]);
+        try {
+            RestRating::create([
+                'customer_id' => $customer->id,
+                'user_id' => $userId,
+                'staff' => $staff,
+                'service' => $service,
+                'environment' => $environment,
+                'experience' => $experience,
+                'cleaning' => $cleaning,
+                'note' => $note,
+            ]);
 
-        return response()->json([
-            'status' => 'true',
-            'message' => 'Thank you for your rating!',
-        ], 201);
+            return response()->json([
+                'status' => 'true',
+                'message' => 'Thank you for your rating!',
+            ], 201); // 201 Created
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'e_number' => '104',
+                'status' => 'false',
+                'message' => 'An error occurred. Please try again later.',
+            ], 500); // 500 Internal Server Error
+        }
     }
 
-
-    
     public function registerCustomerAndRateRest(Request $request)
-{
-    // Validate the request data
-    $request->validate([
-        'first_name' => 'required|string|max:255',
-        'last_name' => 'required|string|max:255',
-        'dob' => 'required|date',
-        'phone' => 'required|string',
-        'user_id' => 'required|integer',
-        'staff' => 'required|numeric|min:1|max:5',
-        'service' => 'required|numeric|min:1|max:5',
-        'environment' => 'required|numeric|min:1|max:5',
-        'experience' => 'required|numeric|min:1|max:5',
-        'cleaning' => 'required|numeric|min:1|max:5',
-        'note' => 'nullable|string',
-    ]);
-
-    // Check if the phone number already exists
-    $existingCustomer = Customer::where('phone', $request->input('phone'))->first();
-
-    if ($existingCustomer) {
-        return response()->json([
-            'e_number' => '101',
-            'status' => 'false',
-            'message' => 'Phone number already exists.',
-        ], 400);
-    }
-
-    try {
-        // Create the new customer
-        $customer = Customer::create([
-            'first_name' => $request->input('first_name'),
-            'last_name' => $request->input('last_name'),
-            'dob' => $request->input('dob'),
-            'phone' => $request->input('phone'),
+    {
+        // Validate the request data
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'dob' => 'required|date',
+            'phone' => 'required|string',
+            'user_id' => 'required|integer',
+            'staff' => 'required|numeric|min:1|max:5',
+            'service' => 'required|numeric|min:1|max:5',
+            'environment' => 'required|numeric|min:1|max:5',
+            'experience' => 'required|numeric|min:1|max:5',
+            'cleaning' => 'required|numeric|min:1|max:5',
+            'note' => 'nullable|string',
         ]);
 
-        // Create the restaurant rating
-        RestRating::create([
-            'customer_id' => $customer->id,
-            'user_id' => $request->input('user_id'),
-            'staff' => $request->input('staff'),
-            'service' => $request->input('service'),
-            'environment' => $request->input('environment'),
-            'experience' => $request->input('experience'),
-            'cleaning' => $request->input('cleaning'),
-            'note' => $request->input('note'),
-        ]);
+        // Check if the phone number already exists
+        $existingCustomer = Customer::where('phone', $request->input('phone'))->first();
 
-        return response()->json([
-            'status' => 'true',
-            'message' => 'Customer registered and restaurant rating submitted successfully!',
-        ], 201);
+        if ($existingCustomer) {
+            return response()->json([
+                'e_number' => '101',
+                'status' => 'false',
+                'message' => 'Phone number already exists.',
+            ], 409); // 409 Conflict
+        }
 
-    } catch (\Exception $e) {
-        // Log the error for debugging
-        // \Log::error('Error registering customer and submitting rating: ' . $e->getMessage());
+        try {
+            // Create the new customer
+            $customer = Customer::create([
+                'first_name' => $request->input('first_name'),
+                'last_name' => $request->input('last_name'),
+                'dob' => $request->input('dob'),
+                'phone' => $request->input('phone'),
+            ]);
 
-        return response()->json([
-            'e_number' => '104',
-            'status' => 'false',
-            'message' => 'An error occurred. Please try again later.',
-        ], 500);
+            // Create the restaurant rating
+            RestRating::create([
+                'customer_id' => $customer->id,
+                'user_id' => $request->input('user_id'),
+                'staff' => $request->input('staff'),
+                'service' => $request->input('service'),
+                'environment' => $request->input('environment'),
+                'experience' => $request->input('experience'),
+                'cleaning' => $request->input('cleaning'),
+                'note' => $request->input('note'),
+            ]);
+
+            return response()->json([
+                'status' => 'true',
+                'message' => 'Customer registered and restaurant rating submitted successfully!',
+            ], 201); // 201 Created
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'e_number' => '104',
+                'status' => 'false',
+                'message' => 'An error occurred. Please try again later.',
+            ], 500); // 500 Internal Server Error
+        }
     }
-}
-
-    
 
 
 
@@ -568,6 +800,9 @@ class BusinessApiController extends Controller
 
 
 
+
+
+// ABC
 
     public function generateManifest($business_name)
     {
