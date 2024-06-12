@@ -606,6 +606,7 @@ class BusinessApiController extends Controller
                 'e_number' => '104',
                 'status' => 'false',
                 'message' => 'An error occurred. Please try again later.',
+                'exception_message' => $e->getMessage(), // Include the exception message
             ], 500); // 500 Internal Server Error
         }
     }
@@ -656,6 +657,7 @@ class BusinessApiController extends Controller
                 'e_number' => '104',
                 'status' => 'false',
                 'message' => 'An error occurred. Please try again later.',
+                'exception_message' => $e->getMessage(), // Include the exception message
             ], 500); // 500 Internal Server Error
         }
     }
@@ -724,6 +726,7 @@ class BusinessApiController extends Controller
                 'e_number' => '104',
                 'status' => 'false',
                 'message' => 'An error occurred. Please try again later.',
+                'exception_message' => $e->getMessage(), // Include the exception message
             ], 500); // 500 Internal Server Error
         }
     }
@@ -787,18 +790,10 @@ class BusinessApiController extends Controller
                 'e_number' => '104',
                 'status' => 'false',
                 'message' => 'An error occurred. Please try again later.',
+                'exception_message' => $e->getMessage(), // Include the exception message
             ], 500); // 500 Internal Server Error
         }
     }
-
-
-
-
-
-
-
-
-
 
 
 
