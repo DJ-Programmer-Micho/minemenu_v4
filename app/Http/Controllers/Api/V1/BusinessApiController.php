@@ -360,6 +360,7 @@ class BusinessApiController extends Controller
     
         if (!$customer) {
             return response()->json([
+                'e_number' => '103',
                 'status' => 'false',
                 'message' => 'Customer not found. Please register first.',
             ], 404);
@@ -369,6 +370,7 @@ class BusinessApiController extends Controller
     
         if ($existingRating) {
             return response()->json([
+                'e_number' => '102',
                 'status' => 'false',
                 'message' => 'Already Rated',
             ], 400);
@@ -396,6 +398,17 @@ class BusinessApiController extends Controller
             'food_id' => 'required|integer',
             'rating' => 'required|numeric|min:1|max:5',
         ]);
+
+        // Check if the phone number already exists
+        $existingCustomer = Customer::where('phone', $request->input('phone'))->first();
+
+        if ($existingCustomer) {
+            return response()->json([
+                'e_number' => '101',
+                'status' => 'false',
+                'message' => 'Phone number already exists.',
+            ], 400);
+        }
 
         $customer = Customer::create([
             'first_name' => $request->input('first_name'),
@@ -443,6 +456,7 @@ class BusinessApiController extends Controller
 
         if (!$customer) {
             return response()->json([
+                'e_number' => '103',
                 'status' => 'false',
                 'message' => 'Customer not found. Please register first.',
             ], 404);
@@ -452,6 +466,7 @@ class BusinessApiController extends Controller
 
         if ($existingRating) {
             return response()->json([
+                'e_number' => '102',
                 'status' => 'false',
                 'message' => 'Already Rated',
             ], 400);
@@ -498,6 +513,7 @@ class BusinessApiController extends Controller
 
     if ($existingCustomer) {
         return response()->json([
+            'e_number' => '101',
             'status' => 'false',
             'message' => 'Phone number already exists.',
         ], 400);
@@ -534,6 +550,7 @@ class BusinessApiController extends Controller
         // \Log::error('Error registering customer and submitting rating: ' . $e->getMessage());
 
         return response()->json([
+            'e_number' => '104',
             'status' => 'false',
             'message' => 'An error occurred. Please try again later.',
         ], 500);
