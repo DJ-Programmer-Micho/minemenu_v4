@@ -477,28 +477,42 @@ class BusinessApiController extends Controller
 
     
     public function registerCustomerAndRateRest(Request $request)
-    {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'dob' => 'required|date',
-            'phone' => 'required|string|unique:customers,phone',
-            'user_id' => 'required|integer',
-            'staff' => 'required|numeric|min:1|max:5',
-            'service' => 'required|numeric|min:1|max:5',
-            'environment' => 'required|numeric|min:1|max:5',
-            'experience' => 'required|numeric|min:1|max:5',
-            'cleaning' => 'required|numeric|min:1|max:5',
-            'note' => 'nullable|string',
-        ]);
-    
+{
+    // Validate the request data
+    $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'dob' => 'required|date',
+        'phone' => 'required|string',
+        'user_id' => 'required|integer',
+        'staff' => 'required|numeric|min:1|max:5',
+        'service' => 'required|numeric|min:1|max:5',
+        'environment' => 'required|numeric|min:1|max:5',
+        'experience' => 'required|numeric|min:1|max:5',
+        'cleaning' => 'required|numeric|min:1|max:5',
+        'note' => 'nullable|string',
+    ]);
+
+    // Check if the phone number already exists
+    $existingCustomer = Customer::where('phone', $request->input('phone'))->first();
+
+    if ($existingCustomer) {
+        return response()->json([
+            'status' => 'false',
+            'message' => 'Phone number already exists.',
+        ], 400);
+    }
+
+    try {
+        // Create the new customer
         $customer = Customer::create([
             'first_name' => $request->input('first_name'),
             'last_name' => $request->input('last_name'),
             'dob' => $request->input('dob'),
             'phone' => $request->input('phone'),
         ]);
-    
+
+        // Create the restaurant rating
         RestRating::create([
             'customer_id' => $customer->id,
             'user_id' => $request->input('user_id'),
@@ -509,12 +523,23 @@ class BusinessApiController extends Controller
             'cleaning' => $request->input('cleaning'),
             'note' => $request->input('note'),
         ]);
-    
+
         return response()->json([
             'status' => 'true',
             'message' => 'Customer registered and restaurant rating submitted successfully!',
         ], 201);
+
+    } catch (\Exception $e) {
+        // Log the error for debugging
+        // \Log::error('Error registering customer and submitting rating: ' . $e->getMessage());
+
+        return response()->json([
+            'status' => 'false',
+            'message' => 'An error occurred. Please try again later.',
+        ], 500);
     }
+}
+
     
 
 
