@@ -15,6 +15,7 @@ use App\Models\Subscription;
 use Illuminate\Http\Request; 
 use App\Models\Setting_Translation;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
@@ -613,54 +614,68 @@ class BusinessApiController extends Controller
 
     public function registerCustomerAndRateFood(Request $request)
     {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'dob' => 'required|date',
-            'phone' => 'required|string|unique:customers,phone',
-            'food_id' => 'required|integer',
-            'rating' => 'required|numeric|min:1|max:5',
-        ]);
-
-        // Check if the phone number already exists
-        $existingCustomer = Customer::where('phone', $request->input('phone'))->first();
-
-        if ($existingCustomer) {
-            return response()->json([
-                'e_number' => '101',
-                'status' => 'false',
-                'message' => 'Phone number already exists.',
-            ], 409); // 409 Conflict
-        }
-
         try {
+            // Validate request
+            $request->validate([
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
+                'dob' => 'required|date',
+                'phone' => 'required|string|unique:customers,phone',
+                'food_id' => 'required|integer|exists:food,id', // Ensure the food_id exists in the foods table
+                'rating' => 'required|numeric|min:1|max:5',
+            ]);
+        
+            // Check if the phone number already exists
+            $existingCustomer = Customer::where('phone', $request->input('phone'))->first();
+        
+            if ($existingCustomer) {
+                return response()->json([
+                    'e_number' => '101',
+                    'status' => 'false',
+                    'message' => 'Phone number already exists.',
+                ], 409); // 409 Conflict
+            }
+        
+            // Create customer
             $customer = Customer::create([
                 'first_name' => $request->input('first_name'),
                 'last_name' => $request->input('last_name'),
                 'dob' => $request->input('dob'),
                 'phone' => $request->input('phone'),
             ]);
-
+        
+            // Create food rating
             FoodRating::create([
                 'customer_id' => $customer->id,
                 'food_id' => $request->input('food_id'),
                 'rating' => $request->input('rating'),
             ]);
-
+        
             return response()->json([
                 'status' => 'true',
                 'message' => 'Customer registered and rating submitted successfully!',
             ], 201); // 201 Created
-
+    
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Return validation error messages as JSON
+            return response()->json([
+                'e_number' => '102',
+                'status' => 'false',
+                'message' => 'Validation failed.',
+                'errors' => $e->errors(),
+            ], 422); // 422 Unprocessable Entity
         } catch (\Exception $e) {
+            // Log the exception message for debugging
+    
             return response()->json([
                 'e_number' => '104',
                 'status' => 'false',
                 'message' => 'An error occurred. Please try again later.',
-                'exception_message' => $e->getMessage(), // Include the exception message
             ], 500); // 500 Internal Server Error
         }
     }
+    
+    
 
     public function submitRestRating(Request $request)
     {
