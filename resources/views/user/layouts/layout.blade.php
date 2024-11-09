@@ -14,7 +14,7 @@
     <meta name='keywords' content='minemenu, mine menu, ماين منيو, menu iraq, menu erbil, menu resturant, qr code, resturant qr code, finedine, finedinemenu, mine menu iraq, food, drinks, food menu, menu scan, scan menu, منيو, menu generator, food menu generator, قائمة الطعام, food'>
     <meta name="news_keywords" content="minemenu, mine menu, ماين منيو, menu iraq, menu erbil, menu resturant, qr code, resturant qr code, finedine, finedinemenu, mine menu iraq, food, drinks, food menu, menu scan, scan menu, منيو, menu generator, food menu generator, قائمة الطعام, food">
     <meta name="language" content="{{app()->getLocale()}}">
-    <title>Mine Menu | {{$setting_name}}</title>
+    <title>{{$setting_name}} | Mine Menu</title>
     {{-- PWA --}}
     <link rel="manifest" href="{{ route('generateManifest', ['business_name' => request('business_name')]) }}">
     <meta name="robots" content="index, follow">
@@ -64,6 +64,15 @@
     <link rel="stylesheet" href="{{asset('/assets/user/offer.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/category.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/food.css')}}">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9HGSE5M9CC"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-9HGSE5M9CC');
+    </script>
     @livewireStyles
     <style>
         :root{

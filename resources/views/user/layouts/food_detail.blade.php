@@ -65,6 +65,15 @@
     <link rel="stylesheet" href="{{asset('/assets/user/offer.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/category.css')}}">
     <link rel="stylesheet" href="{{asset('/assets/user/food.css')}}">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9HGSE5M9CC"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-9HGSE5M9CC');
+    </script>
     @livewireStyles
     <style>
         :root{
