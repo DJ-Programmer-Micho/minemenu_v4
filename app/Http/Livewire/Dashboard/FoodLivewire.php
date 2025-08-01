@@ -302,31 +302,30 @@ class FoodLivewire extends Component
             $sorm = $this->showTextarea ? 1 : 0;
             $optionsData = $this->showTextarea ? json_encode(json_encode($this->options)) : null;
 
-
             try {
-                if($this->tempImg) {
-                    $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
+                if ($this->tempImg) {
 
-                    if( $this->imgReader){
-                        if (Str::startsWith($this->imgReader, 'mine-setting/')) {
-                            //Do nothing
-                        } else {
+                    if (Str::startsWith($this->tempImg, 'data:image')) {
+                        $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
+
+                        // Delete old only if it was a user-uploaded path (not gallery/static)
+                        if ($this->imgReader && !Str::startsWith($this->imgReader, 'mine-setting/')) {
                             Storage::disk('s3')->delete($this->imgReader);
-                            Storage::disk('s3')->put($this->objectName, $croppedImage);
+                        }
+
+                        // Always upload the new cropped image to the target key
+                        if (!Str::startsWith($this->objectName, 'mine-setting/')) {
+                            Storage::disk('s3')->put($this->objectName, $croppedImage, 'public');
                         }
                     } else {
-                        if (Str::startsWith($this->objectName, 'mine-setting/')) {
-                            // Do Nothing
-                        } else {
-                            Storage::disk('s3')->put($this->objectName, $croppedImage);
-                        }                    
+                        // $this->tempImg is likely a URL from gallery → no upload; keep objectName as the path you want saved
                     }
-                } else {
-                    // $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
-                    // return;
                 }
             } catch (\Exception $e) {
-                $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('Try Reload the Page: ' . $e->getMessage())]);
+                $this->dispatchBrowserEvent('alert', [
+                    'type' => 'error',
+                    'message' => __('Try Reload the Page: ' . $e->getMessage())
+                ]);
             }
 
             // Update the Food record

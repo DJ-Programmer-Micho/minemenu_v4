@@ -165,12 +165,10 @@ class CategoryLivewire extends Component
     {
         //Validate The Neccessary Data
         $validatedData = $this->validate();
-
         if($validatedData){
             try {
                 if($this->tempImg) {
                     $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
-
                     if( $this->imgReader){
                         if (Str::startsWith($this->imgReader, 'mine-setting/')) {
                             //Do nothing
@@ -324,53 +322,39 @@ class CategoryLivewire extends Component
 
 
         if($validatedData){
-            try {
-                if($this->tempImg) {
-                    $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
+            try {                
+                if ($this->tempImg) {
+                    if (Str::startsWith($this->tempImg, 'data:image')) {
+                        $croppedImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImg));
 
-                    if( $this->imgReader){
-                        // dd($this->imgReader,app('cloudfront').'mine-setting/');
-                        if (Str::startsWith($this->imgReader, 'mine-setting/')) {
-                            //Do nothing
-                        } else {
+                        // Delete old only if it's not a gallery/static asset
+                        if ($this->imgReader && !Str::startsWith($this->imgReader, 'mine-setting/')) {
                             Storage::disk('s3')->delete($this->imgReader);
                         }
 
-                    } else {
-                        if (Str::startsWith($this->objectName, 'mine-setting/')) {
-                            // Do Nothing
-                        } else {
-                            Storage::disk('s3')->put($this->objectName, $croppedImage);
+                        // Always upload the new image (unless target is a gallery path)
+                        if (!Str::startsWith($this->objectName, 'mine-setting/')) {
+                            Storage::disk('s3')->put($this->objectName, $croppedImage, 'public');
                         }
                     }
-                } else {
-                    // $this->dispatchBrowserEvent('alert', ['type' => 'error',  'message' => __('Something Went Wrong, Please reload The Page CODE...CAT-ADD-IMG')]);
-                    // return;
+                    // else: $this->tempImg is a URL from gallery → skip upload
                 }
             } catch (\Exception $e) {
                 $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred during image upload: ' . $e->getMessage())]);
             }
+                if ($this->tempImgCover) {
+                    if (Str::startsWith($this->tempImgCover, 'data:image')) {
+                        $croppedImageCover = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->tempImgCover));
 
-            if($this->tempImgCover) {
-                $croppedImageCover = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '',  $this->tempImgCover));
-                try {
-                    if( $this->imgReaderCover){
-                        if (Str::startsWith($this->imgReaderCover, 'mine-setting/')) {
-                            //Do nothing
-                        } else {
+                        if ($this->imgReaderCover && !Str::startsWith($this->imgReaderCover, 'mine-setting/')) {
                             Storage::disk('s3')->delete($this->imgReaderCover);
                         }
-                    } else {
-                        if (Str::startsWith($this->objectNameCover, 'mine-setting/')) {
-                            // Do Nothing
-                        } else {
-                            Storage::disk('s3')->put($this->objectNameCover, $croppedImageCover);
+
+                        if (!Str::startsWith($this->objectNameCover, 'mine-setting/')) {
+                            Storage::disk('s3')->put($this->objectNameCover, $croppedImageCover, 'public');
                         }
                     }
-                } catch (\Exception $e) {
-                    $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __('An error occurred during image upload: ' . $e->getMessage())]);
                 }
-            } 
             // dd($this->tempImg, $croppedImage, $this->tempImgCover, $croppedImageCover);
         // Update the Categories record
         Categories::where('id', $this->category_update->id)->update([
